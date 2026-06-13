@@ -1,0 +1,8 @@
+/* Placeholder only. NO design language committed yet — see docs/ROADMAP.md Phase 1. */
+.main {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
+}
