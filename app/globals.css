@@ -1,11 +1,316 @@
-/* Minimal reset only. NO design system yet — see docs/ROADMAP.md Phase 1. */
-* {
+/* =========================================================================
+   GLOBAL STYLESHEET — Design Language LOCKED v1.0 (see docs/DESIGN.md)
+   All raw values live here as tokens. Components reference tokens only.
+   Font family tokens (--font-display/-body/-mono) are injected by next/font
+   in app/layout.tsx, so they are intentionally NOT redefined in :root.
+   ========================================================================= */
+
+:root {
+  /* §1 color — shell (constant across the whole site) */
+  --paper: #f4f2ec;
+  --card: #fcfbf7;
+  --line: #d9d6cd;
+  --fill: #e7e3d8;
+  --ink: #1a1a1a;
+  --ink-2: #2a2a28;
+  --soft: #6b6b66;
+  --gold: #9a7b4f;
+
+  /* §1 color — accent (default = Follow Persian Blue; overridden per project) */
+  --accent: #1c39bb;
+  --accent-deep: #142a8c;
+  --accent-wash: #dde2f6;
+  --accent-tint: #eef0fb;
+
+  /* §2 type scale */
+  --fs-display: clamp(34px, 8vw, 64px);
+  --fs-h1: clamp(30px, 6vw, 42px);
+  --fs-h2: 26px;
+  --fs-h3: 18px;
+  --fs-body-l: clamp(15px, 2.4vw, 18px);
+  --fs-body: 15px;
+  --fs-cap: 13px;
+  --fs-label: 11px;
+
+  /* §3 spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* §3 layout */
+  --maxw-text: 720px;
+  --maxw-wide: 1180px;
+  --page-pad: 22px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+
+  /* §7 micro-transitions */
+  --t-fast: 0.22s;
+  --e-snappy: cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+/* ---- reset ---- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  height: 100%;
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100dvh;
+}
+
+/* App layout: sticky footer */
+.appShell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+.appMain {
+  flex: 1 0 auto;
+}
+
+/* ---- headings ---- */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+@media (hover: hover) {
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: text-underline-offset var(--t-fast) var(--e-snappy);
+  }
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* §9 focus rings — visible accent ring on every interactive element */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* =========================================================================
+   Shared layout utilities
+   ========================================================================= */
+.container {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+.containerText {
+  width: 100%;
+  max-width: var(--maxw-text);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+/* section vertical rhythm: --space-7 mobile, --space-8 desktop */
+.section {
+  padding-block: var(--space-7);
+}
+@media (min-width: 1180px) {
+  .section {
+    padding-block: var(--space-8);
+  }
+}
+
+/* type helpers */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.cap {
+  font-size: var(--fs-cap);
+  color: var(--soft);
+  line-height: 1.5;
+}
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* page header block (shared across section routes) */
+.pageHeader {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-6);
+}
+.pageEyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-4);
+}
+.pageTitle {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+.lede {
+  margin-top: var(--space-4);
+  max-width: var(--maxw-text);
+  font-size: var(--fs-body-l);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* clearly-marked placeholder block for deferred content */
+.placeholder {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: var(--space-5);
+  color: var(--soft);
+  font-size: var(--fs-body);
+}
+
+/* =========================================================================
+   §6.1 Buttons — global utility classes
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px; /* touch target */
+  padding: 11px 18px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background var(--t-fast) var(--e-snappy),
+    transform var(--t-fast) var(--e-snappy);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+}
+@media (hover: hover) {
+  .btn.primary:hover {
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+    text-decoration: none;
+  }
+  .btn.ghost:hover {
+    background: var(--accent-tint);
+    text-decoration: none;
+  }
+}
+
+/* leading pulse dot for "live demo" CTAs */
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+  animation: pulse 1.8s var(--e-snappy) infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.7);
+  }
+}
+
+/* =========================================================================
+   §6.2 Status chip / label — global utility
+   ========================================================================= */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--soft);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+}
+.chip.accent {
+  color: var(--accent);
+  background: var(--accent-tint);
+  border-color: var(--accent-wash);
+}
+
+/* =========================================================================
+   §7 / §9 — honor reduced motion globally
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

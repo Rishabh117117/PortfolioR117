@@ -1,8 +1,178 @@
-/* Placeholder only. NO design language committed yet — see docs/ROADMAP.md Phase 1. */
-.main {
+/* Homepage shell — tokens only (see docs/DESIGN.md). Mobile-first. */
+
+/* ---------- hero ---------- */
+.hero {
+  padding-top: var(--space-8);
+}
+.eyebrow {
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+}
+.headline {
+  font-size: var(--fs-display);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  max-width: 14ch;
+}
+.headline em {
+  font-style: italic;
+  font-weight: 600;
+}
+.subhead {
+  margin-top: var(--space-5);
+  max-width: var(--maxw-text);
+  font-size: var(--fs-body-l);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.ctaRow {
   display: flex;
-  min-height: 100vh;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+/* ---------- the arc (static placeholder) ---------- */
+.arcSection {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+}
+.arcEyebrow {
+  color: var(--gold);
+  margin-bottom: var(--space-5);
+}
+.arc {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.arcItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.arcWord {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 6vw, 34px);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.arcCap {
+  color: var(--soft);
+}
+.arcArrow {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--soft);
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .arc {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+  .arcItem {
+    flex: 1;
+  }
+  .arcArrow {
+    align-self: center;
+    padding-top: var(--space-2);
+  }
+}
+
+/* ---------- work / grid ---------- */
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+.seeAll {
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--soft);
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+/* earlier-work teaser card */
+.teaser {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   justify-content: center;
-  font-family: system-ui, sans-serif;
+  padding: var(--space-5);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+}
+.teaser:hover {
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .teaser:hover {
+    border-color: var(--soft);
+    background: var(--card);
+    transition:
+      background var(--t-fast) var(--e-snappy),
+      border-color var(--t-fast) var(--e-snappy);
+  }
+}
+.teaserMeta {
+  font-size: var(--fs-cap);
+  color: var(--soft);
+  letter-spacing: 0.02em;
+}
+.teaserTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  color: var(--ink);
+}
+
+.demoWrap {
+  margin-top: var(--space-6);
+  max-width: var(--maxw-text);
+}
+
+/* ---------- closing CTA ---------- */
+.ctaSection {
+  border-top: 1px solid var(--line);
+}
+.ctaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.ctaTitle {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  max-width: 18ch;
 }

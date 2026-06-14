@@ -1,0 +1,130 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.wordmark:hover {
+  text-decoration: none;
+}
+
+/* ---- desktop links: hidden on mobile ---- */
+.links {
+  display: none;
+}
+
+.link,
+.active {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.link {
+  color: var(--soft);
+}
+.active {
+  color: var(--accent);
+}
+@media (hover: hover) {
+  .link:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+}
+
+/* ---- burger (mobile only) ---- */
+.burger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.bar,
+.barTop,
+.barBottom,
+.barHidden {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--ink);
+  transition:
+    transform var(--t-fast) var(--e-snappy),
+    opacity var(--t-fast) var(--e-snappy);
+}
+.barTop {
+  transform: translateY(7px) rotate(45deg);
+}
+.barBottom {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.barHidden {
+  opacity: 0;
+}
+
+/* ---- mobile menu panel ---- */
+.mobileMenu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--page-pad) var(--space-5);
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+}
+.mLink,
+.mActive {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.mLink {
+  color: var(--ink-2);
+}
+.mActive {
+  color: var(--accent);
+}
+
+/* ---- tablet+ : show inline links, hide burger ---- */
+@media (min-width: 768px) {
+  .links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    list-style: none;
+  }
+  .burger {
+    display: none;
+  }
+  .mobileMenu {
+    display: none;
+  }
+}
