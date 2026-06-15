@@ -1,0 +1,188 @@
+.page {
+  padding-bottom: var(--space-8);
+}
+.topRule {
+  height: 4px;
+  background: linear-gradient(90deg, #e8568f, #f08a3c, #2bb3a3);
+}
+
+/* ---------- shared beat rhythm ---------- */
+.beat {
+  padding-top: var(--space-7);
+}
+@media (min-width: 1180px) {
+  .beat {
+    padding-top: var(--space-8);
+  }
+}
+.beatHead {
+  margin-bottom: var(--space-5);
+}
+.beatKicker {
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  color: var(--ink);
+  max-width: 22ch;
+}
+.lede {
+  font-size: var(--fs-body-l);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.bodyText {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-top: var(--space-4);
+}
+
+/* ---------- Beat 1 hero ---------- */
+.hero {
+  padding-top: var(--space-7);
+}
+.heroImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  background: var(--fill);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+.heroLine {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-display);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  max-width: 16ch;
+}
+.heroLine em {
+  font-style: italic;
+  color: var(--accent);
+}
+.heroLabel {
+  margin-top: var(--space-4);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  color: var(--soft);
+}
+
+/* ---------- Beat 3 poster layout ---------- */
+.posterLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+.posterMain {
+  min-width: 0;
+}
+.posterAside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.asideLabel {
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.imgSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: var(--fill);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+/* ---------- Beat 5 strategy ---------- */
+.strategy {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+  padding-bottom: var(--space-7);
+}
+.moves {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+.move {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.moveMine {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+}
+.moveTie {
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.moveTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  color: var(--ink);
+  margin-top: var(--space-1);
+}
+.moveBy {
+  font-size: var(--fs-cap);
+  color: var(--accent);
+}
+.move .bodyText {
+  margin-top: var(--space-2);
+}
+.handoff {
+  margin-top: var(--space-5);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: var(--fs-h3);
+  color: var(--ink);
+}
+
+/* ---------- Beat 6 harness ---------- */
+.harnessWrap {
+  margin-top: var(--space-5);
+}
+
+/* ---------- Beat 7 coda ---------- */
+.coda {
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 768px) {
+  .moves {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+}
+@media (min-width: 1180px) {
+  .posterLayout {
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+}

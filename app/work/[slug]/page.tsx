@@ -6,7 +6,11 @@ import { FLAGSHIPS } from "@/lib/projects";
 import styles from "./project.module.css";
 
 export function generateStaticParams() {
-  return FLAGSHIPS.map((p) => ({ slug: p.slug }));
+  // housing-works has its own dedicated route (app/work/housing-works) which
+  // takes precedence; exclude it here so it isn't generated twice.
+  return FLAGSHIPS.filter((p) => p.slug !== "housing-works").map((p) => ({
+    slug: p.slug,
+  }));
 }
 
 export function generateMetadata({

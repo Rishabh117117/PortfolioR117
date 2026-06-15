@@ -138,6 +138,10 @@ img {
   margin-inline: auto;
   padding-inline: var(--page-pad);
 }
+/* reading-width block nested INSIDE an already-padded .container */
+.containerNarrow {
+  max-width: var(--maxw-text);
+}
 
 /* section vertical rhythm: --space-7 mobile, --space-8 desktop */
 .section {
