@@ -1,179 +1,312 @@
 /* =========================================================================
-   /archive/stun-gun — page layout. Tokens only (see docs/DESIGN.md).
-   Mobile-first: render pins near the top, content scrolls beneath it.
-   Desktop (≥1180): two-column sticky + parallax.
+   /archive/stun-gun — FAITHFUL PORTFOLIO REPRODUCTION.
+   This page deliberately diverges from the site design language (intended):
+   dusty-rose + white panels, a single Times-style serif (Tinos), sharp images.
+   Nav/Footer remain the neutral frame. Tokens here are page-local.
    ========================================================================= */
 
 .page {
-  padding-bottom: var(--space-9);
+  /* page-local tokens (override site tokens) */
+  --rose: #e7d1cb;
+  --ink: #1a1a1a;
+  --pad-x: clamp(22px, 6vw, 92px);
+  --pad-y: clamp(44px, 7vw, 104px);
+  --measure: 44ch;
+
+  font-family: var(--font-serif), "Times New Roman", Georgia, serif;
+  color: var(--ink);
+  background: #fff;
 }
 
-/* ---- intro (scrolls) ---- */
-.intro {
-  padding-top: var(--space-8);
-  padding-bottom: var(--space-7);
-}
-.eyebrow {
-  font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: var(--space-4);
+/* ---- type (single transitional serif, regular weight) ---- */
+.title,
+.h2,
+.subtitle,
+.body,
+.credit,
+.note {
+  font-family: var(--font-serif), "Times New Roman", Georgia, serif;
+  color: var(--ink);
 }
 .title {
-  font-size: var(--fs-h1);
-  letter-spacing: -0.025em;
-  line-height: 1.02;
-  max-width: 16ch;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0;
 }
-.title em {
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+  font-weight: 400;
   font-style: italic;
-}
-.lede {
-  margin-top: var(--space-4);
-  max-width: var(--maxw-text);
-  font-size: var(--fs-body-l);
-  line-height: 1.55;
-}
-.honest {
-  margin-top: var(--space-5);
-  font-size: var(--fs-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--soft);
-  border-top: 1px solid var(--accent);
-  padding-top: var(--space-3);
-  display: inline-block;
-}
-
-/* =========================================================================
-   The pinned, turning render
-   ========================================================================= */
-.pin {
-  width: 100%;
-  max-width: var(--maxw-wide);
-  margin-inline: auto;
-  padding-inline: var(--page-pad);
-}
-
-/* base (mobile): single block. The stage is DOM-first and sticky-pins at the
-   top (component owns the sticky); content flows beneath it. .pinGrid is the
-   tall scroll track passed to the stage, and bounds the sticky travel. */
-.pinGrid {
-  position: relative;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-9);
-  padding-top: var(--space-7);
-}
-
-.block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.kicker {
-  font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
 }
 .h2 {
-  font-size: var(--fs-h2);
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  color: var(--ink);
-  max-width: 22ch;
-}
-.h2 em {
-  font-style: italic;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.14;
+  margin-bottom: 0.35rem;
 }
 .body {
-  font-size: var(--fs-body);
-  line-height: 1.6;
-  color: var(--ink-2);
-  max-width: var(--maxw-text);
+  margin-top: 1rem;
+  max-width: var(--measure);
+  font-size: 1rem;
+  line-height: 1.62;
 }
-
-.figure {
-  margin-top: var(--space-2);
+.callout {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-.figure img {
+.credit {
+  margin-top: 1.6rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.plainImg {
+  display: block;
   width: 100%;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
+  height: auto;
 }
-.cap {
-  margin-top: var(--space-2);
-  font-size: var(--fs-cap);
-  color: var(--soft);
+
+/* =========================================================================
+   3.1 HERO — white ground, text left, offset card right
+   ========================================================================= */
+.hero {
+  background: #fff;
 }
-.pairGrid {
+.heroGrid {
   display: grid;
-  gap: var(--space-4);
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+  max-width: 1500px;
+  margin-inline: auto;
+  padding: var(--pad-y) var(--pad-x);
+}
+.heroCardWrap {
+  --offset: clamp(20px, 2.4vw, 38px);
 }
 
 /* =========================================================================
-   Desktop (≥1180): two-column sticky + parallax.
-   The stage is a sticky grid item (align-self:start) in column 2, so it pins
-   within the tall content row; column 1 holds the scrolling content.
+   3.2 CONTEXT + INSPIRATION — vertical half-split (white | rose)
    ========================================================================= */
-@media (min-width: 1180px) {
-  .pinGrid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    column-gap: var(--space-8);
-  }
-  .content {
-    grid-column: 1;
-    grid-row: 1;
-    padding-top: var(--space-9);
-    padding-bottom: var(--space-9);
-  }
-  .stageCol {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-  }
-  .pairGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.splitLeft {
+  background: #fff;
+}
+.splitRight {
+  background: var(--rose);
+}
+.padBlock {
+  padding: var(--pad-y) var(--pad-x);
+}
+.splitLeft .plainImg {
+  max-width: 320px;
+  margin-bottom: 1.6rem;
 }
 
-/* tablet: let the image pair sit side by side a little earlier */
-@media (min-width: 768px) and (max-width: 1179px) {
-  .pairGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* F-22 reference grid — tight, thin white gutters */
+.f22Grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  background: #fff;
+  margin-bottom: 1.2rem;
+  max-width: 560px;
+}
+.gridImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.gridWide {
+  grid-column: 1 / -1;
+  aspect-ratio: 21 / 8;
+}
+.whiteCard {
+  background: #fff;
+  padding: clamp(12px, 1.6vw, 20px);
+  margin-bottom: 1.4rem;
+  max-width: 560px;
 }
 
 /* =========================================================================
-   Close + pager
+   3.3 CONCEPT — full dusty-rose ground
    ========================================================================= */
-.close {
-  padding-top: var(--space-8);
-  padding-bottom: var(--space-6);
+.concept {
+  background: var(--rose);
 }
-.close .body {
-  margin-top: var(--space-3);
+.conceptGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: clamp(24px, 5vw, 80px);
+  max-width: 1500px;
+  margin-inline: auto;
+  padding: var(--pad-y) var(--pad-x);
+}
+.conceptLeft .whiteCard {
+  max-width: none;
+}
+.conceptRight {
+  display: flex;
+  flex-direction: column;
+  --offset: clamp(18px, 2vw, 32px);
+}
+.stackTop {
+  width: 70%;
+  align-self: flex-end;
+}
+.stackBottom {
+  width: 74%;
+  align-self: flex-start;
+  margin-top: -9%;
 }
 
+/* =========================================================================
+   3.4 FEATURES — white ground, right rose strip (full-bleed)
+   ========================================================================= */
+.features {
+  background: #fff;
+}
+.featGrid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.25fr 0.85fr;
+  align-items: start;
+  gap: clamp(18px, 3vw, 44px);
+}
+.featText {
+  padding: var(--pad-y) 0 var(--pad-y) var(--pad-x);
+}
+.featCenter {
+  padding-top: var(--pad-y);
+}
+.featRight {
+  background: var(--rose);
+  padding: var(--pad-y) var(--pad-x) var(--pad-y) clamp(18px, 3vw, 44px);
+}
+.foamCard {
+  background: #fff;
+  padding: clamp(10px, 1.4vw, 16px);
+  margin-left: clamp(-44px, -4vw, -18px); /* straddle the white/rose edge */
+  margin-bottom: 1.4rem;
+}
+
+/* =========================================================================
+   3.5 CONCLUSION — left rose strip (full-bleed), large render right
+   ========================================================================= */
+.conclusion {
+  background: #fff;
+}
+.conclGrid {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  align-items: center;
+}
+.conclLeft {
+  background: var(--rose);
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--pad-y) var(--pad-x);
+}
+.conclRight {
+  padding: var(--pad-y) var(--pad-x);
+}
+
+/* =========================================================================
+   End note + pager
+   ========================================================================= */
+.endNote {
+  background: #fff;
+  border-top: 1px solid var(--rose);
+  padding: clamp(28px, 4vw, 56px) var(--pad-x);
+  max-width: 1500px;
+  margin-inline: auto;
+}
+.note {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #6b6b66;
+}
 .pager {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-4);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--line);
+  gap: 1rem;
+  margin-top: 1.4rem;
 }
 .pagerLink {
-  font-size: var(--fs-label);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--accent);
+  font-family: var(--font-serif), "Times New Roman", Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .pagerLink:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+/* =========================================================================
+   Responsive — tablet & mobile stack the spreads
+   ========================================================================= */
+@media (max-width: 1023px) {
+  .featGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .featText {
+    grid-column: 1 / -1;
+    padding: var(--pad-y) var(--pad-x) 0;
+  }
+  .featCenter {
+    padding-left: var(--pad-x);
+  }
+}
+
+@media (max-width: 767px) {
+  .heroGrid,
+  .split,
+  .conceptGrid,
+  .featGrid,
+  .conclGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroCardWrap {
+    --offset: 16px;
+  }
+  .stackTop,
+  .stackBottom {
+    width: 88%;
+    align-self: center;
+    margin-top: 0;
+  }
+  .conceptRight {
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .featCenter,
+  .featText {
+    padding: var(--pad-y) var(--pad-x) 0;
+  }
+  .featRight {
+    padding: var(--pad-y) var(--pad-x);
+  }
+  .foamCard {
+    margin-left: 0;
+  }
+  .conclLeft,
+  .conclRight {
+    padding: var(--pad-y) var(--pad-x);
+  }
+  .splitLeft .plainImg {
+    max-width: 240px;
+  }
 }
