@@ -117,7 +117,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 4 — HOW WE WORKED ============ */}
-      <section className={styles.scene}>
+      <section className={`${styles.scene} ${styles.band}`}>
         <div className={`${styles.wrap} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>How we worked</p>
           <p className={styles.lede}>
@@ -164,11 +164,59 @@ export default function HousingWorksPage() {
         </div>
       </section>
 
+      {/* ============ SCENE 4a — SITE VISITS (photo grid) ============ */}
+      <section className={styles.gridScene}>
+        <div className={`${styles.wrapWide} hw-reveal`}>
+          <p className={`mono ${styles.kicker}`}>From the site visits</p>
+        </div>
+        <div className={styles.sitesGrid}>
+          <img className={styles.sitePhoto} src={`${IMG}/site-1.jpg`} alt="Inside a Housing Works thrift store." loading="lazy" width="1200" height="900" />
+          <img className={styles.sitePhoto} src={`${IMG}/site-2.jpg`} alt="Shoes and accessories on the retail floor." loading="lazy" width="1200" height="900" />
+          <img className={styles.sitePhoto} src={`${IMG}/site-3.jpg`} alt="The thrift-store shop floor." loading="lazy" width="1200" height="900" />
+          <img className={styles.sitePhoto} src={`${IMG}/site-4.jpg`} alt="Housewares and glassware on the shelves." loading="lazy" width="1200" height="900" />
+          <img className={styles.sitePhoto} src={`${IMG}/site-5.jpg`} alt="The Housing Works bookstore shelves." loading="lazy" width="1200" height="900" />
+          <img className={styles.sitePhoto} src={`${IMG}/site-6.jpg`} alt="A seating area in store." loading="lazy" width="1200" height="900" />
+        </div>
+      </section>
+
+      {/* ============ SCENE 4b — FIELDWORK BY THE NUMBERS (dark data strip) ===== */}
+      <section className={styles.dataStrip} aria-label="Fieldwork by the numbers">
+        <div className={styles.dataInner}>
+          <div className={styles.stat}>
+            <span className={styles.statNum}>127</span>
+            <span className={`mono ${styles.statLabel}`}>survey responses</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statNum}>4</span>
+            <span className={`mono ${styles.statLabel}`}>site visits</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statNum}>4</span>
+            <span className={`mono ${styles.statLabel}`}>research passes</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statNum}>1</span>
+            <span className={`mono ${styles.statLabel}`}>Bridges &amp; Barriers workshop</span>
+          </div>
+        </div>
+      </section>
+
       {/* ============ SCENE 5 — POSTER WIDGET ============ */}
-      <section className={styles.scene}>
+      <section className={`${styles.scene} ${styles.band}`}>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>Interactive · the poster survey</p>
           <PosterWidget />
+
+          <div className={styles.surveyAside}>
+            <p className={`mono ${styles.subKicker}`}>
+              The provocative stat posters that drew people in
+            </p>
+            <div className={styles.surveyGrid}>
+              <img className={styles.surveyPhoto} src={`${IMG}/survey-1.jpg`} alt="Campus survey poster: “46% of Gen Z feel misunderstood by Gen X’s old-school mindset.”" loading="lazy" width="900" height="1200" />
+              <img className={styles.surveyPhoto} src={`${IMG}/survey-2.jpg`} alt="Campus survey poster: “Gen Z will make up 30% of the workforce by 2030.”" loading="lazy" width="900" height="1200" />
+              <img className={styles.surveyPhoto} src={`${IMG}/survey-3.jpg`} alt="Campus survey poster comparing average non-profit and for-profit salaries." loading="lazy" width="900" height="1200" />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -307,7 +355,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 8 — WHAT WE PROPOSED ============ */}
-      <section className={styles.scene}>
+      <section className={`${styles.scene} ${styles.band}`}>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>What we proposed</p>
           <p className={styles.lede}>
@@ -422,7 +470,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 10 — LIMITATIONS (quiet close) ============ */}
-      <section className={styles.scene}>
+      <section className={`${styles.scene} ${styles.band}`}>
         <div className={`${styles.wrap} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>Limitations</p>
           <p className={styles.body}>

@@ -10,6 +10,8 @@ each scene shows a labeled placeholder until the matching file exists.
 | `divider-retail.jpg`    | Scene 3 (divider)    | Storefront with the "HOUSING WORKS" sign / a thrift interior |
 | `divider-workshop.jpg`  | Scene 6 (divider)    | A Bridges & Barriers board covered in sticky notes           |
 | `poster-work-modality.jpg` | (optional aside)  | The "72% Gen Z prefer hybrid" poster                         |
+| `site-1..6.jpg`         | Site-visits grid     | Six store interiors (thrift, shoes, floor, housewares, bookstore, seating); 4:3 |
+| `survey-1..3.jpg`       | Poster-survey grid   | Three campus stat posters (misunderstood / 30%-by-2030 / salary); 3:4 |
 
 After adding a real frame, delete that scene's `photo slot · …` caption
 (`<p className={styles.slotTag}>…</p>`) in `page.tsx`.

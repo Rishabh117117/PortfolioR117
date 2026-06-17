@@ -28,12 +28,101 @@
   padding-inline: var(--page-pad);
 }
 
+/* subtle full-bleed tonal band (borderless "rectangle background") to break up
+   empty stretches and give the page rhythm — a lighter warm white than paper. */
+.band {
+  background: var(--card);
+}
+
 .kicker {
   font-size: var(--fs-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: var(--space-4);
+}
+
+/* =========================================================================
+   Photo grid scenes (site visits) — full-bleed, borderless
+   ========================================================================= */
+.gridScene {
+  padding-block: clamp(48px, 9vw, 90px);
+}
+.sitesGrid {
+  margin-top: var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.sitePhoto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================================================================
+   Dark "data" strip — fieldwork by the numbers (full-bleed tonal shift)
+   ========================================================================= */
+.dataStrip {
+  background: var(--ink);
+  padding-block: clamp(44px, 8vw, 76px);
+}
+.dataInner {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6) var(--space-4);
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.statNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(44px, 10vw, 72px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+.statLabel {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.66);
+}
+
+/* =========================================================================
+   Survey-posters grid (inside the poster scene) — contained support images
+   ========================================================================= */
+.surveyAside {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.subKicker {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.surveyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+.surveyPhoto {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-sm);
 }
 .lede {
   font-family: var(--font-body);
@@ -348,5 +437,11 @@
   .diagram,
   .timeline {
     max-width: 440px;
+  }
+  .sitesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .dataInner {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
