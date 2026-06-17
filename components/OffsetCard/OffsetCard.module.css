@@ -1,9 +1,10 @@
-/* The offset-card device. Image defines the box; the flat rose rectangle sits
-   behind it, offset down-and-left, peeking at the bottom and left edges. No
-   border-radius, no shadow — sharp rectangles, matching the portfolio. */
+/* The offset-card device. The image frame defines the box; the flat rose
+   rectangle sits behind it, offset down-and-left, peeking at the bottom and
+   left edges. No border-radius, no shadow — sharp rectangles, per the portfolio.
+   The image overscans its frame so the dolly + Ken-Burns never reveal an edge. */
 .card {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 100%;
   /* room for the rose to peek without overlapping neighbours */
   margin-left: var(--offset, 28px);
@@ -21,12 +22,21 @@
   will-change: transform;
 }
 
-.img {
+.imgFrame {
   position: relative;
   z-index: 1;
-  display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.img {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  object-fit: cover;
+  display: block;
   will-change: transform;
 }
 

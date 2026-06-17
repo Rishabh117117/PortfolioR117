@@ -11,7 +11,7 @@
   --ink: #1a1a1a;
   --pad-x: clamp(22px, 6vw, 92px);
   --pad-y: clamp(44px, 7vw, 104px);
-  --measure: 44ch;
+  --measure: 52ch;
 
   font-family: var(--font-serif), "Times New Roman", Georgia, serif;
   color: var(--ink);
@@ -29,8 +29,8 @@
   color: var(--ink);
 }
 .title {
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 400;
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  font-weight: 700;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -39,18 +39,19 @@
   font-size: clamp(1.1rem, 2.6vw, 1.6rem);
   font-weight: 400;
   font-style: italic;
+  color: #555;
 }
 .h2 {
   font-size: clamp(1.6rem, 4vw, 2.5rem);
   font-weight: 400;
   line-height: 1.14;
-  margin-bottom: 0.35rem;
+  margin: 0 0 1.2rem 0;
 }
 .body {
-  margin-top: 1rem;
+  margin-top: 0;
   max-width: var(--measure);
   font-size: 1rem;
-  line-height: 1.62;
+  line-height: 1.65;
 }
 .callout {
   font-weight: 700;
@@ -61,6 +62,7 @@
   margin-top: 1.6rem;
   font-size: 0.9rem;
   font-weight: 700;
+  line-height: 1.5;
 }
 .plainImg {
   display: block;
@@ -76,7 +78,7 @@
 }
 .heroGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.85fr 1.15fr;
   align-items: center;
   gap: clamp(24px, 5vw, 72px);
   max-width: 1500px;
@@ -103,19 +105,25 @@
 .padBlock {
   padding: var(--pad-y) var(--pad-x);
 }
-.splitLeft .plainImg {
-  max-width: 320px;
-  margin-bottom: 1.6rem;
+/* Context half: gun left, heading + body right (matches the portfolio spread) */
+.ctxGrid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+}
+.ctxText {
+  align-self: center;
 }
 
-/* F-22 reference grid — tight, thin white gutters */
+/* F-22 reference grid — refined white gutters */
 .f22Grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  padding: 5px;
+  gap: clamp(8px, 1.2vw, 16px);
+  padding: clamp(8px, 1.2vw, 16px);
   background: #fff;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.4rem;
   max-width: 560px;
 }
 .gridImg {
@@ -131,7 +139,7 @@
 }
 .whiteCard {
   background: #fff;
-  padding: clamp(12px, 1.6vw, 20px);
+  padding: clamp(16px, 2vw, 28px);
   margin-bottom: 1.4rem;
   max-width: 560px;
 }
@@ -155,18 +163,18 @@
   max-width: none;
 }
 .conceptRight {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: clamp(14px, 2vw, 28px);
   --offset: clamp(18px, 2vw, 32px);
 }
 .stackTop {
-  width: 70%;
-  align-self: flex-end;
+  max-width: 70%;
+  justify-self: end;
 }
 .stackBottom {
-  width: 74%;
-  align-self: flex-start;
-  margin-top: -9%;
+  max-width: 76%;
+  justify-self: start;
+  margin-top: clamp(-28px, -3vw, -12px);
 }
 
 /* =========================================================================
@@ -188,13 +196,15 @@
   padding-top: var(--pad-y);
 }
 .featRight {
+  position: relative;
   background: var(--rose);
   padding: var(--pad-y) var(--pad-x) var(--pad-y) clamp(18px, 3vw, 44px);
 }
 .foamCard {
+  position: relative;
+  left: clamp(-48px, -5vw, -20px); /* straddle the white/rose edge, single source */
   background: #fff;
-  padding: clamp(10px, 1.4vw, 16px);
-  margin-left: clamp(-44px, -4vw, -18px); /* straddle the white/rose edge */
+  padding: clamp(12px, 1.4vw, 18px);
   margin-bottom: 1.4rem;
 }
 
@@ -206,7 +216,7 @@
 }
 .conclGrid {
   display: grid;
-  grid-template-columns: 0.82fr 1.18fr;
+  grid-template-columns: 0.75fr 1.25fr;
   align-items: center;
 }
 .conclLeft {
@@ -233,6 +243,7 @@
 }
 .note {
   font-size: 0.85rem;
+  line-height: 1.5;
   font-style: italic;
   color: #6b6b66;
 }
@@ -258,26 +269,42 @@
 /* =========================================================================
    Responsive — tablet & mobile stack the spreads
    ========================================================================= */
+/* intermediate: keep 3 cols + the full-height rose strip a bit longer */
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .featGrid {
+    grid-template-columns: 0.95fr 1.35fr 0.7fr;
+  }
+}
 @media (max-width: 1023px) {
   .featGrid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 0.9fr;
   }
   .featText {
     grid-column: 1 / -1;
     padding: var(--pad-y) var(--pad-x) 0;
   }
   .featCenter {
+    grid-column: 1;
     padding-left: var(--pad-x);
+  }
+  /* rose strip stays a full-height column bleeding to the right edge */
+  .featRight {
+    grid-column: 2;
+    align-self: stretch;
   }
 }
 
 @media (max-width: 767px) {
   .heroGrid,
   .split,
+  .ctxGrid,
   .conceptGrid,
   .featGrid,
   .conclGrid {
     grid-template-columns: 1fr;
+  }
+  .ctxImg {
+    max-width: 260px;
   }
   .heroCardWrap {
     --offset: 16px;
