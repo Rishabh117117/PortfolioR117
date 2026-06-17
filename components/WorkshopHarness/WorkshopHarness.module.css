@@ -1,18 +1,20 @@
+/* Borderless harness (§4/§8). The framework as a working tool, sitting OPEN on
+   the page: no card, no accent header bar, no outlined pills. Delineation is
+   whitespace + mono "machinery" type + at most horizontal hairlines. */
 .harness {
-  border: 1.5px solid var(--accent);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--card);
+  display: flex;
+  flex-direction: column;
 }
 
+/* ---- label row (was the accent header bar) ---- */
 .bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--space-3);
-  background: var(--accent);
-  color: #fff;
-  padding: var(--space-3) var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
 }
 .barLabel {
   display: inline-flex;
@@ -21,27 +23,34 @@
   font-family: var(--font-mono);
   font-size: var(--fs-label);
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--accent);
 }
 .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--fs-label);
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  white-space: nowrap;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: var(--radius-sm);
-  padding: 3px 8px;
+  color: var(--soft);
+}
+.badgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: 0 0 auto;
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
-  padding: var(--space-5);
+  gap: var(--space-6);
+  padding-top: var(--space-5);
 }
 .formula {
   font-size: var(--fs-cap);
@@ -53,7 +62,7 @@
 .setup {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-5);
+  gap: var(--space-6);
 }
 .col {
   display: flex;
@@ -62,44 +71,46 @@
 }
 .colLabel {
   font-size: var(--fs-label);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
 }
 .needChips {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
+/* borderless need options — left accent bar appears only on the active pick */
 .needChip {
   display: flex;
   flex-direction: column;
   gap: 2px;
   text-align: left;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
   min-height: 44px;
-  background: var(--paper);
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 0;
+  border-left: 2px solid var(--fill);
+  border-radius: 0;
   cursor: pointer;
-  transition:
-    border-color var(--t-fast) var(--e-snappy),
-    background var(--t-fast) var(--e-snappy);
+  transition: border-color var(--t-fast) var(--e-snappy);
 }
 @media (hover: hover) {
   .needChip:hover {
-    border-color: var(--accent);
+    border-left-color: var(--accent-wash);
   }
 }
 .needActive {
-  border-color: var(--accent);
-  background: var(--accent-tint);
+  border-left-color: var(--accent);
 }
 .needLabel {
   font-family: var(--font-body);
   font-weight: 600;
   color: var(--ink);
   font-size: var(--fs-body);
+}
+.needActive .needLabel {
+  color: var(--accent);
 }
 .needDetail {
   color: var(--soft);
@@ -129,24 +140,41 @@
 .priorities {
   display: flex;
   flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+/* borderless mono priority labels (no pills), each with a small crimson dot */
+.priority {
+  display: inline-flex;
+  align-items: center;
   gap: var(--space-2);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.priority::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
-/* ---- generated workshop ---- */
+/* ---- generated workshop (open, no card) ---- */
 .workshop {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-5);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
   animation: fadeIn var(--t-fast) var(--e-snappy);
 }
 .wsTitle {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-h3);
+  font-size: clamp(18px, 3vw, 22px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
   color: var(--ink);
 }
 .wsMeta {
@@ -154,28 +182,26 @@
   color: var(--accent);
 }
 .wsObjective {
-  font-size: var(--fs-body);
+  font-size: var(--fs-body-l);
   color: var(--ink-2);
 }
 .agenda {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-1);
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 .agendaItem {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding-left: var(--space-3);
-  border-left: 2px solid var(--accent-wash);
 }
 .agendaHead {
   font-size: var(--fs-label);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--soft);
+  color: var(--accent);
 }
 .agendaBody {
   font-size: var(--fs-body);
@@ -185,21 +211,32 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
+}
+.metaTag {
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.metaTagAccent {
+  color: var(--accent);
 }
 .mins {
   margin-left: auto;
   font-size: var(--fs-label);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   color: var(--soft);
 }
 
-/* ---- capture loop ---- */
+/* ---- capture loop (open, staggered) ---- */
 .capture {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
 }
 .captureStep {
   display: flex;
@@ -209,7 +246,7 @@
 }
 .captureLabel {
   font-size: var(--fs-label);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -217,15 +254,11 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-4);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
+  gap: var(--space-3);
 }
 .turn {
   display: grid;
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: 72px 1fr;
   gap: var(--space-3);
   font-size: var(--fs-body);
 }
@@ -239,25 +272,28 @@
   color: var(--ink-2);
 }
 .summary {
-  font-size: var(--fs-body);
+  font-size: var(--fs-body-l);
   color: var(--ink-2);
   line-height: 1.6;
-  padding: var(--space-4);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
 }
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: var(--space-2) var(--space-4);
+}
+.tag {
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  color: var(--soft);
 }
 .stored {
   color: var(--soft);
 }
 
 .footnote {
-  margin-top: var(--space-1);
+  margin-top: var(--space-2);
+  font-size: var(--fs-cap);
+  color: var(--soft);
 }
 
 @keyframes fadeIn {
@@ -283,7 +319,7 @@
 @media (min-width: 768px) {
   .setup {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-6);
+    gap: var(--space-7);
   }
 }
 

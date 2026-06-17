@@ -137,7 +137,10 @@ export default function WorkshopHarness() {
           <span className="pulseDot" aria-hidden="true" />
           WORKSHOP HARNESS
         </span>
-        <span className={styles.badge}>★ {badge}</span>
+        <span className={styles.badge}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          {badge}
+        </span>
       </header>
 
       <div className={styles.body}>
@@ -183,7 +186,7 @@ export default function WorkshopHarness() {
             </span>
             <div className={styles.priorities}>
               {STRATEGIC_PRIORITIES.map((p) => (
-                <span key={p} className="chip">
+                <span key={p} className={`mono ${styles.priority}`}>
                   {p}
                 </span>
               ))}
@@ -216,8 +219,10 @@ export default function WorkshopHarness() {
               ))}
             </ol>
             <div className={styles.wsFooter}>
-              <span className="chip accent">BADGE · {workshop.badge}</span>
-              <span className="chip">KPI · {workshop.kpi}</span>
+              <span className={`mono ${styles.metaTag} ${styles.metaTagAccent}`}>
+                BADGE · {workshop.badge}
+              </span>
+              <span className={`mono ${styles.metaTag}`}>KPI · {workshop.kpi}</span>
               <span className={`mono ${styles.mins}`}>45 MIN</span>
             </div>
 
@@ -256,7 +261,7 @@ export default function WorkshopHarness() {
                 <span className={`mono ${styles.captureLabel}`}>↓ ARCHIVED · SEARCHABLE</span>
                 <div className={styles.tags}>
                   {session.tags.map((t) => (
-                    <span key={t} className="chip">
+                    <span key={t} className={`mono ${styles.tag}`}>
                       #{t}
                     </span>
                   ))}

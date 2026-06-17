@@ -1,5 +1,15 @@
 # Housing Works — Page Build Spec
 
+> **Rebuild note (current):** the live page is now the **scene-based, borderless,
+> image-forward** presentation rebuild (researcher voice, parallax photos +
+> scroll-drawn line-SVGs, 11 scenes), replacing the Phase-A 7-beat version
+> described below. The two interactives (poster recreation, workshop harness)
+> and all honesty rules below are unchanged. Motion (parallax/reveal/draw) lives
+> in `app/work/housing-works/{Motion.tsx,hw-motion.css}`, scoped to this page.
+> Photo slots are placeholders until frames land in
+> `public/images/housing-works/` (see that folder's README). Title default = B.
+> The §2 beat copy below is superseded by the researcher-voice copy in the page.
+
 - **Route:** `/work/housing-works`
 - **Status:** Ready to build. Phase A (shell + beats 1–5 + coda + poster widget) buildable now. Phase B (live harness) depends on `/api/ask` + OpenRouter (portfolio Phase 4).
 - **Governed by:** `docs/DESIGN.md` (tokens, type, responsive) and `CLAUDE.md`. Reuse existing `Nav`, `Footer`, and the `/work/[slug]` template patterns. Build CSS modules, no Tailwind.

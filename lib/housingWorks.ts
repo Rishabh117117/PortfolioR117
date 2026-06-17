@@ -205,12 +205,12 @@ export const CANNED_SESSION: Record<string, SessionCapture> = {
 };
 
 // ---- Honesty microcopy (exact strings, §9) ----------------------------------
-export const HARNESS_BADGE_LIVE = "PROTOTYPE — working AI · synthetic data.";
-export const HARNESS_BADGE_FALLBACK = "DEMO — simulated output · live AI coming soon.";
+export const HARNESS_BADGE_LIVE = "PROTOTYPE — working AI · synthetic data";
+export const HARNESS_BADGE_FALLBACK = "DEMO — simulated output · live AI coming soon";
 export const HARNESS_FOOTNOTE_LIVE =
   "Matching and generation are real model output. Trustees, staff needs, and outcomes are illustrative stand-ins for private Housing Works data.";
 // Fallback footnote — must NOT claim real model output while simulated.
 export const HARNESS_FOOTNOTE_FALLBACK =
-  "Output shown is a canned example, not live model output. Trustees, staff needs, and outcomes are illustrative stand-ins for private Housing Works data.";
+  "This is a canned example, not live model output. Trustees, staff needs, and outcomes are illustrative stand-ins for private Housing Works data.";
 export const POSTER_FOOTNOTE =
   "A recreation of the participatory poster survey run at The New School, spring 2025. Real study results shown; your response is illustrative and not stored.";

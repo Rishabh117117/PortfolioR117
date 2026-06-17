@@ -1,188 +1,349 @@
+/* =========================================================================
+   Housing Works — scene-based, BORDERLESS case study (rebuild).
+   No cards, boxes, or frames: scenes are delineated by whitespace, type
+   hierarchy, and full-bleed imagery (spec §4). Tokens per docs/DESIGN.md.
+   The hw-* motion/line classes live in ./hw-motion.css (JS-wired).
+   ========================================================================= */
+
 .page {
-  padding-bottom: var(--space-8);
-}
-.topRule {
-  height: 4px;
-  background: linear-gradient(90deg, #e8568f, #f08a3c, #2bb3a3);
+  /* full-bleed children manage their own width; type scenes center an inner
+     reading column. The page root spans the full main width. */
+  overflow-x: clip;
 }
 
-/* ---------- shared beat rhythm ---------- */
-.beat {
-  padding-top: var(--space-7);
+/* ---------- shared type scene ---------- */
+.scene {
+  padding-block: clamp(64px, 12vw, 120px);
 }
-@media (min-width: 1180px) {
-  .beat {
-    padding-top: var(--space-8);
-  }
+.wrap {
+  width: 100%;
+  max-width: var(--maxw-text);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
 }
-.beatHead {
-  margin-bottom: var(--space-5);
+.wrapWide {
+  width: 100%;
+  max-width: 860px;
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
 }
-.beatKicker {
+
+.kicker {
   font-size: var(--fs-label);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: var(--space-3);
-}
-.h2 {
-  font-size: var(--fs-h2);
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  color: var(--ink);
-  max-width: 22ch;
+  margin-bottom: var(--space-4);
 }
 .lede {
-  font-size: var(--fs-body-l);
-  line-height: 1.55;
-  color: var(--ink-2);
+  font-family: var(--font-body);
+  font-size: clamp(29px, 5.6vw, 48px);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
-.bodyText {
-  font-size: var(--fs-body);
-  line-height: 1.6;
+.body {
+  font-size: 17px;
+  line-height: 1.62;
   color: var(--ink-2);
-  margin-top: var(--space-4);
+  margin-top: var(--space-5);
+  max-width: 64ch;
+}
+.body strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
-/* ---------- Beat 1 hero ---------- */
+/* =========================================================================
+   Full-bleed photo scenes (hero + dividers) — parallax inner .hw-bg
+   ========================================================================= */
+.photo {
+  position: relative;
+  display: grid;
+  align-items: end;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  /* placeholder tone until a real frame lands in /images/housing-works/ */
+  background: linear-gradient(155deg, #241f20 0%, #3b2a2e 60%, #432a30 100%);
+  color: #f4f2ec;
+}
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 16, 16, 0.28) 0%,
+    rgba(20, 16, 16, 0.34) 45%,
+    rgba(20, 16, 16, 0.62) 100%
+  );
+}
+
 .hero {
-  padding-top: var(--space-7);
+  min-height: 92svh;
 }
-.heroImg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 16 / 9;
-  background: var(--fill);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--space-5);
+.heroInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding: var(--page-pad);
+  padding-bottom: clamp(40px, 8vw, 80px);
 }
-.heroLine {
+.eyebrow {
+  font-size: clamp(11px, 1.4vw, 12px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.82);
+  max-width: 52ch;
+}
+.title {
+  margin-top: var(--space-4);
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-display);
-  line-height: 1;
+  font-size: clamp(37px, 8.6vw, 68px);
+  line-height: 1.02;
   letter-spacing: -0.035em;
-  color: var(--ink);
-  max-width: 16ch;
+  color: #fff;
+  max-width: 18ch;
+  text-wrap: balance;
 }
-.heroLine em {
-  font-style: italic;
-  color: var(--accent);
-}
-.heroLabel {
-  margin-top: var(--space-4);
-  font-size: var(--fs-label);
-  letter-spacing: 0.08em;
-  color: var(--soft);
+.heroSub {
+  margin-top: var(--space-5);
+  font-size: clamp(15px, 2.2vw, 18px);
+  line-height: 1.55;
+  color: rgba(244, 242, 236, 0.92);
+  max-width: 60ch;
 }
 
-/* ---------- Beat 3 poster layout ---------- */
-.posterLayout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-5);
-  margin-top: var(--space-5);
+/* divider scenes */
+.divider {
+  min-height: 58svh;
 }
-.posterMain {
-  min-width: 0;
+.dividerInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding: var(--page-pad);
+  padding-bottom: clamp(32px, 6vw, 64px);
 }
-.posterAside {
+.dividerTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 7vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: #fff;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+/* placeholder caption inside photo scenes — delete when the real frame lands */
+.slotTag {
+  margin-top: var(--space-4);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.62);
+}
+
+/* =========================================================================
+   Scene 1 + footer ribbon line-draw
+   ========================================================================= */
+.ribbon {
+  width: clamp(40px, 7vw, 60px);
+  height: auto;
+  margin-bottom: var(--space-5);
+  overflow: visible;
+}
+.footerRibbon {
+  display: flex;
+  justify-content: center;
+  padding-block: clamp(48px, 9vw, 96px) clamp(32px, 6vw, 56px);
+}
+.ribbonFoot {
+  width: clamp(44px, 8vw, 64px);
+  height: auto;
+  overflow: visible;
+}
+
+/* =========================================================================
+   Scene 4 — how we worked (four passes)
+   ========================================================================= */
+.passes {
+  list-style: none;
+  margin-top: var(--space-7);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-6);
 }
-.asideLabel {
-  font-size: var(--fs-label);
+.pass {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+.passNo {
+  font-size: 13px;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--soft);
+  color: var(--accent);
+  padding-top: 4px;
 }
-.imgSlot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 4 / 3;
-  background: var(--fill);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+.passBody {
+  font-size: 17px;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+.passBody strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
-/* ---------- Beat 5 strategy ---------- */
-.strategy {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: var(--card);
-  padding-bottom: var(--space-7);
+/* =========================================================================
+   Scene 7 — findings (line-glyph + text), open on the page
+   ========================================================================= */
+.findings {
+  list-style: none;
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
 }
-.moves {
+.finding {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
+  grid-template-columns: 60px 1fr;
+  gap: var(--space-5);
+  align-items: start;
 }
-.move {
+.glyph {
+  width: 60px;
+  height: 56px;
+  overflow: visible;
+}
+.findingText {
+  min-width: 0;
+}
+.findingTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(20px, 3.4vw, 26px);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.findingNo {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 500;
+}
+.finding .body {
+  margin-top: var(--space-3);
+}
+
+/* =========================================================================
+   Scene 8 — what we proposed (open list, mine foregrounded by type only)
+   ========================================================================= */
+.proposed {
+  list-style: none;
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.prop {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-5);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
 }
-.moveMine {
-  border-color: var(--accent);
-  background: var(--accent-tint);
+.propName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(20px, 3.4vw, 26px);
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
-.moveTie {
-  font-size: var(--fs-label);
-  letter-spacing: 0.06em;
+.mineDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: 0 0 auto;
+}
+.propMine .propName {
+  color: var(--accent);
+}
+.propBy {
+  font-size: 12px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--soft);
 }
-.moveTitle {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-h3);
-  color: var(--ink);
-  margin-top: var(--space-1);
-}
-.moveBy {
-  font-size: var(--fs-cap);
-  color: var(--accent);
-}
-.move .bodyText {
+.prop .body {
   margin-top: var(--space-2);
 }
-.handoff {
-  margin-top: var(--space-5);
+.propTotal {
+  margin-top: var(--space-7);
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   font-style: italic;
-  font-size: var(--fs-h3);
+  font-size: clamp(20px, 3.6vw, 28px);
+  letter-spacing: -0.015em;
   color: var(--ink);
 }
+.propTotal strong {
+  color: var(--accent);
+  font-weight: 600;
+  font-style: normal;
+}
 
-/* ---------- Beat 6 harness ---------- */
+/* =========================================================================
+   Scene 9 — my framework: diagram, harness, timeline (all open, no frames)
+   ========================================================================= */
+.diagram {
+  display: block;
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  margin: var(--space-7) 0 var(--space-6);
+  overflow: visible;
+}
 .harnessWrap {
-  margin-top: var(--space-5);
+  margin-top: var(--space-6);
+}
+.timeline {
+  display: block;
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  margin-top: var(--space-7);
+  overflow: visible;
 }
 
-/* ---------- Beat 7 coda ---------- */
-.coda {
-  border-top: 1px solid var(--line);
-}
-
+/* =========================================================================
+   Responsive
+   ========================================================================= */
 @media (min-width: 768px) {
-  .moves {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-  }
-}
-@media (min-width: 1180px) {
-  .posterLayout {
-    grid-template-columns: 1.4fr 1fr;
+  .proposed {
+    flex-direction: row;
     gap: var(--space-6);
-    align-items: start;
+  }
+  .prop {
+    flex: 1;
+  }
+  .diagram,
+  .timeline {
+    max-width: 440px;
   }
 }

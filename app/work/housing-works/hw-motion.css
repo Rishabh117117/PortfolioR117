@@ -1,0 +1,108 @@
+/* =========================================================================
+   Housing Works — MOTION + LINE LAYER (plain global CSS, hw- prefixed)
+   These classes are NOT CSS-module-hashed because the Motion client
+   component wires them via document.querySelectorAll('.hw-reveal', etc.).
+   Page-specific only; everything is gated behind `.hw-js` so the page is
+   fully visible if JS never runs, and flattened under reduced-motion.
+   (Scoped scroll-motion for THIS page only — see docs/DESIGN.md §7.)
+   ========================================================================= */
+
+/* ---- parallax photo layer ----
+   Each full-bleed photo has an inner .hw-bg sized taller than its frame so it
+   can translate on scroll without exposing an edge. */
+.hw-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12%;
+  height: 124%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  z-index: 0;
+}
+
+/* ---- scene reveals ----
+   Hidden initial state applies ONLY once JS has marked the page (.hw-js). */
+.hw-js .hw-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+.hw-js .hw-reveal.hw-show {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- scroll-drawn line visuals ---- */
+.hw-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hw-line.hw-crim {
+  stroke: var(--accent);
+}
+.hw-fig text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--soft);
+  letter-spacing: 0.02em;
+}
+
+/* draw-on-scroll: dashes collapse as the figure enters the viewport */
+.hw-js .hw-draw .hw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.25s ease;
+}
+.hw-js .hw-draw.hw-in .hw-line {
+  stroke-dashoffset: 0;
+}
+.hw-js .hw-draw text {
+  opacity: 0;
+  transition: opacity 0.5s ease 0.65s;
+}
+.hw-js .hw-draw.hw-in text {
+  opacity: 1;
+}
+
+/* draw-on-load: the hero ribbon animates itself in (pure CSS, not JS-gated, so
+   it never flickers/redraws on hydration). */
+.hw-autodraw .hw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hwDraw 1.7s ease 0.35s forwards;
+}
+@keyframes hwDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---- reduced motion: everything visible + static, no transforms / no draw ---- */
+@media (prefers-reduced-motion: reduce) {
+  .hw-bg {
+    transform: none !important;
+  }
+  .hw-js .hw-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hw-js .hw-draw .hw-line,
+  .hw-autodraw .hw-line {
+    stroke-dashoffset: 0;
+    animation: none;
+    transition: none;
+  }
+  .hw-js .hw-draw text {
+    opacity: 1;
+    transition: none;
+  }
+}
