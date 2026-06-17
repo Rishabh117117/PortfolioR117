@@ -33,9 +33,10 @@ export const FLAGSHIPS: Project[] = [
     name: "Healthy Materials",
     slug: "healthy-materials",
     year: "2025–26",
-    discipline: "Materials · Tooling",
+    discipline: "Materials · Research",
     accent: "#5C7A3A",
-    status: "SIMULATED",
+    // §2 — the page badge; the card on /work + the home grid must match it.
+    status: "GRADUATE RESEARCH · CONCEPT",
   },
   {
     name: "Housing Works",

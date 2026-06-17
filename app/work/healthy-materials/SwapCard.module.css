@@ -1,0 +1,199 @@
+/* =========================================================================
+   Healthy Materials Packages — the swap card (spec §5).
+   The teal card: a panel surface in the page-scoped forest-teal atmosphere,
+   paper text, sage-light reads. Demo-proof motion lives here (smooth swap).
+   Reduced motion is flattened globally (globals.css zeroes animations).
+   ========================================================================= */
+
+.card {
+  background: var(--panel);
+  color: var(--paper);
+  border: 1px solid rgba(244, 242, 236, 0.14);
+  border-radius: var(--radius-lg);
+  padding: clamp(20px, 5vw, 32px);
+  max-width: 560px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.headLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-light);
+}
+.headHint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: rgba(244, 242, 236, 0.5);
+}
+
+/* ---- scope chips ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.chip {
+  min-height: 44px;
+  padding: 9px 16px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid rgba(244, 242, 236, 0.28);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background var(--t-fast) var(--e-snappy),
+    border-color var(--t-fast) var(--e-snappy),
+    transform var(--t-fast) var(--e-snappy);
+}
+.chip:active {
+  transform: translateY(1px);
+}
+.chipActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+@media (hover: hover) {
+  .chip:hover {
+    border-color: var(--sage-light);
+  }
+  .chipActive:hover {
+    border-color: var(--accent);
+  }
+}
+
+/* ---- swap block (smooth, demo-proof enter transition) ---- */
+.swap {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  background: rgba(0, 0, 0, 0.16);
+  border-radius: var(--radius);
+  animation: swapIn 0.32s var(--e-snappy);
+}
+@keyframes swapIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.swapRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.swapTag {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.5);
+}
+.conventional {
+  font-size: 17px;
+  line-height: 1.3;
+  color: rgba(244, 242, 236, 0.55);
+  text-decoration: line-through;
+  text-decoration-color: rgba(244, 242, 236, 0.4);
+}
+.healthy {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.arrow {
+  display: flex;
+  justify-content: center;
+  color: var(--sage-light);
+  padding-block: var(--space-2);
+}
+
+.pitch {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(244, 242, 236, 0.12);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(244, 242, 236, 0.82);
+}
+.pitchLabel {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage-light);
+}
+
+/* ---- directional indicator rows (constant across scopes) ---- */
+.reads {
+  list-style: none;
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.read {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(244, 242, 236, 0.05);
+  border: 1px solid rgba(244, 242, 236, 0.1);
+  border-radius: var(--radius-sm);
+}
+.readLabel {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.7);
+}
+.readValue {
+  font-size: 13.5px;
+  letter-spacing: 0.02em;
+}
+.readGood {
+  color: var(--sage-light);
+}
+.readNeutral {
+  color: rgba(244, 242, 236, 0.92);
+}
+
+.honesty {
+  margin-top: var(--space-5);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: rgba(244, 242, 236, 0.5);
+}

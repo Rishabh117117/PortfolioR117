@@ -1,0 +1,52 @@
+/* =========================================================================
+   Healthy Materials — MOTION LAYER (plain global CSS, hm- prefixed).
+   These classes are NOT CSS-module-hashed because ./Motion.tsx wires them via
+   document.querySelectorAll('.hm-reveal', etc.). Page-specific only; gated
+   behind `.hm-js` so the page is fully visible if JS never runs, and flattened
+   under reduced-motion. (Scoped scroll-motion for THIS page only — DESIGN.md §7.)
+   Motion categories (spec §7): content reveals = HYBRID on scroll; the swap
+   card's own transition (smooth, demo-proof) lives in SwapCard.module.css;
+   gallery parallax is a desktop progressive-enhancement only.
+   ========================================================================= */
+
+/* ---- parallax photo layer (desktop progressive enhancement) ----
+   Full-bleed photo slots get an inner .hm-bg sized taller than the frame so it
+   can translate on scroll without exposing an edge. Only wired >=1180 in JS. */
+.hm-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10%;
+  height: 120%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  z-index: 0;
+}
+
+/* ---- scene reveals (hybrid: between snappy and smooth) ----
+   Hidden initial state applies ONLY once JS has marked the page (.hm-js). */
+.hm-js .hm-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s var(--e-snappy),
+    transform 0.55s var(--e-snappy);
+}
+.hm-js .hm-reveal.hm-show {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- reduced motion: everything visible + static, no transforms ---- */
+@media (prefers-reduced-motion: reduce) {
+  .hm-bg {
+    transform: none !important;
+  }
+  .hm-js .hm-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
