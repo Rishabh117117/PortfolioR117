@@ -80,9 +80,6 @@ export default function HousingWorksPage() {
             question: how can Housing Works attract and keep younger staff when
             it can’t match private-sector pay?
           </p>
-          <p className={`mono ${styles.slotTag}`}>
-            photo slot · hero.jpg — World AIDS Day memorial tags
-          </p>
         </div>
       </header>
 
@@ -116,9 +113,6 @@ export default function HousingWorksPage() {
         <div className={styles.scrim} aria-hidden="true" />
         <div className={styles.dividerInner}>
           <h2 className={styles.dividerTitle}>Funded by what it sells.</h2>
-          <p className={`mono ${styles.slotTag}`}>
-            photo slot · divider-retail.jpg — storefront / thrift interior
-          </p>
         </div>
       </section>
 
@@ -189,9 +183,6 @@ export default function HousingWorksPage() {
         <div className={styles.scrim} aria-hidden="true" />
         <div className={styles.dividerInner}>
           <h2 className={styles.dividerTitle}>Bridges and Barriers workshop.</h2>
-          <p className={`mono ${styles.slotTag}`}>
-            photo slot · divider-workshop.jpg — sticky-note board
-          </p>
         </div>
       </section>
 
