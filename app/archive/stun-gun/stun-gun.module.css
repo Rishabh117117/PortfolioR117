@@ -1,0 +1,179 @@
+/* =========================================================================
+   /archive/stun-gun — page layout. Tokens only (see docs/DESIGN.md).
+   Mobile-first: render pins near the top, content scrolls beneath it.
+   Desktop (≥1180): two-column sticky + parallax.
+   ========================================================================= */
+
+.page {
+  padding-bottom: var(--space-9);
+}
+
+/* ---- intro (scrolls) ---- */
+.intro {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-7);
+}
+.eyebrow {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+}
+.title {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  max-width: 16ch;
+}
+.title em {
+  font-style: italic;
+}
+.lede {
+  margin-top: var(--space-4);
+  max-width: var(--maxw-text);
+  font-size: var(--fs-body-l);
+  line-height: 1.55;
+}
+.honest {
+  margin-top: var(--space-5);
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--soft);
+  border-top: 1px solid var(--accent);
+  padding-top: var(--space-3);
+  display: inline-block;
+}
+
+/* =========================================================================
+   The pinned, turning render
+   ========================================================================= */
+.pin {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+/* base (mobile): single block. The stage is DOM-first and sticky-pins at the
+   top (component owns the sticky); content flows beneath it. .pinGrid is the
+   tall scroll track passed to the stage, and bounds the sticky travel. */
+.pinGrid {
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-9);
+  padding-top: var(--space-7);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.kicker {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  color: var(--ink);
+  max-width: 22ch;
+}
+.h2 em {
+  font-style: italic;
+}
+.body {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: var(--maxw-text);
+}
+
+.figure {
+  margin-top: var(--space-2);
+}
+.figure img {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.cap {
+  margin-top: var(--space-2);
+  font-size: var(--fs-cap);
+  color: var(--soft);
+}
+.pairGrid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* =========================================================================
+   Desktop (≥1180): two-column sticky + parallax.
+   The stage is a sticky grid item (align-self:start) in column 2, so it pins
+   within the tall content row; column 1 holds the scrolling content.
+   ========================================================================= */
+@media (min-width: 1180px) {
+  .pinGrid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    column-gap: var(--space-8);
+  }
+  .content {
+    grid-column: 1;
+    grid-row: 1;
+    padding-top: var(--space-9);
+    padding-bottom: var(--space-9);
+  }
+  .stageCol {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+  .pairGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* tablet: let the image pair sit side by side a little earlier */
+@media (min-width: 768px) and (max-width: 1179px) {
+  .pairGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================================================================
+   Close + pager
+   ========================================================================= */
+.close {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-6);
+}
+.close .body {
+  margin-top: var(--space-3);
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+.pagerLink {
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
