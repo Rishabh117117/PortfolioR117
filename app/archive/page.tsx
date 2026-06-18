@@ -1,63 +1,50 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ARCHIVE } from "@/lib/projects";
+import Image from "next/image";
+import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
+import { ARCHIVE_PROJECTS, ARCHIVE_COVER } from "@/lib/archive";
 import styles from "./archive.module.css";
 
-// Archive projects that have a built page (vs. still gallery-only placeholders).
-const LIVE_ROUTES: Record<string, string> = {
-  "stun-gun": "/archive/stun-gun",
-};
-
 export const metadata: Metadata = {
-  title: "Archive — Rishabh Salian",
+  title: "Earlier work (2019–23) — Rishabh Salian",
+  description:
+    "The original design portfolio (2019–23): seven product, UX and graphic-design projects, shown page-for-page.",
 };
 
 export default function ArchivePage() {
   return (
     <>
       <header className="container pageHeader">
-        <p className="pageEyebrow">Archive</p>
-        <h1 className="pageTitle">Earlier work (2019–23)</h1>
+        <p className="pageEyebrow">Archive · 2019–23</p>
+        <h1 className="pageTitle">Earlier work</h1>
         <p className="lede">
-          A visual gallery of seven earlier projects. Imagery is extracted from
-          the portfolio PDF in Phase 2.
+          The original design portfolio — product, UX and graphic-design work
+          from 2019–23 — shown exactly as it was presented, page for page. Open a
+          project to read it slide by slide.
         </p>
       </header>
 
+      {/* the real portfolio cover */}
+      <section className="container">
+        <figure className={styles.cover}>
+          <Image
+            src={ARCHIVE_COVER.src}
+            alt="Cover of Rishabh Salian's design portfolio (2019–23)"
+            width={ARCHIVE_COVER.w}
+            height={ARCHIVE_COVER.h}
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            priority
+          />
+          <figcaption className={`cap ${styles.coverCap}`}>
+            The original portfolio cover
+          </figcaption>
+        </figure>
+      </section>
+
       <section className="container section">
         <ul className={styles.grid}>
-          {ARCHIVE.map((p) => {
-            const href = LIVE_ROUTES[p.slug];
-            const inner = (
-              <>
-                {/* Imagery placeholder — extracted from PDF in Phase 2. */}
-                <div
-                  className={styles.thumb}
-                  style={{ borderColor: p.accent }}
-                  aria-hidden="true"
-                >
-                  <span className="cap">
-                    {href ? "View piece →" : "Image — Phase 2"}
-                  </span>
-                </div>
-                <h2 className={styles.name}>{p.name}</h2>
-                <p className={`mono ${styles.meta}`}>
-                  {p.year} · {p.discipline}
-                </p>
-              </>
-            );
-            return (
-              <li key={p.slug} className={styles.card}>
-                {href ? (
-                  <Link href={href} className={styles.cardLink}>
-                    {inner}
-                  </Link>
-                ) : (
-                  inner
-                )}
-              </li>
-            );
-          })}
+          {ARCHIVE_PROJECTS.map((p) => (
+            <ArchiveCard key={p.slug} project={p} />
+          ))}
         </ul>
       </section>
     </>

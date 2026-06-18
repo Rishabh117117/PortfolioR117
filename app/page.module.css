@@ -120,40 +120,25 @@
   }
 }
 
-/* earlier-work teaser card */
-.teaser {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  justify-content: center;
-  padding: var(--space-5);
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  background: transparent;
-  color: inherit;
+/* earlier-work section (real portfolio thumbnails, linking straight to projects) */
+.earlierSection {
+  border-top: 1px solid var(--line);
 }
-.teaser:hover {
-  text-decoration: none;
+.earlierGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
 }
-@media (hover: hover) {
-  .teaser:hover {
-    border-color: var(--soft);
-    background: var(--card);
-    transition:
-      background var(--t-fast) var(--e-snappy),
-      border-color var(--t-fast) var(--e-snappy);
+@media (min-width: 768px) {
+  .earlierGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
-.teaserMeta {
-  font-size: var(--fs-cap);
-  color: var(--soft);
-  letter-spacing: 0.02em;
-}
-.teaserTitle {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-h3);
-  color: var(--ink);
+@media (min-width: 1180px) {
+  .earlierGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .demoWrap {

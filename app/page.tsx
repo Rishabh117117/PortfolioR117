@@ -1,7 +1,9 @@
 import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
 import { FLAGSHIPS } from "@/lib/projects";
+import { ARCHIVE_PROJECTS } from "@/lib/archive";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -86,16 +88,6 @@ export default function Home() {
                 featured={p.featured}
               />
             ))}
-
-            {/* earlier-work teaser */}
-            <Link href="/archive" className={styles.teaser}>
-              <span className={`mono ${styles.teaserMeta}`}>2019–23 · archive</span>
-              <span className={styles.teaserTitle}>Earlier work →</span>
-              <span className="cap">
-                Seven case studies: VSG, OBC, BEST, Music Rooms, YAAP, Stun Gun,
-                Lotus Heater.
-              </span>
-            </Link>
           </div>
 
           {/* ONE example DemoCallout instance near the Follow card (§6.3) */}
@@ -110,6 +102,23 @@ export default function Home() {
               accent="#1C39BB"
             />
           </div>
+        </div>
+      </section>
+
+      {/* ================= EARLIER WORK (real portfolio thumbnails) ================= */}
+      <section className={`section ${styles.earlierSection}`}>
+        <div className="container">
+          <div className={styles.sectionHead}>
+            <h2 className={styles.h2}>Earlier work · 2019–23</h2>
+            <Link href="/archive" className={`mono ${styles.seeAll}`}>
+              Open the full portfolio →
+            </Link>
+          </div>
+          <ul className={styles.earlierGrid}>
+            {ARCHIVE_PROJECTS.map((p) => (
+              <ArchiveCard key={p.slug} project={p} />
+            ))}
+          </ul>
         </div>
       </section>
 
