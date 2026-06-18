@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PosterWidget from "@/components/PosterWidget/PosterWidget";
+import WorkshopDeck from "@/components/WorkshopDeck/WorkshopDeck";
 import WorkshopHarness from "@/components/WorkshopHarness/WorkshopHarness";
 import Motion from "./Motion";
 import styles from "./housing-works.module.css";
@@ -201,36 +202,150 @@ export default function HousingWorksPage() {
         </div>
       </section>
 
-      {/* ============ SCENE 5 — POSTER WIDGET ============ */}
+      {/* ============ WORKSHOP 01 — GEN Z POSTER SURVEY ============ */}
       <section className={`${styles.scene} ${styles.band}`}>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>Interactive · the poster survey</p>
-          <PosterWidget />
+          <p className={`mono ${styles.kicker}`}>Workshop 01 · the Gen Z poster survey</p>
 
-          <div className={styles.surveyAside}>
-            <p className={`mono ${styles.subKicker}`}>
-              The provocative stat posters that drew people in
-            </p>
-            <div className={styles.surveyGrid}>
-              <img className={styles.surveyPhoto} src={`${IMG}/survey-1.jpg`} alt="Campus survey poster: “46% of Gen Z feel misunderstood by Gen X’s old-school mindset.”" loading="lazy" width="900" height="1200" />
-              <img className={styles.surveyPhoto} src={`${IMG}/survey-2.jpg`} alt="Campus survey poster: “Gen Z will make up 30% of the workforce by 2030.”" loading="lazy" width="900" height="1200" />
-              <img className={styles.surveyPhoto} src={`${IMG}/survey-3.jpg`} alt="Campus survey poster comparing average non-profit and for-profit salaries." loading="lazy" width="900" height="1200" />
+          <div className={styles.wsSplit}>
+            <div className={styles.wsText}>
+              <h2 className={styles.wsHeading}>
+                We asked Gen Z directly — in their own space.
+              </h2>
+              <p className={styles.body}>
+                Rather than guess what younger workers want, we ran a
+                participatory poster survey across three New School campuses — the
+                University Center, the List Center, and the NSSR Library. Each
+                board led with a provocative statistic and one open question;
+                passersby wrote or drew straight onto a sticky-note grid.
+              </p>
+              <p className={styles.body}>
+                Over about two weeks we gathered roughly 127 responses — and the
+                posters that named “Gen Z” out loud drew the most, proof that the
+                framing itself pulled people in.
+              </p>
+              <img
+                className={styles.wsContext}
+                src={`${IMG}/campus-context.jpg`}
+                alt="Survey posters installed along a New School corridor."
+                loading="lazy"
+                width="1200"
+                height="1600"
+              />
             </div>
+
+            <div className={styles.wsDeck}>
+              <WorkshopDeck />
+            </div>
+          </div>
+
+          <p className={`cap ${styles.deckNote}`}>
+            The cards show the real posters; the quotes are real responses, lightly
+            trimmed for length.
+          </p>
+
+          {/* the working interactive — try the method yourself */}
+          <div className={styles.tryIt}>
+            <p className={`mono ${styles.subKicker}`}>
+              Try the work-modality poster yourself
+            </p>
+            <PosterWidget />
           </div>
         </div>
       </section>
 
-      {/* ============ SCENE 6 — DIVIDER (workshop board) ============ */}
-      <section className={`${styles.photo} ${styles.divider}`}>
-        <div
-          className="hw-bg"
-          data-par="-0.14"
-          aria-hidden="true"
-          style={{ backgroundImage: `url(${IMG}/divider-workshop.jpg)` }}
-        />
-        <div className={styles.scrim} aria-hidden="true" />
-        <div className={styles.dividerInner}>
-          <h2 className={styles.dividerTitle}>Bridges and Barriers workshop.</h2>
+      {/* ============ WORKSHOP 02 — BRIDGES AND BARRIERS ============ */}
+      <section className={styles.scene}>
+        <div className={`${styles.wrapWide} hw-reveal`}>
+          <p className={`mono ${styles.kicker}`}>Workshop 02 · Bridges and Barriers</p>
+          <h2 className={styles.wsHeading}>Mapping the bridges and the barriers.</h2>
+
+          <div className={styles.bridgesText}>
+            <p className={styles.body}>
+              In a sixty-minute in-person workshop, we sat six Gen Z students down
+              to map the workplace from the ground up. On a four-level tree —
+              volunteers at the roots, staff on the trunk, managers on the
+              branches, leaders in the canopy — they marked the barriers younger
+              staff hit, then the “bridges” that could carry them over.
+            </p>
+            <p className={styles.body}>
+              Every proposed fix went onto an effort-versus-engagement matrix, so
+              the high-impact, low-effort moves rose to the top. Recognition kept
+              beating pay — “it’s not even just about the pay, it’s about being
+              acknowledged” — unclear career paths came up again and again, and
+              even a TV in the break room landed as an easy win.
+            </p>
+            <p className={styles.body}>
+              Those signals fed straight into our findings and proposals —
+              especially the trustee-led workshops, where participants ranked clear
+              career paths and mentorship as what would keep them.
+            </p>
+          </div>
+
+          <figure className={styles.bridgesLead}>
+            <img
+              src={`${IMG}/bridges-matrix.jpg`}
+              alt="The effort-versus-engagement matrix covered in sticky notes."
+              loading="lazy"
+              width="1050"
+              height="1400"
+            />
+            <figcaption className={`mono ${styles.gCap}`}>
+              Effort × engagement — plotting every fix by impact.
+            </figcaption>
+          </figure>
+
+          <div className={styles.bridgesMasonry}>
+            <figure className={styles.gItem}>
+              <img
+                src={`${IMG}/bridges-place.jpg`}
+                alt="A participant placing notes on the board."
+                loading="lazy"
+                width="975"
+                height="1300"
+              />
+              <figcaption className={`mono ${styles.gCap}`}>Marking barriers, live.</figcaption>
+            </figure>
+            <figure className={styles.gItem}>
+              <img
+                src={`${IMG}/bridges-tree.jpg`}
+                alt="The four-level tree diagram with notes attached."
+                loading="lazy"
+                width="1050"
+                height="1400"
+              />
+              <figcaption className={`mono ${styles.gCap}`}>
+                Volunteers → staff → managers → leaders.
+              </figcaption>
+            </figure>
+            <figure className={styles.gItem}>
+              <img
+                src={`${IMG}/bridges-room.jpg`}
+                alt="The workshop in session."
+                loading="lazy"
+                width="1500"
+                height="1125"
+              />
+            </figure>
+            <figure className={styles.gItem}>
+              <img
+                src={`${IMG}/bridges-table.jpg`}
+                alt="Participants working around the table."
+                loading="lazy"
+                width="1500"
+                height="1125"
+              />
+            </figure>
+            <figure className={styles.gItem}>
+              <img
+                src={`${IMG}/bridges-tree-clean.jpg`}
+                alt="The blank four-level tree framework before the exercise."
+                loading="lazy"
+                width="900"
+                height="1200"
+              />
+            </figure>
+          </div>
         </div>
       </section>
 

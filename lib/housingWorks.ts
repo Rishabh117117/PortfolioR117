@@ -214,3 +214,69 @@ export const HARNESS_FOOTNOTE_FALLBACK =
   "This is a canned example, not live model output. Trustees, staff needs, and outcomes are illustrative stand-ins for private Housing Works data.";
 export const POSTER_FOOTNOTE =
   "A recreation of the participatory poster survey run at The New School, spring 2025. Real study results shown; your response is illustrative and not stored.";
+
+// ---- Gen Z poster deck (real posters + real responses) ----------------------
+// The six provocative stat posters run across The New School campus, spring 2025.
+// Stats are the on-poster headlines; responses are verbatim (lightly trimmed)
+// from the campus poster transcript — clean, representative entries only.
+export type PosterCard = {
+  id: string;
+  img: string; // file in /images/housing-works/
+  stat: string;
+  statText: string;
+  question: string;
+  response: string;
+};
+
+export const POSTER_DECK: PosterCard[] = [
+  {
+    id: "misunderstood",
+    img: "deck-1.jpg",
+    stat: "46%",
+    statText: "of Gen Z feel misunderstood by Gen X’s old-school mindset",
+    question:
+      "What challenges do you face working with older generations, like Gen X?",
+    response:
+      "Dealing with Gen X’s commitment to tradition instead of ways that are different — and arguably healthier.",
+  },
+  {
+    id: "volunteer",
+    img: "deck-2.jpg",
+    stat: "56%",
+    statText: "volunteer for meaning",
+    question: "What core values drive you to volunteer, and where?",
+    response: "The organizations have the same values as mine: help others.",
+  },
+  {
+    id: "workforce",
+    img: "deck-3.jpg",
+    stat: "30%",
+    statText: "of the workforce will be Gen Z by 2030",
+    question: "What core values drive your decisions when choosing where to work?",
+    response: "Work-life balance — space to grow without trading your health or peace.",
+  },
+  {
+    id: "participate",
+    img: "deck-4.jpg",
+    stat: "3 in 10",
+    statText: "U.S. employees actively participate in workplace activities",
+    question: "What makes you proactively engage in workplace activities?",
+    response: "I should be able to relate to it — and it should involve something fun.",
+  },
+  {
+    id: "salary",
+    img: "deck-5.jpg",
+    stat: "$48K / $57K",
+    statText: "average nonprofit vs for-profit salary",
+    question: "Which type of organization would you choose to work for, and why?",
+    response: "Non-profit, because they create stronger communities.",
+  },
+  {
+    id: "hybrid",
+    img: "deck-6.jpg",
+    stat: "72%",
+    statText: "of Gen Z prefer hybrid (vs 16% remote · 12% in-person)",
+    question: "How do you prefer to work — online, in person, or a mix?",
+    response: "Hybrid work for life: no micromanagement = freedom to work.",
+  },
+];

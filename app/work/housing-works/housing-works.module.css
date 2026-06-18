@@ -124,6 +124,91 @@
   display: block;
   border-radius: var(--radius-sm);
 }
+
+/* =========================================================================
+   Dedicated workshop sections (Gen Z poster survey · Bridges & Barriers)
+   ========================================================================= */
+.wsHeading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 4.4vw, 36px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+/* Gen Z: explainer | swipeable deck */
+.wsSplit {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+}
+.wsText {
+  min-width: 0;
+}
+.wsContext {
+  margin-top: var(--space-5);
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-sm);
+}
+.wsDeck {
+  min-width: 0;
+}
+.deckNote {
+  margin-top: var(--space-5);
+}
+.tryIt {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+/* Bridges: text + varied-size picture gallery */
+.bridgesText {
+  margin-top: var(--space-4);
+  max-width: 64ch;
+}
+.bridgesLead {
+  margin: var(--space-7) 0 0;
+}
+.bridgesLead img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius);
+}
+.gCap {
+  margin-top: var(--space-2);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.bridgesMasonry {
+  margin-top: var(--space-5);
+  column-count: 2;
+  column-gap: var(--space-4);
+}
+.gItem {
+  margin: 0 0 var(--space-4);
+  break-inside: avoid;
+}
+.gItem img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+}
 .lede {
   font-family: var(--font-body);
   font-size: clamp(29px, 5.6vw, 48px);
@@ -443,5 +528,21 @@
   }
   .dataInner {
     grid-template-columns: repeat(4, 1fr);
+  }
+  .bridgesMasonry {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 900px) {
+  .wsSplit {
+    grid-template-columns: 1fr minmax(320px, 400px);
+    gap: var(--space-7);
+    align-items: start;
+  }
+  /* keep the deck in view while the explainer scrolls past on desktop */
+  .wsDeck {
+    position: sticky;
+    top: var(--space-6);
   }
 }

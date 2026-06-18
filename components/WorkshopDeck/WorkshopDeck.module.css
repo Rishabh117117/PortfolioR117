@@ -1,0 +1,156 @@
+/* Swipeable rotating card deck (Gen Z poster survey). The user explicitly asked
+   for a card view, so cards carry a surface + soft shadow to convey the stack —
+   a deliberate, contained exception to the page's borderless rule. */
+.deck {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+  height: clamp(480px, 122vw, 560px);
+  touch-action: pan-y; /* allow vertical page scroll; we handle horizontal */
+  outline: none;
+}
+.stage:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: var(--radius-lg);
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(26, 26, 26, 0.08),
+    0 18px 40px -18px rgba(26, 26, 26, 0.45);
+  cursor: grab;
+  user-select: none;
+  will-change: transform, opacity;
+}
+.grabbing {
+  cursor: grabbing;
+}
+.cardImg {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  object-fit: cover;
+  object-position: center top;
+  pointer-events: none;
+}
+.cardCap {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-4);
+  background: var(--card);
+}
+.cardQ {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--soft);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cardStat {
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+.cardStatNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.cardResp {
+  font-style: italic;
+  font-size: var(--fs-cap);
+  line-height: 1.45;
+  color: var(--ink-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---- controls ---- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background var(--t-fast) var(--e-snappy),
+    color var(--t-fast) var(--e-snappy);
+}
+@media (hover: hover) {
+  .navBtn:hover {
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+}
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fill);
+  cursor: pointer;
+  transition:
+    transform var(--t-fast) var(--e-snappy),
+    background var(--t-fast) var(--e-snappy);
+}
+.dotOn {
+  background: var(--accent);
+  transform: scale(1.35);
+}
+.counter {
+  text-align: center;
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    will-change: auto;
+  }
+}
