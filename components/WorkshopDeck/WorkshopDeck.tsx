@@ -21,10 +21,17 @@ export default function WorkshopDeck() {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
-    reduce.current =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    return () => timers.current.forEach(clearTimeout);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    reduce.current = mq.matches;
+    const onChange = (e: MediaQueryListEvent) => {
+      reduce.current = e.matches;
+    };
+    mq.addEventListener("change", onChange);
+    const t = timers.current;
+    return () => {
+      mq.removeEventListener("change", onChange);
+      t.forEach(clearTimeout);
+    };
   }, []);
 
   const commit = useCallback(
@@ -103,8 +110,8 @@ export default function WorkshopDeck() {
             transform = `translateX(${exit * 130}%) rotate(${exit * 7}deg)`;
             opacity = 0;
           } else if (isFront) {
-            const drag = dragging.current ? dx : exit === 0 ? dx : 0;
-            transform = `translateX(${drag}px) rotate(${drag * 0.04}deg)`;
+            // only reached when exit === 0 (the exit branch returns above)
+            transform = `translateX(${dx}px) rotate(${dx * 0.04}deg)`;
           } else {
             // peek behind: shifted right + down, scaled down
             transform = `translate(${r * 16}px, ${r * 12}px) scale(${1 - r * 0.05})`;
@@ -164,13 +171,12 @@ export default function WorkshopDeck() {
         >
           ←
         </button>
-        <div className={styles.dots} role="tablist" aria-label="Choose a poster">
+        <div className={styles.dots} role="group" aria-label="Choose a poster">
           {cards.map((card, i) => (
             <button
               key={card.id}
               type="button"
-              role="tab"
-              aria-selected={i === active}
+              aria-current={i === active ? "true" : undefined}
               aria-label={`Poster ${i + 1}: ${card.stat}`}
               className={`${styles.dot} ${i === active ? styles.dotOn : ""}`}
               onClick={() => {
@@ -192,8 +198,11 @@ export default function WorkshopDeck() {
         </button>
       </div>
 
-      <p className={`mono ${styles.counter}`} aria-live="polite">
-        {active + 1} / {n} · swipe or tap →
+      <p className={`mono ${styles.counter}`}>
+        <span aria-live="polite">
+          {active + 1} / {n}
+        </span>
+        <span aria-hidden="true"> · swipe or tap →</span>
       </p>
     </div>
   );

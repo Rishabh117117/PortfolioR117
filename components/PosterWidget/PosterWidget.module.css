@@ -105,7 +105,7 @@
   transform: translateX(-50%) rotate(2deg);
   width: 46px;
   height: 14px;
-  background: rgba(192, 38, 59, 0.18);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 @keyframes stickIn {
   from {

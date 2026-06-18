@@ -271,9 +271,10 @@ export default function HousingWorksPage() {
             <p className={styles.body}>
               Every proposed fix went onto an effort-versus-engagement matrix, so
               the high-impact, low-effort moves rose to the top. Recognition kept
-              beating pay — “it’s not even just about the pay, it’s about being
-              acknowledged” — unclear career paths came up again and again, and
-              even a TV in the break room landed as an easy win.
+              beating pay — as one participant put it, “It’s not even just about
+              the pay. It’s also about being acknowledged.” Unclear career paths
+              came up again and again, and even a TV in the break room landed as
+              an easy win.
             </p>
             <p className={styles.body}>
               Those signals fed straight into our findings and proposals —
@@ -406,7 +407,7 @@ export default function HousingWorksPage() {
                 </h3>
                 <p className={styles.body}>
                   Staff wanted to be acknowledged, not only paid. As one put it:
-                  “It’s not even just about the pay. It’s about being
+                  “It’s not even just about the pay. It’s also about being
                   acknowledged.”
                 </p>
               </div>

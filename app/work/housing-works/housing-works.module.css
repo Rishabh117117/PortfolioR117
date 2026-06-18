@@ -97,32 +97,12 @@
   color: rgba(244, 242, 236, 0.66);
 }
 
-/* =========================================================================
-   Survey-posters grid (inside the poster scene) — contained support images
-   ========================================================================= */
-.surveyAside {
-  margin-top: var(--space-7);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
+/* sub-kicker used inside the "try it yourself" block of the Gen Z section */
 .subKicker {
   font-size: var(--fs-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--soft);
-}
-.surveyGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-}
-.surveyPhoto {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  display: block;
-  border-radius: var(--radius-sm);
 }
 
 /* =========================================================================
@@ -319,15 +299,6 @@
   text-shadow: 0 1px 22px rgba(0, 0, 0, 0.55);
 }
 
-/* placeholder caption inside photo scenes — delete when the real frame lands */
-.slotTag {
-  margin-top: var(--space-4);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(244, 242, 236, 0.62);
-}
-
 /* =========================================================================
    Scene 1 + footer ribbon line-draw
    ========================================================================= */
@@ -365,7 +336,7 @@
   align-items: start;
 }
 .passNo {
-  font-size: 13px;
+  font-size: var(--fs-cap);
   letter-spacing: 0.08em;
   color: var(--accent);
   padding-top: 4px;
@@ -417,7 +388,7 @@
   gap: var(--space-3);
 }
 .findingNo {
-  font-size: 13px;
+  font-size: var(--fs-cap);
   letter-spacing: 0.08em;
   color: var(--accent);
   font-weight: 500;
