@@ -9,6 +9,23 @@
   /* full-bleed children manage their own width; type scenes center an inner
      reading column. The page root spans the full main width. */
   overflow-x: clip;
+  /* World AIDS Day gradient — the signature multi-color rule, reused across
+     section kickers; --pink is its lead colour, used as a sparing typo accent. */
+  --wad-gradient: linear-gradient(90deg, #e8568f 0%, #f08a3c 52%, #2bb3a3 100%);
+  --pink: #e8568f;
+}
+
+/* signature gradient rule above every section kicker */
+.kicker::before,
+.subKicker::before,
+.wsHeroKicker::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--wad-gradient);
+  margin-bottom: var(--space-3);
 }
 
 /* ---------- shared type scene ---------- */
@@ -48,17 +65,27 @@
 .gridScene {
   padding-block: clamp(48px, 9vw, 90px);
 }
+/* bento — a fusion of square boxes and wide rectangles, contained + smaller */
 .sitesGrid {
   margin-top: var(--space-5);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
+  grid-auto-rows: clamp(94px, 26vw, 150px);
+  gap: var(--space-2);
 }
 .sitePhoto {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: var(--radius-sm);
+}
+.sBig {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.sWide {
+  grid-column: 1 / -1;
 }
 
 /* =========================================================================
@@ -88,7 +115,7 @@
   font-size: clamp(44px, 10vw, 72px);
   line-height: 0.95;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--pink);
 }
 .statLabel {
   font-size: var(--fs-label);
@@ -119,75 +146,104 @@
   text-wrap: balance;
 }
 
-/* Gen Z: explainer | swipeable deck */
-.wsSplit {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  margin-top: var(--space-5);
+/* Gen Z workshop — photo-overlay intro (same treatment as the hero) over the
+   image of where the posters were placed, with the explainer on top. */
+.wsHero {
+  align-items: center;
+  min-height: 62svh;
 }
-.wsText {
-  min-width: 0;
-}
-.wsContext {
-  margin-top: var(--space-5);
+.wsHeroInner {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  display: block;
-  border-radius: var(--radius-sm);
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding: clamp(56px, 11vw, 104px) var(--page-pad);
 }
-.wsDeck {
-  min-width: 0;
+.wsHeroKicker {
+  font-size: clamp(11px, 1.4vw, 12px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.85);
+}
+.wsHeroTitle {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 5.4vw, 48px);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #fff;
+  max-width: 18ch;
+  text-wrap: balance;
+  text-shadow: 0 1px 22px rgba(0, 0, 0, 0.5);
+}
+.wsHeroText {
+  margin-top: var(--space-4);
+  font-size: clamp(15px, 2.1vw, 18px);
+  line-height: 1.55;
+  color: rgba(244, 242, 236, 0.92);
+  max-width: 58ch;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+}
+/* heavier scrim for legibility of body copy over the bright corridor photo */
+.scrimStrong {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 14, 14, 0.5) 0%,
+    rgba(18, 14, 14, 0.62) 55%,
+    rgba(18, 14, 14, 0.72) 100%
+  );
+}
+/* the floating card carousel + closing insight — full-bleed strip */
+.deckWrap {
+  margin-block: var(--space-5) var(--space-7);
 }
 .deckNote {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
+  text-align: center;
 }
-.tryIt {
+.insight {
   margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+.insightText {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--line);
+}
+.insightText .body {
+  margin-top: 0;
+}
+.insightPoster {
+  min-width: 0;
 }
 
-/* Bridges: text + varied-size picture gallery */
+/* Bridges intro copy (the gallery itself lives in components/BridgesGallery) */
 .bridgesText {
   margin-top: var(--space-4);
   max-width: 64ch;
 }
-.bridgesLead {
-  margin: var(--space-7) 0 0;
+/* small transition insight that leads into "What we found" */
+.bridgesOutro {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 36ch;
 }
-.bridgesLead img {
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  display: block;
-  border-radius: var(--radius);
-}
-.gCap {
-  margin-top: var(--space-2);
-  font-size: var(--fs-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--soft);
-}
-.bridgesMasonry {
-  margin-top: var(--space-5);
-  column-count: 2;
-  column-gap: var(--space-4);
-}
-.gItem {
-  margin: 0 0 var(--space-4);
-  break-inside: avoid;
-}
-.gItem img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--radius-sm);
+.bridgesOutroText {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(20px, 3.6vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
 }
 .lede {
   font-family: var(--font-body);
@@ -264,6 +320,10 @@
   max-width: 18ch;
   text-wrap: balance;
   text-shadow: 0 1px 22px rgba(0, 0, 0, 0.5);
+}
+.title em {
+  font-style: normal;
+  color: var(--pink);
 }
 .heroSub {
   margin-top: var(--space-5);
@@ -495,25 +555,19 @@
     max-width: 440px;
   }
   .sitesGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: clamp(108px, 12vw, 150px);
   }
   .dataInner {
     grid-template-columns: repeat(4, 1fr);
   }
-  .bridgesMasonry {
-    column-count: 3;
-  }
 }
 
 @media (min-width: 900px) {
-  .wsSplit {
-    grid-template-columns: 1fr minmax(320px, 400px);
+  /* final insight: text beside the poster view */
+  .insight {
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-7);
     align-items: start;
-  }
-  /* keep the deck in view while the explainer scrolls past on desktop */
-  .wsDeck {
-    position: sticky;
-    top: var(--space-6);
   }
 }

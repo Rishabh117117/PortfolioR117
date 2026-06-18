@@ -19,9 +19,16 @@ const REAL_QUOTES = [
   "money is the motivation.",
 ];
 
-export default function PosterWidget() {
+// `revealOnly` renders the result directly (no choice chips) — used where the
+// poster is shown as a finished insight rather than an interactive prompt.
+export default function PosterWidget({
+  revealOnly = false,
+}: {
+  revealOnly?: boolean;
+}) {
   // Ephemeral only — resets on reload. No datastore, no <form>.
   const [choice, setChoice] = useState<Choice | null>(null);
+  const showReveal = revealOnly || choice !== null;
 
   return (
     <div className={styles.widget}>
@@ -34,33 +41,37 @@ export default function PosterWidget() {
           </p>
           <p className={`mono ${styles.subStat}`}>vs 16% remote · 12% in-person</p>
 
-          <p className={styles.prompt}>How do you prefer to work?</p>
+          {!revealOnly && (
+            <>
+              <p className={styles.prompt}>How do you prefer to work?</p>
 
-          <div className={styles.chips} role="group" aria-label="How do you prefer to work?">
-            {(["Hybrid", "In-person", "Remote"] as Choice[]).map((c) => (
-              <button
-                key={c}
-                type="button"
-                className={`${styles.chip} ${choice === c ? styles.chipActive : ""}`}
-                aria-pressed={choice === c}
-                onClick={() => setChoice(c)}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
+              <div className={styles.chips} role="group" aria-label="How do you prefer to work?">
+                {(["Hybrid", "In-person", "Remote"] as Choice[]).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    className={`${styles.chip} ${choice === c ? styles.chipActive : ""}`}
+                    aria-pressed={choice === c}
+                    onClick={() => setChoice(c)}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
 
-          {choice && (
-            <p className={styles.sticky} role="status">
-              <span className={styles.stickyTape} aria-hidden="true" />
-              You picked <strong>{choice}</strong>
-            </p>
+              {choice && (
+                <p className={styles.sticky} role="status">
+                  <span className={styles.stickyTape} aria-hidden="true" />
+                  You picked <strong>{choice}</strong>
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>
 
-      {/* Honest payoff — only after the visitor participates */}
-      {choice && (
+      {/* Honest payoff — the real collected result */}
+      {showReveal && (
         <div className={styles.reveal}>
           <p className={`mono ${styles.revealLabel}`}>What people actually wrote</p>
           <p className={styles.revealLede}>

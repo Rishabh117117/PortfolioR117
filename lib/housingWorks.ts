@@ -280,3 +280,60 @@ export const POSTER_DECK: PosterCard[] = [
     response: "Hybrid work for life: no micromanagement = freedom to work.",
   },
 ];
+
+// ---- Bridges & Barriers, told in the order the session ran (report pp.7,13) ----
+// gather → map barriers on a four-level tree → identify the bridges → plot every
+// fix on an effort × engagement graph → read off what will work.
+// `fit: contain` shows a chart in full inside its frame; `cover` fills for photos.
+export type BridgeStep = {
+  img: string;
+  title: string;
+  text: string;
+  alt: string;
+  fit: "cover" | "contain";
+};
+
+export const BRIDGES_STEPS: BridgeStep[] = [
+  {
+    img: "bridges-room.jpg",
+    title: "Six students, sixty minutes",
+    text: "A diverse Gen Z group — architecture, design, economics, drama; none from the nonprofit world.",
+    alt: "The workshop in session.",
+    fit: "cover",
+  },
+  {
+    img: "bridges-tree-clean.jpg",
+    title: "A four-level tree",
+    text: "The frame: volunteers at the roots, staff on the trunk, managers on the branches, leaders in the canopy.",
+    alt: "The blank four-level tree framework before the exercise.",
+    fit: "contain",
+  },
+  {
+    img: "bridges-tree.jpg",
+    title: "First, the barriers",
+    text: "What blocks younger staff, mapped onto the tree level by level.",
+    alt: "The four-level tree diagram with notes attached.",
+    fit: "contain",
+  },
+  {
+    img: "bridges-table.jpg",
+    title: "Then, the bridges",
+    text: "For each barrier, the enabler that could carry staff over it.",
+    alt: "Participants working around the table.",
+    fit: "cover",
+  },
+  {
+    img: "bridges-place.jpg",
+    title: "Onto the final graph",
+    text: "Every bridge plotted on an effort-versus-engagement matrix.",
+    alt: "A participant placing notes on the effort-versus-engagement matrix.",
+    fit: "cover",
+  },
+  {
+    img: "bridges-matrix.jpg",
+    title: "What will work",
+    text: "The payoff: high-impact, low-effort fixes rise to the top.",
+    alt: "The effort-versus-engagement matrix covered in sticky notes.",
+    fit: "contain",
+  },
+];

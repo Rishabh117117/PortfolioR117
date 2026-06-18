@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PosterWidget from "@/components/PosterWidget/PosterWidget";
 import WorkshopDeck from "@/components/WorkshopDeck/WorkshopDeck";
+import BridgesGallery from "@/components/BridgesGallery/BridgesGallery";
 import WorkshopHarness from "@/components/WorkshopHarness/WorkshopHarness";
 import Motion from "./Motion";
 import styles from "./housing-works.module.css";
@@ -69,8 +70,8 @@ export default function HousingWorksPage() {
               B. The People pillar — attracting and keeping Housing Works’ next generation
               C. A talent study for Housing Works */}
           <h1 className={styles.title}>
-            The People pillar — attracting and keeping Housing Works’ next
-            generation
+            The <em>People</em> pillar — attracting and keeping Housing Works’
+            next generation
           </h1>
           <p className={styles.heroSub}>
             Housing Works runs on a three-year strategic plan with three focus
@@ -165,18 +166,18 @@ export default function HousingWorksPage() {
         </div>
       </section>
 
-      {/* ============ SCENE 4a — SITE VISITS (photo grid) ============ */}
+      {/* ============ SCENE 4a — SITE VISITS (bento photo grid) ============ */}
       <section className={styles.gridScene}>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>From the site visits</p>
-        </div>
-        <div className={styles.sitesGrid}>
-          <img className={styles.sitePhoto} src={`${IMG}/site-1.jpg`} alt="Inside a Housing Works thrift store." loading="lazy" width="1200" height="900" />
-          <img className={styles.sitePhoto} src={`${IMG}/site-2.jpg`} alt="Shoes and accessories on the retail floor." loading="lazy" width="1200" height="900" />
-          <img className={styles.sitePhoto} src={`${IMG}/site-3.jpg`} alt="The thrift-store shop floor." loading="lazy" width="1200" height="900" />
-          <img className={styles.sitePhoto} src={`${IMG}/site-4.jpg`} alt="Housewares and glassware on the shelves." loading="lazy" width="1200" height="900" />
-          <img className={styles.sitePhoto} src={`${IMG}/site-5.jpg`} alt="The Housing Works bookstore shelves." loading="lazy" width="1200" height="900" />
-          <img className={styles.sitePhoto} src={`${IMG}/site-6.jpg`} alt="A seating area in store." loading="lazy" width="1200" height="900" />
+          <div className={styles.sitesGrid}>
+            <img className={`${styles.sitePhoto} ${styles.sBig}`} src={`${IMG}/site-1.jpg`} alt="Inside a Housing Works thrift store." loading="lazy" width="1200" height="900" />
+            <img className={styles.sitePhoto} src={`${IMG}/site-2.jpg`} alt="Shoes and accessories on the retail floor." loading="lazy" width="1200" height="900" />
+            <img className={styles.sitePhoto} src={`${IMG}/site-3.jpg`} alt="The thrift-store shop floor." loading="lazy" width="1200" height="900" />
+            <img className={styles.sitePhoto} src={`${IMG}/site-4.jpg`} alt="Housewares and glassware on the shelves." loading="lazy" width="1200" height="900" />
+            <img className={styles.sitePhoto} src={`${IMG}/site-5.jpg`} alt="The Housing Works bookstore shelves." loading="lazy" width="1200" height="900" />
+            <img className={`${styles.sitePhoto} ${styles.sWide}`} src={`${IMG}/site-6.jpg`} alt="A seating area in store." loading="lazy" width="1200" height="900" />
+          </div>
         </div>
       </section>
 
@@ -202,54 +203,71 @@ export default function HousingWorksPage() {
         </div>
       </section>
 
-      {/* ============ WORKSHOP 01 — GEN Z POSTER SURVEY ============ */}
+      {/* ===== WORKSHOP 01 — GEN Z POSTER SURVEY: photo-overlay intro ===== */}
+      <section className={`${styles.photo} ${styles.wsHero}`}>
+        <div
+          className="hw-bg"
+          data-par="-0.10"
+          aria-hidden="true"
+          style={{ backgroundImage: `url(${IMG}/campus-context.jpg)` }}
+        />
+        <div className={`${styles.scrim} ${styles.scrimStrong}`} aria-hidden="true" />
+        <div className={styles.wsHeroInner}>
+          <p className={`mono ${styles.wsHeroKicker}`}>
+            Workshop 01 · the Gen Z poster survey
+          </p>
+          <h2 className={styles.wsHeroTitle}>
+            We asked Gen Z directly — in their own space.
+          </h2>
+          <p className={styles.wsHeroText}>
+            Rather than guess what younger workers want, we ran a participatory
+            poster survey across three New School campuses — the University
+            Center, the List Center, and the NSSR Library. Each board led with a
+            provocative statistic and one open question; passersby wrote or drew
+            straight onto a sticky-note grid.
+          </p>
+          <p className={styles.wsHeroText}>
+            Over about two weeks we gathered roughly 127 responses — and the
+            posters that named “Gen Z” out loud drew the most, proof that the
+            framing itself pulled people in.
+          </p>
+        </div>
+      </section>
+
+      {/* the posters (floating card carousel) + the closing insight */}
       <section className={`${styles.scene} ${styles.band}`}>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>Workshop 01 · the Gen Z poster survey</p>
+          <p className={`mono ${styles.subKicker}`}>The posters — moving through all six</p>
+        </div>
 
-          <div className={styles.wsSplit}>
-            <div className={styles.wsText}>
-              <h2 className={styles.wsHeading}>
-                We asked Gen Z directly — in their own space.
-              </h2>
-              <p className={styles.body}>
-                Rather than guess what younger workers want, we ran a
-                participatory poster survey across three New School campuses — the
-                University Center, the List Center, and the NSSR Library. Each
-                board led with a provocative statistic and one open question;
-                passersby wrote or drew straight onto a sticky-note grid.
-              </p>
-              <p className={styles.body}>
-                Over about two weeks we gathered roughly 127 responses — and the
-                posters that named “Gen Z” out loud drew the most, proof that the
-                framing itself pulled people in.
-              </p>
-              <img
-                className={styles.wsContext}
-                src={`${IMG}/campus-context.jpg`}
-                alt="Survey posters installed along a New School corridor."
-                loading="lazy"
-                width="1200"
-                height="1600"
-              />
-            </div>
+        {/* full-bleed moving strip — enters one edge, exits the other */}
+        <div className={styles.deckWrap}>
+          <WorkshopDeck />
+        </div>
 
-            <div className={styles.wsDeck}>
-              <WorkshopDeck />
-            </div>
-          </div>
-
+        <div className={styles.wrapWide}>
           <p className={`cap ${styles.deckNote}`}>
             The cards show the real posters; the quotes are real responses, lightly
             trimmed for length.
           </p>
 
-          {/* the working interactive — try the method yourself */}
-          <div className={styles.tryIt}>
-            <p className={`mono ${styles.subKicker}`}>
-              Try the work-modality poster yourself
-            </p>
-            <PosterWidget />
+          <div className={styles.insight}>
+            <div className={styles.insightText}>
+              <p className={`mono ${styles.subKicker}`}>The final insight</p>
+              <p className={styles.body}>
+                The provocative headline is what pulled people in — but the real
+                answers were messier, and more honest. On the work-modality
+                poster, the loud “72% prefer hybrid” settled into a closer
+                52 / 23 / 6 once people actually wrote down what they wanted.
+              </p>
+              <p className={styles.body}>
+                The gap is the point: a sharp claim earns attention, but the real
+                signal is in what people say next.
+              </p>
+            </div>
+            <div className={styles.insightPoster}>
+              <PosterWidget revealOnly />
+            </div>
           </div>
         </div>
       </section>
@@ -283,69 +301,21 @@ export default function HousingWorksPage() {
             </p>
           </div>
 
-          <figure className={styles.bridgesLead}>
-            <img
-              src={`${IMG}/bridges-matrix.jpg`}
-              alt="The effort-versus-engagement matrix covered in sticky notes."
-              loading="lazy"
-              width="1050"
-              height="1400"
-            />
-            <figcaption className={`mono ${styles.gCap}`}>
-              Effort × engagement — plotting every fix by impact.
-            </figcaption>
-          </figure>
+          <p className={`mono ${styles.subKicker}`}>
+            How the session unfolded — tap a frame to enlarge
+          </p>
+        </div>
 
-          <div className={styles.bridgesMasonry}>
-            <figure className={styles.gItem}>
-              <img
-                src={`${IMG}/bridges-place.jpg`}
-                alt="A participant placing notes on the board."
-                loading="lazy"
-                width="975"
-                height="1300"
-              />
-              <figcaption className={`mono ${styles.gCap}`}>Marking barriers, live.</figcaption>
-            </figure>
-            <figure className={styles.gItem}>
-              <img
-                src={`${IMG}/bridges-tree.jpg`}
-                alt="The four-level tree diagram with notes attached."
-                loading="lazy"
-                width="1050"
-                height="1400"
-              />
-              <figcaption className={`mono ${styles.gCap}`}>
-                Volunteers → staff → managers → leaders.
-              </figcaption>
-            </figure>
-            <figure className={styles.gItem}>
-              <img
-                src={`${IMG}/bridges-room.jpg`}
-                alt="The workshop in session."
-                loading="lazy"
-                width="1500"
-                height="1125"
-              />
-            </figure>
-            <figure className={styles.gItem}>
-              <img
-                src={`${IMG}/bridges-table.jpg`}
-                alt="Participants working around the table."
-                loading="lazy"
-                width="1500"
-                height="1125"
-              />
-            </figure>
-            <figure className={styles.gItem}>
-              <img
-                src={`${IMG}/bridges-tree-clean.jpg`}
-                alt="The blank four-level tree framework before the exercise."
-                loading="lazy"
-                width="900"
-                height="1200"
-              />
-            </figure>
+        {/* all six steps on one screen — vertical-rectangle cards, click to zoom */}
+        <BridgesGallery />
+
+        <div className={styles.wrapWide}>
+          <div className={styles.bridgesOutro}>
+            <p className={`mono ${styles.subKicker}`}>What it pointed to</p>
+            <p className={styles.bridgesOutroText}>
+              Two workshops, the same signals — we clustered what we heard into the
+              four findings below.
+            </p>
           </div>
         </div>
       </section>
