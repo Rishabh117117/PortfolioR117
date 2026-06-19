@@ -90,16 +90,19 @@ export default function Home() {
             ))}
           </div>
 
-          {/* ONE example DemoCallout instance near the Follow card (§6.3) */}
+          {/* ONE example DemoCallout instance near the Follow card (§6.3).
+              Kept in sync with the Follow page + projects.ts (D-03): SIMULATED
+              badge, burnt-orange accent. The link goes to the Follow case study,
+              whose on-page artifact is the illustrative pipeline reel. */}
           <div className={styles.demoWrap}>
             <DemoCallout
               name="Follow"
-              status="WORKING"
-              title="Team-memory sandbox"
-              body="Paste a few chats, watch a live knowledge graph form, then query it and get answers with provenance. A working prototype — labeled honestly."
-              buttonLabel="Open the Follow demo"
+              status="SIMULATED"
+              title="See how the pipeline works"
+              body="Walk the Follow case study: the scroll-driven pipeline reel, the research, and the two pivots to a shared team-memory layer. The on-page animation is illustrative; the live MCP product connects to your real AI tools."
+              buttonLabel="Open the Follow case study"
               href="/work/follow"
-              accent="#1C39BB"
+              accent="#C2410C"
             />
           </div>
         </div>
