@@ -17,8 +17,12 @@ export const FLAGSHIPS: Project[] = [
     slug: "follow",
     year: "2025–26",
     discipline: "Systems · AI",
-    accent: "#1C39BB",
-    status: "WORKING",
+    // §4.4 — burnt orange, matching the bespoke /work/follow page + capstone deck
+    // (was Persian Blue #1C39BB). status SIMULATED per D-03 (the on-page artifact
+    // is an illustrative scroll animation; the sandbox isn't built) — must stay in
+    // sync with the page's DemoCallout and the home-page callout.
+    accent: "#C2410C",
+    status: "SIMULATED",
     featured: true,
   },
   {
