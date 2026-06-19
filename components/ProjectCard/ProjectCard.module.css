@@ -1,4 +1,9 @@
 .card {
+  /* derive the light tint/wash from the card's --accent (set inline per
+     project) so the `chip accent` status tag matches the project, not the
+     global default. Mirrors the lightness of the default shell tints. */
+  --accent-tint: color-mix(in srgb, var(--accent) 7%, #fff);
+  --accent-wash: color-mix(in srgb, var(--accent) 14%, #fff);
   display: flex;
   flex-direction: column;
   overflow: hidden;
