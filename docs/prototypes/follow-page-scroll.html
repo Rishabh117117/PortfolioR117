@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Follow — Rishabh Salian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ===== portfolio shell tokens (from globals.css) ===== */
+:root{
+  --paper:#f4f2ec;--card:#fcfbf7;--line:#d9d6cd;--fill:#e7e3d8;
+  --ink:#1a1a1a;--ink-2:#2a2a28;--soft:#6b6b66;--gold:#9a7b4f;
+  /* Follow accent — burnt orange (overrides Persian Blue) */
+  --accent:#C2410C;--accent-deep:#9E340A;--accent-wash:#F7E0D4;--accent-tint:#FBEFE7;
+  --navy:#0A1F33;
+  --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --maxw-text:720px;--maxw-wide:1180px;--page-pad:22px;--radius:12px;--radius-sm:8px;--radius-lg:16px;
+  --e-snappy:cubic-bezier(.2,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink-2);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;color:var(--ink)}
+em{font-style:italic}
+a{color:var(--accent);text-decoration:none}
+.container{width:100%;max-width:var(--maxw-wide);margin-inline:auto;padding-inline:var(--page-pad)}
+.text{max-width:var(--maxw-text)}
+.section{padding-block:48px}
+@media(min-width:1180px){.section{padding-block:64px}}
+.band{background:var(--card);border-block:1px solid var(--line)}
+.mono{font-family:var(--font-mono)}
+.kicker{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.lede{font-size:clamp(15px,2.4vw,18px);line-height:1.55;color:var(--ink-2)}
+.body{margin-top:14px;color:var(--ink-2)}
+
+/* ===== nav ===== */
+.nav{border-bottom:1px solid var(--line);background:rgba(244,242,236,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:40}
+.navInner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.wordmark{font-family:var(--font-display);font-weight:600;color:var(--ink);font-size:16px}
+.navlinks{display:flex;gap:24px;list-style:none}
+.navlinks a{font-family:var(--font-mono);font-size:12.5px;color:var(--soft)}
+.navlinks a.active{color:var(--ink)}
+@media(max-width:640px){.navlinks{display:none}}
+
+/* ===== hero ===== */
+.hero{padding-top:56px;padding-bottom:8px}
+.dotsmark{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.dotsmark .dots{display:flex;gap:9px}
+.dotsmark .d{width:12px;height:12px;border-radius:50%;background:var(--navy)}
+.dotsmark .d.ai{background:transparent;border:2px solid var(--accent)}
+.dotsmark .ml{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.dotsmark .ml em{color:var(--accent);font-style:normal}
+.heroEyebrow{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.heroTitle{font-size:clamp(32px,6.4vw,56px);letter-spacing:-.03em;line-height:1.02;color:var(--ink);max-width:14ch}
+.heroTitle em{color:var(--accent)}
+.heroSub{margin-top:22px;max-width:var(--maxw-text);font-size:clamp(15px,2.4vw,19px);line-height:1.5;color:var(--ink-2)}
+
+/* ===== reel mount (scoped dark theme — does NOT touch page tokens) ===== */
+.reelHead{margin-bottom:22px}
+.reelTitle{font-size:clamp(24px,4.6vw,38px);letter-spacing:-.02em;line-height:1.05;color:var(--ink)}
+.reelTitle em{color:var(--accent)}
+.reelNote{margin-top:14px;font-family:var(--font-mono);font-size:12px;color:var(--soft);max-width:var(--maxw-text)}
+.reelMount{
+  --ink:#0A1F33;--accent:#C2410C;--glow:#E8703A;--light:#F4F2EC;
+  --maya:#6f93d6;--dev:#9fce86;--sam:#E0A458;
+  --font:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+  --e:cubic-bezier(.22,.85,.25,1);--over:cubic-bezier(.34,1.56,.64,1);
+}
+.reel{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+  background:radial-gradient(120% 95% at 46% 38%,#10304f 0%,var(--ink) 56%,#06182a 100%);
+  box-shadow:0 24px 70px rgba(10,31,51,.4)}
+.reel .vig{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 150px rgba(0,0,0,.5);z-index:6}
+.reel .stage{position:absolute;inset:0;z-index:2;transition:opacity .8s var(--e)}
+.reel.pend .stage{opacity:0}
+.reel .aura{position:absolute;left:44%;top:42%;width:46%;height:62%;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(232,112,58,.15),transparent 62%);filter:blur(24px);opacity:0;z-index:0}
+.reel.p1 .aura{animation:rbreathe 6s ease infinite}
+@keyframes rbreathe{0%,100%{opacity:.45;transform:translate(-50%,-50%) scale(1)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.1)}}
+.reel .scrub{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.1);z-index:7}
+.reel .scrub i{display:block;height:100%;width:0;background:var(--glow);animation:rscrub 17.5s linear infinite}
+@keyframes rscrub{to{width:100%}}
+.reel .canvas{position:absolute;inset:0;width:100%;height:100%}
+.reel .src{opacity:0;transform:translateX(-12px);transition:.6s var(--e)}
+.reel.p1 .src{opacity:1;transform:none}
+.reel.p1 .src.s2{transition-delay:.1s}.reel.p1 .src.s3{transition-delay:.2s}
+.reel .bub{fill:rgba(255,255,255,.06);stroke:rgba(180,205,228,.32);stroke-width:1}
+.reel .bdot{fill:rgba(244,242,236,.55)}
+.reel .src .lbl{font-family:var(--mono);font-size:10px;fill:rgba(244,242,236,.72)}
+.reel .src .ai{fill:none;stroke:var(--glow);stroke-width:1.6}
+.reel .pkt{opacity:0;transform-box:fill-box}
+.reel.p1 .pkt{opacity:1;transform:translate(var(--dx),var(--dy));transition:transform 1.1s var(--e),opacity .4s var(--e)}
+.reel .nd{opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;transition:opacity .5s var(--e),transform .55s var(--over)}
+.reel.p2 .nd{opacity:1;transform:scale(1)}
+.reel .nd.dl1{transition-delay:.04s}.reel .nd.dl2{transition-delay:.09s}.reel .nd.dl3{transition-delay:.14s}.reel .nd.dl4{transition-delay:.19s}
+.reel .nd.dl5{transition-delay:.24s}.reel .nd.dl6{transition-delay:.29s}.reel .nd.dl7{transition-delay:.34s}
+.reel .ver{opacity:0;transform:scale(.8);transform-box:fill-box;transform-origin:center;transition:.6s var(--over)}
+.reel.p6 .ver{transform:scale(1)}
+.reel.p6 .ver.v1{opacity:.34}.reel.p6 .ver.v2{opacity:.16}
+.reel .verlab{font-family:var(--mono);font-size:8px;fill:rgba(244,242,236,.55);opacity:0;transition:.5s var(--e) .2s}
+.reel.p6 .verlab{opacity:1}
+.reel .ed{fill:none;stroke-dasharray:240;stroke-dashoffset:240;transition:stroke-dashoffset .6s var(--e),stroke-width .5s}
+.reel.p3 .ed{stroke-dashoffset:0}
+.reel .ed.ref{stroke:rgba(180,205,228,.58);stroke-width:1.4}
+.reel .ed.sup{stroke:rgba(205,224,242,.85);stroke-width:2.6}
+.reel .ed.ela{stroke:rgba(180,205,228,.58);stroke-width:1.5;stroke-dasharray:1.5 4 !important;stroke-dashoffset:0 !important;opacity:0;transition:opacity .5s var(--e) .25s}
+.reel.p3 .ed.ela{opacity:1}
+.reel .ed.sps{stroke:rgba(180,205,228,.7);stroke-width:1.7}
+.reel .ed.con{stroke:var(--glow);stroke-width:2.4;stroke-dasharray:4 3;filter:drop-shadow(0 0 4px rgba(232,112,58,.7))}
+.reel.p3 .ed.con{stroke-dashoffset:0;animation:rdashf 1s linear infinite .6s}
+@keyframes rdashf{to{stroke-dashoffset:-14}}
+.reel.p4 .ed.sup{stroke-width:3.8}
+.reel .tn{opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;transition:.6s var(--over)}
+.reel.p5 .tn{opacity:1;transform:scale(1)}.reel .tn.b{transition-delay:.12s}.reel .tn.c{transition-delay:.24s}
+.reel .tray{stroke:rgba(180,205,228,.45);stroke-width:1;opacity:0;transition:.5s var(--e)}
+.reel.p5 .tray{opacity:1}.reel .tray.cx{stroke:var(--glow)}.reel.p5 .tray.cx{opacity:.85}
+.reel .tlab{font-family:var(--mono);font-size:8.5px;opacity:0;transition:.5s var(--e) .25s}
+.reel.p5 .tlab{opacity:1}
+.reel .frame{stroke:var(--accent);stroke-width:1.6;fill:rgba(194,65,12,.05);opacity:0;transition:opacity .7s var(--e)}
+.reel.p7 .frame{opacity:1;filter:drop-shadow(0 0 14px rgba(232,112,58,.35))}
+.reel .ftab{opacity:0;transform:translateY(-6px);transition:.6s var(--over)}
+.reel.p7 .ftab{opacity:1;transform:none}
+.reel .ftab rect{fill:var(--accent)}
+.reel .ftab text{font-family:var(--font);font-weight:700;font-size:11px;fill:#fff;letter-spacing:1.5px}
+.reel .fpulse{fill:none;stroke:var(--glow);stroke-width:1.4;opacity:0}
+.reel.p8 .fpulse{animation:rfp 1.4s ease infinite}
+@keyframes rfp{0%{opacity:.5}50%{opacity:0}100%{opacity:.5}}
+.reel .client{opacity:0;transform:translateX(14px);transition:.6s var(--over)}
+.reel.p8 .client{opacity:1;transform:none}
+.reel .client .cbox{fill:rgba(255,255,255,.05);stroke:rgba(180,205,228,.4);stroke-width:1.2}
+.reel .client .clbl{font-family:var(--mono);font-size:9px;fill:rgba(244,242,236,.78)}
+.reel .mcpln{stroke:rgba(232,112,58,.5);stroke-width:1.3;stroke-dasharray:3 3;opacity:0;transition:.4s}
+.reel.p8 .mcpln{opacity:1}
+.reel .qpkt{opacity:0;transform-box:fill-box;fill:var(--glow)}
+.reel.p8 .qpkt{opacity:1;transform:translate(-112px,0);transition:transform 1s var(--e) .25s,opacity .3s}
+.reel .apkt{opacity:0;transform-box:fill-box;transition:transform 1s var(--e),opacity .3s}
+.reel.p9 .apkt{opacity:1;transform:translate(112px,0)}
+.reel .aprov{opacity:0;transition:.5s var(--e) .55s}.reel.p9 .aprov{opacity:1}
+.reel .aprov text{font-family:var(--mono);font-size:9px;fill:rgba(244,242,236,.82)}
+.reel .topcap{position:absolute;top:16px;left:0;right:0;display:flex;justify-content:center;z-index:5;pointer-events:none}
+.reel .topcap .pill{display:flex;align-items:center;gap:11px;background:rgba(6,24,42,.74);backdrop-filter:blur(6px);border:1px solid rgba(232,112,58,.4);border-radius:999px;padding:7px 17px}
+.reel .topcap .step{font-family:var(--mono);font-size:10px;color:var(--glow);font-weight:600;letter-spacing:.1em}
+.reel .topcap .txt{font-size:12.5px;color:var(--light);font-weight:500}
+.reel .topcap.show .pill{animation:rlin .5s var(--over)}.reel .topcap:not(.show){opacity:0}
+@keyframes rlin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.reel .legend{position:absolute;top:71.5%;left:44.7%;transform:translateX(-50%);display:flex;justify-content:center;gap:15px;flex-wrap:wrap;z-index:5;opacity:0;transition:.6s var(--e)}
+.reel.p3 .legend{opacity:1}
+.reel .legend .it{display:flex;align-items:center;gap:7px}
+.reel .legend .it span{font-family:var(--mono);font-size:10px;color:rgba(244,242,236,.85)}
+.reel .legend .it.con span{color:var(--glow)}
+@media(max-width:640px){.reel .legend{gap:9px;top:73%}.reel .legend .it span{font-size:9px}.reel .topcap .txt{font-size:11px}}
+
+/* ===== scroll-pinned full-screen reel ===== */
+.scrolly{position:relative;height:450vh;background:var(--navy)}
+
+/* ===== project timeline (deck-style horizontal) ===== */
+.tlLegend{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px}
+.tlLegend .it{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11px;color:var(--soft)}
+.tlLegend .sw{width:11px;height:11px;border-radius:50%}
+.tlLegend .sw.ink{background:var(--ink)}.tlLegend .sw.acc{background:var(--accent)}
+.tlLegend .sw.holo{background:var(--paper);border:2px solid var(--ink)}
+.tlLegend .sw.piv{width:14px;height:4px;border-radius:0;background:var(--accent)}
+.tlScroll{margin-top:18px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.tlScroll svg{display:block;min-width:840px;width:100%;height:auto}
+.tlFoot{margin-top:14px;font-size:13px;color:var(--soft);line-height:1.55;max-width:70ch}
+.tlFoot strong{color:var(--ink)}
+
+/* ===== research & interviews ===== */
+.rcols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px}
+@media(max-width:760px){.rcols{grid-template-columns:1fr;gap:24px}}
+.rcol .rlabel{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.rcol h3{font-size:17px;letter-spacing:-.01em;margin-bottom:12px}
+.rlist{display:flex;flex-direction:column;gap:9px}
+.rlist .r{position:relative;padding-left:16px;font-size:13.5px;line-height:1.45;color:var(--soft)}
+.rlist .r::before{content:'·';position:absolute;left:2px;top:-2px;color:var(--accent);font-weight:700;font-size:17px}
+.rlist .r strong{color:var(--ink);font-weight:600}
+.rlist .r .kind{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-top:1px}
+.insights{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+@media(max-width:760px){.insights{grid-template-columns:1fr}}
+.ins{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.ins .num{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.08em}
+.ins h4{font-size:16px;margin-top:8px;letter-spacing:-.01em}
+.ins p{margin-top:8px;font-size:13.5px;color:var(--soft);line-height:1.55}
+.guilt{margin-top:22px;border-left:3px solid var(--accent);padding:6px 0 6px 18px;max-width:70ch}
+.guilt p{font-size:clamp(15px,2.2vw,18px);line-height:1.5;color:var(--ink-2)}
+.guilt .src{margin-top:6px;font-family:var(--font-mono);font-size:11px;color:var(--soft)}
+.pin{position:sticky;top:0;height:100vh;width:100%;overflow:hidden}
+.reelFull{position:absolute;inset:0}
+.reelFull .reel{width:100%;height:100%;aspect-ratio:auto;border-radius:0;box-shadow:none}
+.reelFull .scrub i{animation:none;width:0}
+.reelLabel{position:absolute;top:16px;left:18px;z-index:6;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,242,236,.5)}
+.reelLabel b{color:var(--glow);font-weight:600}
+.reelHint{position:absolute;left:0;right:0;bottom:34px;text-align:center;z-index:6;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:rgba(244,242,236,.62);transition:opacity .4s}
+.reelHint .ar{display:block;margin-top:6px;animation:bob 1.4s ease infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+.reel.go .reelHint{opacity:0;pointer-events:none}
+
+/* ===== dark stat strip ===== */
+.strip{background:var(--navy);color:var(--light)}
+.stripInner{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-around;padding-block:34px}
+.stat{text-align:center}
+.statNum{display:block;font-family:var(--font-display);font-weight:700;font-size:clamp(26px,4vw,38px);color:#fff;letter-spacing:-.02em}
+.statLabel{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:rgba(244,242,236,.62);text-transform:uppercase}
+
+/* ===== differentiators ===== */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+@media(max-width:760px){.cards{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card .no{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.08em}
+.card h3{font-size:18px;margin-top:10px;letter-spacing:-.01em}
+.card p{margin-top:8px;font-size:14px;color:var(--soft);line-height:1.55}
+
+/* ===== four queries ===== */
+.queries{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+@media(max-width:760px){.queries{grid-template-columns:1fr 1fr}}
+.q{border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--card);padding:16px}
+.q .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-bottom:10px}
+.q p{font-family:var(--font-mono);font-size:13px;color:var(--ink);line-height:1.4}
+
+/* ===== demo callout (replica) ===== */
+.callout{border:1px solid var(--accent-wash);border-radius:var(--radius-lg);overflow:hidden;background:var(--card);margin-top:8px}
+.coBar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--accent);color:#fff;padding:11px 18px}
+.coLabel{display:flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.08em}
+.pulseDot{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.8s var(--e-snappy) infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.7)}}
+.coBadge{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.08em;background:rgba(255,255,255,.16);padding:4px 9px;border-radius:6px}
+.coBody{padding:22px}
+.coBody h3{font-size:20px;letter-spacing:-.01em}
+.coBody p{margin-top:8px;color:var(--ink-2);max-width:var(--maxw-text)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:11px 18px;margin-top:18px;font-family:var(--font-mono);font-size:12.5px;font-weight:500;color:#fff;background:var(--accent);border:1.5px solid var(--accent);border-radius:var(--radius-sm);cursor:pointer}
+
+/* ===== footer ===== */
+.foot{border-top:1px solid var(--line);background:var(--card);margin-top:8px}
+.footInner{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;padding-block:30px}
+.footInner .wm{font-family:var(--font-display);font-weight:600;color:var(--ink)}
+.footInner .meta{font-family:var(--font-mono);font-size:12px;color:var(--soft)}
+
+@media(prefers-reduced-motion:reduce){.reel .aura,.reel .scrub i,.pulseDot{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav"><div class="container navInner">
+  <span class="wordmark">Rishabh Salian</span>
+  <ul class="navlinks"><li><a class="active" href="#">Work</a></li><li><a href="#">About</a></li><li><a href="#">CV</a></li><li><a href="#">Contact</a></li></ul>
+</div></nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero"><div class="container">
+  <div class="dotsmark">
+    <span class="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d ai"></span></span>
+    <span class="ml">the invisible <em>teammate</em></span>
+  </div>
+  <p class="heroEyebrow">Capstone · PGDM Design Strategy, Parsons · 2025–26</p>
+  <h1 class="heroTitle">AI made everyone faster. Follow makes teams <em>smarter</em>.</h1>
+  <p class="heroSub">Follow is a shared, trackable memory layer that sits <em>between</em> your team's AI tools — so what one person works out with their AI, the whole team can find, trust, and build on.</p>
+</div></header>
+
+<!-- ===== PROJECT TIMELINE (deck-style, at the start) ===== -->
+<section class="section"><div class="container">
+  <p class="kicker">Project timeline</p>
+  <p class="lede text">Spring 2025 → May 2026 — field research, expert interviews, and the two pivots that turned Follow from an AI-native document tool into a team-memory layer.</p>
+  <div class="tlLegend">
+    <span class="it"><span class="sw ink"></span>Field research</span>
+    <span class="it"><span class="sw acc"></span>Expert interview</span>
+    <span class="it"><span class="sw holo"></span>Product moment</span>
+    <span class="it"><span class="sw piv"></span>Pivot</span>
+  </div>
+  <div class="tlScroll">
+    <svg viewBox="0 0 1120 300" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Project timeline, Spring 2025 to May 2026: Housing Works origin, concept v1, peer tests, pivot to a workspace extension, interviews with Alexandra Becker, Andy and Atanu Sinha, build sprints, pivot to teams-first, and the v6 capstone.">
+      <rect x="453.5" y="22" width="3" height="248" fill="var(--accent)" opacity=".85"/>
+      <rect x="378" y="22" width="155" height="34" rx="4" fill="var(--accent)"/>
+      <text x="455" y="40" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="1.2">PIVOT 1 · MAR 17</text>
+      <text x="455" y="52" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#fff" opacity=".92">doc editor → workspace ext.</text>
+      <rect x="863.5" y="22" width="3" height="248" fill="var(--accent)" opacity=".85"/>
+      <rect x="788" y="22" width="155" height="34" rx="4" fill="var(--accent)"/>
+      <text x="865" y="40" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="1.2">PIVOT 2 · LATE APR</text>
+      <text x="865" y="52" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#fff" opacity=".92">individuals → teams-first</text>
+
+      <line x1="50" y1="150" x2="1070" y2="150" stroke="var(--ink)" stroke-width="2"/>
+      <g font-family="IBM Plex Mono,monospace" font-size="10" fill="var(--soft)" letter-spacing="1">
+        <line x1="95" y1="150" x2="95" y2="156" stroke="var(--soft)"/><text x="95" y="172" text-anchor="middle">SPRING '25</text>
+        <line x1="300" y1="150" x2="300" y2="156" stroke="var(--soft)"/><text x="300" y="172" text-anchor="middle">FEB '26</text>
+        <line x1="430" y1="150" x2="430" y2="156" stroke="var(--soft)"/><text x="430" y="172" text-anchor="middle">MAR '26</text>
+        <line x1="700" y1="150" x2="700" y2="156" stroke="var(--soft)"/><text x="700" y="172" text-anchor="middle">APR '26</text>
+        <line x1="1010" y1="150" x2="1010" y2="156" stroke="var(--soft)"/><text x="1010" y="172" text-anchor="middle">MAY '26</text>
+      </g>
+
+      <line x1="95" y1="150" x2="95" y2="196" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="95" cy="150" r="6" fill="var(--ink)"/>
+      <text x="95" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Housing Works</text>
+      <text x="95" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">3-person team · the origin</text>
+
+      <line x1="250" y1="150" x2="250" y2="108" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="250" cy="150" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text x="250" y="98" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Concept v1</text>
+      <text x="250" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">cognitive debt · AI-native doc</text>
+
+      <line x1="375" y1="150" x2="375" y2="196" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="375" cy="150" r="6" fill="var(--ink)"/>
+      <text x="375" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Peer tests</text>
+      <text x="375" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">5 peers · early wireframe</text>
+
+      <line x1="540" y1="150" x2="540" y2="108" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="540" cy="150" r="6" fill="var(--ink)"/>
+      <text x="540" y="98" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Alexandra Becker</text>
+      <text x="540" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">outside perspective · Mar 31</text>
+
+      <line x1="620" y1="150" x2="620" y2="196" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="620" cy="150" r="6" fill="var(--ink)"/>
+      <text x="620" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Workshop</text>
+      <text x="620" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">Intelligence Gap · 4 teams</text>
+
+      <line x1="705" y1="150" x2="705" y2="108" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="705" cy="150" r="6" fill="var(--accent)"/>
+      <text x="705" y="98" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Andy</text>
+      <text x="705" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--accent)">expert · agentic systems</text>
+
+      <line x1="785" y1="150" x2="785" y2="196" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="785" cy="150" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text x="785" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Build sprints</text>
+      <text x="785" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">MCP tools · the pipeline</text>
+
+      <line x1="945" y1="150" x2="945" y2="108" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="945" cy="150" r="6" fill="var(--accent)"/>
+      <text x="945" y="98" text-anchor="middle" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">Atanu Sinha</text>
+      <text x="945" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--accent)">expert · 25-yr operator</text>
+
+      <line x1="1025" y1="150" x2="1025" y2="196" stroke="var(--soft)" stroke-dasharray="2 3"/><circle cx="1025" cy="150" r="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text x="1025" y="214" text-anchor="end" font-family="Inter,sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">v6 capstone</text>
+      <text x="1025" y="230" text-anchor="end" font-family="Inter,sans-serif" font-size="11" font-style="italic" fill="var(--soft)">teams-first · this artifact</text>
+    </svg>
+  </div>
+  <p class="tlFoot"><strong>What this is not:</strong> a longitudinal deployment study. The peer tests informed a pivot, not a validation — the longitudinal pilot ahead is the move from modeled to measured.</p>
+</div></section>
+
+<!-- ===== THE PROBLEM ===== -->
+<section class="section band"><div class="container text">
+  <p class="kicker">The problem</p>
+  <p class="lede">Work isn't written alone anymore. Almost every decision now passes through someone's AI chat — the constraints, the rejected options, the reasoning — and then stays locked in that one private thread.</p>
+  <p class="body">Teams already run as a transactive memory system with each other: everyone keeps a rough map of who knows what. But they don't have that with their AI tools. The context that actually shaped the work scatters across separate chats and disappears. When we tested the idea, six of eight people volunteered the same feeling before seeing anything — that their AI-assisted work didn't quite feel like theirs.</p>
+</div></section>
+
+<!-- ===== RESEARCH & INTERVIEWS ===== -->
+<section class="section"><div class="container">
+  <p class="kicker">Research &amp; interviews</p>
+  <p class="lede text">Mixed-methods, and honest about scope: a theoretical spine, plus six primary engagements — from lived experience to expert interviews.</p>
+  <div class="rcols">
+    <div class="rcol">
+      <p class="rlabel">Secondary · the theoretical spine</p>
+      <div class="rlist">
+        <div class="r"><strong>Wegner</strong> — transactive memory systems</div>
+        <div class="r"><strong>Clark &amp; Chalmers</strong> — the extended mind</div>
+        <div class="r"><strong>Sweller</strong> — cognitive load theory</div>
+        <div class="r"><strong>Bienefeld et al.</strong> — TMS in human–AI teams</div>
+        <div class="r"><strong>Kosmyna et al. (MIT)</strong> — cognitive debt</div>
+        <div class="r"><strong>Doshi &amp; Hauser</strong> — homogenization risk</div>
+      </div>
+    </div>
+    <div class="rcol">
+      <p class="rlabel">Primary · six engagements</p>
+      <div class="rlist">
+        <div class="r"><strong>Housing Works NYC</strong><span class="kind">Lived experience</span></div>
+        <div class="r"><strong>Intelligence Gap workshop</strong><span class="kind">4 teams · 12 participants</span></div>
+        <div class="r"><strong>Peer concept tests</strong><span class="kind">5 participants · early wireframe</span></div>
+        <div class="r"><strong>Andy</strong><span class="kind">Expert · agentic systems</span></div>
+        <div class="r"><strong>Alexandra Becker</strong><span class="kind">Outside perspective</span></div>
+        <div class="r"><strong>Atanu Sinha</strong><span class="kind">Expert · 25-year operator</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="rlabel" style="margin-top:34px">What we heard</p>
+  <div class="insights">
+    <div class="ins"><span class="num">01</span><h4>AI is the invisible teammate.</h4><p>Teams already run as transactive memory systems with each other — but not with their AI, because its contributions were never captured in a form the team could route to.</p></div>
+    <div class="ins"><span class="num">02</span><h4>Cross-tool memory is structurally vacant.</h4><p>Native memory inside one AI tool is solved by vendors. Cross-tool, cross-contributor memory is empty — no vendor with the surface to build it has a reason to make it cross-vendor.</p></div>
+    <div class="ins"><span class="num">03</span><h4>Provenance matters where stakes are high.</h4><p>The strongest signal for value comes where the cost of being wrong is asymmetric — legal review, regulated work, compliance. That's also where pricing tolerance is highest.</p></div>
+  </div>
+
+  <div class="guilt">
+    <p>“The deliverable shipped — we didn't fail. But I could have done better work if I'd known how my teammates got where they got.”</p>
+    <p class="src">From the Housing Works experience — and six of eight concept-test participants named the same feeling, unprompted.</p>
+  </div>
+</div></section>
+
+<!-- ===== HOW IT WORKS — intro, then full-screen scroll-pinned reel ===== -->
+<section class="section"><div class="container">
+  <div class="reelHead">
+    <p class="kicker">How it works</p>
+    <h2 class="reelTitle">From conversation to <em>queryable</em> memory.</h2>
+    <p class="reelNote" style="margin-top:10px">Scroll to play — the pipeline builds beat by beat as you move through it.</p>
+  </div>
+</div></section>
+
+<div class="scrolly" id="scrolly"><div class="pin"><div class="reelMount reelFull">
+    <div class="reel on" id="reel">
+      <div class="reelLabel"><b>Follow</b> · how it works</div>
+      <div class="reelHint">scroll<span class="ar">↓</span></div>
+      <div class="vig"></div>
+      <div class="stage" id="stage">
+        <div class="aura"></div>
+        <svg class="canvas" viewBox="0 0 1040 585" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="rgba(180,205,228,.75)"/></marker></defs>
+          <g class="src s1"><rect class="bub" x="44" y="104" width="48" height="28" rx="8"/><path class="bub" d="M56 131 L56 141 L66 131 Z"/><circle class="bdot" cx="56" cy="118" r="2.4"/><circle class="bdot" cx="68" cy="118" r="2.4"/><circle class="bdot" cx="80" cy="118" r="2.4"/><circle cx="54" cy="92" r="7" fill="var(--maya)"/><circle class="ai" cx="72" cy="92" r="6"/><text class="lbl" x="72" y="156" text-anchor="middle">Maya · Claude</text></g>
+          <g class="src s2"><rect class="bub" x="44" y="244" width="48" height="28" rx="8"/><path class="bub" d="M56 271 L56 281 L66 271 Z"/><circle class="bdot" cx="56" cy="258" r="2.4"/><circle class="bdot" cx="68" cy="258" r="2.4"/><circle class="bdot" cx="80" cy="258" r="2.4"/><circle cx="54" cy="232" r="7" fill="var(--dev)"/><circle class="ai" cx="72" cy="232" r="6"/><text class="lbl" x="72" y="296" text-anchor="middle">Alex · ChatGPT</text></g>
+          <g class="src s3"><rect class="bub" x="44" y="384" width="48" height="28" rx="8"/><path class="bub" d="M56 411 L56 421 L66 411 Z"/><circle class="bdot" cx="56" cy="398" r="2.4"/><circle class="bdot" cx="68" cy="398" r="2.4"/><circle class="bdot" cx="80" cy="398" r="2.4"/><circle cx="54" cy="372" r="7" fill="var(--sam)"/><circle class="ai" cx="72" cy="372" r="6"/><text class="lbl" x="72" y="436" text-anchor="middle">Sam · Gemini</text></g>
+          <circle class="pkt" cx="92" cy="118" r="4" fill="var(--maya)" style="--dx:230px;--dy:40px"/><circle class="pkt" cx="92" cy="118" r="3.5" fill="var(--maya)" style="--dx:436px;--dy:32px"/>
+          <circle class="pkt" cx="92" cy="258" r="4" fill="var(--dev)" style="--dx:300px;--dy:-120px"/><circle class="pkt" cx="92" cy="258" r="3.5" fill="var(--dev)" style="--dx:428px;--dy:-36px"/>
+          <circle class="pkt" cx="92" cy="398" r="4" fill="var(--sam)" style="--dx:280px;--dy:-186px"/><circle class="pkt" cx="92" cy="398" r="3.5" fill="var(--sam)" style="--dx:260px;--dy:-90px"/>
+          <rect class="frame" x="230" y="80" width="470" height="330" rx="14"/><rect class="fpulse" x="230" y="80" width="470" height="330" rx="14"/>
+          <g class="ftab"><rect x="380" y="70" width="170" height="22" rx="11"/><text x="465" y="85" text-anchor="middle">THE FOLLOW INDEX</text></g>
+          <line class="ed ref" x1="322" y1="158" x2="392" y2="138"/><line class="ed sup" x1="392" y1="138" x2="458" y2="162"/><line class="ed ref" x1="458" y1="162" x2="528" y2="150"/>
+          <line class="ed ela" x1="322" y1="158" x2="300" y2="232"/><line class="ed ref" x1="300" y1="232" x2="372" y2="212"/><line class="ed sup" x1="372" y1="212" x2="442" y2="240"/>
+          <line class="ed ref" x1="442" y1="240" x2="520" y2="222"/><line class="ed ela" x1="528" y1="150" x2="520" y2="222"/><line class="ed ref" x1="372" y1="212" x2="352" y2="308"/>
+          <line class="ed sup" x1="442" y1="240" x2="436" y2="318"/><line class="ed ref" x1="520" y1="222" x2="512" y2="300"/><line class="ed ela" x1="436" y1="318" x2="512" y2="300"/>
+          <line class="ed con" x1="392" y1="138" x2="442" y2="240"/><line class="ed sps" x1="352" y1="308" x2="436" y2="318" marker-end="url(#aw)"/>
+          <circle class="ver v2" cx="405" cy="156" r="9" fill="var(--dev)"/><circle class="ver v1" cx="398" cy="147" r="9" fill="var(--dev)"/>
+          <circle class="ver v2" cx="455" cy="258" r="9" fill="var(--maya)"/><circle class="ver v1" cx="448" cy="249" r="9" fill="var(--maya)"/>
+          <circle class="ver v2" cx="365" cy="326" r="9" fill="var(--sam)"/><circle class="ver v1" cx="358" cy="317" r="9" fill="var(--sam)"/>
+          <text class="verlab" x="392" y="120" text-anchor="middle">versioned</text><text class="verlab" x="470" y="268" text-anchor="middle">versioned</text><text class="verlab" x="352" y="352" text-anchor="middle">versioned</text>
+          <circle class="nd dl1" cx="322" cy="158" r="9" fill="var(--maya)"/><circle class="nd dl2" cx="392" cy="138" r="9" fill="var(--dev)"/><circle class="nd dl3" cx="458" cy="162" r="9" fill="var(--sam)"/><circle class="nd dl4" cx="528" cy="150" r="9" fill="var(--maya)"/>
+          <circle class="nd dl2" cx="300" cy="232" r="9" fill="var(--dev)"/><circle class="nd dl3" cx="372" cy="212" r="9" fill="var(--sam)"/><circle class="nd dl4" cx="442" cy="240" r="9" fill="var(--maya)"/><circle class="nd dl5" cx="520" cy="222" r="9" fill="var(--dev)"/>
+          <circle class="nd dl5" cx="352" cy="308" r="9" fill="var(--sam)"/><circle class="nd dl6" cx="436" cy="318" r="9" fill="var(--maya)"/><circle class="nd dl7" cx="512" cy="300" r="9" fill="var(--dev)"/>
+          <line class="tray" x1="520" y1="222" x2="612" y2="168"/><line class="tray" x1="520" y1="222" x2="662" y2="206"/><line class="tray cx" x1="520" y1="222" x2="606" y2="262"/>
+          <circle class="tn" cx="612" cy="168" r="7" fill="#EAF1F8"/><circle class="tn b" cx="662" cy="206" r="7" fill="#EAF1F8"/><circle class="tn c" cx="606" cy="262" r="8" fill="var(--glow)"/>
+          <text class="tlab" x="612" y="154" text-anchor="middle" fill="rgba(244,242,236,.72)">CONTENT 768d</text><text class="tlab" x="662" y="194" text-anchor="middle" fill="rgba(244,242,236,.72)">CAUSAL 512d</text><text class="tlab" x="606" y="280" text-anchor="middle" fill="var(--glow)">CONTEXT · who</text>
+          <line class="mcpln" x1="700" y1="180" x2="775" y2="180"/>
+          <g class="client"><rect class="cbox" x="775" y="150" width="180" height="62" rx="10"/><circle cx="805" cy="176" r="6" fill="#EAF1F8"/><circle cx="824" cy="176" r="5.5" fill="none" stroke="var(--glow)" stroke-width="1.5"/><text class="clbl" x="865" y="202" text-anchor="middle">AI tool · via MCP</text></g>
+          <circle class="qpkt" cx="778" cy="180" r="5"/>
+          <g class="apkt"><circle cx="690" cy="180" r="5" fill="#EAF1F8"/><circle cx="678" cy="180" r="3.5" fill="var(--maya)"/><circle cx="670" cy="180" r="3.5" fill="var(--dev)"/></g>
+          <g class="aprov"><text x="865" y="232" text-anchor="middle">answer · Maya + Alex</text></g>
+        </svg>
+        <div class="topcap" id="topcap"><div class="pill"><span class="step" id="lstep"></span><span class="txt" id="ltxt"></span></div></div>
+        <div class="legend">
+          <div class="it"><svg width="28" height="8"><line x1="2" y1="4" x2="26" y2="4" stroke="#b4cde4" stroke-width="1.4"/></svg><span>references</span></div>
+          <div class="it"><svg width="28" height="8"><line x1="2" y1="4" x2="26" y2="4" stroke="#cde0f2" stroke-width="3"/></svg><span>supports</span></div>
+          <div class="it"><svg width="28" height="8"><line x1="2" y1="4" x2="26" y2="4" stroke="#b4cde4" stroke-width="1.6" stroke-dasharray="1.5 3"/></svg><span>elaborates</span></div>
+          <div class="it"><svg width="32" height="8"><line x1="2" y1="4" x2="22" y2="4" stroke="#b4cde4" stroke-width="1.7"/><path d="M22 1 L29 4 L22 7 Z" fill="#b4cde4"/></svg><span>supersedes</span></div>
+          <div class="it con"><svg width="28" height="8"><line x1="2" y1="4" x2="26" y2="4" stroke="#E8703A" stroke-width="2.2" stroke-dasharray="4 3"/></svg><span>contradicts</span></div>
+        </div>
+      </div>
+      <div class="scrub"><i></i></div>
+    </div>
+</div></div></div>
+
+<section class="section"><div class="container">
+  <p class="reelNote">Illustrative animation of the live pipeline — three teammates and their AIs, five LLM roles, three tensors, five typed edges, and supersession chains that are never overwritten.</p>
+</div></section>
+
+<!-- ===== DARK STAT STRIP ===== -->
+<section class="strip"><div class="container stripInner">
+  <div class="stat"><span class="statNum">5</span><span class="statLabel">LLM roles</span></div>
+  <div class="stat"><span class="statNum">3</span><span class="statLabel">tensors</span></div>
+  <div class="stat"><span class="statNum">5</span><span class="statLabel">edge types</span></div>
+  <div class="stat"><span class="statNum">12</span><span class="statLabel">MCP tools</span></div>
+</div></section>
+
+<!-- ===== DIFFERENTIATORS ===== -->
+<section class="section"><div class="container">
+  <p class="kicker">What makes it different</p>
+  <p class="lede text">Three things vendor share-links and document search can't do.</p>
+  <div class="cards">
+    <div class="card"><span class="no">01</span><h3>Shared AI memory</h3><p>One team memory across collaborators — and across whichever AI tool each of them uses. Not a link you send; a layer you all query.</p></div>
+    <div class="card"><span class="no">02</span><h3>Per-paragraph provenance</h3><p>Every fact carries who said it, in which chat, and when. Answers come back attributed, so you can see and trust where they came from.</p></div>
+    <div class="card"><span class="no">03</span><h3>Contradiction detection</h3><p>When two teammates' AIs disagree, Follow surfaces the conflict instead of silently picking one — the contested points stay visible.</p></div>
+  </div>
+</div></section>
+
+<!-- ===== FOUR QUERIES ===== -->
+<section class="section band"><div class="container">
+  <p class="kicker">The four questions it answers</p>
+  <p class="lede text">These are routing and surfacing moves — the things a pile of separate chats can never do for you.</p>
+  <div class="queries">
+    <div class="q"><div class="dot"></div><p>What's contested?</p></div>
+    <div class="q"><div class="dot"></div><p>Who should I ask?</p></div>
+    <div class="q"><div class="dot"></div><p>What changed?</p></div>
+    <div class="q"><div class="dot"></div><p>What's been superseded?</p></div>
+  </div>
+</div></section>
+
+<!-- ===== WHERE IT SITS ===== -->
+<section class="section"><div class="container text">
+  <p class="kicker">Where it sits</p>
+  <p class="lede">Tools like Glean index your team's documents. Follow indexes the <em>reasoning</em> — the live, contested, evolving memory your team builds with AI.</p>
+  <p class="body">It sits between your AI tools rather than inside any one of them, and it's queryable from any of them through MCP. The shared, scoped, conflict-aware memory is the product — your team's transactive memory, finally made computational.</p>
+</div></section>
+
+<!-- ===== DEMO CALLOUT (honest badge) ===== -->
+<section class="section"><div class="container">
+  <div class="callout">
+    <div class="coBar">
+      <span class="coLabel"><span class="pulseDot"></span>LIVE DEMO · Follow</span>
+      <span class="coBadge">★ SIMULATED</span>
+    </div>
+    <div class="coBody">
+      <h3>Query a shared team memory.</h3>
+      <p>Step into a small, pre-loaded team workspace and ask it the four questions above — watch answers come back with provenance and contested points flagged. Runs on sample data; the live MCP product connects to your real AI tools.</p>
+      <a class="btn" href="#"><span class="pulseDot"></span>Open the team-memory sandbox</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot"><div class="container footInner">
+  <span class="wm">Rishabh Salian</span>
+  <span class="meta">Follow · Capstone 2025–26 · New York</span>
+</div></footer>
+
+<script>
+(function(){
+  var reel=document.getElementById('reel'),scrolly=document.getElementById('scrolly'),
+      topcap=document.getElementById('topcap'),lstep=document.getElementById('lstep'),ltxt=document.getElementById('ltxt');
+  if(!reel||!scrolly) return;
+  var beats=[
+    {p:1,s:'01 · INGEST',t:'three teammates, three AIs'},
+    {p:2,s:'02 · REPORTER',t:'data becomes nodes'},
+    {p:3,s:'03 · ANALYST',t:'five typed edges'},
+    {p:4,s:'04 · EDITOR',t:'weighted by confidence'},
+    {p:5,s:'05 · 3 TENSORS',t:'content · causal · context'},
+    {p:6,s:'06 · ARCHIVIST',t:'versions kept beneath, never overwritten'},
+    {p:7,s:'07 · THE INDEX',t:'this graph is the shared memory'},
+    {p:8,s:'MCP →',t:'any AI tool can ask'},
+    {p:9,s:'← MCP',t:'answered, with provenance'}
+  ];
+  var N=beats.length, lead=0.05, tail=0.10, last=-1, ticking=false;
+  var bar=reel.querySelector('.scrub i');
+  function cap(i){ var b=beats[i]; lstep.textContent=b.s; ltxt.textContent=b.t; topcap.classList.remove('show'); void topcap.offsetWidth; topcap.classList.add('show'); }
+  function render(){
+    ticking=false;
+    var total=scrolly.offsetHeight-window.innerHeight;
+    var scrolled=Math.min(Math.max(-scrolly.getBoundingClientRect().top,0),total);
+    var progress=total>0?scrolled/total:0;
+    var bp=(progress-lead)/(1-lead-tail); if(bp<0)bp=0; if(bp>1)bp=1;
+    var count=bp<=0?0:Math.min(N,Math.floor(bp*N)+1);
+    var cls='reel on'+(count>0?' go':'');
+    for(var k=1;k<=count;k++) cls+=' p'+k;
+    reel.className=cls;
+    if(bar) bar.style.width=(progress*100).toFixed(2)+'%';
+    if(count!==last){ if(count>0) cap(count-1); else topcap.classList.remove('show'); last=count; }
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(render); } }
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var cls='reel on go'; for(var k=1;k<=N;k++) cls+=' p'+k; reel.className=cls; cap(N-1);
+  } else {
+    window.addEventListener('scroll',onScroll,{passive:true});
+    window.addEventListener('resize',onScroll);
+    render();
+  }
+})();
+</script>
+</body>
+</html>
