@@ -9,7 +9,7 @@
 - `/archive`: visual gallery of the 7 earlier projects.
 ## L2 — Flagship project pages (shared template)
 Template order: Brief → Problem/Insight/Solution → ★ Live demo (labeled) → Process → Artifacts → Honest limits → Next project.
-- P-01 `/work/follow` — Demo: team-memory sandbox (paste chats → live knowledge graph → query w/ provenance). [D-02]
+- P-01 `/work/follow` — BUILT (bespoke route, FOLLOW-PAGE-1): scroll-pinned pipeline reel + deck-style timeline + research & interviews. On-page demo = illustrative animation (SIMULATED). Team-memory sandbox CTA = placeholder until built. [D-02 resolved: self-contained]
 - P-02 `/work/greener-hours` — Demo: Tier 1 live chat carbon glyph + Tier 2 compute scheduler routing to cleanest grid window.
 - P-03 `/work/healthy-materials` — Demo: Healthy Materials Package builder (pick scope → spec w/ cost/carbon comparison).
 - P-04 `/work/housing-works` — Demo: trustee workshop generator (expertise + staff need → micro-workshop plan). Cross-link: origin of Follow.

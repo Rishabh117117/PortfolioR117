@@ -168,7 +168,7 @@ Set --accent (+ derived shades) at the project page/root level; everything else 
 
 | Project            | --accent  | Notes                          |
 |--------------------|-----------|--------------------------------|
-| Follow             | #1C39BB   | Persian Blue (flagship)        |
+| Follow             | #C2410C   | Burnt orange (was #1C39BB Persian Blue) — matches the product brand + capstone deck. Derived: --accent-deep #9E340A, --accent-wash #F7E0D4, --accent-tint #FBEFE7. Page-local --navy #0A1F33 for the dark band. |
 | Greener Hours      | #1C3B36   | Forest                         |
 | Healthy Materials  | #5C7A3A   | Leaf (clay #B0763F secondary)  |
 | Housing Works      | #C0263B   | Magenta-red                    |
@@ -176,6 +176,11 @@ Set --accent (+ derived shades) at the project page/root level; everything else 
 | VSG / BEST / OBC   | brand     | client brand colors per case   |
 
 When a project sets --accent, also set --accent-deep/-wash/-tint to matching shades.
+
+> Note: the global default `--accent` in `globals.css` remains Persian Blue
+> `#1C39BB` (used by pages with no project accent, e.g. /about, /cv). Follow now
+> overrides it to burnt orange at its own page root via an inline `rootStyle`, so
+> the `#1C39BB` label on the Follow row above is historical, not the current value.
 
 ---
 
