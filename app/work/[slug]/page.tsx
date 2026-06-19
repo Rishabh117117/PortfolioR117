@@ -7,7 +7,7 @@ import styles from "./project.module.css";
 
 // Slugs that have their own dedicated bespoke route (app/work/<slug>), which
 // takes precedence; exclude them here so they aren't generated twice.
-const BESPOKE_SLUGS = ["housing-works", "healthy-materials"];
+const BESPOKE_SLUGS = ["housing-works", "healthy-materials", "follow"];
 
 export function generateStaticParams() {
   return FLAGSHIPS.filter((p) => !BESPOKE_SLUGS.includes(p.slug)).map((p) => ({
