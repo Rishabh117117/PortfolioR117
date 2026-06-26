@@ -332,7 +332,7 @@ export default function FollowPage() {
         </div>
       </section>
 
-      {/* ============ HOW IT WORKS — intro, then full-screen scroll-pinned reel ============ */}
+      {/* ============ HOW IT WORKS — inline two-up: reel (~2/3) + write-up (~1/3) ============ */}
       <section className="section">
         <div className="container">
           <div className={styles.reelHead}>
@@ -340,15 +340,29 @@ export default function FollowPage() {
             <h2 className={styles.reelTitle}>
               From conversation to <em>queryable</em> memory.
             </h2>
-            <p className={styles.reelNote} style={{ marginTop: "10px" }}>
-              Scroll to play — the pipeline builds beat by beat as you move
-              through it.
-            </p>
+            {/* NOTE: the old "Scroll to play…" line is REMOVED — it no longer scrolls. */}
+          </div>
+
+          <div className={styles.howGrid}>
+            <div className={styles.reelWrap}>
+              <FollowReel />
+            </div>
+
+            <aside className={styles.writeup}>
+              {/* TODO(copy): provisional — finalize in copy pass */}
+              <p className={`mono ${styles.writeupKicker}`}>Not quite RAG</p>
+              <p className={styles.writeupBody}>
+                RAG finds matching text. Follow finds the <em>source</em> — who
+                worked it out, in which chat, and what it connects to.
+              </p>
+              <p className={styles.writeupBody}>
+                Less a search box, more a directory of what your team knows and
+                where it came from.
+              </p>
+            </aside>
           </div>
         </div>
       </section>
-
-      <FollowReel />
 
       <section className="section">
         <div className="container">
