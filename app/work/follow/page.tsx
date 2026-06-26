@@ -374,28 +374,6 @@ export default function FollowPage() {
         </div>
       </section>
 
-      {/* ============ DARK STAT STRIP ============ */}
-      <section className={styles.strip} aria-label="Follow by the numbers">
-        <div className={`container ${styles.stripInner}`}>
-          <div className={styles.stat}>
-            <span className={styles.statNum}>5</span>
-            <span className={styles.statLabel}>LLM roles</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statNum}>3</span>
-            <span className={styles.statLabel}>tensors</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statNum}>5</span>
-            <span className={styles.statLabel}>edge types</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statNum}>12</span>
-            <span className={styles.statLabel}>MCP tools</span>
-          </div>
-        </div>
-      </section>
-
       {/* ============ DIFFERENTIATORS ============ */}
       <section className="section">
         <div className="container">

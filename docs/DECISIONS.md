@@ -8,3 +8,4 @@
 ## Log
 - FOLLOW-PAGE-1 (2026-06-19): bespoke `/work/follow` built (scroll-pinned pipeline reel + deck timeline + research). Follow accent overridden Persian Blue `#1C39BB` → burnt orange `#C2410C` across page, home grid card, and /work card. Resolves D-02; resolves D-03 for Follow (SIMULATED, pending the WORKING override).
 - RESTRUCTURE-1 (2026-06-25): reel section moved from full-viewport scroll-pin to inline two-up (2/3 reel autoplay-loop + 1/3 write-up). Write-up copy provisional.
+- RESTRUCTURE-1 follow-up (2026-06-26): removed the dark stat strip (5 LLM roles · 3 tensors · 5 edge types · 12 MCP tools) from `/work/follow`, per request.

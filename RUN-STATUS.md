@@ -22,6 +22,9 @@
 - Loop mechanism (verified by deterministic replay — preview tab is `document.hidden`, so IntersectionObserver/rAF/screenshots don't fire there; the loop runs in a visible browser): additive `on go fp1…fpN`, caption populates per beat from BEATS, scrubber 11.11%→100% in 9 steps, resets to base. `additiveOK: true`.
 - Mobile 390px: stacks single-column; reel box (aspect 1.60) → navy legend strip below it (all 5 edge types, unclipped) → write-up. Order + gaps correct. No console errors.
 
+## Post-sprint follow-up (2026-06-26)
+- Removed the dark stat strip (5 LLM roles · 3 tensors · 5 edge types · 12 MCP tools) from `/work/follow` per request — section + orphaned `.strip/.stat*` CSS deleted; `--navy` kept (still used by the hero dots-mark); docs reconciled (`follow.md` §0/§1/§2, `DECISIONS.md` Log). The illustrative-animation note above it was left in place (not the strip). Build green; section flow verified (note → differentiators).
+
 ## Guardrails honoured
 - Per-file commits, no `--amend`. No merge / no deploy / no PR. Branch left for review.
 - Tokens only (no new hard-coded hex/px beyond the spec-given panel shadow + pre-existing scoped reel dark-theme palette). No new deps; `motion@12` still unused.

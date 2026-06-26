@@ -384,39 +384,6 @@
 }
 
 /* =========================================================================
-   Dark stat strip
-   ========================================================================= */
-.strip {
-  background: var(--navy);
-  color: var(--paper);
-}
-.stripInner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  justify-content: space-around;
-  padding-block: 34px;
-}
-.stat {
-  text-align: center;
-}
-.statNum {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(26px, 4vw, 38px);
-  color: #fff;
-  letter-spacing: -0.02em;
-}
-.statLabel {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: rgba(244, 242, 236, 0.62);
-  text-transform: uppercase;
-}
-
-/* =========================================================================
    Differentiators
    ========================================================================= */
 .cards {

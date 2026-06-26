@@ -29,7 +29,7 @@
 | `app/work/follow/page.tsx` | Bespoke page (server component). Sets the Follow accent at the page root; renders every section. |
 | `app/work/follow/FollowReel.tsx` | `"use client"` — the inline, contained pipeline reel + the autoplay-on-view loop (IntersectionObserver + timed sequencer). |
 | `app/work/follow/FollowReel.css` | Plain, fully-namespaced reel stylesheet (imported by `FollowReel.tsx`). |
-| `app/work/follow/follow.module.css` | Page-specific CSS Module (hero mark, deck timeline, research, strip, cards, queries). |
+| `app/work/follow/follow.module.css` | Page-specific CSS Module (hero mark, deck timeline, research, two-up How-it-works grid + write-up panel, cards, queries). |
 | `app/work/[slug]/page.tsx` | `BESPOKE_SLUGS` gains `"follow"`. |
 | `lib/projects.ts` | Follow `accent` → `#C2410C`; `status` → `"SIMULATED"` (D-03). |
 | `app/page.tsx` | Home Follow `DemoCallout` kept in sync: SIMULATED, burnt orange. |
@@ -49,9 +49,9 @@ in `page.tsx` via an inline `rootStyle`; everything inherits.
 --accent-tint: #FBEFE7
 ```
 
-The dark band colour used by the hero dots-mark and the stat strip is the
-page-local `--navy: #0A1F33`, declared on `styles.page` (scoped to this route,
-never on `:root`). The accent is consistent across the page, the home grid card,
+The dark band colour used by the hero dots-mark is the page-local
+`--navy: #0A1F33`, declared on `styles.page` (scoped to this route, never on
+`:root`). The accent is consistent across the page, the home grid card,
 and the `/work` index card (all read from `lib/projects.ts`).
 
 ---
@@ -78,13 +78,16 @@ and the `/work` index card (all read from `lib/projects.ts`).
    is restored (the named prototype file itself only holds the later scroll
    version, so the per-beat interval + end hold were re-derived). Write-up copy
    is provisional (`TODO(copy)`).*
-6. **Stat strip** — dark band: 5 LLM roles · 3 tensors · 5 edge types · 12 MCP tools.
-7. **Differentiators** — 3 cards (shared AI memory · per-paragraph provenance ·
+6. **Differentiators** — 3 cards (shared AI memory · per-paragraph provenance ·
    contradiction detection).
-8. **The four questions** — band, 4 items (what's contested · who should I ask ·
+7. **The four questions** — band, 4 items (what's contested · who should I ask ·
    what changed · what's superseded).
-9. **Where it sits** — vs Glean ("indexes the reasoning"); the MCP line.
-10. **DemoCallout** — the real `components/DemoCallout` component (see §5).
+8. **Where it sits** — vs Glean ("indexes the reasoning"); the MCP line.
+9. **DemoCallout** — the real `components/DemoCallout` component (see §5).
+
+> The dark stat strip (5 LLM roles · 3 tensors · 5 edge types · 12 MCP tools)
+> that previously sat between "How it works" and the differentiators was removed
+> (2026-06-26, per request).
 
 ---
 
