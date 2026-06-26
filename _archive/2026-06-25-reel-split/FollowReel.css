@@ -1,0 +1,604 @@
+/* =========================================================================
+   Follow — SCROLL-PINNED PIPELINE REEL (plain global CSS, fully namespaced).
+   Ported 1:1 from docs/prototypes/follow-page-scroll.html with three scoped
+   renames so nothing can leak into the rest of the site (FOLLOW-PAGE-1 §4.2):
+     prototype  .reel        →  .followReel          (the reel root)
+     prototype  .reel.pN     →  .followReel.fpN      (phase classes 1..9)
+     prototype  var(--ink)   →  var(--navy)          (reel-local dark bg only)
+   The prototype's :root token block, .reelMount, and the .reelFull overrides
+   are merged onto .followReel; the dark-theme tokens live HERE (not :root) so
+   they never touch the page's shell tokens. Imported by ./FollowReel.tsx, which
+   wires the literal class names — so they are intentionally NOT module-hashed.
+   The looping pend/scrub keyframe is removed: in scroll mode the scrubber width
+   is driven from JS and there is no auto-loop. prefers-reduced-motion is handled
+   globally (globals.css §7) plus the explicit branch in FollowReel.tsx.
+   ========================================================================= */
+
+/* ---- scroll-pinned full-screen track + pin ---- */
+.followReel-scrolly {
+  --navy: #0a1f33;
+  position: relative;
+  height: 450vh; /* default; overridable via the scrollVh prop (inline style) */
+  background: var(--navy);
+}
+.followReel-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh; /* fallback */
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ---- reel root: dark-theme tokens + full-viewport frame ---- */
+.followReel {
+  /* scoped dark theme — never on :root, so the page is untouched */
+  --navy: #0a1f33;
+  --accent: #c2410c;
+  --glow: #e8703a;
+  --light: #f4f2ec;
+  --maya: #6f93d6;
+  --dev: #9fce86;
+  --sam: #e0a458;
+  --font: var(--font-body);
+  --mono: var(--font-mono);
+  --e: cubic-bezier(0.22, 0.85, 0.25, 1);
+  --over: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  overflow: hidden;
+  background: radial-gradient(
+    120% 95% at 46% 38%,
+    #10304f 0%,
+    var(--navy) 56%,
+    #06182a 100%
+  );
+}
+
+.followReel .vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.5);
+  z-index: 6;
+}
+.followReel .stage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: opacity 0.8s var(--e);
+}
+.followReel.pend .stage {
+  opacity: 0;
+}
+.followReel .aura {
+  position: absolute;
+  left: 44%;
+  top: 42%;
+  width: 46%;
+  height: 62%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 112, 58, 0.15), transparent 62%);
+  filter: blur(24px);
+  opacity: 0;
+  z-index: 0;
+}
+.followReel.fp1 .aura {
+  animation: followReel-rbreathe 6s ease infinite;
+}
+@keyframes followReel-rbreathe {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* scrubber — width set from JS (no auto-loop animation in scroll mode) */
+.followReel .scrub {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 7;
+}
+.followReel .scrub i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--glow);
+}
+
+.followReel .canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- 01 INGEST · chat sources + packets ---- */
+.followReel .src {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: 0.6s var(--e);
+}
+.followReel.fp1 .src {
+  opacity: 1;
+  transform: none;
+}
+.followReel.fp1 .src.s2 {
+  transition-delay: 0.1s;
+}
+.followReel.fp1 .src.s3 {
+  transition-delay: 0.2s;
+}
+.followReel .bub {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: rgba(180, 205, 228, 0.32);
+  stroke-width: 1;
+}
+.followReel .bdot {
+  fill: rgba(244, 242, 236, 0.55);
+}
+.followReel .src .lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: rgba(244, 242, 236, 0.72);
+}
+.followReel .src .ai {
+  fill: none;
+  stroke: var(--glow);
+  stroke-width: 1.6;
+}
+.followReel .pkt {
+  opacity: 0;
+  transform-box: fill-box;
+}
+.followReel.fp1 .pkt {
+  opacity: 1;
+  transform: translate(var(--dx), var(--dy));
+  transition:
+    transform 1.1s var(--e),
+    opacity 0.4s var(--e);
+}
+
+/* ---- 02 REPORTER · nodes ---- */
+.followReel .nd {
+  opacity: 0;
+  transform: scale(0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.5s var(--e),
+    transform 0.55s var(--over);
+}
+.followReel.fp2 .nd {
+  opacity: 1;
+  transform: scale(1);
+}
+.followReel .nd.dl1 {
+  transition-delay: 0.04s;
+}
+.followReel .nd.dl2 {
+  transition-delay: 0.09s;
+}
+.followReel .nd.dl3 {
+  transition-delay: 0.14s;
+}
+.followReel .nd.dl4 {
+  transition-delay: 0.19s;
+}
+.followReel .nd.dl5 {
+  transition-delay: 0.24s;
+}
+.followReel .nd.dl6 {
+  transition-delay: 0.29s;
+}
+.followReel .nd.dl7 {
+  transition-delay: 0.34s;
+}
+
+/* ---- 06 ARCHIVIST · versions kept beneath ---- */
+.followReel .ver {
+  opacity: 0;
+  transform: scale(0.8);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: 0.6s var(--over);
+}
+.followReel.fp6 .ver {
+  transform: scale(1);
+}
+.followReel.fp6 .ver.v1 {
+  opacity: 0.34;
+}
+.followReel.fp6 .ver.v2 {
+  opacity: 0.16;
+}
+.followReel .verlab {
+  font-family: var(--mono);
+  font-size: 8px;
+  fill: rgba(244, 242, 236, 0.55);
+  opacity: 0;
+  transition: 0.5s var(--e) 0.2s;
+}
+.followReel.fp6 .verlab {
+  opacity: 1;
+}
+
+/* ---- 03 ANALYST · five typed edges ---- */
+.followReel .ed {
+  fill: none;
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  transition:
+    stroke-dashoffset 0.6s var(--e),
+    stroke-width 0.5s;
+}
+.followReel.fp3 .ed {
+  stroke-dashoffset: 0;
+}
+.followReel .ed.ref {
+  stroke: rgba(180, 205, 228, 0.58);
+  stroke-width: 1.4;
+}
+.followReel .ed.sup {
+  stroke: rgba(205, 224, 242, 0.85);
+  stroke-width: 2.6;
+}
+.followReel .ed.ela {
+  stroke: rgba(180, 205, 228, 0.58);
+  stroke-width: 1.5;
+  stroke-dasharray: 1.5 4 !important;
+  stroke-dashoffset: 0 !important;
+  opacity: 0;
+  transition: opacity 0.5s var(--e) 0.25s;
+}
+.followReel.fp3 .ed.ela {
+  opacity: 1;
+}
+.followReel .ed.sps {
+  stroke: rgba(180, 205, 228, 0.7);
+  stroke-width: 1.7;
+}
+.followReel .ed.con {
+  stroke: var(--glow);
+  stroke-width: 2.4;
+  stroke-dasharray: 4 3;
+  filter: drop-shadow(0 0 4px rgba(232, 112, 58, 0.7));
+}
+.followReel.fp3 .ed.con {
+  stroke-dashoffset: 0;
+  animation: followReel-rdashf 1s linear infinite 0.6s;
+}
+@keyframes followReel-rdashf {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+/* ---- 04 EDITOR · weighted by confidence ---- */
+.followReel.fp4 .ed.sup {
+  stroke-width: 3.8;
+}
+
+/* ---- 05 3 TENSORS · content · causal · context ---- */
+.followReel .tn {
+  opacity: 0;
+  transform: scale(0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: 0.6s var(--over);
+}
+.followReel.fp5 .tn {
+  opacity: 1;
+  transform: scale(1);
+}
+.followReel .tn.b {
+  transition-delay: 0.12s;
+}
+.followReel .tn.c {
+  transition-delay: 0.24s;
+}
+.followReel .tray {
+  stroke: rgba(180, 205, 228, 0.45);
+  stroke-width: 1;
+  opacity: 0;
+  transition: 0.5s var(--e);
+}
+.followReel.fp5 .tray {
+  opacity: 1;
+}
+.followReel .tray.cx {
+  stroke: var(--glow);
+}
+.followReel.fp5 .tray.cx {
+  opacity: 0.85;
+}
+.followReel .tlab {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  opacity: 0;
+  transition: 0.5s var(--e) 0.25s;
+}
+.followReel.fp5 .tlab {
+  opacity: 1;
+}
+
+/* ---- 07 THE INDEX · framed shared memory ---- */
+.followReel .frame {
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  fill: rgba(194, 65, 12, 0.05);
+  opacity: 0;
+  transition: opacity 0.7s var(--e);
+}
+.followReel.fp7 .frame {
+  opacity: 1;
+  filter: drop-shadow(0 0 14px rgba(232, 112, 58, 0.35));
+}
+.followReel .ftab {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: 0.6s var(--over);
+}
+.followReel.fp7 .ftab {
+  opacity: 1;
+  transform: none;
+}
+.followReel .ftab rect {
+  fill: var(--accent);
+}
+.followReel .ftab text {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 11px;
+  fill: #fff;
+  letter-spacing: 1.5px;
+}
+
+/* ---- 08 MCP → · query in ---- */
+.followReel .fpulse {
+  fill: none;
+  stroke: var(--glow);
+  stroke-width: 1.4;
+  opacity: 0;
+}
+.followReel.fp8 .fpulse {
+  animation: followReel-rfp 1.4s ease infinite;
+}
+@keyframes followReel-rfp {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.followReel .client {
+  opacity: 0;
+  transform: translateX(14px);
+  transition: 0.6s var(--over);
+}
+.followReel.fp8 .client {
+  opacity: 1;
+  transform: none;
+}
+.followReel .client .cbox {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: rgba(180, 205, 228, 0.4);
+  stroke-width: 1.2;
+}
+.followReel .client .clbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: rgba(244, 242, 236, 0.78);
+}
+.followReel .mcpln {
+  stroke: rgba(232, 112, 58, 0.5);
+  stroke-width: 1.3;
+  stroke-dasharray: 3 3;
+  opacity: 0;
+  transition: 0.4s;
+}
+.followReel.fp8 .mcpln {
+  opacity: 1;
+}
+.followReel .qpkt {
+  opacity: 0;
+  transform-box: fill-box;
+  fill: var(--glow);
+}
+.followReel.fp8 .qpkt {
+  opacity: 1;
+  transform: translate(-112px, 0);
+  transition:
+    transform 1s var(--e) 0.25s,
+    opacity 0.3s;
+}
+
+/* ---- 09 ← MCP · answered, with provenance ---- */
+.followReel .apkt {
+  opacity: 0;
+  transform-box: fill-box;
+  transition:
+    transform 1s var(--e),
+    opacity 0.3s;
+}
+.followReel.fp9 .apkt {
+  opacity: 1;
+  transform: translate(112px, 0);
+}
+.followReel .aprov {
+  opacity: 0;
+  transition: 0.5s var(--e) 0.55s;
+}
+.followReel.fp9 .aprov {
+  opacity: 1;
+}
+.followReel .aprov text {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: rgba(244, 242, 236, 0.82);
+}
+
+/* ---- top caption pill ---- */
+.followReel .topcap {
+  position: absolute;
+  /* cleared below the layout's persistent ~60px sticky nav (which floats over
+     the full-viewport reel) so the beat caption stays visible — the standalone
+     prototype had no shared shell. */
+  top: 76px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+.followReel .topcap .pill {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: rgba(6, 24, 42, 0.74);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(232, 112, 58, 0.4);
+  border-radius: 999px;
+  padding: 7px 17px;
+}
+.followReel .topcap .step {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--glow);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.followReel .topcap .txt {
+  font-size: 12.5px;
+  color: var(--light);
+  font-weight: 500;
+}
+.followReel .topcap.show .pill {
+  animation: followReel-rlin 0.5s var(--over);
+}
+.followReel .topcap:not(.show) {
+  opacity: 0;
+}
+@keyframes followReel-rlin {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- edge legend ---- */
+.followReel .legend {
+  position: absolute;
+  top: 71.5%;
+  left: 44.7%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  z-index: 5;
+  opacity: 0;
+  transition: 0.6s var(--e);
+}
+.followReel.fp3 .legend {
+  opacity: 1;
+}
+.followReel .legend .it {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.followReel .legend .it span {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(244, 242, 236, 0.85);
+}
+.followReel .legend .it.con span {
+  color: var(--glow);
+}
+
+/* ---- persistent corner label + scroll hint ---- */
+.followReel .reelLabel {
+  position: absolute;
+  /* matches the topcap clearance below the sticky nav */
+  top: 76px;
+  left: 18px;
+  z-index: 6;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.5);
+}
+.followReel .reelLabel b {
+  color: var(--glow);
+  font-weight: 600;
+}
+.followReel .reelHint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 34px;
+  text-align: center;
+  z-index: 6;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(244, 242, 236, 0.62);
+  transition: opacity 0.4s;
+}
+.followReel .reelHint .ar {
+  display: block;
+  margin-top: 6px;
+  animation: followReel-bob 1.4s ease infinite;
+}
+@keyframes followReel-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+.followReel.go .reelHint {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- responsive: tighten the overlays on small screens ---- */
+@media (max-width: 640px) {
+  .followReel .legend {
+    gap: 9px;
+    top: 73%;
+  }
+  .followReel .legend .it span {
+    font-size: 9px;
+  }
+  .followReel .topcap .txt {
+    font-size: 11px;
+  }
+}
