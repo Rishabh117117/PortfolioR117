@@ -1,11 +1,13 @@
 # Follow — Page Build Spec
 
 > **Status (current):** BUILT. The bespoke `/work/follow` route replaces the
-> Phase-3 `[slug]` placeholder. Its centrepiece is a full-viewport, scroll-pinned
-> motion-graphics reel of the Follow pipeline, plus a deck-style project timeline
-> and a research & interviews section. Ported 1:1 from the prototype
-> (`docs/prototypes/follow-page-scroll.html`) into the repo's conventions —
-> not a redesign. Built under sprint **FOLLOW-PAGE-1**.
+> Phase-3 `[slug]` placeholder. Its centrepiece is an inline, autoplay-on-view
+> motion-graphics reel of the Follow pipeline (sitting two-up beside a write-up
+> panel), plus a deck-style project timeline and a research & interviews section.
+> Ported from the prototype (`docs/prototypes/follow-page-scroll.html`) into the
+> repo's conventions — not a redesign. Built under sprint **FOLLOW-PAGE-1**; the
+> reel section was restructured from a full-viewport scroll-pin to the inline
+> two-up under **RESTRUCTURE-1**.
 
 - **Route:** `/work/follow` (bespoke; listed in `BESPOKE_SLUGS` in
   `app/work/[slug]/page.tsx` so the dynamic route does not also emit it).
@@ -16,7 +18,7 @@
   `app/work/housing-works/page.tsx` (scene sections, mono kickers, italic-word
   headings, page-root accent override). Plain CSS Modules, no Tailwind, no new
   deps. `motion@12` is installed but NOT used here (the reel is pure CSS/SVG +
-  a small vanilla scroll handler).
+  a small vanilla autoplay-on-view loop).
 
 ---
 
@@ -25,7 +27,7 @@
 | File | Role |
 |------|------|
 | `app/work/follow/page.tsx` | Bespoke page (server component). Sets the Follow accent at the page root; renders every section. |
-| `app/work/follow/FollowReel.tsx` | `"use client"` — the scroll-pinned, full-viewport pipeline reel + the scroll sequencer. |
+| `app/work/follow/FollowReel.tsx` | `"use client"` — the inline, contained pipeline reel + the autoplay-on-view loop (IntersectionObserver + timed sequencer). |
 | `app/work/follow/FollowReel.css` | Plain, fully-namespaced reel stylesheet (imported by `FollowReel.tsx`). |
 | `app/work/follow/follow.module.css` | Page-specific CSS Module (hero mark, deck timeline, research, strip, cards, queries). |
 | `app/work/[slug]/page.tsx` | `BESPOKE_SLUGS` gains `"follow"`. |
@@ -66,8 +68,16 @@ and the `/work` index card (all read from `lib/projects.ts`).
 4. **Research & interviews** — two columns (theoretical spine // six primary
    engagements), the three "what we heard" insight cards, the AI-guilt pull-quote.
 5. **How it works** — kicker + italic-word headline ("From conversation to
-   *queryable* memory."), then `<FollowReel />`, then the honest "illustrative
-   animation" note.
+   *queryable* memory."), then a two-up layout: the reel at ~2/3 width on the
+   left and a borderless tint-panel write-up at ~1/3 on the right (≥768px;
+   stacks reel-then-write-up on mobile). The reel **autoplays a loop when
+   scrolled into view** (an `IntersectionObserver` starts a timed sequencer at
+   ~40% visibility; it pauses offscreen and restarts cleanly on re-entry). The
+   honest "illustrative animation" note stays below. *RESTRUCTURE-1 superseded
+   the original full-viewport scroll-pin/scroll-sequencer here; the timed loop
+   is restored (the named prototype file itself only holds the later scroll
+   version, so the per-beat interval + end hold were re-derived). Write-up copy
+   is provisional (`TODO(copy)`).*
 6. **Stat strip** — dark band: 5 LLM roles · 3 tensors · 5 edge types · 12 MCP tools.
 7. **Differentiators** — 3 cards (shared AI memory · per-paragraph provenance ·
    contradiction detection).

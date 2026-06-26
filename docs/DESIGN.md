@@ -159,6 +159,12 @@ Full motion system is deferred. For the shell, implement ONLY these, snappy:
 - Link underline-offset on hover.
 - Honor prefers-reduced-motion: reduce → disable all transitions/animations; content static.
 - Do NOT build scroll-reveals, parallax, or the signature arc yet — those come in the motion phase.
+- **Exception (RESTRUCTURE-1):** the `/work/follow` pipeline reel uses an
+  **autoplay-on-view loop** (IntersectionObserver-gated timed sequencer, vanilla
+  JS — `motion@12` still unused). This is the first, deliberately-scoped piece of
+  the deferred motion phase, limited to that one component; reduced-motion shows
+  the reel's fully-built final frame, statically. Scroll-reveals, parallax, and
+  the signature arc remain deferred.
 
 ---
 
@@ -197,7 +203,8 @@ When a project sets --accent, also set --accent-deep/-wash/-tint to matching sha
 ## 10. What's NOT decided yet (do not invent)
 
 - Full motion system (scroll reveals, the signature "objects→interfaces→systems" arc, true
-  parallax) — deferred to the motion phase, built against real pages.
+  parallax) — deferred to the motion phase, built against real pages. (One scoped
+  exception has shipped: the `/work/follow` reel's autoplay-on-view loop — see §7.)
 - Hero copy / positioning line — depends on D-01.
 - About/CV content — depends on D-04, D-05.
 - Exact imagery — extracted from the portfolio PDF in Phase 2.
