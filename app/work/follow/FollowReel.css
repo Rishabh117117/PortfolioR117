@@ -237,12 +237,16 @@
   fill: none;
   stroke-dasharray: 240;
   stroke-dashoffset: 240;
+  opacity: 0; /* base frame must be blank — also hides .ed.con's dashed stroke and
+                 the .ed.sps arrow marker, which the dashoffset reveal can't hide */
   transition:
     stroke-dashoffset 0.6s var(--e),
-    stroke-width 0.5s;
+    stroke-width 0.5s,
+    opacity 0.45s var(--e);
 }
 .followReel.fp3 .ed {
   stroke-dashoffset: 0;
+  opacity: 1;
 }
 .followReel .ed.ref {
   stroke: rgba(180, 205, 228, 0.58);
