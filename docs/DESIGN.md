@@ -165,6 +165,27 @@ Full motion system is deferred. For the shell, implement ONLY these, snappy:
   the deferred motion phase, limited to that one component; reduced-motion shows
   the reel's fully-built final frame, statically. Scroll-reveals, parallax, and
   the signature arc remain deferred.
+- **DESIGN-PHASE-1 — the motion phase begins (on `/work/follow` only).** With
+  Phase 1 done and at the user's direction, the deferred motion items (§10) are
+  now being built, scoped to the Follow page and kept deliberately subtle/clean:
+  - **Page-wide ambient backdrop + parallax** (`AmbientField`): a single
+    `position:fixed` soft-light layer behind the WHOLE page (z-index 0; every
+    section floats on a `.pageContent` z-index:1 layer above it — Material-style
+    layering). Low-opacity **blue (`#1C39BB`) + orange (`#C2410C`)** blurred orbs
+    that drift **side-to-side** and lean toward the pointer; their per-orb opacity
+    **cross-fades by scroll position** so the colour matches the story (intro =
+    both → problem = orange → Follow = blue). One always-on rAF loop (the browser
+    throttles it while the tab is hidden); under reduced-motion nothing attaches
+    and a CSS guard pins the orbs.
+  - **Glass hover-lift** on the differentiator + insight cards (translucent
+    border/shadow change + a `translateY` lift gated on `hover` and
+    `prefers-reduced-motion: no-preference`).
+  - **Diagram packets**: the two static "structural change" diagrams
+    (`CompareDiagram`) are still; the only motion is the read/write packets in
+    the With-Follow variant (CSS, disabled under reduced motion).
+  All pure CSS + a little vanilla rAF; `motion@12` still unused; locked tokens +
+  Follow burnt-orange only. The signature "objects→interfaces→systems" arc and
+  page-wide scroll-reveals remain deferred.
 
 ---
 
