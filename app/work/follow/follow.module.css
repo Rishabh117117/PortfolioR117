@@ -10,8 +10,15 @@
    ========================================================================= */
 
 .page {
+  position: relative;
   overflow-x: clip; /* contain the full-bleed strip + reel track; sticky-safe */
   --navy: #0a1f33;
+}
+/* content layer above the page-wide ambient backdrop (AmbientField is z-index 0,
+   fixed; every section floats over it on this z-index:1 layer) */
+.pageContent {
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- shared page type helpers (match the prototype's plain kicker/body) ---- */
@@ -32,6 +39,94 @@
   border-block: 1px solid var(--line);
 }
 
+/* the white "gap" block — problem · today's structure · insights, unified on one
+   elevated white surface over the page ambient (Material-style layering) */
+.blockWhite {
+  background: #fff;
+  border-block: 1px solid var(--line);
+}
+.blockWhite > * + * {
+  margin-top: var(--space-8);
+}
+
+/* HMW statement */
+.hmwEyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.hmw {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  max-width: 20ch;
+}
+.hmw em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+/* Follow concept — the reveal */
+.revealName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(56px, 10vw, 112px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-top: 8px;
+}
+.revealName .dot {
+  color: var(--accent);
+}
+.revealLine {
+  margin-top: 14px;
+  margin-bottom: 30px;
+  font-size: clamp(16px, 2.4vw, 21px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: var(--maxw-text);
+}
+.revealLine em {
+  color: var(--accent-deep);
+  font-style: italic;
+}
+
+/* textbook-style definition aside (e.g. "what is a TMS") in the problem section */
+.defNote {
+  margin-top: 26px;
+  max-width: 46ch;
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-wash);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.defTerm {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 7px;
+}
+.defBody {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.defBody em {
+  color: var(--accent-deep);
+  font-style: normal;
+}
+
 /* =========================================================================
    Hero
    ========================================================================= */
@@ -40,8 +135,11 @@
   max-width: var(--maxw-wide);
   margin-inline: auto;
   padding-inline: var(--page-pad);
-  padding-top: 56px;
-  padding-bottom: 8px;
+  padding-top: 64px;
+  padding-bottom: 44px;
+}
+.heroBody {
+  position: relative;
 }
 .dotsmark {
   display: flex;
@@ -83,15 +181,35 @@
   color: var(--gold);
   margin-bottom: 18px;
 }
-.heroTitle {
-  font-size: clamp(32px, 6.4vw, 56px);
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+/* giant deck-style wordmark — the bold opener */
+.heroLockup {
+  font-family: var(--font-display);
+  /* 700 is the heaviest Bricolage weight loaded (layout.tsx) — 800 would silently
+     fall back to it anyway. Floor kept low enough that the single unbreakable
+     "Follow." (incl. the accent dot) stays within the page-level overflow-x:clip
+     (.page) and never forces horizontal scroll on ~320px phones. */
+  font-weight: 700;
+  font-size: clamp(54px, 14vw, 156px);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
   color: var(--ink);
-  max-width: 14ch;
+  margin: 4px 0 0;
+}
+.heroLockup .dot {
+  color: var(--accent);
+}
+.heroTitle {
+  margin-top: 18px;
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  color: var(--ink);
+  max-width: 20ch;
 }
 .heroTitle em {
   color: var(--accent);
+  font-style: italic;
 }
 .heroSub {
   margin-top: 22px;
@@ -160,6 +278,14 @@
 }
 .tlFoot strong {
   color: var(--ink);
+}
+
+/* a clubbed sub-block under the timeline (the research methodology), set off by
+   a hairline so the journey + how-we-know read as one section */
+.clubbed {
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
 }
 
 /* =========================================================================
@@ -258,8 +384,8 @@
   letter-spacing: 0.08em;
 }
 .ins h3 {
-  /* semantically h3 (keeps the heading outline contiguous: h1 → h3, never
-     jumping to h4); kept in body-font (Inter) to match the prototype look,
+  /* semantically h3, sitting under the section's h2 kicker (h1 → h2 → h3, a
+     contiguous outline); kept in body-font (Inter) to match the prototype look,
      overriding the global display-face rule for h1–h3. */
   font-family: var(--font-body);
   font-weight: 600;
@@ -421,36 +547,30 @@
   line-height: 1.55;
 }
 
-/* =========================================================================
-   The four questions
-   ========================================================================= */
-.queries {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 24px;
-}
-@media (max-width: 760px) {
-  .queries {
-    grid-template-columns: 1fr 1fr;
+/* glass hover-lift — shared by the differentiator + insight cards (DESIGN-PHASE-1
+   motion). Pointer-only; the lift is gated on no-preference so reduced-motion
+   users get the (still) border/shadow change without movement. */
+@media (hover: hover) {
+  .card,
+  .ins {
+    transition:
+      transform var(--t-fast) var(--e-snappy),
+      box-shadow var(--t-fast) var(--e-snappy),
+      border-color var(--t-fast) var(--e-snappy);
+  }
+  .card:hover,
+  .ins:hover {
+    border-color: var(--accent-wash);
+    box-shadow:
+      0 2px 4px rgba(26, 26, 26, 0.05),
+      0 16px 40px rgba(26, 26, 26, 0.09);
   }
 }
-.q {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  background: var(--card);
-  padding: 16px;
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover,
+  .ins:hover {
+    transform: translateY(-3px);
+  }
 }
-.q .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-bottom: 10px;
-}
-.q p {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--ink);
-  line-height: 1.4;
-}
+
+/* (the "four questions" grid was removed — section deleted DESIGN-PHASE-1 v3) */
