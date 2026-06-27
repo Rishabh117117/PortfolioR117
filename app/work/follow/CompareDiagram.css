@@ -1,0 +1,283 @@
+/* Follow — the two "structural change" diagrams (DESIGN-PHASE-1 v4).
+   Variant-specific markup (before: web→AI→user→meeting; after: web→AI→Index→user),
+   so most elements are styled directly; only the shared AI row toggles on `.after`.
+   Namespaced under `.cdHolder`; brand values scoped here; accent tokens inherited. */
+
+.cdHolder {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  font-family: var(--font-body);
+  color: var(--ink);
+  --cd-navy: #0a1f33;
+  --cd-slate: #64748b;
+  --cd-glow: #e8703a;
+  --cd-ink2: #46443f;
+  --cd-mem: #c7cbd1;
+}
+
+.cdHolder .cdPanel {
+  position: relative;
+  background: rgba(251, 250, 248, 0.72);
+  backdrop-filter: blur(10px) saturate(1.05);
+  -webkit-backdrop-filter: blur(10px) saturate(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-lg);
+  padding: 10px 12px 6px;
+  box-shadow:
+    0 1px 2px rgba(10, 31, 51, 0.04),
+    0 18px 44px rgba(10, 31, 51, 0.07);
+}
+
+.cdHolder .cdPill {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  border: 1px solid var(--accent-wash);
+  border-radius: 999px;
+  padding: 6px 15px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--accent-deep);
+  z-index: 2;
+}
+.cdHolder .cdDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cd-slate);
+}
+.cdHolder.after .cdDot {
+  background: var(--accent);
+}
+
+.cdHolder .cdCanvas {
+  display: block;
+  width: 100%;
+}
+
+/* web */
+.cdHolder .web {
+  fill: #fff;
+  stroke: var(--ink);
+  stroke-width: 1.3;
+}
+.cdHolder .t-web {
+  fill: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+.cdHolder .hair {
+  stroke: var(--cd-slate);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+/* AI row (shared markup) */
+.cdHolder .ai {
+  fill: #fff;
+  stroke: var(--accent);
+  stroke-width: 1.8;
+  stroke-dasharray: 4 5;
+}
+.cdHolder.after .ai {
+  stroke-width: 2;
+  stroke-dasharray: 0;
+  fill: var(--accent-tint);
+}
+.cdHolder .t-ai {
+  fill: var(--accent-deep);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+/* connectors */
+.cdHolder .conn {
+  stroke: var(--cd-slate);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  opacity: 0.65;
+}
+.cdHolder .connA {
+  stroke: var(--accent);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+/* before: no-shared-memory tag */
+.cdHolder .mask {
+  fill: #fbfaf8;
+}
+.cdHolder .t-no {
+  fill: var(--cd-slate);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+}
+
+/* before: the team (out of the loop) */
+.cdHolder .mem {
+  fill: var(--cd-mem);
+}
+.cdHolder .t-mem {
+  fill: var(--cd-slate);
+  font-size: 11.5px;
+  font-family: var(--font-body);
+}
+
+/* before: the meeting (last; forgets) */
+.cdHolder .meetbar {
+  fill: var(--cd-navy);
+}
+.cdHolder .t-meet {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  font-family: var(--font-mono);
+}
+
+/* after: the Follow Index (the shared layer) */
+.cdHolder .indexbox {
+  fill: var(--accent-wash);
+}
+.cdHolder .indexedge {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+.cdHolder .t-index {
+  fill: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  font-family: var(--font-body);
+}
+.cdHolder .t-pillars {
+  fill: var(--cd-ink2);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  font-family: var(--font-mono);
+}
+.cdHolder .t-shared {
+  fill: var(--accent-deep);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+}
+
+/* after: the team (in the loop) */
+.cdHolder .memA {
+  fill: var(--cd-navy);
+}
+.cdHolder .ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0.85;
+}
+.cdHolder .t-memA {
+  fill: var(--cd-ink2);
+  font-size: 11.5px;
+  font-family: var(--font-body);
+}
+
+/* after: read/write packets (the only motion) */
+.cdHolder .pkt {
+  fill: var(--cd-glow);
+}
+.cdHolder .pu0 {
+  animation: cdDown 1.5s linear infinite;
+}
+.cdHolder .pu1 {
+  animation: cdDown 1.5s linear 0.5s infinite;
+}
+.cdHolder .pu2 {
+  animation: cdDown 1.5s linear 1s infinite;
+}
+.cdHolder .pd0 {
+  animation: cdDownB 1.5s linear 0.25s infinite;
+}
+.cdHolder .pd1 {
+  animation: cdDownB 1.5s linear 0.75s infinite;
+}
+.cdHolder .pd2 {
+  animation: cdDownB 1.5s linear 1.25s infinite;
+}
+@keyframes cdDown {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+}
+@keyframes cdDownB {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+}
+
+.cdHolder .cdSub {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cd-ink2);
+  margin: 16px auto 0;
+  text-align: center;
+  max-width: 56ch;
+}
+
+@media (max-width: 600px) {
+  .cdHolder .t-index {
+    font-size: 20px;
+  }
+  .cdHolder .t-web,
+  .cdHolder .t-ai {
+    font-size: 16px;
+  }
+  .cdHolder .t-mem,
+  .cdHolder .t-memA {
+    font-size: 15px;
+  }
+  .cdHolder .t-meet,
+  .cdHolder .t-shared,
+  .cdHolder .t-no,
+  .cdHolder .t-pillars {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdHolder .pkt {
+    animation: none !important;
+    opacity: 0;
+  }
+}
