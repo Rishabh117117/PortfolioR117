@@ -79,6 +79,30 @@
   color: var(--paper);
   opacity: 0.5;
 }
+.navy .body {
+  color: var(--paper);
+  opacity: 0.85;
+}
+
+/* blue band (§ opportunity) — a clearer blue than the deep problem band */
+.blue {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy);
+  color: var(--paper);
+  border-block: 1px solid var(--navy-deep);
+}
+.blue .kicker {
+  color: var(--amber-soft);
+}
+.blue .title {
+  color: var(--paper);
+}
+
+/* centered-content utility (the reframe statement spine) */
+.center {
+  text-align: center;
+}
 
 /* wide-diagram wrapper: never forces page h-scroll; scrolls inside on mobile */
 .diagram {
@@ -214,12 +238,12 @@
   font-size: clamp(96px, 20vw, 260px);
   line-height: 0.82;
   letter-spacing: -0.04em;
-  color: var(--amber);
+  color: var(--amber-soft); /* on the dark problem band */
 }
 .giant .unit {
   font-size: 0.3em;
   margin-left: 0.08em;
-  color: var(--amber);
+  color: var(--amber-soft);
   letter-spacing: 0;
 }
 
@@ -264,22 +288,25 @@
 .reframeStatement {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(28px, 5vw, 54px);
+  font-size: clamp(30px, 5.4vw, 58px);
   line-height: 1.12;
   letter-spacing: -0.015em;
-  color: var(--paper);
-  max-width: 24ch;
+  color: var(--ink);
+  max-width: 26ch;
+  margin-inline: auto;
+  text-align: center;
 }
 .reframeStatement .turn {
   font-style: italic;
-  color: var(--amber-soft);
+  color: var(--amber);
 }
 .reframeLead {
   margin-top: var(--space-5);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.04em;
-  color: var(--amber-soft);
+  color: var(--soft);
+  text-align: center;
 }
 .precLead {
   margin-top: var(--space-8);
@@ -288,8 +315,9 @@
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--amber-soft);
+  color: var(--accent);
   margin-bottom: var(--space-2);
+  text-align: center;
 }
 /* dark precedent cards (the 3 under HTTPS, on the navy band) */
 .navy .prec {
@@ -472,19 +500,18 @@
   font-size: clamp(34px, 6vw, 72px);
   line-height: 1.0;
   letter-spacing: -0.02em;
-  color: var(--paper);
+  color: var(--ink);
 }
 .httpsPull em {
   font-style: italic;
-  color: var(--amber-soft);
+  color: var(--amber);
 }
 .httpsBody {
   margin-top: var(--space-5);
   font-family: var(--font-serif);
   font-size: clamp(16px, 2.2vw, 20px);
   line-height: 1.5;
-  color: var(--paper);
-  opacity: 0.85;
+  color: var(--ink-2);
   max-width: 48ch;
 }
 

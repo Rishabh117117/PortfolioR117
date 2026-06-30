@@ -110,8 +110,8 @@ export default function GreenerHoursPage() {
           </div>
         </header>
 
-        {/* ============ §2 THE SCALE (problem) ============ */}
-        <section className="section" data-ambient-dim>
+        {/* ============ §2 THE SCALE (problem — one dark band with §3) ============ */}
+        <section className={`section ${styles.navy}`}>
           <div className="container">
             <p className={styles.kicker}>§ 03 · The problem · the scale</p>
             <div className={styles.scaleGrid}>
@@ -157,10 +157,10 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §4 THE REFRAME + PRECEDENT (dark, combined) ============ */}
-        <section className={`section ${styles.navy}`}>
+        {/* ============ §4 THE REFRAME + PRECEDENT (light, centered) ============ */}
+        <section className="section" data-ambient-dim>
           <div className="container">
-            <p className={styles.kicker}>§ 05 · The reframe</p>
+            <p className={`${styles.kicker} ${styles.center}`}>§ 05 · The reframe</p>
             <p className={styles.reframeStatement}>
               {INSIGHT.lead}{" "}
               <span className={styles.turn}>{INSIGHT.turn}</span>
@@ -197,8 +197,8 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §5 THE OPPORTUNITY (forces) ============ */}
-        <section className={`section ${styles.band}`}>
+        {/* ============ §5 THE OPPORTUNITY (forces) — blue band ============ */}
+        <section className={`section ${styles.blue}`}>
           <div className="container">
             <p className={styles.kicker}>§ 06 · The opportunity · three forces</p>
             <h2 className={styles.title}>
@@ -252,6 +252,11 @@ export default function GreenerHoursPage() {
               One indicator, one scheduler, <em>one dashboard.</em>
             </h2>
             <TierTabs />
+            <p className={styles.source}>
+              The P-codes on each surface map to the ten design principles from
+              Prof. Godelnik&apos;s <em>Design for a Warming World</em> — the project
+              was developed roughly against that framework.
+            </p>
           </div>
         </section>
 
