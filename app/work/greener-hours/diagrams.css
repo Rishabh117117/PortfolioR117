@@ -1,0 +1,41 @@
+/* Greener Hours — shared SVG diagram utilities (GH-PAGE-1).
+   Faithful ports of the deck's diagrams reference page-scoped color tokens (set on
+   the page root) through these tiny utility classes, so no raw hex / no font-name
+   guessing lives in the components. `ghd-` = fill, `ghs-` = stroke, `ghf-` = font.
+   Namespaced to this route; imported by every diagram component. */
+
+/* fills */
+.ghd-amber { fill: var(--amber); }
+.ghd-amberSoft { fill: var(--amber-soft); }
+.ghd-navy { fill: var(--navy); }
+.ghd-navySoft { fill: var(--navy-soft); }
+.ghd-forest { fill: var(--accent); }
+.ghd-forestDeep { fill: var(--accent-deep); }
+.ghd-ink { fill: var(--ink); }
+.ghd-ink2 { fill: var(--ink-2); }
+.ghd-soft { fill: var(--soft); }
+.ghd-paper { fill: var(--paper); }
+.ghd-card { fill: var(--card); }
+.ghd-sky { fill: var(--sky); }
+.ghd-none { fill: none; }
+
+/* strokes */
+.ghs-amber { stroke: var(--amber); }
+.ghs-amberSoft { stroke: var(--amber-soft); }
+.ghs-navy { stroke: var(--navy); }
+.ghs-navySoft { stroke: var(--navy-soft); }
+.ghs-forest { stroke: var(--accent); }
+.ghs-ink { stroke: var(--ink); }
+.ghs-soft { stroke: var(--soft); }
+.ghs-line { stroke: var(--line); }
+.ghs-sky { stroke: var(--sky); }
+.ghs-paper { stroke: var(--paper); }
+
+/* fonts */
+.ghf-mono { font-family: var(--font-mono); }
+.ghf-serif { font-family: var(--font-serif); }
+.ghf-sans { font-family: var(--font-body); }
+
+/* on dark navy bands: paper-toned text/strokes via currentColor opacity helpers */
+.ghd-onDark { fill: var(--paper); }
+.ghs-onDark { stroke: var(--paper); }
