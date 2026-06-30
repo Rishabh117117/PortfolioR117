@@ -1,98 +1,73 @@
-# RUN-STATUS — GH-DECK-1 (Greener Hours deck-as-page)
+# RUN-STATUS — GH-PAGE-1 (Greener Hours bespoke narrative page)
 
 **Branch:** `claude/portfolio-foundation-g8xwbo`
-**Scope:** Replace the `[slug]` placeholder at `/work/greener-hours` with the
-finished presentation deck, vendored as a static asset and embedded in a
-full-bleed 16:9 iframe (global Nav above, project pager below). Deck copied
-verbatim — not rebuilt, restyled, or tokenized.
+**Scope:** Replace the iframe "deck-as-page" (GH-DECK-1) at `/work/greener-hours`
+with a full bespoke narrative case study — a peer to Follow / Housing Works /
+Healthy Materials — rebuilt from the presentation deck's content + visual
+language. Keep the vendored deck as a linked artifact.
 **Started/Finished:** 2026-06-30 · **Status:** COMPLETE, verified, committed
-per-file. Branch left unmerged for review.
+per-file. Branch left for review. **Supersedes the GH-DECK-1 status.**
 
-## Decisions taken in-sprint
-- **Pager styles reused, not copied:** the page imports the pager classes from
-  `app/work/[slug]/project.module.css` (true reuse); `greener-hours.module.css`
-  carries only the deck-frame + stage layout.
-- **Clip wrapper + height-derived width cap:** the iframe sits in a `.frame` div
-  with `overflow:hidden` that reliably clips the deck's near-black canvas to the
-  `--radius-lg` corners (an iframe alone doesn't honor border-radius across
-  engines) and carries `aspect-ratio:16/9` + `max-width: calc((100svh -
-  var(--deck-reserve)) * 16 / 9)` (with a `100vh` fallback line first for engines
-  without `svh`). On short/wide viewports the 16:9 box shrinks (width follows the
-  height cap) instead of letterboxing; `--deck-reserve:160px` ≈ sticky Nav (60px)
-  + stage padding + caption bar, so the framed deck sits within the viewport on
-  landing. On phones the 16:9 box is small — the "Open full screen" link is the
-  intended mobile reading path. (Single px/shadow values confined to the
-  iframe-frame CSS, per brief.)
-- **Compact caption bar** above the frame: project eyebrow (`{year} ·
-  {discipline}`, accent) left, "Open full screen ↗" (mono, → new tab) right. No
-  big H1 — the deck's own title slide is the heading, so a page H1 would double it.
-- **`allow="fullscreen"`** on the iframe so the deck's own F-key / fullscreen
-  button works in-frame (in addition to the "Open full screen" link).
+## Decisions taken in-sprint (confirmed with Rishabh)
+- **Visual = HYBRID:** portfolio shell + Bricolage; a **page-scoped serif
+  (Fraunces, `--font-serif`)** loaded via `next/font` in `page.tsx` only (display
+  moments — hero, 945 stat, insight quote, section titles, KPI numerals, close);
+  the deck's **amber `#C2410C` + navy `#1E3A5F`** (+ `--amber-soft`, `--sky`) as
+  **page-scoped vars on the root**, carried into the diagrams. Primary accent
+  stays **Forest `#1C3B36`** (matches the card; avoids Follow's amber). Color
+  semantics: amber = carbon/dirty, navy + forest = clean/renewable.
+- **Product = CURATED:** 3-surface overview (`SurfaceThumbs`, the deck's slide-7
+  thumbnails) + ONE full rebuild — the Tier-1 "Compute Window Indicator" chat
+  (`ComputeWindowMock`, the Claude-in-the-chat hook). Tiers 2/3 = the thumbnails.
+- **Deck kept:** the vendored `public/greener-hours/index.html` is no longer
+  iframed; it is linked from the hero + DemoCallout as "View the full deck ↗".
+- **Honesty:** badge `COURSE PROJECT · CONCEPT` (speculative open-standard
+  coursework); demo `SIMULATED`; live Tier-1 prototype deferred (Phase 4).
 
 ## Done
-- `public/greener-hours/index.html` — vendored deck, byte-for-byte verbatim
-  (`diff` clean, 128471 B == source). No edits to its markup/CSS/JS.
-- `app/work/greener-hours/page.tsx` — minimal bespoke route: `--accent` from
-  `FLAGSHIPS`, a `.frame` wrapper around the 16:9 iframe
-  (`src="/greener-hours/index.html"`, `title="Greener Hours — presentation"`,
-  `loading="lazy"`, `allow="fullscreen"`), caption bar with the "Open full screen
-  ↗" link, and the `[slug]` project pager (prev/next derived from `FLAGSHIPS`
-  order → ← Follow / Healthy Materials →). Static `metadata` export → title
-  `"Greener Hours — Rishabh Salian"` (matches the sibling Follow bespoke page).
-  A11y/robustness from the review pass: a visually-hidden `<h1>` (document outline
-  — the deck title is sealed in the iframe), an `aria-label` + `aria-hidden`
-  arrow on the full-screen link, and an `index === -1 → notFound()` guard.
-- `app/work/greener-hours/greener-hours.module.css` — frame + stage layout only,
-  tokens throughout (`--maxw-wide`, `--page-pad`, `--space-*`, `--radius-lg`,
-  `--ink`); the `.frame` clip wrapper (overflow:hidden) + `.deck` (iframe fills
-  it) + `--deck-reserve` var + `vh`/`svh` height-cap fallbacks + an `.srOnly`
-  helper; shadow value matches Follow's write-up panel.
-- `app/work/[slug]/page.tsx` — `"greener-hours"` added to `BESPOKE_SLUGS` (dynamic
-  route no longer emits it; no duplicate / no route-conflict warning).
-- Docs: `docs/ROADMAP.md` Phase 3 (greener-hours → built; remaining = the
-  prototype embed); `docs/DECISIONS.md` (D-06 RESOLVED + GH-DECK-1 Log entry);
-  `docs/projects/greener-hours.md` (new short spec + the deferred prototype
-  follow-up); this RUN-STATUS.
+- `lib/greenerHours.ts` — all page data + copy, faithful to the deck.
+- `app/work/greener-hours/page.tsx` — full narrative (16 sections), server
+  component; scoped Fraunces + `rootStyle` (Forest accent + scoped amber/navy/sky);
+  `AmbientField` + `.pageContent`; reuses `DemoCallout` + the `[slug]` pager.
+- `app/work/greener-hours/greener-hours.module.css` — HM-style scene system
+  (`.page`/`.pageContent`, light `.band` + opaque dark `.navy` bands, hero,
+  `.giant`, `.quoteBig`, card grids, tier grid, KPIs, close, `.diagram` wrappers).
+- Diagram components (faithful deck ports, tokens via `diagrams.css`): `ScaleChart`,
+  `VisibilityFlow`, `ForceVisual` (variant), `HeadersDiagram`, `AdoptionCurve`.
+- `SurfaceThumbs.{tsx,module.css}` (3 surface thumbnails incl. mini grid-forecast
+  + dual-bar charts); `ComputeWindowMock.{tsx,module.css}` (Tier-1 chat).
+- `AmbientField.{tsx,css}` — copy-renamed from HM, forest+amber, namespaced `gh-`,
+  amber-dominant→forest scroll cross-fade, `document.hidden` + reduced-motion guards.
+- `lib/projects.ts` — status `SIMULATED` → `COURSE PROJECT · CONCEPT` (Forest
+  accent unchanged; propagates to home grid + `/work` chips).
+- Docs: `ROADMAP.md` (greener-hours → GH-PAGE-1 bespoke), `DECISIONS.md` (D-06
+  reversed + GH-PAGE-1 log), `docs/projects/greener-hours.md` (rewritten),
+  `CLAUDE.md` changelog, this RUN-STATUS.
 
 ## Checks (actual output)
-- **Build:** to avoid contending with the parallel housing-works session's dev
-  server (port 3000) over the shared `.next`, the build ran in an isolated mirror
-  of the tree (`scratchpad/gh-build`, fresh `.next`, `node_modules` junctioned).
-  `npm run build` → `✓ Compiled successfully` / `✓ Generating static pages
-  (20/20)` / exit 0. `/work/greener-hours` prerenders **`○ (Static)`** (376 B,
-  First Load 96.4 kB). Count stays 20/20 (not incremented) **by design** —
-  greener-hours simply moved from `[slug]`-generated to its own bespoke route
-  (net zero); no `[slug]` sub-path for it, no duplicate-route warning.
-  (Lint not run — ESLint not installed per CLAUDE.md; the build type-check is the
-  gate. The `[slug]/project.module.css` cross-route import resolves cleanly.)
-- **HTTP (isolated prod server, port 3210):** `/work/greener-hours` → 200;
-  `/greener-hours/index.html` → 200. Route HTML contains the iframe
-  (`src="/greener-hours/index.html"`, title, `loading="lazy"`,
-  `allow="fullscreen"`), the `2025–26 · Climate · AI` eyebrow, "Open full
-  screen", and the pager (`aria-label="Project pager"`, Follow / Healthy
-  Materials). The served deck is the real one (`Greener Hours — Final
-  Presentation`, `width: 1920px`, `--scale`).
-- **No-letterbox (geometric):** the deck canvas is 1920×1080 (16:9) scaled by
-  `min(scaleX, scaleY)`; in a 16:9 frame `scaleX === scaleY`, so it fills exactly
-  with no letterbox, and re-scales on resize via the deck's own resize handler.
-- **Review:** a 5-lens adversarial pass (brief-compliance, React/Next
-  correctness, CSS robustness, a11y, docs) found no correctness bugs and confirmed
-  the acceptance suite. Two `major` items were fixed: the iframe needed an
-  `overflow:hidden` clip wrapper for the rounded corners, and the `svh` height cap
-  needed a `vh` fallback; plus the headingless-page a11y gap (sr-only `<h1>`) and
-  link/guard nits. The isolated build was re-run green after the fixes.
-- **Browser screenshot not captured:** the preview MCP would require either
-  editing the tracked `.claude/launch.json` or starting a second dev server in
-  the shared folder (both would disturb the parallel housing-works session), so
-  it was deliberately skipped in favor of the build + HTTP + DOM + geometry
-  evidence above.
+- **Build:** `npm run build` → `✓ Compiled successfully` / `✓ Generating static
+  pages (20/20)` / exit 0. `/work/greener-hours` prerenders **`○ (Static)`**
+  (3.5 kB, First Load 99.5 kB). No double-route for `greener-hours`
+  (`BESPOKE_SLUGS`). ESLint not installed — build type-check is the gate.
+- **Browser (dev `:3000`, real 1280×900 viewport):** Fraunces loads + is **scoped**
+  (hero `font-family: __Fraunces_…`; `--font-serif` set on the page root); scoped
+  `--amber` `#C2410C` / `--navy` `#1E3A5F` resolve; the giant stat is amber, the
+  kickers Forest; **3 dark navy bands** (invisibility, HTTPS, close) opaque; the
+  Tier-1 carbon pill renders (`412 g/kWh · us-east-1`); 9 SVG diagrams present;
+  **no horizontal overflow** (docScrollW 1265 ≤ 1280); **no console errors**.
+  Screenshots captured: hero, scale chart, dark-matter flow, Tier-1 mock, HTTPS
+  band, forces + 3 surfaces.
+- **Mobile (375):** single column, no horizontal overflow (375 == 375); wide
+  diagrams (viewBox 1700) scroll inside their `.diagram`/`.diagramWide` wrapper,
+  not the page (`.page { overflow-x: clip }`).
+- **Cross-page:** other routes + the pager (← Follow / Healthy Materials →) intact;
+  Greener Hours card stays Forest.
 
 ## Guardrails honoured
-- Per-file commits, no `--amend`. No merge / no PR / no deploy. Branch left for
-  review.
-- Surgical staging (explicit paths only) — the parallel session's uncommitted
-  `housing-works` + `AmbientField` changes were left untouched and uncommitted.
-- The deck is a vendored asset: copied verbatim, no refactor / no token or lint
-  rules applied. No new design tokens; the only raw values are inside the
-  iframe-frame CSS (height-cap px + the Follow-matched shadow). `lib/projects.ts`
-  unchanged (card accent Forest, status SIMULATED).
+- Per-file commits, no `--amend`. No merge / no PR / no deploy beyond the branch.
+- No new GLOBAL tokens; all color via page-scoped vars on the root (HM/Follow
+  pattern) or existing globals. The only raw values are the `rootStyle` hex (the
+  scoped palette) + the Follow-matched `rgba(26,26,26,…)` shadow. Fraunces scoped
+  to this route only (no `layout.tsx`/`globals.css` change).
+- The vendored deck is untouched and preserved. Reduced-motion respected
+  (AmbientField no-ops; only CSS micro-transitions otherwise).
