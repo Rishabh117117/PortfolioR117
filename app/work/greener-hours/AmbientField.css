@@ -1,0 +1,76 @@
+/* Greener Hours — page-wide ambient backdrop (recoloured copy of HM's/Follow's).
+   Fixed, full-viewport soft-light layer behind the whole page (z-index 0; page
+   content sits on a z-index:1 layer above it). Amber (#C2410C / #E8A642 — carbon)
+   + forest (#1C3B36 / #2E5A4E — clean / the standard) orbs, sized large and
+   parked partly off-screen so only a smooth gradient falloff washes into the
+   light sections. Per-orb opacity is JS-driven for the scroll colour cross-fade;
+   CSS only sets position/size/blur/colour. Namespaced `gh-` to avoid colliding
+   with the other pages' ambient classes. */
+
+.gh-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.gh-ambient .gh-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+}
+/* amber orbs (carbon) */
+.gh-ambient .a1 {
+  width: 56vw;
+  height: 56vw;
+  max-width: 760px;
+  max-height: 760px;
+  top: -12vh;
+  left: -10vw;
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.34), transparent 70%);
+}
+.gh-ambient .a2 {
+  width: 42vw;
+  height: 42vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: 26vh;
+  right: -2vw;
+  background: radial-gradient(circle, rgba(232, 166, 66, 0.32), transparent 72%);
+}
+/* forest orbs (clean / the standard) */
+.gh-ambient .f1 {
+  width: 60vw;
+  height: 60vw;
+  max-width: 820px;
+  max-height: 820px;
+  bottom: -18vh;
+  right: -12vw;
+  background: radial-gradient(circle, rgba(28, 59, 54, 0.4), transparent 72%);
+}
+.gh-ambient .f2 {
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: 4vh;
+  left: -2vw;
+  background: radial-gradient(circle, rgba(46, 90, 78, 0.32), transparent 72%);
+}
+
+/* resting opacity = the motion baseline (intro: amber 0.9, forest 0.5), so the
+   pre-first-frame paint and reduced-motion users match motion mode. */
+.gh-ambient .a1,
+.gh-ambient .a2 {
+  opacity: 0.9;
+}
+.gh-ambient .f1,
+.gh-ambient .f2 {
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gh-ambient .gh-orb {
+    transform: none !important;
+  }
+}
