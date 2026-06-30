@@ -259,31 +259,52 @@
 }
 
 /* =========================================================================
-   §4 Insight — pull-quote
+   §4 The reframe + precedent (combined, on a dark band)
    ========================================================================= */
-.quoteWrap {
-  border-left: 3px solid var(--amber);
-  padding: var(--space-2) 0 var(--space-2) var(--space-5);
-  max-width: 28ch;
-}
-.quoteBig {
+.reframeStatement {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(28px, 5vw, 52px);
+  font-size: clamp(28px, 5vw, 54px);
   line-height: 1.12;
-  letter-spacing: -0.01em;
-  color: var(--ink);
+  letter-spacing: -0.015em;
+  color: var(--paper);
+  max-width: 24ch;
 }
-.quoteBig .turn {
+.reframeStatement .turn {
   font-style: italic;
-  color: var(--amber);
+  color: var(--amber-soft);
 }
-.quoteAttr {
-  margin-top: var(--space-4);
+.reframeLead {
+  margin-top: var(--space-5);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.04em;
-  color: var(--soft);
+  color: var(--amber-soft);
+}
+.precLead {
+  margin-top: var(--space-8);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-soft);
+  margin-bottom: var(--space-2);
+}
+/* dark precedent cards (the 3 under HTTPS, on the navy band) */
+.navy .prec {
+  background: color-mix(in srgb, var(--paper) 7%, transparent);
+  border-color: color-mix(in srgb, var(--paper) 18%, transparent);
+}
+.navy .precName {
+  color: var(--paper);
+}
+.navy .precKind {
+  color: var(--amber-soft);
+}
+.navy .precNote {
+  color: var(--paper);
+  opacity: 0.72;
 }
 
 /* =========================================================================
@@ -411,89 +432,11 @@
   color: var(--paper);
 }
 
-/* =========================================================================
-   §8 Tier-1 deep dive — principles + full mockup
-   ========================================================================= */
-.tierGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  margin-top: var(--space-6);
-  align-items: start;
-}
-@media (min-width: 920px) {
-  .tierGrid {
-    grid-template-columns: 4fr 6fr;
-    gap: var(--space-7);
-  }
-}
-.tierNum {
-  font-family: var(--font-serif);
-  font-size: 64px;
-  font-weight: 300;
-  line-height: 1;
-  color: var(--amber);
-}
-.tierRole {
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-top: var(--space-2);
-}
-.tierName {
-  font-family: var(--font-serif);
-  font-size: clamp(26px, 4vw, 36px);
-  font-weight: 500;
-  color: var(--ink);
-  margin: var(--space-2) 0 var(--space-3);
-}
-.tierJob {
-  font-size: 16px;
-  line-height: 1.55;
-  color: var(--ink-2);
-  font-style: italic;
-  max-width: 42ch;
-}
-.principleList {
-  margin-top: var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-.pRow {
-  display: flex;
-  gap: var(--space-3);
-  align-items: baseline;
-}
-.pCode {
-  flex: 0 0 auto;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--paper);
-  background: var(--accent);
-  border-radius: var(--radius-sm);
-  padding: 3px 7px;
-}
-.pCode.anchor {
-  background: var(--amber);
-}
-.pName {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink);
-}
-.pInsight {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--soft);
-  margin-top: 1px;
-}
+/* (Tier deep-dive styles moved to TierTabs.module.css — the three surfaces now
+   live in the tabbed product view.) */
 
 /* =========================================================================
-   §7 How it works — note
+   §6 The standard — how-it-works note
    ========================================================================= */
 .headerNote {
   margin-top: var(--space-5);
@@ -516,6 +459,7 @@
   grid-template-columns: 1fr;
   gap: var(--space-6);
   align-items: center;
+  margin-top: var(--space-8);
 }
 @media (min-width: 880px) {
   .httpsGrid {

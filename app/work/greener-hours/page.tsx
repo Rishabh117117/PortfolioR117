@@ -17,11 +17,7 @@ import {
   VIS_SOURCE,
   INSIGHT,
   FORCES,
-  TIERS,
   SUBSTRATE,
-  TIER1_PRINCIPLES,
-  CARBON_PILL,
-  HEADERS_LEDE,
   HTTPS,
   PRECEDENTS,
   TRADEOFFS,
@@ -33,16 +29,14 @@ import AmbientField from "./AmbientField";
 import ScaleChart from "./ScaleChart";
 import VisibilityFlow from "./VisibilityFlow";
 import ForceVisual from "./ForceVisual";
-import SurfaceThumbs from "./SurfaceThumbs";
-import ComputeWindowMock from "./ComputeWindowMock";
 import HeadersDiagram from "./HeadersDiagram";
 import AdoptionCurve from "./AdoptionCurve";
+import TierTabs from "./TierTabs";
 import pager from "../[slug]/project.module.css";
 import styles from "./greener-hours.module.css";
 
 // Page-scoped serif (the deck's Fraunces) — loaded here, exposed as --font-serif
-// on the page root only. Cannot leak past this route. Mirrors the archived
-// stun-gun page's scoped-serif pattern.
+// on the page root only. Cannot leak past this route.
 const serif = Fraunces({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -77,7 +71,6 @@ export default function GreenerHoursPage() {
     "--accent-tint": "#EAF0EE",
     "--amber": "#C2410C",
     "--amber-soft": "#E8A642",
-    "--amber-wash": "#F7E4D6",
     "--navy": "#1E3A5F",
     "--navy-soft": "#3A5A82",
     "--navy-deep": "#15293F",
@@ -117,7 +110,7 @@ export default function GreenerHoursPage() {
           </div>
         </header>
 
-        {/* ============ §2 THE SCALE ============ */}
+        {/* ============ §2 THE SCALE (problem) ============ */}
         <section className="section" data-ambient-dim>
           <div className="container">
             <p className={styles.kicker}>§ 03 · The problem · the scale</p>
@@ -164,16 +157,43 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §4 THE INSIGHT ============ */}
-        <section className="section">
-          <div className="containerText">
+        {/* ============ §4 THE REFRAME + PRECEDENT (dark, combined) ============ */}
+        <section className={`section ${styles.navy}`}>
+          <div className="container">
             <p className={styles.kicker}>§ 05 · The reframe</p>
-            <blockquote className={styles.quoteWrap}>
-              <p className={styles.quoteBig}>
-                {INSIGHT.lead} <span className={styles.turn}>{INSIGHT.turn}</span>
-              </p>
-            </blockquote>
-            <p className={styles.quoteAttr}>{INSIGHT.attr}</p>
+            <p className={styles.reframeStatement}>
+              {INSIGHT.lead}{" "}
+              <span className={styles.turn}>{INSIGHT.turn}</span>
+            </p>
+            <p className={styles.reframeLead}>{INSIGHT.attr}</p>
+
+            {/* the hero precedent — HTTPS */}
+            <div className={styles.httpsGrid}>
+              <div>
+                <h2 className={styles.httpsPull}>
+                  {HTTPS.pullA}
+                  <br />
+                  <em>{HTTPS.pullB}</em>
+                </h2>
+                <p className={styles.httpsBody}>{HTTPS.body}</p>
+              </div>
+              <div className={styles.diagram}>
+                <AdoptionCurve />
+              </div>
+            </div>
+
+            {/* three supporting precedents */}
+            <p className={styles.precLead}>The same pattern, across domains</p>
+            <div className={styles.cards3}>
+              {PRECEDENTS.slice(0, 3).map((p) => (
+                <div key={p.name} className={styles.prec}>
+                  <div className={styles.precName}>{p.name}</div>
+                  <span className={styles.precKind}>{p.kind}</span>
+                  <p className={styles.precNote}>{p.note}</p>
+                </div>
+              ))}
+            </div>
+            <p className={styles.source}>{HTTPS.source}</p>
           </div>
         </section>
 
@@ -201,28 +221,17 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §6 THE SOLUTION (overview) ============ */}
-        <section className="section">
+        {/* ============ §6 THE STANDARD (the product) ============ */}
+        <section className="section" data-ambient-dim>
           <div className="container">
-            <p className={styles.kicker}>§ 07 · The solution</p>
+            <p className={styles.kicker}>§ 07 · The product · the standard</p>
             <h2 className={styles.title}>
               One standard. <em>Three surfaces.</em>
             </h2>
-            <SurfaceThumbs />
             <div className={styles.substrate}>
               <div className={styles.substrateLabel}>{SUBSTRATE.label}</div>
               <div className={styles.substrateBody}>{SUBSTRATE.body}</div>
             </div>
-          </div>
-        </section>
-
-        {/* ============ §7 HOW IT WORKS (headers) ============ */}
-        <section className="section" data-ambient-dim>
-          <div className="container">
-            <p className={styles.kicker}>§ 11 · How it works · no new pipes</p>
-            <h2 className={styles.title}>
-              The standard adds three headers <em>to existing API calls.</em>
-            </h2>
             <div className={styles.diagram}>
               <div className={styles.diagramWide}>
                 <HeadersDiagram />
@@ -235,85 +244,18 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §8 TIER 1 — the full surface ============ */}
+        {/* ============ §7 THE THREE SURFACES (tabbed) ============ */}
         <section className="section">
           <div className="container">
-            <p className={styles.kicker}>§ 08 · Tier 01 · the legibility layer</p>
-            <div className={styles.tierGrid}>
-              <div>
-                <div className={styles.tierNum}>01</div>
-                <div className={styles.tierRole}>Legibility layer</div>
-                <h2 className={styles.tierName}>{TIERS[0].name}</h2>
-                <p className={styles.tierJob}>{TIERS[0].job}</p>
-                <div className={styles.principleList}>
-                  {TIER1_PRINCIPLES.map((p) => (
-                    <div key={p.code} className={styles.pRow}>
-                      <span
-                        className={`${styles.pCode} ${
-                          p.kind === "anchor" ? styles.anchor : ""
-                        }`}
-                      >
-                        {p.code}
-                      </span>
-                      <div>
-                        <div className={styles.pName}>{p.name}</div>
-                        <div className={styles.pInsight}>{p.insight}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <ComputeWindowMock />
-            </div>
-            <p className={styles.source}>
-              Illustrative interface — values shown ({CARBON_PILL.value}{" "}
-              {CARBON_PILL.unit} · {CARBON_PILL.region}) are sample data, not a live
-              reading.
-            </p>
-          </div>
-        </section>
-
-        {/* ============ §10 PRECEDENT — HTTPS (dark) ============ */}
-        <section className={`section ${styles.navy}`}>
-          <div className="container">
-            <p className={styles.kicker}>§ 13 · Precedent · {HTTPS.eyebrow}</p>
-            <div className={styles.httpsGrid}>
-              <div>
-                <h2 className={styles.httpsPull}>
-                  {HTTPS.pullA}
-                  <br />
-                  <em>{HTTPS.pullB}</em>
-                </h2>
-                <p className={styles.httpsBody}>{HTTPS.body}</p>
-              </div>
-              <div className={styles.diagram}>
-                <AdoptionCurve />
-              </div>
-            </div>
-            <p className={styles.source}>{HTTPS.source}</p>
-          </div>
-        </section>
-
-        {/* ============ §11 PRECEDENTS GRID ============ */}
-        <section className={`section ${styles.band}`}>
-          <div className="container">
-            <p className={styles.kicker}>§ 14 · The pattern across domains</p>
+            <p className={styles.kicker}>§ 08 · The three surfaces</p>
             <h2 className={styles.title}>
-              Greener Hours is not <em>the first attempt.</em>
+              One indicator, one scheduler, <em>one dashboard.</em>
             </h2>
-            <div className={styles.cards3}>
-              {PRECEDENTS.map((p) => (
-                <div key={p.name} className={styles.prec}>
-                  <div className={styles.precName}>{p.name}</div>
-                  <span className={styles.precKind}>{p.kind}</span>
-                  <p className={styles.precNote}>{p.note}</p>
-                </div>
-              ))}
-            </div>
+            <TierTabs />
           </div>
         </section>
 
-        {/* ============ §12 HONEST TRADE-OFFS ============ */}
+        {/* ============ §8 HONEST TRADE-OFFS ============ */}
         <section className="section" data-ambient-dim>
           <div className="container">
             <p className={styles.kicker}>§ 15 · Named, not hidden</p>
@@ -332,7 +274,7 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §13 SPECULATIVE KPIs ============ */}
+        {/* ============ §9 SPECULATIVE KPIs ============ */}
         <section className={`section ${styles.band}`}>
           <div className="container">
             <p className={styles.kicker}>§ 16 · If the wedge works</p>
@@ -352,7 +294,7 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §14 CLOSE (dark) ============ */}
+        {/* ============ §10 CLOSE (dark) ============ */}
         <section className={`section ${styles.navy}`}>
           <div className="container">
             <p className={styles.kicker}>§ 17 · Close</p>
@@ -370,7 +312,7 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §15 DEMO CALLOUT (honest) ============ */}
+        {/* ============ §11 DEMO CALLOUT (honest) ============ */}
         <section className="section">
           <div className="container">
             <DemoCallout
@@ -385,7 +327,7 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §16 PROJECT PAGER ============ */}
+        {/* ============ §12 PROJECT PAGER ============ */}
         <nav className="container section" aria-label="Project pager">
           <div className={pager.pager}>
             {prev ? (
