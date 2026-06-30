@@ -119,11 +119,22 @@ export const SUBSTRATE = {
   body: "Open API standard · per-request carbon disclosure as a response header.",
 };
 
-// Tier-1 principles (shown beside the rebuilt mockup)
-export const TIER1_PRINCIPLES = [
+// Per-tier principles (shown beside each tier's mockup in the tabbed product view)
+export type Principle = { code: string; kind: "anchor" | "load" | "support"; name: string; insight: string };
+export const TIER1_PRINCIPLES: Principle[] = [
   { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "The indicator makes invisible energy costs legible — at the point of use." },
   { code: "P5", kind: "load", name: "Culture", insight: "Procurement language (“g/kWh · region”), not climate framing." },
   { code: "P7", kind: "load", name: "Tech as both", insight: "Treats AI as both an energy sink and a disclosure surface." },
+];
+export const TIER2_PRINCIPLES: Principle[] = [
+  { code: "P4", kind: "load", name: "H2+ on H2−", insight: "Borrows EV-charging UX — set a deadline, the system optimizes timing." },
+  { code: "P8", kind: "load", name: "Hack", insight: "Adds a scheduling layer over existing batch infrastructure." },
+  { code: "P6", kind: "support", name: "Agency", insight: "Returns timing control to dev teams without climate framing." },
+];
+export const TIER3_PRINCIPLES: Principle[] = [
+  { code: "P9", kind: "anchor", name: "Movable middle", insight: "Targets enterprise procurement teams — not end users." },
+  { code: "P2", kind: "load", name: "Sufficiency", insight: "Anti-rebound — efficiency cannot disguise rising volume." },
+  { code: "P7", kind: "support", name: "Tech as both", insight: "Surfaces total volume alongside intensity." },
 ];
 export const CARBON_PILL = { value: "412", unit: "gCO₂eq/kWh", region: "us-east-1", confidence: "high confidence" };
 
