@@ -1,98 +1,683 @@
 /* =========================================================================
-   Greener Hours — deck-as-page (GH-DECK-1).
-   The case study IS the vendored presentation deck
-   (public/greener-hours/index.html): a self-contained 1920×1080 canvas that
-   scales itself by min(scaleX, scaleY). We frame it in a 16:9 iframe so the
-   canvas fills it with NO letterbox, centered on the paper background, with the
-   global Nav above and the project pager below.
-
-   Frame + layout only. The deck keeps its OWN fonts (Fraunces / JetBrains Mono)
-   and palette — no design tokens are applied to it. The single shadow value
-   matches Follow's write-up panel; the px in the height cap is the iframe-frame
-   chrome (sticky Nav + caption bar), both sanctioned by the brief.
+   Greener Hours — bespoke narrative case study (GH-PAGE-1).
+   Hybrid treatment: the portfolio shell + tokens, with a SCOPED serif (Fraunces,
+   --font-serif, set in page.tsx) used only on display moments, and the deck's
+   amber/navy carried into the diagrams via page-scoped color vars (declared on
+   the page root in page.tsx — never global). Scene system mirrors the Healthy
+   Materials page: .page over a z-0 AmbientField, opaque dark navy bands punctuate
+   the light paper sections. Tokens only; the few raw values are confined here.
    ========================================================================= */
 
-.stage {
-  width: 100%;
-  max-width: var(--maxw-wide);
-  margin-inline: auto;
-  padding-inline: var(--page-pad);
-  padding-block: var(--space-6);
+.page {
+  position: relative;
+  overflow-x: clip;
+}
+.pageContent {
+  position: relative;
+  z-index: 1;
 }
 
-/* caption bar above the frame: eyebrow (left) + open-full-screen link (right) */
-.bar {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
-}
-.eyebrow {
+/* shared section helpers */
+.kicker {
+  font-family: var(--font-mono);
   font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
+  margin-bottom: var(--space-3);
 }
-.openLink {
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 5vw, 50px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.title em {
+  font-style: italic;
+  color: var(--amber);
+}
+.body {
+  margin-top: var(--space-4);
+  max-width: var(--maxw-text);
+  font-size: var(--fs-body-l);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.source {
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--soft);
+  max-width: 80ch;
+}
+
+/* light tonal band (cards float on it) */
+.band {
+  background: var(--card);
+  border-block: 1px solid var(--line);
+}
+
+/* opaque dark band (sits over the AmbientField; navy ground, paper text) */
+.navy {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy-deep);
+  color: var(--paper);
+  border-block: 1px solid var(--navy);
+}
+.navy .kicker {
+  color: var(--amber-soft);
+}
+.navy .title {
+  color: var(--paper);
+}
+.navy .source {
+  color: var(--paper);
+  opacity: 0.5;
+}
+
+/* wide-diagram wrapper: never forces page h-scroll; scrolls inside on mobile */
+.diagram {
+  margin-top: var(--space-6);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.diagramWide {
+  min-width: 720px;
+}
+
+/* =========================================================================
+   §1 Hero
+   ========================================================================= */
+.hero {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+  padding-top: clamp(48px, 9vw, 92px);
+  padding-bottom: var(--space-7);
+}
+.heroEyebrow {
+  font-family: var(--font-mono);
   font-size: var(--fs-label);
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: var(--space-4);
+}
+.heroLockup {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(64px, 15vw, 168px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.heroLockup .dot {
+  color: var(--amber);
+}
+.heroLede {
+  margin-top: var(--space-5);
+  max-width: 40ch;
+  font-family: var(--font-serif);
+  font-size: clamp(19px, 2.7vw, 26px);
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.heroLede em {
+  font-style: italic;
+  color: var(--accent);
+}
+.heroFoot {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-6);
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.heroMeta {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: var(--space-3) var(--space-6);
+}
+@media (min-width: 768px) {
+  .heroMeta {
+    grid-template-columns: repeat(4, auto);
+  }
+}
+.metaItem .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.metaItem .v {
+  font-size: 14px;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-wash);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  margin-bottom: var(--space-4);
+}
+.deckLink {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--soft);
   white-space: nowrap;
 }
 @media (hover: hover) {
-  .openLink:hover {
-    color: var(--accent);
+  .deckLink:hover {
+    color: var(--amber);
     text-decoration: none;
   }
 }
 
-/* visually-hidden heading — gives the page a real document outline; the deck's
-   own title slide is sealed inside the iframe and isn't part of this outline */
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+/* =========================================================================
+   §2 Scale — giant stat + chart
+   ========================================================================= */
+.scaleGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+@media (min-width: 880px) {
+  .scaleGrid {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-7);
+  }
+}
+.giant {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(96px, 20vw, 260px);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  color: var(--amber);
+}
+.giant .unit {
+  font-size: 0.3em;
+  margin-left: 0.08em;
+  color: var(--amber);
+  letter-spacing: 0;
 }
 
-/* The deck frame. 16:9 so the self-scaling 1920×1080 canvas fills it with no
-   letterbox. overflow:hidden reliably clips the iframe's near-black canvas to the
-   rounded corners (an iframe alone doesn't honor border-radius across engines).
-   The height-derived max-width keeps the 16:9 box from overflowing on short/wide
-   screens — width shrinks instead of the deck letterboxing; --deck-reserve ≈
-   sticky Nav (60px) + stage padding + caption bar, so the framed deck sits within
-   the viewport on landing. Each cap has a 100vh fallback first for engines without
-   svh (the svh line wins where supported). On phones the 16:9 box is small, so the
-   "Open full screen" link is the intended mobile reading path. */
-.frame {
-  --deck-reserve: 160px;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-width: calc((100vh - var(--deck-reserve)) * 16 / 9);
-  max-width: calc((100svh - var(--deck-reserve)) * 16 / 9);
-  max-height: calc(100vh - var(--deck-reserve));
-  max-height: calc(100svh - var(--deck-reserve));
-  margin-inline: auto;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-  background: var(--ink);
-  box-shadow:
-    0 1px 2px rgba(26, 26, 26, 0.04),
-    0 10px 30px rgba(26, 26, 26, 0.05);
+/* =========================================================================
+   §3 Invisibility (dark) — buckets under the diagram
+   ========================================================================= */
+.buckets {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
 }
-/* the iframe fills the clipping frame */
-.deck {
+@media (min-width: 760px) {
+  .buckets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.bucket .lbl {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-soft);
+  margin-bottom: var(--space-2);
   display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
+}
+.bucket .txt {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--paper);
+  opacity: 0.85;
+}
+.bucket .txt em {
+  font-style: italic;
+  color: var(--amber-soft);
+  opacity: 1;
+}
+
+/* =========================================================================
+   §4 Insight — pull-quote
+   ========================================================================= */
+.quoteWrap {
+  border-left: 3px solid var(--amber);
+  padding: var(--space-2) 0 var(--space-2) var(--space-5);
+  max-width: 28ch;
+}
+.quoteBig {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.quoteBig .turn {
+  font-style: italic;
+  color: var(--amber);
+}
+.quoteAttr {
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--soft);
+}
+
+/* =========================================================================
+   §5 Forces · §11 Precedents — card grids
+   ========================================================================= */
+.cards3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+}
+@media (min-width: 760px) {
+  .cards3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.force {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+.fnum {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+}
+.ftitle {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: var(--space-2) 0 var(--space-4);
+}
+.forceVisual {
+  margin-bottom: var(--space-4);
+}
+.ftake {
+  margin-top: auto;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.ftake em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.prec {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+}
+.precName {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.precKind {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 4px 0 var(--space-3);
+}
+.precNote {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--soft);
+}
+
+/* card hover-lift (pointer only, reduced-motion safe) */
+@media (hover: hover) {
+  .force,
+  .prec {
+    transition:
+      transform var(--t-fast) var(--e-snappy),
+      box-shadow var(--t-fast) var(--e-snappy),
+      border-color var(--t-fast) var(--e-snappy);
+  }
+  .force:hover,
+  .prec:hover {
+    border-color: var(--accent-wash);
+    box-shadow:
+      0 2px 4px rgba(26, 26, 26, 0.05),
+      0 16px 40px rgba(26, 26, 26, 0.08);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .force:hover,
+  .prec:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* =========================================================================
+   §6 Solution — substrate bar
+   ========================================================================= */
+.substrate {
+  margin-top: var(--space-6);
+  background: var(--ink);
+  border-radius: var(--radius);
+  padding: var(--space-5) var(--space-6);
+}
+.substrateLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--amber-soft);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+.substrateBody {
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2.6vw, 24px);
+  line-height: 1.3;
+  color: var(--paper);
+}
+
+/* =========================================================================
+   §8 Tier-1 deep dive — principles + full mockup
+   ========================================================================= */
+.tierGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  align-items: start;
+}
+@media (min-width: 920px) {
+  .tierGrid {
+    grid-template-columns: 4fr 6fr;
+    gap: var(--space-7);
+  }
+}
+.tierNum {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--amber);
+}
+.tierRole {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: var(--space-2);
+}
+.tierName {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 500;
+  color: var(--ink);
+  margin: var(--space-2) 0 var(--space-3);
+}
+.tierJob {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  font-style: italic;
+  max-width: 42ch;
+}
+.principleList {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.pRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+.pCode {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 3px 7px;
+}
+.pCode.anchor {
+  background: var(--amber);
+}
+.pName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.pInsight {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--soft);
+  margin-top: 1px;
+}
+
+/* =========================================================================
+   §7 How it works — note
+   ========================================================================= */
+.headerNote {
+  margin-top: var(--space-5);
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2.4vw, 21px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: var(--maxw-text);
+}
+.headerNote em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+/* =========================================================================
+   §10 HTTPS (dark) — two-up
+   ========================================================================= */
+.httpsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+@media (min-width: 880px) {
+  .httpsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+  }
+}
+.httpsPull {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 6vw, 72px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+.httpsPull em {
+  font-style: italic;
+  color: var(--amber-soft);
+}
+.httpsBody {
+  margin-top: var(--space-5);
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.5;
+  color: var(--paper);
+  opacity: 0.85;
+  max-width: 48ch;
+}
+
+/* =========================================================================
+   §12 Trade-offs
+   ========================================================================= */
+.tradeoffs {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+@media (min-width: 760px) {
+  .tradeoffs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.tradeoff {
+  border-left: 3px solid var(--amber);
+  padding-left: var(--space-4);
+}
+.toNo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+}
+.toTitle {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 4px 0 var(--space-2);
+}
+.toBody {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--soft);
+}
+
+/* =========================================================================
+   §13 KPIs
+   ========================================================================= */
+.kpiGrid {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 560px) {
+  .kpiGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 880px) {
+  .kpiGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.kpi {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+}
+.kpiFig {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 5vw, 48px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ink);
+}
+.kpi:nth-child(odd) .kpiFig {
+  color: var(--amber);
+}
+.kpi:nth-child(even) .kpiFig {
+  color: var(--navy);
+}
+.kpiLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: var(--space-3) 0 var(--space-2);
+}
+.kpiSub {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--soft);
+}
+.caveat {
+  margin-top: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--soft);
+}
+
+/* =========================================================================
+   §14 Close (dark)
+   ========================================================================= */
+.closeLine {
+  font-family: var(--font-serif);
+  font-size: clamp(30px, 6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  max-width: 18ch;
+}
+.closeLine em {
+  font-style: italic;
+  color: var(--amber-soft);
+}
+.closeMeta {
+  margin-top: var(--space-7);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  border-top: 1px solid var(--navy);
+  padding-top: var(--space-5);
+}
+@media (min-width: 700px) {
+  .closeMeta {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.closeMeta .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber-soft);
+}
+.closeMeta .v {
+  font-size: 14px;
+  color: var(--paper);
+  opacity: 0.9;
+  margin-top: 3px;
 }

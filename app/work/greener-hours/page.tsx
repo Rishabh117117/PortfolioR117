@@ -1,19 +1,65 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Fraunces } from "next/font/google";
+import DemoCallout from "@/components/DemoCallout/DemoCallout";
 import { FLAGSHIPS } from "@/lib/projects";
-// Reuse the project pager styles from the [slug] route (same markup + classes);
-// our own module below carries only the deck-frame + stage layout.
+import {
+  HERO,
+  SCALE_GIANT,
+  SCALE_UNIT,
+  SCALE_LEDE,
+  SCALE_SOURCE,
+  VIS_HEADLINE_A,
+  VIS_HEADLINE_B,
+  VIS_HEADLINE_EM,
+  VIS_BUCKETS,
+  VIS_SOURCE,
+  INSIGHT,
+  FORCES,
+  TIERS,
+  SUBSTRATE,
+  TIER1_PRINCIPLES,
+  CARBON_PILL,
+  HEADERS_LEDE,
+  HTTPS,
+  PRECEDENTS,
+  TRADEOFFS,
+  KPIS,
+  KPI_CAVEAT,
+  CLOSE,
+} from "@/lib/greenerHours";
+import AmbientField from "./AmbientField";
+import ScaleChart from "./ScaleChart";
+import VisibilityFlow from "./VisibilityFlow";
+import ForceVisual from "./ForceVisual";
+import SurfaceThumbs from "./SurfaceThumbs";
+import ComputeWindowMock from "./ComputeWindowMock";
+import HeadersDiagram from "./HeadersDiagram";
+import AdoptionCurve from "./AdoptionCurve";
 import pager from "../[slug]/project.module.css";
 import styles from "./greener-hours.module.css";
+
+// Page-scoped serif (the deck's Fraunces) — loaded here, exposed as --font-serif
+// on the page root only. Cannot leak past this route. Mirrors the archived
+// stun-gun page's scoped-serif pattern.
+const serif = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 const SLUG = "greener-hours";
 
 export const metadata: Metadata = {
   title: "Greener Hours — Rishabh Salian",
   description:
-    "Greener Hours — the final presentation. A self-contained climate · AI case study deck, embedded.",
+    "Greener Hours — an open accountability standard for AI compute carbon disclosure, with three implementation surfaces that turn invisible energy costs into legible procurement infrastructure. A Design-for-a-Warming-World case study.",
 };
+
+const FORCE_VARIANTS = ["regulatory", "procurement", "infrastructure"] as const;
 
 export default function GreenerHoursPage() {
   const index = FLAGSHIPS.findIndex((p) => p.slug === SLUG);
@@ -22,69 +68,348 @@ export default function GreenerHoursPage() {
   const prev = index > 0 ? FLAGSHIPS[index - 1] : null;
   const next = index < FLAGSHIPS.length - 1 ? FLAGSHIPS[index + 1] : null;
 
-  // §8 — set the project accent at the page root; everything inherits.
-  const rootStyle = { "--accent": project.accent } as React.CSSProperties;
+  // §8 accent — Forest (matches the work-grid card) + the deck's amber/navy as
+  // page-scoped atmosphere/diagram colors. Never global tokens.
+  const rootStyle = {
+    "--accent": project.accent, // #1C3B36 Forest
+    "--accent-deep": "#142B27",
+    "--accent-wash": "#D7E0DD",
+    "--accent-tint": "#EAF0EE",
+    "--amber": "#C2410C",
+    "--amber-soft": "#E8A642",
+    "--amber-wash": "#F7E4D6",
+    "--navy": "#1E3A5F",
+    "--navy-soft": "#3A5A82",
+    "--navy-deep": "#15293F",
+    "--sky": "#7A9BBE",
+  } as React.CSSProperties;
 
   return (
-    <div style={rootStyle}>
-      {/* The case study IS the deck — a vendored, self-scaling 1920×1080 canvas
-          (public/greener-hours/index.html) shown in a 16:9 frame so it fills
-          with no letterbox. Global Nav sits above; the project pager below.
-          The deck's title slide lives inside the iframe (a separate document), so
-          the host page carries its own heading for the document outline / a11y. */}
-      <h1 className={styles.srOnly}>{project.name}</h1>
-      <section className={styles.stage}>
-        <div className={styles.bar}>
-          <p className={`mono ${styles.eyebrow}`}>
-            {project.year} · {project.discipline}
-          </p>
-          <a
-            className={`mono ${styles.openLink}`}
-            href="/greener-hours/index.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open the Greener Hours presentation full screen (opens in a new tab)"
-          >
-            Open full screen <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-        {/* the wrapper clips the iframe's near-black canvas to the rounded
-            corners (overflow:hidden) and carries the 16:9 sizing + shadow */}
-        <div className={styles.frame}>
-          <iframe
-            className={styles.deck}
-            src="/greener-hours/index.html"
-            title="Greener Hours — presentation"
-            loading="lazy"
-            allow="fullscreen"
-          />
-        </div>
-      </section>
-
-      {/* §5 — project pager (prev/next), markup + styles reused from [slug] */}
-      <nav className="container section" aria-label="Project pager">
-        <div className={pager.pager}>
-          {prev ? (
-            <Link href={`/work/${prev.slug}`} className={pager.pagerLink}>
-              <span className={`mono ${pager.pagerLabel}`}>← Previous</span>
-              <span className={pager.pagerName}>{prev.name}</span>
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <Link
-              href={`/work/${next.slug}`}
-              className={`${pager.pagerLink} ${pager.pagerNext}`}
+    <div className={`${serif.variable} ${styles.page}`} style={rootStyle}>
+      <AmbientField />
+      <div className={styles.pageContent}>
+        {/* ============ §1 HERO ============ */}
+        <header className={styles.hero}>
+          <span className={styles.badge}>Course project · Concept</span>
+          <p className={styles.heroEyebrow}>{HERO.eyebrow}</p>
+          <h1 className={styles.heroLockup}>
+            Greener<br />
+            Hours<span className={styles.dot}>.</span>
+          </h1>
+          <p className={styles.heroLede}>{HERO.lede}</p>
+          <div className={styles.heroFoot}>
+            <div className={styles.heroMeta}>
+              {HERO.meta.map((m) => (
+                <div key={m.k} className={styles.metaItem}>
+                  <div className={styles.k}>{m.k}</div>
+                  <div className={styles.v}>{m.v}</div>
+                </div>
+              ))}
+            </div>
+            <a
+              className={styles.deckLink}
+              href="/greener-hours/index.html"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <span className={`mono ${pager.pagerLabel}`}>Next →</span>
-              <span className={pager.pagerName}>{next.name}</span>
-            </Link>
-          ) : (
-            <span />
-          )}
-        </div>
-      </nav>
+              View the full deck ↗
+            </a>
+          </div>
+        </header>
+
+        {/* ============ §2 THE SCALE ============ */}
+        <section className="section" data-ambient-dim>
+          <div className="container">
+            <p className={styles.kicker}>§ 03 · The problem · the scale</p>
+            <div className={styles.scaleGrid}>
+              <div>
+                <div className={styles.giant}>
+                  {SCALE_GIANT}
+                  <span className={styles.unit}>{SCALE_UNIT}</span>
+                </div>
+                <p className={styles.body}>{SCALE_LEDE}</p>
+              </div>
+              <ScaleChart />
+            </div>
+            <p className={styles.source}>{SCALE_SOURCE}</p>
+          </div>
+        </section>
+
+        {/* ============ §3 THE INVISIBILITY (dark) ============ */}
+        <section className={`section ${styles.navy}`}>
+          <div className="container">
+            <p className={styles.kicker}>§ 04 · The invisibility</p>
+            <h2 className={styles.title}>
+              {VIS_HEADLINE_A}
+              <br />
+              {VIS_HEADLINE_B}
+              <em>{VIS_HEADLINE_EM}</em>
+            </h2>
+            <div className={styles.diagram}>
+              <div className={styles.diagramWide}>
+                <VisibilityFlow />
+              </div>
+            </div>
+            <div className={styles.buckets}>
+              {VIS_BUCKETS.map((b) => (
+                <div key={b.lbl} className={styles.bucket}>
+                  <span className={styles.lbl}>{b.lbl}</span>
+                  <div className={styles.txt}>
+                    {b.txt} <em>{b.em}</em>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className={styles.source}>{VIS_SOURCE}</p>
+          </div>
+        </section>
+
+        {/* ============ §4 THE INSIGHT ============ */}
+        <section className="section">
+          <div className="containerText">
+            <p className={styles.kicker}>§ 05 · The reframe</p>
+            <blockquote className={styles.quoteWrap}>
+              <p className={styles.quoteBig}>
+                {INSIGHT.lead} <span className={styles.turn}>{INSIGHT.turn}</span>
+              </p>
+            </blockquote>
+            <p className={styles.quoteAttr}>{INSIGHT.attr}</p>
+          </div>
+        </section>
+
+        {/* ============ §5 THE OPPORTUNITY (forces) ============ */}
+        <section className={`section ${styles.band}`}>
+          <div className="container">
+            <p className={styles.kicker}>§ 06 · The opportunity · three forces</p>
+            <h2 className={styles.title}>
+              Why now, <em>not five years ago.</em>
+            </h2>
+            <div className={styles.cards3}>
+              {FORCES.map((f, i) => (
+                <div key={f.no} className={styles.force}>
+                  <div className={styles.fnum}>{f.no}</div>
+                  <h3 className={styles.ftitle}>{f.title}</h3>
+                  <div className={styles.forceVisual}>
+                    <ForceVisual variant={FORCE_VARIANTS[i]} />
+                  </div>
+                  <p className={styles.ftake}>
+                    {f.take} <em>{f.takeEm}</em>
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ §6 THE SOLUTION (overview) ============ */}
+        <section className="section">
+          <div className="container">
+            <p className={styles.kicker}>§ 07 · The solution</p>
+            <h2 className={styles.title}>
+              One standard. <em>Three surfaces.</em>
+            </h2>
+            <SurfaceThumbs />
+            <div className={styles.substrate}>
+              <div className={styles.substrateLabel}>{SUBSTRATE.label}</div>
+              <div className={styles.substrateBody}>{SUBSTRATE.body}</div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ §7 HOW IT WORKS (headers) ============ */}
+        <section className="section" data-ambient-dim>
+          <div className="container">
+            <p className={styles.kicker}>§ 11 · How it works · no new pipes</p>
+            <h2 className={styles.title}>
+              The standard adds three headers <em>to existing API calls.</em>
+            </h2>
+            <div className={styles.diagram}>
+              <div className={styles.diagramWide}>
+                <HeadersDiagram />
+              </div>
+            </div>
+            <p className={styles.headerNote}>
+              Open-source spec · reference SDK in Python, TypeScript &amp; Go ·
+              piggybacks on existing API plumbing. <em>Adoption is three headers.</em>
+            </p>
+          </div>
+        </section>
+
+        {/* ============ §8 TIER 1 — the full surface ============ */}
+        <section className="section">
+          <div className="container">
+            <p className={styles.kicker}>§ 08 · Tier 01 · the legibility layer</p>
+            <div className={styles.tierGrid}>
+              <div>
+                <div className={styles.tierNum}>01</div>
+                <div className={styles.tierRole}>Legibility layer</div>
+                <h2 className={styles.tierName}>{TIERS[0].name}</h2>
+                <p className={styles.tierJob}>{TIERS[0].job}</p>
+                <div className={styles.principleList}>
+                  {TIER1_PRINCIPLES.map((p) => (
+                    <div key={p.code} className={styles.pRow}>
+                      <span
+                        className={`${styles.pCode} ${
+                          p.kind === "anchor" ? styles.anchor : ""
+                        }`}
+                      >
+                        {p.code}
+                      </span>
+                      <div>
+                        <div className={styles.pName}>{p.name}</div>
+                        <div className={styles.pInsight}>{p.insight}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <ComputeWindowMock />
+            </div>
+            <p className={styles.source}>
+              Illustrative interface — values shown ({CARBON_PILL.value}{" "}
+              {CARBON_PILL.unit} · {CARBON_PILL.region}) are sample data, not a live
+              reading.
+            </p>
+          </div>
+        </section>
+
+        {/* ============ §10 PRECEDENT — HTTPS (dark) ============ */}
+        <section className={`section ${styles.navy}`}>
+          <div className="container">
+            <p className={styles.kicker}>§ 13 · Precedent · {HTTPS.eyebrow}</p>
+            <div className={styles.httpsGrid}>
+              <div>
+                <h2 className={styles.httpsPull}>
+                  {HTTPS.pullA}
+                  <br />
+                  <em>{HTTPS.pullB}</em>
+                </h2>
+                <p className={styles.httpsBody}>{HTTPS.body}</p>
+              </div>
+              <div className={styles.diagram}>
+                <AdoptionCurve />
+              </div>
+            </div>
+            <p className={styles.source}>{HTTPS.source}</p>
+          </div>
+        </section>
+
+        {/* ============ §11 PRECEDENTS GRID ============ */}
+        <section className={`section ${styles.band}`}>
+          <div className="container">
+            <p className={styles.kicker}>§ 14 · The pattern across domains</p>
+            <h2 className={styles.title}>
+              Greener Hours is not <em>the first attempt.</em>
+            </h2>
+            <div className={styles.cards3}>
+              {PRECEDENTS.map((p) => (
+                <div key={p.name} className={styles.prec}>
+                  <div className={styles.precName}>{p.name}</div>
+                  <span className={styles.precKind}>{p.kind}</span>
+                  <p className={styles.precNote}>{p.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ §12 HONEST TRADE-OFFS ============ */}
+        <section className="section" data-ambient-dim>
+          <div className="container">
+            <p className={styles.kicker}>§ 15 · Named, not hidden</p>
+            <h2 className={styles.title}>
+              What this project <em>cannot pretend.</em>
+            </h2>
+            <div className={styles.tradeoffs}>
+              {TRADEOFFS.map((t) => (
+                <div key={t.no} className={styles.tradeoff}>
+                  <div className={styles.toNo}>{t.no}</div>
+                  <h3 className={styles.toTitle}>{t.title}</h3>
+                  <p className={styles.toBody}>{t.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ §13 SPECULATIVE KPIs ============ */}
+        <section className={`section ${styles.band}`}>
+          <div className="container">
+            <p className={styles.kicker}>§ 16 · If the wedge works</p>
+            <h2 className={styles.title}>
+              When compute disclosure becomes <em>a normal procurement field.</em>
+            </h2>
+            <div className={styles.kpiGrid}>
+              {KPIS.map((k) => (
+                <div key={k.label} className={styles.kpi}>
+                  <div className={styles.kpiFig}>{k.figure}</div>
+                  <div className={styles.kpiLabel}>{k.label}</div>
+                  <p className={styles.kpiSub}>{k.sub}</p>
+                </div>
+              ))}
+            </div>
+            <p className={styles.caveat}>{KPI_CAVEAT}</p>
+          </div>
+        </section>
+
+        {/* ============ §14 CLOSE (dark) ============ */}
+        <section className={`section ${styles.navy}`}>
+          <div className="container">
+            <p className={styles.kicker}>§ 17 · Close</p>
+            <h2 className={styles.closeLine}>
+              Make the invisible legible, and <em>the providers move.</em>
+            </h2>
+            <div className={styles.closeMeta}>
+              {CLOSE.meta.map((m) => (
+                <div key={m.k}>
+                  <div className={styles.k}>{m.k}</div>
+                  <div className={styles.v}>{m.v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ §15 DEMO CALLOUT (honest) ============ */}
+        <section className="section">
+          <div className="container">
+            <DemoCallout
+              name="Greener Hours"
+              status="SIMULATED"
+              title="See the standard, end to end."
+              body="Greener Hours is a speculative open standard; the three surfaces above are concept designs. An interactive Tier-1 prototype — a real chat carbon indicator — is the next step, routing model calls through the site's /api/ask proxy. For now, the full argument lives in the presentation deck."
+              buttonLabel="View the full deck ↗"
+              href="/greener-hours/index.html"
+              external
+            />
+          </div>
+        </section>
+
+        {/* ============ §16 PROJECT PAGER ============ */}
+        <nav className="container section" aria-label="Project pager">
+          <div className={pager.pager}>
+            {prev ? (
+              <Link href={`/work/${prev.slug}`} className={pager.pagerLink}>
+                <span className={`mono ${pager.pagerLabel}`}>← Previous</span>
+                <span className={pager.pagerName}>{prev.name}</span>
+              </Link>
+            ) : (
+              <span />
+            )}
+            {next ? (
+              <Link
+                href={`/work/${next.slug}`}
+                className={`${pager.pagerLink} ${pager.pagerNext}`}
+              >
+                <span className={`mono ${pager.pagerLabel}`}>Next →</span>
+                <span className={pager.pagerName}>{next.name}</span>
+              </Link>
+            ) : (
+              <span />
+            )}
+          </div>
+        </nav>
+      </div>
     </div>
   );
 }
