@@ -6,7 +6,6 @@ import {
   TIER1_PRINCIPLES,
   TIER2_PRINCIPLES,
   TIER3_PRINCIPLES,
-  CARBON_PILL,
   type Principle,
 } from "@/lib/greenerHours";
 import ComputeWindowMock from "./ComputeWindowMock";
@@ -16,27 +15,19 @@ import s from "./TierTabs.module.css";
 
 /**
  * §The product — the three surfaces in a tabbed panel. One tab per tier; the
- * active tab shows that tier's brief + principles (left) and its full mockup
- * (right). Client component (tab state); keyboard-navigable tablist.
+ * active tab shows a compact brief + principle chips and the tier's full-width
+ * LIVE surface (chat / scheduler / dashboard). Client component; WAI-ARIA
+ * tablist with roving-tabindex keyboard nav.
  */
 
 const PRINCIPLES: Principle[][] = [TIER1_PRINCIPLES, TIER2_PRINCIPLES, TIER3_PRINCIPLES];
 const MOCKS = [ComputeWindowMock, SchedulerMock, DashboardMock];
-const NOTES = [
-  <>
-    Two placements — the topbar pill + a persistent status strip. Illustrative
-    interface; the {CARBON_PILL.value} {CARBON_PILL.unit} value is sample data.
-  </>,
-  <>Borrows EV-charging UX — one toggle, deadline-driven. <em>↓ 56% cleaner</em> in the sample run.</>,
-  <>Procurement-ready — slots into existing BI workflows. The anti-rebound view is the credibility marker.</>,
-];
 
 export default function TierTabs() {
   const [active, setActive] = useState(0);
   const tier = TIERS[active];
   const Mock = MOCKS[active];
 
-  // roving keyboard nav (WAI-ARIA tabs): arrows move + select, Home/End jump.
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const last = TIERS.length - 1;
     let next = active;
@@ -71,33 +62,27 @@ export default function TierTabs() {
         ))}
       </div>
 
-      <div
-        className={s.panel}
-        role="tabpanel"
-        id="gh-panel"
-        aria-labelledby={`gh-tab-${active}`}
-      >
-        <div>
-          <div className={s.tierNum}>{tier.n}</div>
-          <div className={s.tierRole}>{tier.role} layer</div>
-          <h3 className={s.tierName}>{tier.name}</h3>
-          <p className={s.tierJob}>{tier.job}</p>
-          <div className={s.principleList}>
+      <div className={s.panel} role="tabpanel" id="gh-panel" aria-labelledby={`gh-tab-${active}`}>
+        <div className={s.brief}>
+          <span className={s.tierNum}>{tier.n}</span>
+          <div className={s.briefText}>
+            <div className={s.tierRole}>{tier.role} layer</div>
+            <h3 className={s.tierName}>{tier.name}</h3>
+            <p className={s.tierJob}>{tier.job}</p>
+          </div>
+          <div className={s.principles}>
             {PRINCIPLES[active].map((p) => (
-              <div key={p.code} className={s.pRow}>
-                <span className={`${s.pCode} ${p.kind === "anchor" ? s.anchor : ""}`}>
-                  {p.code}
-                </span>
-                <div>
-                  <div className={s.pName}>{p.name}</div>
-                  <div className={s.pInsight}>{p.insight}</div>
-                </div>
-              </div>
+              <span
+                key={p.code}
+                className={`${s.pchip} ${p.kind === "anchor" ? s.anchor : ""}`}
+                title={p.insight}
+              >
+                <b>{p.code}</b> {p.name}
+              </span>
             ))}
           </div>
-          <p className={s.note}>{NOTES[active]}</p>
         </div>
-        <div>
+        <div className={s.surface}>
           <Mock />
         </div>
       </div>

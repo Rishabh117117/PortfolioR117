@@ -1,5 +1,6 @@
 /* §The product — the three surfaces in a tabbed panel. Tab across Tier 1/2/3;
-   each shows its description + principles (left) and its full mockup (right). */
+   each shows a compact brief + principle chips (header) and its full-width live
+   surface below. */
 
 .tabs {
   display: flex;
@@ -51,30 +52,30 @@
   border-radius: 2px;
 }
 
-/* the active panel: left brief + right mockup */
+/* the active panel — brief header (full width) + the live surface below */
 .panel {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
   margin-top: var(--space-6);
-  align-items: start;
 }
-@media (min-width: 940px) {
-  .panel {
-    grid-template-columns: 4fr 6fr;
-    gap: var(--space-7);
-  }
-}
-/* let the mock column shrink rather than expand the track (defensive) */
-.panel > * {
-  min-width: 0;
+.brief {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-4) var(--space-5);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--line);
 }
 .tierNum {
   font-family: var(--font-serif);
-  font-size: 56px;
+  font-size: 52px;
   font-weight: 300;
-  line-height: 1;
+  line-height: 0.9;
   color: var(--amber);
+  flex: 0 0 auto;
+}
+.briefText {
+  flex: 1 1 280px;
+  min-width: 0;
 }
 .tierRole {
   font-family: var(--font-mono);
@@ -82,64 +83,47 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-top: var(--space-2);
 }
 .tierName {
   font-family: var(--font-serif);
-  font-size: clamp(24px, 3.4vw, 32px);
+  font-size: clamp(22px, 3vw, 30px);
   font-weight: 500;
   color: var(--ink);
-  margin: var(--space-2) 0 var(--space-3);
+  margin: 4px 0 6px;
 }
 .tierJob {
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--ink-2);
   font-style: italic;
-  max-width: 44ch;
+  max-width: 52ch;
 }
-.principleList {
-  margin-top: var(--space-5);
+/* principle chips — the P-codes (loosely, Prof. Godelnik's ten principles) */
+.principles {
+  flex: 1 1 240px;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-content: flex-start;
 }
-.pRow {
-  display: flex;
-  gap: var(--space-3);
-  align-items: baseline;
-}
-.pCode {
-  flex: 0 0 auto;
+.pchip {
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 600;
-  color: var(--paper);
-  background: var(--accent);
+  letter-spacing: 0.02em;
+  color: var(--soft);
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  padding: 3px 7px;
+  padding: 5px 9px;
+  cursor: help;
 }
-.pCode.anchor {
-  background: var(--amber);
-}
-.pName {
-  font-size: 14px;
+.pchip b {
+  color: var(--accent);
   font-weight: 600;
-  color: var(--ink);
 }
-.pInsight {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--soft);
-  margin-top: 1px;
-}
-.note {
-  margin-top: var(--space-5);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--soft);
-}
-.note em {
-  font-style: normal;
+.pchip.anchor b {
   color: var(--amber);
+}
+.surface {
+  min-width: 0;
 }
