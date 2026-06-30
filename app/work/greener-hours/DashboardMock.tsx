@@ -1,10 +1,13 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import "./diagrams.css";
 import s from "./TierMocks.module.css";
 
 /**
- * §Tier 3 — Compute Footprint Dashboard (deck slide 10, rebuilt in tokens).
- * Procurement view; the anti-rebound chart pairs falling intensity (amber) with
- * rising volume (navy) so efficiency can't disguise growth.
+ * §Tier 3 — Compute Footprint Dashboard (deck slide 10), now LIVE. The KPI
+ * counters tick while LIVE is on; the anti-rebound chart pairs falling intensity
+ * (amber) with rising volume (navy) so efficiency can't disguise growth.
  */
 
 // 24 days · [volume 0-1 (rising), intensity 0-1 (falling)] — deterministic
@@ -25,6 +28,21 @@ const BY_MODEL: [string, number, string][] = [
 ];
 
 export default function DashboardMock() {
+  const [live, setLive] = useState(true);
+  const [calls, setCalls] = useState(2_400_000);
+  const [avg, setAvg] = useState(312);
+
+  useEffect(() => {
+    if (!live) return;
+    const t = setInterval(() => {
+      setCalls((c) => c + Math.floor(40 + Math.random() * 120));
+      setAvg((a) => Math.max(180, Math.min(340, Math.round(a + (Math.random() - 0.5) * 6))));
+    }, 900);
+    return () => clearInterval(t);
+  }, [live]);
+
+  const callsLabel = (calls / 1_000_000).toFixed(2) + "M";
+
   return (
     <div className={s.frame}>
       <div className={s.chrome}>
@@ -41,8 +59,16 @@ export default function DashboardMock() {
           <span className={s.orgTag}>COMPUTE FOOTPRINT</span>
         </div>
         <div className={s.orgRight}>
+          <button
+            className={`${s.liveBtn} ${live ? "" : s.off}`}
+            onClick={() => setLive((v) => !v)}
+            type="button"
+            aria-pressed={live}
+          >
+            <span className={s.liveDot} />
+            {live ? "Live" : "Paused"}
+          </button>
           <span className={s.chip}>May 2026 ▾</span>
-          <span className={`${s.chip} ${s.accent}`}>Export ↗</span>
         </div>
       </div>
 
@@ -55,12 +81,12 @@ export default function DashboardMock() {
       <div className={s.kpiRow}>
         <div className={s.kpiCard}>
           <div className={s.kLab}>TOTAL REQUESTS</div>
-          <div className={s.kFig}>2.4M</div>
+          <div className={s.kFig} style={{ fontVariantNumeric: "tabular-nums" }}>{callsLabel}</div>
           <div className={`${s.kDelta} ${s.up}`}>+18% vs Apr</div>
         </div>
         <div className={s.kpiCard}>
           <div className={s.kLab}>AVG INTENSITY</div>
-          <div className={s.kFig}>312<span className={s.u}>g/kWh</span></div>
+          <div className={s.kFig} style={{ fontVariantNumeric: "tabular-nums" }}>{avg}<span className={s.u}>g/kWh</span></div>
           <div className={`${s.kDelta} ${s.down}`}>−24% vs Apr</div>
         </div>
         <div className={s.kpiCard}>
