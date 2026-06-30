@@ -1,0 +1,77 @@
+/* Housing Works — page-wide ambient backdrop (own copy; Follow/HM untouched).
+   The World AIDS Day gradient — ribbon crimson + WAD pink (warm) and WAD teal +
+   orange (cool) — rendered as four soft, scroll-driven orbs behind the whole
+   page (z-0, fixed; content floats above on the .pageContent z-1 layer, opaque
+   photo scenes sit on top). The page's static signature, made to breathe.
+   Per-orb opacity is JS-driven (scroll colour cross-fade); CSS sets only
+   position / size / blur / colour. */
+
+.hw-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hw-ambient .hw-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+}
+
+/* warm — ribbon crimson (lead) + WAD pink, parked up high */
+.hw-ambient .hw-w1 {
+  width: 56vw;
+  height: 56vw;
+  max-width: 780px;
+  max-height: 780px;
+  top: -14vh;
+  left: -12vw;
+  background: radial-gradient(circle, rgba(192, 38, 59, 0.4), transparent 70%);
+}
+.hw-ambient .hw-w2 {
+  width: 42vw;
+  height: 42vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: 24vh;
+  right: -6vw;
+  background: radial-gradient(circle, rgba(232, 86, 143, 0.34), transparent 72%);
+}
+/* cool — WAD teal + orange, parked low */
+.hw-ambient .hw-c1 {
+  width: 60vw;
+  height: 60vw;
+  max-width: 840px;
+  max-height: 840px;
+  bottom: -20vh;
+  right: -14vw;
+  background: radial-gradient(circle, rgba(43, 179, 163, 0.36), transparent 72%);
+}
+.hw-ambient .hw-c2 {
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: 2vh;
+  left: -4vw;
+  background: radial-gradient(circle, rgba(240, 138, 60, 0.3), transparent 72%);
+}
+
+/* resting opacity = the motion baseline (warm 0.82, cool 0.60), so the
+   pre-first-frame paint and reduced-motion users match motion mode rather than
+   rendering every orb at full strength. The rAF loop overrides this in motion. */
+.hw-ambient .hw-w1,
+.hw-ambient .hw-w2 {
+  opacity: 0.82;
+}
+.hw-ambient .hw-c1,
+.hw-ambient .hw-c2 {
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-ambient .hw-orb {
+    transform: none !important;
+  }
+}

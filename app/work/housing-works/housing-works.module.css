@@ -15,6 +15,14 @@
   --pink: #e8568f;
 }
 
+/* content layer above the page-wide AmbientField backdrop (which is z-index:0,
+   fixed). The light/paper scenes float over the wash on this z-index:1 layer;
+   the opaque photo scenes (hero, dividers, workshop overlays) sit on top. */
+.pageContent {
+  position: relative;
+  z-index: 1;
+}
+
 /* signature gradient rule above every section kicker */
 .kicker::before,
 .subKicker::before,
@@ -45,10 +53,71 @@
   padding-inline: var(--page-pad);
 }
 
-/* subtle full-bleed tonal band (borderless "rectangle background") to break up
-   empty stretches and give the page rhythm — a lighter warm white than paper. */
+/* tonal bands are now light frosted glass: the ambient wash bleeds through them
+   (blurred + softened) instead of being flatly covered, so the page keeps its
+   rhythm while staying part of one continuous atmosphere. */
 .band {
-  background: var(--card);
+  background: rgba(250, 248, 243, 0.55);
+  -webkit-backdrop-filter: blur(7px) saturate(1.04);
+  backdrop-filter: blur(7px) saturate(1.04);
+}
+
+/* WORKSHOP 01 — the poster study is ONE photo-background section: the campus
+   photo runs the full height (intro card → moving posters → final insight all
+   lay over it). Opaque, so it sits above the AmbientField wash. */
+.posterStudy {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(155deg, #241f20 0%, #3b2a2e 60%, #432a30 100%);
+  color: #f4f2ec;
+  padding-block: clamp(56px, 10vw, 110px);
+}
+.posterStudyInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+/* loose text laid directly on the photo goes light + gains a shadow */
+.subKickerOnPhoto {
+  display: block;
+  margin-top: clamp(36px, 6vw, 68px);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.86);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+}
+.deckOnPhoto {
+  position: relative;
+  z-index: 2;
+  margin-block: var(--space-5) var(--space-6);
+}
+.deckNoteOnPhoto {
+  text-align: center;
+  margin-bottom: clamp(28px, 5vw, 52px);
+  color: rgba(244, 242, 236, 0.74);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+}
+/* the final insight — a centered glass panel over the same photo. Selector is
+   .imgGlass.insightPanel (specificity 0-2-0) so this 640 cap wins over the
+   shared .heroCard,.imgGlass { max-width: 700px } rule defined later. */
+.imgGlass.insightPanel {
+  margin-inline: auto;
+  max-width: min(100%, 640px);
+}
+.insightPanelBody {
+  font-size: 17px;
+  line-height: 1.62;
+  color: rgba(244, 242, 236, 0.92);
+  margin-top: var(--space-4);
+}
+.insightPanel .insightPanelBody:first-of-type {
+  margin-top: var(--space-3);
 }
 
 .kicker {
@@ -80,6 +149,26 @@
   display: block;
   border-radius: var(--radius-sm);
 }
+/* tactile hover-lift on pointer devices (matches Follow/HM); no-op on touch */
+@media (hover: hover) {
+  .sitePhoto {
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s ease;
+  }
+  .sitePhoto:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(26, 26, 26, 0.16);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sitePhoto {
+    transition: none;
+  }
+  .sitePhoto:hover {
+    transform: none;
+  }
+}
 .sBig {
   grid-column: span 2;
   grid-row: span 2;
@@ -89,11 +178,19 @@
 }
 
 /* =========================================================================
-   Dark "data" strip — fieldwork by the numbers (full-bleed tonal shift)
+   "Data" strip — fieldwork by the numbers. A full-bleed frosted-glass band the
+   ambient wash blurs through (was a solid dark strip). .page has overflow-x:clip,
+   so the 100vw bleed adds no horizontal scrollbar.
    ========================================================================= */
 .dataStrip {
-  background: var(--ink);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
   padding-block: clamp(44px, 8vw, 76px);
+  background: rgba(248, 246, 240, 0.45);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  border-top: 1px solid rgba(26, 26, 26, 0.07);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.07);
 }
 .dataInner {
   width: 100%;
@@ -115,13 +212,14 @@
   font-size: clamp(44px, 10vw, 72px);
   line-height: 0.95;
   letter-spacing: -0.04em;
-  color: var(--pink);
+  /* crimson reads stronger than the WAD pink on the new light glass */
+  color: var(--accent);
 }
 .statLabel {
   font-size: var(--fs-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(244, 242, 236, 0.66);
+  color: var(--soft);
 }
 
 /* sub-kicker used inside the "try it yourself" block of the Gen Z section */
@@ -146,20 +244,8 @@
   text-wrap: balance;
 }
 
-/* Gen Z workshop — photo-overlay intro (same treatment as the hero) over the
-   image of where the posters were placed, with the explainer on top. */
-.wsHero {
-  align-items: center;
-  min-height: 62svh;
-}
-.wsHeroInner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: var(--maxw-wide);
-  margin-inline: auto;
-  padding: clamp(56px, 11vw, 104px) var(--page-pad);
-}
+/* Poster-study intro + insight type — used inside the glass cards that lay over
+   the campus photo (see .posterStudy / .insightPanel). */
 .wsHeroKicker {
   font-size: clamp(11px, 1.4vw, 12px);
   letter-spacing: 0.14em;
@@ -186,43 +272,19 @@
   max-width: 58ch;
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
 }
-/* heavier scrim for legibility of body copy over the bright corridor photo */
-.scrimStrong {
+/* heavier scrim for legibility over the bright campus photo — deepened so the
+   loose light text (subkicker/note/deck hint) clears WCAG AA even over the
+   photo's bright white-poster middle band, where those captions land.
+   Selector is .scrim.scrimStrong (0-2-0) so it beats the base .scrim rule
+   defined LATER in this file (which otherwise wins on equal specificity). */
+.scrim.scrimStrong {
   background: linear-gradient(
     180deg,
-    rgba(18, 14, 14, 0.5) 0%,
-    rgba(18, 14, 14, 0.62) 55%,
-    rgba(18, 14, 14, 0.72) 100%
+    rgba(18, 14, 14, 0.62) 0%,
+    rgba(18, 14, 14, 0.7) 55%,
+    rgba(18, 14, 14, 0.78) 100%
   );
 }
-/* the floating card carousel + closing insight — full-bleed strip */
-.deckWrap {
-  margin-block: var(--space-5) var(--space-7);
-}
-.deckNote {
-  margin-top: var(--space-4);
-  text-align: center;
-}
-.insight {
-  margin-top: var(--space-8);
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-5);
-}
-.insightText {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-.insightText .body {
-  margin-top: 0;
-}
-.insightPoster {
-  min-width: 0;
-}
-
 /* Bridges intro copy (the gallery itself lives in components/BridgesGallery) */
 .bridgesText {
   margin-top: var(--space-4);
@@ -301,6 +363,22 @@
   margin-inline: auto;
   padding: var(--page-pad);
   padding-bottom: clamp(40px, 8vw, 80px);
+}
+/* frosted-glass card for any copy set over a photo — the hero lockup, the
+   divider titles, and the workshop-hero intro all share it (one uniform glass
+   language). The photo blurs through; the hero's descriptive paragraph below the
+   card stays on the scrim. */
+.heroCard,
+.imgGlass {
+  width: fit-content;
+  max-width: min(100%, 700px);
+  padding: clamp(22px, 3.4vw, 36px) clamp(24px, 3.8vw, 42px);
+  background: rgba(26, 16, 18, 0.34);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  backdrop-filter: blur(18px) saturate(1.25);
+  border: 1px solid rgba(244, 242, 236, 0.18);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.55);
 }
 .eyebrow {
   font-size: clamp(11px, 1.4vw, 12px);
@@ -472,6 +550,13 @@
   flex-direction: column;
   gap: var(--space-1);
 }
+/* native line-glyph rebuilt from each intervention's report graphic */
+.propGlyph {
+  width: clamp(60px, 9vw, 76px);
+  height: auto;
+  margin-bottom: var(--space-3);
+  overflow: visible;
+}
 .propName {
   font-family: var(--font-display);
   font-weight: 600;
@@ -560,14 +645,5 @@
   }
   .dataInner {
     grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 900px) {
-  /* final insight: text beside the poster view */
-  .insight {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-7);
-    align-items: start;
   }
 }

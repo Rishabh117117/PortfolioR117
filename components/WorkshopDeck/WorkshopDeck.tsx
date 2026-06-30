@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { POSTER_DECK } from "@/lib/housingWorks";
 import styles from "./WorkshopDeck.module.css";
 
@@ -12,10 +13,16 @@ const IMG = "/images/housing-works";
  * it stops moving and becomes a normal horizontal scroller. Tapping a poster
  * opens it full-size in a lightbox.
  */
-export default function WorkshopDeck() {
+export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
   const cards = POSTER_DECK;
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+
+  // The lightbox portals to <body> so its position:fixed / z-index:1000 escapes
+  // the page's stacking contexts (.pageContent z-1, .posterStudy isolation) and
+  // covers the sticky nav instead of rendering behind it.
+  useEffect(() => setMounted(true), []);
 
   // close the lightbox on Escape; move focus to the close button on open
   useEffect(() => {
@@ -73,14 +80,20 @@ export default function WorkshopDeck() {
         </ul>
       </div>
 
-      <p className={`mono ${styles.hint}`}>
+      <p
+        className={`mono ${styles.hint}${
+          tone === "onPhoto" ? ` ${styles.hintOnPhoto}` : ""
+        }`}
+      >
         Hover to pause · tap a poster to enlarge
       </p>
 
-      {/* lightbox — full poster detail */}
-      {expandedCard && (
-        <div
-          className={styles.lightbox}
+      {/* lightbox — full poster detail (portaled to <body> to clear the nav) */}
+      {mounted &&
+        expandedCard &&
+        createPortal(
+          <div
+            className={styles.lightbox}
           role="dialog"
           aria-modal="true"
           aria-label={`Poster: ${expandedCard.stat} ${expandedCard.statText}`}
@@ -110,7 +123,8 @@ export default function WorkshopDeck() {
               <span className={`mono ${styles.lbQ}`}>{expandedCard.question}</span>
             </figcaption>
           </figure>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );

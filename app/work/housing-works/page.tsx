@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import PosterWidget from "@/components/PosterWidget/PosterWidget";
 import WorkshopDeck from "@/components/WorkshopDeck/WorkshopDeck";
 import BridgesGallery from "@/components/BridgesGallery/BridgesGallery";
 import WorkshopHarness from "@/components/WorkshopHarness/WorkshopHarness";
 import Motion from "./Motion";
+import AmbientField from "./AmbientField";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
 
@@ -34,6 +34,12 @@ export default function HousingWorksPage() {
           no hydration mismatch and no re-draw flicker. JS-off = fully visible. */}
       <Motion />
 
+      {/* Page-wide ambient backdrop (z-0, fixed): the World AIDS Day gradient as
+          four scroll-driven orbs. The content below floats over it on .pageContent
+          (z-1); the opaque photo scenes sit on top of the wash. */}
+      <AmbientField />
+
+      <div className={styles.pageContent}>
       {/* ============ SCENE 1 — HERO (parallax photo) ============ */}
       <header className={`${styles.photo} ${styles.hero}`}>
         <div
@@ -61,32 +67,30 @@ export default function HousingWorksPage() {
             />
           </svg>
 
-          <p className={`mono ${styles.eyebrow}`}>
-            External Engagement Studio · MS Strategic Design &amp; Management,
-            Parsons · Spring 2025
-          </p>
-          {/* TODO (title — Rishabh picks; default B):
-              A. Preparing Housing Works for the workplace of the future
-              B. The People pillar — attracting and keeping Housing Works’ next generation
-              C. A talent study for Housing Works */}
-          <h1 className={styles.title}>
-            The <em>People</em> pillar — attracting and keeping Housing Works’
-            next generation
-          </h1>
-          <p className={styles.heroSub}>
-            Housing Works runs on a three-year strategic plan with three focus
-            areas: People, Programs, and Innovation. We were brought in on
-            People — staff and board recruitment, retention, and flexibility,
-            with the goal of making Housing Works the employer and Board home of
-            choice for the next generation. Within that, we narrowed to one
-            question: how can Housing Works attract and keep younger staff when
-            it can’t match private-sector pay?
-          </p>
+          <div className={styles.heroCard}>
+            <p className={`mono ${styles.eyebrow}`}>
+              External Engagement Studio · MS Strategic Design &amp; Management,
+              Parsons · Spring 2025
+            </p>
+            <h1 className={styles.title}>
+              The <em>People</em> pillar — attracting and keeping Housing Works’
+              next generation
+            </h1>
+            <p className={styles.heroSub}>
+              Housing Works runs on a three-year strategic plan with three focus
+              areas: People, Programs, and Innovation. We were brought in on
+              People — staff and board recruitment, retention, and flexibility,
+              with the goal of making Housing Works the employer and Board home
+              of choice for the next generation. Within that, we narrowed to one
+              question: how can Housing Works attract and keep younger staff when
+              it can’t match private-sector pay?
+            </p>
+          </div>
         </div>
       </header>
 
       {/* ============ SCENE 2 — THE BRIEF ============ */}
-      <section className={styles.scene}>
+      <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>The brief</p>
           <p className={styles.lede}>
@@ -114,12 +118,14 @@ export default function HousingWorksPage() {
         />
         <div className={styles.scrim} aria-hidden="true" />
         <div className={styles.dividerInner}>
-          <h2 className={styles.dividerTitle}>Funded by what it sells.</h2>
+          <div className={styles.imgGlass}>
+            <h2 className={styles.dividerTitle}>Funded by what it sells.</h2>
+          </div>
         </div>
       </section>
 
       {/* ============ SCENE 4 — HOW WE WORKED ============ */}
-      <section className={`${styles.scene} ${styles.band}`}>
+      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>How we worked</p>
           <p className={styles.lede}>
@@ -203,77 +209,76 @@ export default function HousingWorksPage() {
         </div>
       </section>
 
-      {/* ===== WORKSHOP 01 — GEN Z POSTER SURVEY: photo-overlay intro ===== */}
-      <section className={`${styles.photo} ${styles.wsHero}`}>
+      {/* ===== WORKSHOP 01 — the whole Gen Z poster study runs over the campus
+           photo: the intro card, the moving posters, AND the final insight all
+           lay over one image that carries down to the Bridges & Barriers
+           workshop (the photo is the section background, not a separate hero). */}
+      <section className={styles.posterStudy}>
         <div
           className="hw-bg"
-          data-par="-0.10"
+          data-par="-0.05"
           aria-hidden="true"
           style={{ backgroundImage: `url(${IMG}/campus-context.jpg)` }}
         />
         <div className={`${styles.scrim} ${styles.scrimStrong}`} aria-hidden="true" />
-        <div className={styles.wsHeroInner}>
-          <p className={`mono ${styles.wsHeroKicker}`}>
-            Workshop 01 · the Gen Z poster survey
-          </p>
-          <h2 className={styles.wsHeroTitle}>
-            We asked Gen Z directly — in their own space.
-          </h2>
-          <p className={styles.wsHeroText}>
-            Rather than guess what younger workers want, we ran a participatory
-            poster survey across three New School campuses — the University
-            Center, the List Center, and the NSSR Library. Each board led with a
-            provocative statistic and one open question; passersby wrote or drew
-            straight onto a sticky-note grid.
-          </p>
-          <p className={styles.wsHeroText}>
-            Over about two weeks we gathered roughly 127 responses — and the
-            posters that named “Gen Z” out loud drew the most, proof that the
-            framing itself pulled people in.
+
+        {/* intro — glass card over the photo */}
+        <div className={styles.posterStudyInner}>
+          <div className={`${styles.imgGlass} hw-reveal`}>
+            <p className={`mono ${styles.wsHeroKicker}`}>
+              Workshop 01 · the Gen Z poster survey
+            </p>
+            <h2 className={styles.wsHeroTitle}>
+              We asked Gen Z directly — in their own space.
+            </h2>
+            <p className={styles.wsHeroText}>
+              Rather than guess what younger workers want, we ran a participatory
+              poster survey across three New School campuses — the University
+              Center, the List Center, and the NSSR Library. Each board led with a
+              provocative statistic and one open question; passersby wrote or drew
+              straight onto a sticky-note grid.
+            </p>
+            <p className={styles.wsHeroText}>
+              Over about two weeks we gathered roughly 127 responses — and the
+              posters that named “Gen Z” out loud drew the most, proof that the
+              framing itself pulled people in.
+            </p>
+          </div>
+          <p className={`mono ${styles.subKickerOnPhoto}`}>
+            The posters — moving through all six
           </p>
         </div>
-      </section>
 
-      {/* the posters (floating card carousel) + the closing insight */}
-      <section className={`${styles.scene} ${styles.band}`}>
-        <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.subKicker}`}>The posters — moving through all six</p>
+        {/* the posters move across the photo — cards are opaque, captions legible */}
+        <div className={styles.deckOnPhoto}>
+          <WorkshopDeck tone="onPhoto" />
         </div>
 
-        {/* full-bleed moving strip — enters one edge, exits the other */}
-        <div className={styles.deckWrap}>
-          <WorkshopDeck />
-        </div>
-
-        <div className={styles.wrapWide}>
-          <p className={`cap ${styles.deckNote}`}>
-            The cards show the real posters; the quotes are real responses, lightly
-            trimmed for length.
+        {/* insight — glass panel over the same photo */}
+        <div className={styles.posterStudyInner}>
+          <p className={`cap ${styles.deckNoteOnPhoto}`}>
+            From our spring 2025 participatory poster survey at The New School —
+            the cards show the real posters; the quotes are real responses,
+            lightly trimmed for length.
           </p>
-
-          <div className={styles.insight}>
-            <div className={styles.insightText}>
-              <p className={`mono ${styles.subKicker}`}>The final insight</p>
-              <p className={styles.body}>
-                The provocative headline is what pulled people in — but the real
-                answers were messier, and more honest. On the work-modality
-                poster, the loud “72% prefer hybrid” settled into a closer
-                52 / 23 / 6 once people actually wrote down what they wanted.
-              </p>
-              <p className={styles.body}>
-                The gap is the point: a sharp claim earns attention, but the real
-                signal is in what people say next.
-              </p>
-            </div>
-            <div className={styles.insightPoster}>
-              <PosterWidget revealOnly />
-            </div>
+          <div className={`${styles.imgGlass} ${styles.insightPanel} hw-reveal`}>
+            <p className={`mono ${styles.wsHeroKicker}`}>The final insight</p>
+            <p className={styles.insightPanelBody}>
+              The provocative headline is what pulled people in — but the real
+              answers were messier, and more honest. On the work-modality poster,
+              the loud “72% prefer hybrid” settled into a closer 52 / 23 / 6 once
+              people actually wrote down what they wanted.
+            </p>
+            <p className={styles.insightPanelBody}>
+              The gap is the point: a sharp claim earns attention, but the real
+              signal is in what people say next.
+            </p>
           </div>
         </div>
       </section>
 
       {/* ============ WORKSHOP 02 — BRIDGES AND BARRIERS ============ */}
-      <section className={styles.scene}>
+      <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>Workshop 02 · Bridges and Barriers</p>
           <h2 className={styles.wsHeading}>Mapping the bridges and the barriers.</h2>
@@ -321,7 +326,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 7 — WHAT WE FOUND (four findings + glyphs) ====== */}
-      <section className={styles.scene}>
+      <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>What we found</p>
           <p className={styles.lede}>
@@ -441,7 +446,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 8 — WHAT WE PROPOSED ============ */}
-      <section className={`${styles.scene} ${styles.band}`}>
+      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>What we proposed</p>
           <p className={styles.lede}>
@@ -450,8 +455,21 @@ export default function HousingWorksPage() {
             mapped onto a goal Housing Works had already set in its People plan:
           </p>
 
+          {/* Each card carries a native line-glyph rebuilt from the report's
+              own intervention graphics (Fig. 42–43): hybrid = home⇄office,
+              badge = a passport credential, workshop = a trustee at the easel. */}
           <ul className={styles.proposed}>
             <li className={styles.prop}>
+              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A home and an office linked both ways — hybrid work.">
+                <path className="hw-line" pathLength="1" d="M5 41 L75 41" />
+                <path className="hw-line" pathLength="1" d="M11 26 L22 17 L33 26" />
+                <path className="hw-line" pathLength="1" d="M14 26 L14 41 M30 26 L30 41" />
+                <path className="hw-line" pathLength="1" d="M19 41 L19 33 L25 33 L25 41" />
+                <path className="hw-line" pathLength="1" d="M47 16 L47 41 L70 41 L70 16 Z" />
+                <path className="hw-line" pathLength="1" d="M53 22 L53 28 M61 22 L61 28 M53 33 L53 38 M61 33 L61 38" />
+                <path className="hw-line hw-crim" pathLength="1" d="M35 32 L45 32" />
+                <path className="hw-line hw-crim" pathLength="1" d="M35 32 L39 29 M35 32 L39 35 M45 32 L41 29 M45 32 L41 35" />
+              </svg>
               <h3 className={styles.propName}>Hybrid Work Charter</h3>
               <p className={`mono ${styles.propBy}`}>Sharka</p>
               <p className={styles.body}>
@@ -460,6 +478,14 @@ export default function HousingWorksPage() {
               </p>
             </li>
             <li className={styles.prop}>
+              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A passport credential carrying an earned skill badge.">
+                <path className="hw-line" pathLength="1" d="M25 8 L25 46 L53 46 L53 8 Z" />
+                <path className="hw-line" pathLength="1" d="M31 8 L31 46" />
+                <path className="hw-line" pathLength="1" d="M36 14 L48 14" />
+                <path className="hw-line" pathLength="1" d="M36 40 L48 40" />
+                <circle className="hw-line hw-crim" pathLength="1" cx="42" cy="27" r="7" />
+                <path className="hw-line hw-crim" pathLength="1" d="M38 27 L41 30 L46 24" />
+              </svg>
               <h3 className={styles.propName}>Skill-Badge Passport</h3>
               <p className={`mono ${styles.propBy}`}>Pani</p>
               <p className={styles.body}>
@@ -469,6 +495,19 @@ export default function HousingWorksPage() {
               </p>
             </li>
             <li className={`${styles.prop} ${styles.propMine}`}>
+              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A trustee presenting at an easel to a small group — a workshop.">
+                <path className="hw-line" pathLength="1" d="M44 12 L44 34 L71 34 L71 12 Z" />
+                <path className="hw-line" pathLength="1" d="M49 19 L62 19 M49 25 L66 25" />
+                <path className="hw-line" pathLength="1" d="M49 34 L45 46 M66 34 L70 46 M47 40 L68 40" />
+                <circle className="hw-line" pathLength="1" cx="36" cy="22" r="3" />
+                <path className="hw-line" pathLength="1" d="M36 25 L36 35 M36 28 L43 24" />
+                <circle className="hw-line" pathLength="1" cx="11" cy="33" r="3" />
+                <path className="hw-line" pathLength="1" d="M7 42 Q11 36 15 42" />
+                <circle className="hw-line" pathLength="1" cx="21" cy="30" r="3" />
+                <path className="hw-line" pathLength="1" d="M17 39 Q21 33 25 39" />
+                <circle className="hw-line hw-crim" pathLength="1" cx="57" cy="8" r="1.6" />
+                <path className="hw-line hw-crim" pathLength="1" d="M57 3 L57 5 M53 5 L54.5 6.3 M61 5 L59.5 6.3" />
+              </svg>
               <h3 className={styles.propName}>
                 <span className={styles.mineDot} aria-hidden="true" />
                 Trustee-Led Workshops
@@ -489,7 +528,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 9 — MY FRAMEWORK → HARNESS ============ */}
-      <section className={styles.scene}>
+      <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>My framework — trustee-led workshops</p>
           <p className={styles.body}>
@@ -556,7 +595,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 10 — LIMITATIONS (quiet close) ============ */}
-      <section className={`${styles.scene} ${styles.band}`}>
+      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
           <p className={`mono ${styles.kicker}`}>Limitations</p>
           <p className={styles.body}>
@@ -588,6 +627,7 @@ export default function HousingWorksPage() {
             d="M52 104 C 58 78, 74 60, 54 38 C 44 27, 28 32, 36 50"
           />
         </svg>
+      </div>
       </div>
     </div>
   );
