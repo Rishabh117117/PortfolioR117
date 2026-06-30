@@ -1,0 +1,98 @@
+/* =========================================================================
+   Greener Hours — deck-as-page (GH-DECK-1).
+   The case study IS the vendored presentation deck
+   (public/greener-hours/index.html): a self-contained 1920×1080 canvas that
+   scales itself by min(scaleX, scaleY). We frame it in a 16:9 iframe so the
+   canvas fills it with NO letterbox, centered on the paper background, with the
+   global Nav above and the project pager below.
+
+   Frame + layout only. The deck keeps its OWN fonts (Fraunces / JetBrains Mono)
+   and palette — no design tokens are applied to it. The single shadow value
+   matches Follow's write-up panel; the px in the height cap is the iframe-frame
+   chrome (sticky Nav + caption bar), both sanctioned by the brief.
+   ========================================================================= */
+
+.stage {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+  padding-block: var(--space-6);
+}
+
+/* caption bar above the frame: eyebrow (left) + open-full-screen link (right) */
+.bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.eyebrow {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.openLink {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--soft);
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .openLink:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+}
+
+/* visually-hidden heading — gives the page a real document outline; the deck's
+   own title slide is sealed inside the iframe and isn't part of this outline */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The deck frame. 16:9 so the self-scaling 1920×1080 canvas fills it with no
+   letterbox. overflow:hidden reliably clips the iframe's near-black canvas to the
+   rounded corners (an iframe alone doesn't honor border-radius across engines).
+   The height-derived max-width keeps the 16:9 box from overflowing on short/wide
+   screens — width shrinks instead of the deck letterboxing; --deck-reserve ≈
+   sticky Nav (60px) + stage padding + caption bar, so the framed deck sits within
+   the viewport on landing. Each cap has a 100vh fallback first for engines without
+   svh (the svh line wins where supported). On phones the 16:9 box is small, so the
+   "Open full screen" link is the intended mobile reading path. */
+.frame {
+  --deck-reserve: 160px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-width: calc((100vh - var(--deck-reserve)) * 16 / 9);
+  max-width: calc((100svh - var(--deck-reserve)) * 16 / 9);
+  max-height: calc(100vh - var(--deck-reserve));
+  max-height: calc(100svh - var(--deck-reserve));
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--ink);
+  box-shadow:
+    0 1px 2px rgba(26, 26, 26, 0.04),
+    0 10px 30px rgba(26, 26, 26, 0.05);
+}
+/* the iframe fills the clipping frame */
+.deck {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
