@@ -1,0 +1,246 @@
+/* §6 — "one standard, three surfaces" thumbnails (deck slide 7, rebuilt).
+   The three product surfaces at a glance; the lighter treatment for Tiers 2 & 3
+   (Tier 1 gets its full rebuild in ComputeWindowMock). Tokens only. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+}
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+.tierLbl {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.wf {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: 0 6px 22px rgba(26, 26, 26, 0.06);
+}
+.chrome {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.cdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.pane {
+  padding: 14px;
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* T1 mini chat */
+.t1head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.t1model {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--soft);
+  letter-spacing: 0.1em;
+}
+.miniPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: var(--paper);
+  border: 1px solid var(--amber);
+  border-radius: 10px;
+}
+.miniPill span:first-child {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.miniPill span:last-child {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--amber);
+  font-weight: 600;
+}
+.row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+.av {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.av.u {
+  background: var(--navy);
+}
+.av.a {
+  background: var(--amber);
+}
+.bub {
+  background: var(--paper);
+  padding: 6px 9px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+.replyMini {
+  margin-top: auto;
+  padding: 6px 10px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--soft);
+}
+
+/* generic mini labels */
+.kmono {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--soft);
+  letter-spacing: 0.12em;
+  margin-bottom: 5px;
+}
+.ktask {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.opt {
+  padding: 8px 11px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+}
+.opt.sel {
+  background: var(--paper);
+  border: 1.5px solid var(--amber);
+  color: var(--ink);
+  font-weight: 600;
+}
+.opt.off {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--soft);
+  margin-bottom: 12px;
+}
+.radio {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  border: 1.5px solid var(--amber);
+  position: relative;
+}
+.opt.off .radio {
+  border-color: var(--soft);
+}
+
+/* T3 dashboard */
+.tabs {
+  display: flex;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--soft);
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.tabs .on {
+  color: var(--amber);
+  padding-bottom: 5px;
+  border-bottom: 1.5px solid var(--amber);
+}
+.kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.kpi {
+  padding: 7px 9px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.kpi.dark {
+  background: var(--ink);
+  border: 0;
+}
+.kpi .lab {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--soft);
+  letter-spacing: 0.1em;
+}
+.kpi.dark .lab {
+  color: var(--amber-soft);
+}
+.kpi .fig {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.kpi.dark .fig {
+  color: var(--paper);
+}
+
+.cap {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  margin-top: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.job {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--soft);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.job em {
+  color: var(--ink-2);
+  font-style: italic;
+}
