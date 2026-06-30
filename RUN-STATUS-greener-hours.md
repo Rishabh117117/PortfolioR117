@@ -32,6 +32,33 @@ per-file. Branch left for review. **Supersedes the GH-DECK-1 status.**
   id for `aria-controls`, field-caret color, defensive `min-width:0`, dropped an
   unused `--amber-wash`).
 
+## Come-alive + background rework (2026-06-30, same day — per Rishabh + the prototype)
+- **Backgrounds:** §3 scale + §4 invisibility now share **one dark band** (the
+  linked problem; `ScaleChart` recolored for dark); §5 reframe is **light +
+  centered** (`AdoptionCurve` recolored for light); §6 opportunity is a **blue
+  band**. Verified via computed style (navy-deep / transparent / navy).
+- **The 10 principles** are surfaced: a note under the tabs ties the per-tier
+  P-codes to Prof. Godelnik's ten Design-for-a-Warming-World principles; the codes
+  also show as chips in each tier's brief.
+- **The surfaces are LIVE** (adapted from `greener-hours-prototype.jsx` into the
+  page's tokens; no new deps — hand-SVG charts driven by state):
+  - **Tier 1 chat** (`ComputeWindowMock`, client) — real chat wired to
+    **`/api/ask`** + a live carbon indicator cycling a sim 24h grid.
+  - **Tier 2 scheduler** (`SchedulerMock`, client) — working queue: submit →
+    cleanest-window routing; sim clock (advance/auto) drives queued→running→complete.
+  - **Tier 3 dashboard** (`DashboardMock`, client) — ticking KPIs + LIVE toggle.
+  - `TierTabs` restructured to **full-width surfaces** + a brief/principle-chip header.
+- **`app/api/ask` implemented** — server-side Claude proxy (`claude-sonnet-4-6`),
+  per-IP rate limit (12/min), input sanitation; `ANTHROPIC_API_KEY` server-only;
+  graceful 503 when unset. (`--amber-wash` restored — the scheduler uses it.)
+- **Honesty:** `DemoCallout` SIMULATED → **WORKING**; project badge stays
+  `COURSE PROJECT · CONCEPT`.
+- **Checks:** `npm run build` clean (20/20; `/work/greener-hours` 10.1 kB;
+  `/api/ask` ƒ server route). In-browser: `/api/ask` returns 503 (no dev key) with
+  a graceful message; Tier-2 submit grows the queue (2→3) + clock advances; Tier-3
+  avg-intensity KPI ticks live; no console errors; no h-overflow (desktop 699 +
+  mobile 375). **Prod chat needs `ANTHROPIC_API_KEY` in Railway.**
+
 ## Decisions taken in-sprint (confirmed with Rishabh)
 - **Visual = HYBRID:** portfolio shell + Bricolage; a **page-scoped serif
   (Fraunces, `--font-serif`)** loaded via `next/font` in `page.tsx` only (display

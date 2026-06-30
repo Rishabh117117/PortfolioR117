@@ -25,14 +25,25 @@ look is the design hook; its diagrams and sections are the source material.
 - **Primary accent stays Forest `#1C3B36`** (matches the work-grid card; avoids
   colliding with Follow's amber card).
 
-## Product depth — full three surfaces, tabbed (restructured 2026-06-30)
-The three surfaces live in a **tabbed product view** (`TierTabs`, client): tab
-across Tier 1 / 2 / 3 — each shows its brief + principles (left) and its **full
-mockup** (right). All three are fully rebuilt: Tier 1 `ComputeWindowMock` (chat
-carbon indicator — the Claude-in-the-chat hook), Tier 2 `SchedulerMock` (flexible
-scheduler, deck slide 9), Tier 3 `DashboardMock` (compute-footprint dashboard,
-deck slide 10). (Superseded the earlier curated "one full + two thumbnails"
-approach; `SurfaceThumbs` removed.)
+## Product depth — three LIVE surfaces, tabbed (interactive, 2026-06-30)
+The three surfaces are a **tabbed, full-width product view** (`TierTabs`, client):
+brief + principle chips (header) over each tier's **live surface**. Adapted from
+the working prototype (`greener-hours-prototype.jsx`) into the page's tokens — no
+new deps:
+- **Tier 1 `ComputeWindowMock`** — a real chat wired to **`/api/ask`** (the
+  server-side Claude proxy; the API key never reaches the browser) + a live carbon
+  indicator that cycles a simulated 24h grid. The "Claude-in-the-chat" hook.
+- **Tier 2 `SchedulerMock`** — a working job queue: submit a job → it's scheduled
+  to the cleanest grid window before its deadline; advance the sim clock (or auto)
+  to watch jobs run → complete. Self-contained, no backend.
+- **Tier 3 `DashboardMock`** — a live procurement dashboard: KPIs tick while LIVE
+  is on; the anti-rebound chart pairs falling intensity with rising volume.
+(Superseded the static "wireframe" mockups + the earlier curated approach;
+`SurfaceThumbs` removed.)
+
+**Live chat requires `ANTHROPIC_API_KEY`** set server-side (`.env.local` for dev,
+Railway env for prod). Without it, `/api/ask` returns a graceful 503 and the chat
+shows "backend isn't configured" — everything else stays interactive.
 
 ## Sections (deck → page) — narrative reordered 2026-06-30
 Hero → the scale (945 TWh + `ScaleChart`) → the invisibility (dark band,
@@ -63,16 +74,25 @@ slides 2 "reframe-arc" and 12 "principle pyramid" remain not ported.
   iframed); `"greener-hours"` already in `BESPOKE_SLUGS`.
 
 ## Honesty
-A speculative open-standard **course project** (Design for a Warming World, Prof.
-Raz Godelnik, Spring 2026) — not a shipped/measured product. Hero badge ==
-registry status == grid chip (`COURSE PROJECT · CONCEPT`). `DemoCallout` is
-`SIMULATED`. The Tier-1 mock values + scale figures are captioned illustrative /
-sourced; KPIs carry the directional caveat.
+Two honest axes, kept distinct:
+- **Project** (the standard itself) is still a speculative open-standard **course
+  project** — Design for a Warming World, Prof. Raz Godelnik, Spring 2026. The
+  hero badge + `lib/projects.ts` status + grid chip stay `COURSE PROJECT · CONCEPT`.
+  The P-codes on the surfaces reference the course's ten design principles.
+- **Demo** (the on-page surfaces) is now a real interactive prototype, so the
+  `DemoCallout` status is **`WORKING`** (was SIMULATED). The chat connects to the
+  real Claude API via the server-side `/api/ask` proxy; the scheduler + dashboard
+  are working client-side sims. Scale figures stay sourced; KPIs keep the
+  "directional, not predictive" caveat; the dashboard data is illustrative.
 
-## Open follow-up (deferred — do not lose)
-The interactive **Greener Hours prototype** (`greener-hours-prototype.jsx` — a
-real Claude-in-the-chat experience, Tier-1) is a separate **external chat
-artifact, not yet vendored into this repo**. A later sprint embeds it on this
-route and routes model calls through `app/api/ask` (server-side
-`ANTHROPIC_API_KEY`; rate-limit before launch) — the path to flipping the demo
-badge to `LIVE API`.
+## Done — prototype integrated (2026-06-30)
+The interactive **Greener Hours prototype** (`greener-hours-prototype.jsx`) was
+adapted into the three live surfaces above + the `/api/ask` server proxy (rate-
+limited, key server-side). `app/api/ask/route.ts` is implemented (was a 501
+scaffold).
+
+**To make the chat live in prod:** set `ANTHROPIC_API_KEY` in Railway's env (and
+`.env.local` for dev). Then the chat flips from the graceful 503 to real Claude
+responses (model `claude-sonnet-4-6`). Optional next steps: streaming responses,
+a durable rate-limit store, and the carbon-state demo controls + headers panel
+from the prototype (trimmed here for the tab's width).
