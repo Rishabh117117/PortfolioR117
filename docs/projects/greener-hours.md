@@ -25,20 +25,25 @@ look is the design hook; its diagrams and sections are the source material.
 - **Primary accent stays Forest `#1C3B36`** (matches the work-grid card; avoids
   colliding with Follow's amber card).
 
-## Product depth — CURATED
-Three-surface overview (`SurfaceThumbs`, the deck's slide-7 thumbnails) + **one
-fully rebuilt hero mockup: the Tier-1 "Compute Window Indicator"** chat
-(`ComputeWindowMock` — the Claude-in-the-chat hook). Tiers 2 & 3 are the lighter
-thumbnails, not full UI rebuilds.
+## Product depth — full three surfaces, tabbed (restructured 2026-06-30)
+The three surfaces live in a **tabbed product view** (`TierTabs`, client): tab
+across Tier 1 / 2 / 3 — each shows its brief + principles (left) and its **full
+mockup** (right). All three are fully rebuilt: Tier 1 `ComputeWindowMock` (chat
+carbon indicator — the Claude-in-the-chat hook), Tier 2 `SchedulerMock` (flexible
+scheduler, deck slide 9), Tier 3 `DashboardMock` (compute-footprint dashboard,
+deck slide 10). (Superseded the earlier curated "one full + two thumbnails"
+approach; `SurfaceThumbs` removed.)
 
-## Sections (deck → page)
+## Sections (deck → page) — narrative reordered 2026-06-30
 Hero → the scale (945 TWh + `ScaleChart`) → the invisibility (dark band,
-`VisibilityFlow`) → the insight (quote) → three forces (`ForceVisual` ×3) → one
-standard / three surfaces (`SurfaceThumbs` + substrate) → how it works
-(`HeadersDiagram`) → Tier-1 deep dive (`ComputeWindowMock` + principles) → HTTPS
-precedent (dark band, `AdoptionCurve`) → 6 precedents → 4 trade-offs → 6 KPIs (+
-"directional, not predictive" caveat) → close (dark band) → DemoCallout → pager.
-(Deck slides 2 "reframe" and 12 "principle pyramid" intentionally not ported.)
+`VisibilityFlow`) → **the reframe + precedent, combined (dark band):** the
+"visibility isn't enough / but + a standard works" statement → the **HTTPS** hero
+precedent (`AdoptionCurve`) + **3** supporting precedents (EU energy labels · FDA
+nutrition · cloud carbon) → the opportunity (three forces, `ForceVisual` ×3) →
+**the standard** (substrate + `HeadersDiagram`) → **the three surfaces** (`TierTabs`)
+→ trade-offs → KPIs → close (dark band) → DemoCallout → pager. The reordering
+puts the proof-by-precedent right after the reframe, before the product; deck
+slides 2 "reframe-arc" and 12 "principle pyramid" remain not ported.
 
 ## Files
 - **Page:** `app/work/greener-hours/{page.tsx, greener-hours.module.css}`.
@@ -47,8 +52,11 @@ precedent (dark band, `AdoptionCurve`) → 6 precedents → 4 trade-offs → 6 K
 - **Diagrams (faithful deck ports):** `ScaleChart.tsx`, `VisibilityFlow.tsx`,
   `ForceVisual.tsx` (variant), `HeadersDiagram.tsx`, `AdoptionCurve.tsx`, the
   shared `diagrams.css` utility classes.
-- **Surfaces:** `SurfaceThumbs.{tsx,module.css}`, `ComputeWindowMock.{tsx,module.css}`.
-- **Data:** `lib/greenerHours.ts` (all copy + list data, faithful to the deck).
+- **Surfaces:** `TierTabs.{tsx,module.css}` (client tabs) wrapping
+  `ComputeWindowMock.{tsx,module.css}` (T1), `SchedulerMock.tsx` (T2),
+  `DashboardMock.tsx` (T3) — the last two share `TierMocks.module.css`.
+- **Data:** `lib/greenerHours.ts` (all copy + list data + per-tier principles,
+  faithful to the deck).
 - **Registry:** `lib/projects.ts` — accent stays Forest `#1C3B36`; `status` →
   `COURSE PROJECT · CONCEPT` (propagates to home grid + `/work` chips).
 - **Kept:** `public/greener-hours/index.html` (vendored deck, now linked, not

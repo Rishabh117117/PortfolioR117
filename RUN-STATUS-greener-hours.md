@@ -8,6 +8,30 @@ language. Keep the vendored deck as a linked artifact.
 **Started/Finished:** 2026-06-30 · **Status:** COMPLETE, verified, committed
 per-file. Branch left for review. **Supersedes the GH-DECK-1 status.**
 
+## Restructure (2026-06-30, same day — per Rishabh's flow feedback)
+- **Narrative reordered:** the HTTPS precedent + supporting precedents moved up to
+  sit **right after the reframe**, combined into one dark section (statement →
+  HTTPS `AdoptionCurve` → 3 precedents: EU energy labels · FDA nutrition · cloud
+  carbon). Then opportunity (forces) → the product. New order: hero → scale →
+  invisibility → **reframe+precedent** → opportunity → **the standard** →
+  **the three surfaces (tabs)** → trade-offs → KPIs → close → demo → pager.
+- **The reframe statement** was restyled (the cramped left-border quote → a clean
+  full-width Fraunces opener on the dark band).
+- **Product = the three surfaces, tabbed.** New `TierTabs` (client) tabs across
+  Tier 1/2/3, each with its **full mockup** (left brief + right mock). Built
+  `SchedulerMock` (T2, deck slide 9) + `DashboardMock` (T3, deck slide 10) so all
+  three surfaces are real (was: one full + two thumbnails). `SurfaceThumbs`
+  removed. WAI-ARIA tablist + roving-tabindex keyboard nav.
+- New files: `TierTabs.{tsx,module.css}`, `SchedulerMock.tsx`, `DashboardMock.tsx`,
+  `TierMocks.module.css`; per-tier `TIER2_PRINCIPLES`/`TIER3_PRINCIPLES` in
+  `lib/greenerHours.ts`. `npm run build` clean (20/20; `/work/greener-hours`
+  8.54 kB). DOM-verified: flow order, reframe renders, all 3 tabs switch
+  (left+right), no console errors, no h-overflow desktop+mobile. (Screenshots:
+  the preview screenshot subsystem hung this session — verified via eval/DOM.)
+  3-lens review (correctness/a11y/css-tokens) → fixes applied (stable tabpanel
+  id for `aria-controls`, field-caret color, defensive `min-width:0`, dropped an
+  unused `--amber-wash`).
+
 ## Decisions taken in-sprint (confirmed with Rishabh)
 - **Visual = HYBRID:** portfolio shell + Bricolage; a **page-scoped serif
   (Fraunces, `--font-serif`)** loaded via `next/font` in `page.tsx` only (display
