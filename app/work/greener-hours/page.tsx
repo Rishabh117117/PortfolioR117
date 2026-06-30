@@ -71,6 +71,7 @@ export default function GreenerHoursPage() {
     "--accent-tint": "#EAF0EE",
     "--amber": "#C2410C",
     "--amber-soft": "#E8A642",
+    "--amber-wash": "#F7E4D6",
     "--navy": "#1E3A5F",
     "--navy-soft": "#3A5A82",
     "--navy-deep": "#15293F",
@@ -322,9 +323,9 @@ export default function GreenerHoursPage() {
           <div className="container">
             <DemoCallout
               name="Greener Hours"
-              status="SIMULATED"
-              title="See the standard, end to end."
-              body="Greener Hours is a speculative open standard; the three surfaces above are concept designs. An interactive Tier-1 prototype — a real chat carbon indicator — is the next step, routing model calls through the site's /api/ask proxy. For now, the full argument lives in the presentation deck."
+              status="WORKING"
+              title="The three surfaces above are live."
+              body="Tab through them: the scheduler queues real jobs to the cleanest grid window, the dashboard ticks live, and the chat runs on the real Claude API through a server-side proxy (the key never reaches the browser). Greener Hours itself remains a speculative open standard — the full argument lives in the presentation deck."
               buttonLabel="View the full deck ↗"
               href="/greener-hours/index.html"
               external
