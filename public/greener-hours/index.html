@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greener Hours — Final Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,30..100;1,9..144,300..900,30..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2EDE3;
+    --paper-light: #FAF6EE;
+    --ink: #15110D;
+    --ink-soft: #2C2620;
+    --muted: #6B6055;
+    --rule: #D4CDB8;
+    --rule-soft: #E5DFCF;
+    --accent: #C2410C;
+    --accent-soft: #E8A642;
+    --navy: #1E3A5F;
+    --navy-soft: #4A6B8A;
+    --warn: #B8860B;
+    --scale: 1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #0a0807;
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck { width: 100%; height: 100%; position: relative; }
+
+  /* Fixed 1920x1080 slide canvas */
+  .slide {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--scale));
+    transform-origin: center center;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 90px 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease;
+    font-size: 20px;
+    line-height: 1.45;
+    overflow: hidden;
+  }
+  .slide.active { opacity: 1; visibility: visible; z-index: 1; }
+  .slide.dark { background: var(--ink); color: var(--paper); }
+
+  .serif { font-family: 'Fraunces', Georgia, serif; }
+  .mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+
+  .slide-num {
+    position: absolute; top: 50px; right: 70px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px; color: var(--muted); letter-spacing: 0.1em;
+  }
+  .slide.dark .slide-num { color: var(--accent-soft); }
+  .slide-mark {
+    position: absolute; top: 50px; left: 70px;
+    display: flex; gap: 14px; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; color: var(--muted);
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .slide-mark::before {
+    content: ''; width: 12px; height: 12px;
+    background: var(--accent); border-radius: 1px;
+  }
+  .slide.dark .slide-mark { color: rgba(242,237,227,0.5); }
+  .slide-footer {
+    position: absolute; bottom: 50px; left: 70px; right: 70px;
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--muted); letter-spacing: 0.12em;
+  }
+  .slide.dark .slide-footer { color: rgba(242,237,227,0.4); }
+  .slide-cite {
+    position: absolute; bottom: 88px; left: 70px; right: 70px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted); line-height: 1.55;
+    padding-top: 12px; border-top: 1px solid var(--rule-soft);
+    letter-spacing: 0.04em;
+  }
+  .slide-cite .src-num {
+    display: inline-block; min-width: 18px;
+    color: var(--accent); font-weight: 600;
+  }
+  .slide.dark .slide-cite { color: rgba(242,237,227,0.45); border-top-color: rgba(242,237,227,0.12); }
+  .slide.dark .slide-cite .src-num { color: var(--accent-soft); }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400; color: var(--ink);
+    letter-spacing: -0.02em; line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+  }
+  .slide.dark h1, .slide.dark h2, .slide.dark h3, .slide.dark h4 { color: var(--paper); }
+
+  .display-xl { font-size: 200px; line-height: 0.9; letter-spacing: -0.04em; font-weight: 300; font-variation-settings: "opsz" 144, "SOFT" 70; }
+  .display-lg { font-size: 120px; line-height: 0.95; letter-spacing: -0.03em; font-weight: 400; }
+  .display-md { font-size: 84px; line-height: 1; letter-spacing: -0.02em; font-weight: 400; }
+  .display-sm { font-size: 56px; line-height: 1.05; letter-spacing: -0.015em; font-weight: 500; }
+
+  em.accent { color: var(--accent); font-style: italic; }
+  em.amber { color: var(--accent-soft); font-style: italic; }
+
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 30px; line-height: 1.4;
+    color: var(--ink-soft); font-weight: 400; max-width: 50ch;
+  }
+  .slide.dark .lede { color: rgba(242,237,227,0.85); }
+  p { font-size: 20px; line-height: 1.55; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px; text-transform: uppercase;
+    letter-spacing: 0.24em; color: var(--accent);
+    font-weight: 500; margin-bottom: 40px; display: inline-block;
+  }
+  .slide.dark .eyebrow { color: var(--accent-soft); }
+
+  .pill {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px; padding: 8px 16px;
+    border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 2px;
+    margin-right: 10px; margin-bottom: 10px;
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500;
+  }
+  .pill.filled { background: var(--accent); color: var(--paper); }
+
+  /* Principle insights — used on tier slides 8/9/10 */
+  .principle-list { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; }
+  .p-row { display: flex; align-items: flex-start; gap: 14px; }
+  .p-code {
+    font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500;
+    background: var(--paper-light); border: 1.5px solid var(--rule);
+    width: 46px; height: 46px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1; color: var(--ink); border-radius: 2px;
+  }
+  .p-code.anchor { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+  .p-code.load { border-color: var(--accent); color: var(--accent); border-width: 2px; }
+  .p-content { padding-top: 4px; min-width: 0; }
+  .p-name {
+    font-family: 'Inter', sans-serif; font-size: 14px;
+    color: var(--ink); font-weight: 600; margin-bottom: 3px;
+    letter-spacing: 0.01em; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .p-insight {
+    font-family: 'Fraunces', serif; font-size: 17px;
+    color: var(--ink-soft); line-height: 1.35; font-style: italic;
+  }
+
+  /* Title slide */
+  .title-slide { justify-content: flex-end; padding-bottom: 110px; }
+  .title-slide::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 8px; background: var(--accent);
+  }
+  .title-meta {
+    margin-top: 60px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    border-top: 1px solid var(--rule); padding-top: 40px;
+  }
+  .title-meta-item .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--muted); margin-bottom: 12px;
+  }
+  .title-meta-item .v {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; color: var(--ink);
+  }
+
+  /* Reframe */
+  .reframe-grid {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 40px; align-items: stretch; margin-top: 60px;
+  }
+  .reframe-box {
+    padding: 50px;
+    border: 1.5px solid var(--rule); background: var(--paper-light);
+  }
+  .reframe-box.old { opacity: 0.7; }
+  .reframe-box.new { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .reframe-box .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--muted); margin-bottom: 28px;
+  }
+  .reframe-box.new .lbl { color: var(--accent-soft); }
+  .reframe-box h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px; font-weight: 400; line-height: 1.1; margin-bottom: 28px;
+  }
+  .reframe-box.new h3 { color: var(--paper); }
+  .reframe-box p { font-size: 20px; color: var(--ink-soft); line-height: 1.5; }
+  .reframe-box.new p { color: rgba(242,237,227,0.85); }
+  .reframe-arrow {
+    display: flex; align-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 90px; color: var(--accent); font-style: italic; line-height: 1;
+  }
+
+  /* Stat hero */
+  .col-2-5-7 {
+    display: grid; grid-template-columns: 5fr 7fr;
+    gap: 70px; align-items: center; margin-top: 30px;
+  }
+  .stat-hero {
+    font-size: 320px; line-height: 0.85;
+    font-family: 'Fraunces', serif;
+    font-weight: 300; letter-spacing: -0.05em;
+    color: var(--accent);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-style: italic;
+  }
+  .stat-hero .unit {
+    font-size: 0.32em; color: var(--ink);
+    font-style: normal; margin-left: 0.2em;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+  }
+
+  /* Invisibility cards */
+  .three-card-grid {
+    margin-top: 60px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .three-card {
+    background: var(--paper-light); border: 1px solid var(--rule); padding: 40px;
+  }
+  .three-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--navy); margin-bottom: 24px;
+  }
+  .three-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; margin-bottom: 20px; font-weight: 500;
+  }
+  .three-card p { font-size: 18px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* Dark slide bottom annotation strip (used in dark matter slide) */
+  .dark-strip {
+    margin-top: 14px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(242,237,227,0.18);
+  }
+  .dark-strip .bucket .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.22em; color: var(--accent-soft);
+    margin-bottom: 4px; display: block;
+  }
+  .dark-strip .bucket .txt {
+    font-family: 'Fraunces', serif;
+    font-size: 15px; line-height: 1.35;
+    color: rgba(242,237,227,0.85); font-weight: 400;
+  }
+  .dark-strip .bucket .txt em {
+    color: var(--accent-soft); font-style: italic;
+  }
+
+  /* Quote */
+  .quote-block {
+    border-left: 6px solid var(--accent);
+    padding-left: 60px; max-width: 1300px;
+  }
+  .quote-block .qlabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px; text-transform: uppercase;
+    letter-spacing: 0.24em; color: var(--accent-soft); margin-bottom: 40px;
+  }
+  .quote-block .q {
+    font-family: 'Fraunces', serif;
+    font-size: 80px; line-height: 1.1; color: var(--paper);
+    font-weight: 300; font-style: italic; letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+  }
+  .quote-block .attr {
+    margin-top: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--accent-soft);
+  }
+
+  /* Forces */
+  .force-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 30px; margin-top: 50px;
+  }
+  .force {
+    background: var(--paper-light); border: 1px solid var(--rule);
+    padding: 36px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .force::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 5px; background: var(--accent);
+  }
+  .force .fnum {
+    font-family: 'Fraunces', serif;
+    font-size: 52px; color: var(--accent);
+    font-style: italic; line-height: 1; margin-bottom: 12px;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+  }
+  .force h4 { font-size: 28px; margin-bottom: 16px; font-weight: 500; line-height: 1.1; }
+  .force-visual {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    margin: 16px 0 20px 0;
+    min-height: 290px;
+  }
+  .force-visual svg { width: 100%; height: auto; max-height: 320px; }
+  .force-take {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; color: var(--ink-soft); line-height: 1.5;
+    padding-top: 18px; border-top: 1px solid var(--rule-soft);
+  }
+  .force-take em { color: var(--accent); font-style: italic; font-weight: 500; }
+
+  /* Tier slides */
+  .tier-slide {
+    display: grid; grid-template-columns: 4fr 8fr;
+    gap: 50px; align-items: center; height: 100%;
+  }
+  .tier-left { display: flex; flex-direction: column; justify-content: center; }
+  .tier-num-huge {
+    font-family: 'Fraunces', serif;
+    font-size: 160px; line-height: 0.8;
+    color: var(--accent); font-weight: 300; font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 80; margin-bottom: 20px;
+  }
+  .tier-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px; text-transform: uppercase;
+    letter-spacing: 0.22em; color: var(--muted); margin-bottom: 22px;
+  }
+  .tier-name {
+    font-family: 'Fraunces', serif;
+    font-size: 48px; font-weight: 400;
+    line-height: 1.02; letter-spacing: -0.02em;
+    margin-bottom: 22px; color: var(--ink);
+  }
+  .tier-job {
+    font-family: 'Fraunces', serif;
+    font-size: 20px; color: var(--ink-soft);
+    line-height: 1.4; font-style: italic; margin-bottom: 32px;
+  }
+  .tier-right { display: flex; align-items: center; justify-content: center; }
+
+  .mockup {
+    width: 100%; max-width: 1100px;
+    background: var(--paper-light); border: 1px solid var(--rule);
+    padding: 32px; border-radius: 8px; position: relative;
+  }
+  .mockup-chrome { display: flex; gap: 8px; margin-bottom: 24px; }
+  .mockup-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--rule); }
+
+  /* Detailed product wireframes (slides 8, 9, 10) */
+  .wf {
+    width: 100%; max-width: 1100px;
+    background: #FFFFFE; border: 1px solid var(--rule);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 10px 40px rgba(21,17,13,0.10), 0 2px 8px rgba(21,17,13,0.05);
+    font-family: 'Inter', sans-serif;
+  }
+  .wf-chrome {
+    background: #EAE3D3; padding: 11px 16px;
+    display: flex; gap: 8px; align-items: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .wf-chrome .d { width: 12px; height: 12px; border-radius: 50%; }
+  .wf-chrome .d.r { background: #E26966; }
+  .wf-chrome .d.y { background: #E9B947; }
+  .wf-chrome .d.g { background: #62C462; }
+  .wf-chrome .url {
+    margin-left: 20px; padding: 6px 16px; border-radius: 4px;
+    background: var(--paper); font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted); max-width: 320px;
+    border: 1px solid var(--rule-soft);
+  }
+  .wf-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 9px; border-radius: 12px;
+    background: var(--paper); border: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--ink-soft); letter-spacing: 0.05em;
+  }
+  .wf-chip .led { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .wf-chip.lo .led { background: #62C462; }
+  .wf-chip.md .led { background: #E9B947; }
+  .wf-chip.hi .led { background: #C2410C; }
+
+  /* Matrix */
+  .matrix {
+    display: grid; grid-template-columns: 320px 1fr;
+    gap: 0; margin-top: 50px;
+    border: 1px solid var(--rule); background: var(--paper-light);
+  }
+  .matrix-row { display: contents; }
+  .matrix-label, .matrix-content {
+    padding: 28px 32px; border-bottom: 1px solid var(--rule);
+  }
+  .matrix-row:last-child .matrix-label,
+  .matrix-row:last-child .matrix-content { border-bottom: none; }
+  .matrix-label {
+    background: var(--paper); border-right: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--ink-soft);
+    display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  }
+  .matrix-label .role {
+    display: inline-block;
+    background: var(--accent); color: var(--paper);
+    padding: 5px 12px; border-radius: 2px;
+    font-size: 13px; align-self: flex-start;
+  }
+  .matrix-label .role.navy { background: var(--navy); }
+  .matrix-label .role.muted { background: transparent; color: var(--muted); border: 1px solid var(--muted); }
+  .matrix-content { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .p-chip {
+    border: 1px solid var(--rule);
+    padding: 10px 18px; background: var(--paper);
+    font-size: 18px; font-family: 'Fraunces', serif;
+  }
+  .p-chip .pc {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent); font-weight: 600;
+    margin-right: 10px; font-size: 16px;
+  }
+
+  /* HTTPS two-col */
+  .col-2 {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 70px; align-items: center; height: 100%;
+  }
+
+  /* Precedents */
+  .precedent-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; margin-top: 50px;
+  }
+  .precedent {
+    border: 1px solid var(--rule);
+    background: var(--paper-light); padding: 32px;
+  }
+  .precedent .ep {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.16em; color: var(--muted);
+    margin-bottom: 18px; line-height: 1.4;
+  }
+  .precedent h4 {
+    font-size: 24px; margin-bottom: 14px;
+    font-family: 'Fraunces', serif; font-weight: 500;
+  }
+  .precedent p { font-size: 16px; line-height: 1.5; color: var(--ink-soft); }
+
+  /* Trade-offs */
+  .tradeoff-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 36px; margin-top: 60px;
+  }
+  .tradeoff {
+    border-left: 4px solid var(--accent);
+    padding: 8px 0 8px 36px;
+  }
+  .tradeoff h4 {
+    font-size: 30px; margin-bottom: 18px;
+    font-family: 'Fraunces', serif; font-weight: 500;
+  }
+  .tradeoff p { font-size: 18px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* KPIs */
+  .kpi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 36px; margin-top: 60px;
+  }
+  .kpi { border-top: 3px solid var(--accent); padding: 24px 0 0; }
+  .kpi .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--accent); margin-bottom: 18px;
+  }
+  .kpi .v {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; line-height: 1.2;
+    color: var(--paper); margin-bottom: 14px; font-weight: 400;
+  }
+  .kpi .desc { font-size: 15px; line-height: 1.5; color: rgba(242,237,227,0.7); }
+
+  /* HUD */
+  .hud {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    z-index: 100; pointer-events: none;
+  }
+  .progress-track {
+    width: 100%; height: 3px; background: rgba(255,255,255,0.08);
+  }
+  .progress-bar {
+    height: 100%; background: var(--accent);
+    width: 6.25%; transition: width 0.35s ease;
+  }
+  .hud-info {
+    position: fixed; bottom: 20px; right: 24px;
+    display: flex; gap: 14px; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: rgba(255,255,255,0.65);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    pointer-events: auto; z-index: 101;
+    transition: opacity 0.3s;
+  }
+  .hud-info .keys {
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,0.18); border-radius: 3px;
+  }
+  .hud-info .counter { color: rgba(255,255,255,0.92); }
+  .hud-info .fs-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.7);
+    padding: 6px 10px; border-radius: 3px;
+    font: inherit; cursor: pointer;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .hud-info .fs-btn:hover {
+    color: var(--accent-soft); border-color: rgba(232,166,66,0.4);
+  }
+
+  .dots {
+    position: fixed; left: 18px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column;
+    gap: 6px; z-index: 100; transition: opacity 0.3s;
+  }
+  .dot {
+    width: 3px; height: 16px;
+    background: rgba(255,255,255,0.18); border-radius: 1px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .dot:hover { background: rgba(255,255,255,0.45); }
+  .dot.active { background: var(--accent); height: 24px; }
+
+  .nav-zone {
+    position: fixed; top: 0;
+    width: 12%; height: 100%;
+    cursor: pointer; z-index: 50;
+  }
+  .nav-zone.prev { left: 0; }
+  .nav-zone.next { right: 0; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- SLIDE 01 — TITLE -->
+  <section class="slide title-slide active" data-slide="1">
+    <div class="slide-mark">DfWW SP26 · Final Presentation</div>
+    <div class="slide-num">01 / 17</div>
+    <div>
+      <span class="eyebrow">A design specification</span>
+      <h1 class="display-xl">Greener<br>Hours<em class="accent">.</em></h1>
+      <p class="lede serif" style="margin-top: 40px; max-width: 70ch;">
+        An open accountability standard for AI compute carbon disclosure — with three implementation surfaces that turn invisible energy costs into legible procurement infrastructure.
+      </p>
+      <div class="title-meta">
+        <div class="title-meta-item"><div class="k">By</div><div class="v">Rishabh Salian</div></div>
+        <div class="title-meta-item"><div class="k">Course</div><div class="v">Design for a Warming World</div></div>
+        <div class="title-meta-item"><div class="k">Instructor</div><div class="v">Prof. Raz Godelnik</div></div>
+        <div class="title-meta-item"><div class="k">Date</div><div class="v">May 12, 2026</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 02 — REFRAME -->
+  <section class="slide" data-slide="2">
+    <div class="slide-mark">§ 02 · Development arc</div>
+    <div class="slide-num">02 / 17</div>
+    <span class="eyebrow">What changed since midterm</span>
+    <h2 class="display-md">The center of gravity moved.</h2>
+    <div class="reframe-grid">
+      <div class="reframe-box old">
+        <div class="lbl">Previously · midterm framing</div>
+        <h3>A three-tier user-facing intervention.</h3>
+        <p>"Make AI's energy use visible to users so they shift behavior toward cleaner windows." Center of gravity on the user. Visibility doing the heavy lifting.</p>
+      </div>
+      <div class="reframe-arrow">→</div>
+      <div class="reframe-box new">
+        <div class="lbl">Now · final framing</div>
+        <h3>An open accountability standard with three implementation surfaces.</h3>
+        <p>"Force AI providers to publish grid mix and carbon data through a wedge of user-facing legibility." Center of gravity on the standard. Disclosure doing the heavy lifting.</p>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Greener Hours · v0.1</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 03 — PROBLEM SCALE -->
+  <section class="slide" data-slide="3">
+    <div class="slide-mark">§ 03 · The problem</div>
+    <div class="slide-num">03 / 17</div>
+    <div class="col-2-5-7">
+      <div>
+        <span class="eyebrow">The scale</span>
+        <div class="stat-hero">945<span class="unit">TWh</span></div>
+        <p class="lede serif" style="margin-top: 40px;">
+          Projected global data centre electricity demand by 2030 — more than double 2024's <em class="accent">415 TWh</em>, with AI identified by the IEA as the lead driver.
+        </p>
+      </div>
+      <div>
+        <svg viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#C2410C" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#C2410C" stop-opacity="0.3"/>
+            </linearGradient>
+          </defs>
+          <line x1="60" y1="400" x2="680" y2="400" stroke="#15110D" stroke-width="1.5"/>
+          <line x1="60" y1="40" x2="60" y2="400" stroke="#15110D" stroke-width="1.5"/>
+          <text x="42" y="405" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="#6B6055">0</text>
+          <text x="42" y="320" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="#6B6055">250</text>
+          <text x="42" y="235" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="#6B6055">500</text>
+          <text x="42" y="150" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="#6B6055">750</text>
+          <text x="42" y="65" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="#6B6055">1000</text>
+          <line x1="60" y1="315" x2="680" y2="315" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <line x1="60" y1="230" x2="680" y2="230" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <line x1="60" y1="145" x2="680" y2="145" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <line x1="60" y1="60" x2="680" y2="60" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+          <rect x="90" y="332" width="60" height="68" fill="url(#g1)" opacity="0.55"/>
+          <text x="120" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055">2018</text>
+          <text x="120" y="322" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#15110D">200</text>
+          <rect x="170" y="318" width="60" height="82" fill="url(#g1)" opacity="0.6"/>
+          <text x="200" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055">2020</text>
+          <text x="200" y="308" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#15110D">240</text>
+          <rect x="250" y="302" width="60" height="98" fill="url(#g1)" opacity="0.7"/>
+          <text x="280" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055">2022</text>
+          <text x="280" y="292" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#15110D">290</text>
+          <rect x="330" y="259" width="60" height="141" fill="url(#g1)" opacity="0.85"/>
+          <text x="360" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055" font-weight="600">2024</text>
+          <text x="360" y="249" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#15110D" font-weight="600">415</text>
+          <rect x="410" y="203" width="60" height="197" fill="url(#g1)" opacity="0.5" stroke="#C2410C" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="440" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055">2026</text>
+          <text x="440" y="193" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#15110D">~580</text>
+          <rect x="490" y="139" width="60" height="261" fill="url(#g1)" opacity="0.4" stroke="#C2410C" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="520" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055">2028</text>
+          <text x="520" y="129" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#15110D">~760</text>
+          <rect x="570" y="78" width="60" height="322" fill="#C2410C" opacity="0.9"/>
+          <text x="600" y="425" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055" font-weight="700">2030</text>
+          <text x="600" y="68" text-anchor="middle" font-family="JetBrains Mono" font-size="15" fill="#C2410C" font-weight="700">945</text>
+          <text x="60" y="25" font-family="Fraunces" font-size="16" fill="#15110D" font-weight="500">Global data centre electricity · TWh</text>
+          <text x="680" y="25" font-family="JetBrains Mono" font-size="11" fill="#6B6055" text-anchor="end">solid · actual    outlined · projection</text>
+        </svg>
+      </div>
+    </div>
+    <div class="slide-cite">
+      <span class="src-num">¹</span>International Energy Agency. <em>Energy and AI</em>. Paris: IEA, April 2025.&nbsp;&nbsp;<span class="src-num">²</span>Shehabi, A., et al. <em>2024 United States Data Center Energy Usage Report</em>. Lawrence Berkeley National Laboratory, December 2024.
+    </div>
+    <div class="slide-footer">
+      <span>The scale problem · data centres &amp; AI</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 04 — THE DARK MATTER -->
+  <section class="slide dark" data-slide="4">
+    <div class="slide-mark">§ 04 · The invisibility</div>
+    <div class="slide-num">04 / 17</div>
+    <span class="eyebrow" style="margin-bottom: 20px;">The dark matter of AI energy</span>
+    <h2 class="display-md" style="color: var(--paper); margin: 0;">The user sees the AI.<br>They don't see <em class="amber">any of this.</em></h2>
+
+    <div style="margin-top: 12px;">
+      <svg viewBox="0 0 1700 520" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display: block;">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#E8A642"/>
+          </marker>
+          <marker id="arrSoft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(242,237,227,0.5)"/>
+          </marker>
+        </defs>
+
+        <!-- VISIBLE side label -->
+        <text x="230" y="40" font-family="JetBrains Mono" font-size="14" fill="rgba(242,237,227,0.55)" letter-spacing="3" text-anchor="middle">VISIBLE</text>
+        <text x="230" y="62" font-family="JetBrains Mono" font-size="11" fill="rgba(242,237,227,0.4)" letter-spacing="2" text-anchor="middle">— THE WHOLE INTERFACE —</text>
+
+        <!-- USER (left, fully lit) -->
+        <circle cx="230" cy="270" r="78" fill="none" stroke="#F2EDE3" stroke-width="2.5"/>
+        <text x="230" y="278" text-anchor="middle" font-family="Fraunces" font-size="26" fill="#F2EDE3" font-weight="500">User</text>
+
+        <!-- Connection from user to AI surface -->
+        <line x1="312" y1="270" x2="780" y2="270" stroke="#E8A642" stroke-width="2.5" marker-end="url(#arr)"/>
+        <text x="540" y="252" font-family="JetBrains Mono" font-size="13" fill="#E8A642" letter-spacing="2" text-anchor="middle">QUERIES THE MODEL</text>
+
+        <!-- BOUNDARY MARKER -->
+        <line x1="640" y1="120" x2="640" y2="430" stroke="rgba(232,166,66,0.45)" stroke-width="1" stroke-dasharray="4 6"/>
+        <text x="640" y="465" font-family="JetBrains Mono" font-size="11" fill="rgba(232,166,66,0.65)" letter-spacing="2.5" text-anchor="middle">↑ THE LINE OF VISIBILITY ↑</text>
+
+        <!-- DARK MATTER SPHERE -->
+        <ellipse cx="1170" cy="270" rx="470" ry="240" fill="rgba(242,237,227,0.025)" stroke="rgba(242,237,227,0.32)" stroke-width="1.5" stroke-dasharray="7 7"/>
+
+        <!-- INVISIBLE / dark matter labels -->
+        <text x="1170" y="40" font-family="JetBrains Mono" font-size="14" fill="rgba(242,237,227,0.55)" letter-spacing="3" text-anchor="middle">DARK MATTER</text>
+        <text x="1170" y="62" font-family="JetBrains Mono" font-size="11" fill="rgba(242,237,227,0.4)" letter-spacing="2" text-anchor="middle">— EVERYTHING THAT MAKES THE INTERFACE WORK —</text>
+
+        <!-- AI node (the surface — accent-lit, the only "visible" thing inside) -->
+        <circle cx="830" cy="270" r="58" fill="#C2410C"/>
+        <text x="830" y="278" text-anchor="middle" font-family="Fraunces" font-size="22" fill="#F2EDE3" font-weight="500">AI</text>
+
+        <!-- AI → Data Center -->
+        <line x1="888" y1="270" x2="1020" y2="270" stroke="rgba(242,237,227,0.5)" stroke-width="1.5" marker-end="url(#arrSoft)"/>
+
+        <!-- Data Center node -->
+        <circle cx="1090" cy="270" r="68" fill="none" stroke="rgba(242,237,227,0.6)" stroke-width="1.5"/>
+        <text x="1090" y="265" text-anchor="middle" font-family="Fraunces" font-size="19" fill="rgba(242,237,227,0.88)" font-weight="500">Data</text>
+        <text x="1090" y="288" text-anchor="middle" font-family="Fraunces" font-size="19" fill="rgba(242,237,227,0.88)" font-weight="500">center</text>
+
+        <!-- Data Center → Grid -->
+        <line x1="1158" y1="270" x2="1295" y2="270" stroke="rgba(242,237,227,0.5)" stroke-width="1.5" marker-end="url(#arrSoft)"/>
+
+        <!-- Grid node -->
+        <circle cx="1360" cy="270" r="62" fill="none" stroke="rgba(242,237,227,0.6)" stroke-width="1.5"/>
+        <text x="1360" y="278" text-anchor="middle" font-family="Fraunces" font-size="22" fill="rgba(242,237,227,0.88)" font-weight="500">Grid</text>
+
+        <!-- Fuel sources branching off the grid -->
+        <!-- RENEWABLES (cool blue) -->
+        <line x1="1395" y1="218" x2="1465" y2="148" stroke="rgba(74,107,138,0.7)" stroke-width="1.2"/>
+        <rect x="1455" y="118" width="120" height="42" fill="rgba(74,107,138,0.18)" stroke="#4A6B8A" stroke-width="1.2"/>
+        <text x="1515" y="145" text-anchor="middle" font-family="Inter" font-size="15" fill="#7A9BBE" font-weight="600">Solar</text>
+
+        <line x1="1415" y1="252" x2="1485" y2="215" stroke="rgba(74,107,138,0.7)" stroke-width="1.2"/>
+        <rect x="1480" y="195" width="120" height="42" fill="rgba(74,107,138,0.18)" stroke="#4A6B8A" stroke-width="1.2"/>
+        <text x="1540" y="222" text-anchor="middle" font-family="Inter" font-size="15" fill="#7A9BBE" font-weight="600">Wind</text>
+
+        <!-- FOSSILS (warm amber/warn) -->
+        <line x1="1415" y1="290" x2="1485" y2="325" stroke="rgba(184,134,11,0.6)" stroke-width="1.2"/>
+        <rect x="1480" y="305" width="120" height="42" fill="rgba(232,166,66,0.13)" stroke="#B8860B" stroke-width="1.2"/>
+        <text x="1540" y="332" text-anchor="middle" font-family="Inter" font-size="15" fill="#E8A642" font-weight="600">Gas</text>
+
+        <line x1="1395" y1="322" x2="1465" y2="392" stroke="rgba(184,134,11,0.6)" stroke-width="1.2"/>
+        <rect x="1455" y="380" width="120" height="42" fill="rgba(232,166,66,0.13)" stroke="#B8860B" stroke-width="1.2"/>
+        <text x="1515" y="407" text-anchor="middle" font-family="Inter" font-size="15" fill="#E8A642" font-weight="600">Coal</text>
+
+        <line x1="1360" y1="332" x2="1360" y2="440" stroke="rgba(184,134,11,0.6)" stroke-width="1.2"/>
+        <rect x="1300" y="430" width="120" height="42" fill="rgba(232,166,66,0.13)" stroke="#B8860B" stroke-width="1.2"/>
+        <text x="1360" y="457" text-anchor="middle" font-family="Inter" font-size="15" fill="#E8A642" font-weight="600">Oil</text>
+
+        <!-- Legend dots near top right corner of sphere -->
+        <circle cx="1622" cy="135" r="5" fill="#4A6B8A"/>
+        <text x="1635" y="140" font-family="JetBrains Mono" font-size="11" fill="rgba(242,237,227,0.55)" letter-spacing="1.5">RENEWABLE</text>
+        <circle cx="1622" cy="408" r="5" fill="#B8860B"/>
+        <text x="1635" y="413" font-family="JetBrains Mono" font-size="11" fill="rgba(242,237,227,0.55)" letter-spacing="1.5">FOSSIL</text>
+      </svg>
+    </div>
+
+    <div class="dark-strip">
+      <div class="bucket">
+        <span class="lbl">Supply side</span>
+        <div class="txt">Aggregate, annual, self-reported. <em>Not per request.</em></div>
+      </div>
+      <div class="bucket">
+        <span class="lbl">Demand side</span>
+        <div class="txt">Zero signal. <em>Nothing per request, period.</em></div>
+      </div>
+      <div class="bucket">
+        <span class="lbl">Dev tools</span>
+        <div class="txt">Voluntary, research-grade, inconsistent. <em>Not procurement-grade.</em></div>
+      </div>
+    </div>
+
+    <div class="slide-cite">
+      <span class="src-num">¹</span>Hill, D. <em>Dark Matter and Trojan Horses: A Strategic Design Vocabulary</em>. Strelka Press, 2015.&nbsp;&nbsp;<span class="src-num">²</span>Johar, I. Interview, <em>The Great Simplification</em> podcast (Nate Hagens), 2024.&nbsp;&nbsp;<span class="src-num">³</span>AI energy estimates: IEA, <em>Energy and AI</em>, April 2025.
+    </div>
+    <div class="slide-footer">
+      <span>P3 · Design with dark matter in mind</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 05 — INSIGHT -->
+  <section class="slide dark" data-slide="5">
+    <div class="slide-mark">§ 05 · The insight</div>
+    <div class="slide-num">05 / 17</div>
+    <div class="quote-block">
+      <div class="qlabel">The reframe</div>
+      <div class="q">
+        Visibility doesn't change end-user behavior.<br><br>
+        But visibility paired with a standard <em class="amber">creates supply-side pressure.</em>
+      </div>
+      <div class="attr">— same pattern as HTTPS, energy labels, SBOM, cloud carbon dashboards</div>
+    </div>
+    <div class="slide-footer">
+      <span>Why this matters · midterm critique structurally addressed</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 06 — OPPORTUNITY -->
+  <section class="slide" data-slide="6">
+    <div class="slide-mark">§ 06 · The opportunity</div>
+    <div class="slide-num">06 / 17</div>
+    <span class="eyebrow">Three forces · converging now</span>
+    <h2 class="display-md">Why now, <em class="accent">not five years ago.</em></h2>
+    <div class="force-grid">
+
+      <!-- FORCE 01 — REGULATORY PRESSURE -->
+      <div class="force">
+        <div class="fnum">01</div>
+        <h4>Regulatory pressure</h4>
+        <div class="force-visual">
+          <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Mounting arrow on the right -->
+            <line x1="395" y1="270" x2="395" y2="50" stroke="#C2410C" stroke-width="1.5"/>
+            <polygon points="395,40 388,52 402,52" fill="#C2410C"/>
+            <text x="400" y="155" font-family="JetBrains Mono" font-size="11" fill="#C2410C" letter-spacing="2">MOUNTING</text>
+
+            <!-- Chip 4 — bottom of stack (oldest visible) -->
+            <g transform="translate(40, 230) rotate(-3 175 24)">
+              <rect width="320" height="50" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.3"/>
+              <text x="22" y="22" font-family="JetBrains Mono" font-size="11" fill="#6B6055" letter-spacing="2">2024 ·  EU</text>
+              <text x="22" y="40" font-family="Fraunces" font-size="17" fill="#15110D" font-weight="500">CSRD scope 3</text>
+            </g>
+
+            <!-- Chip 3 -->
+            <g transform="translate(40, 165) rotate(2 175 24)">
+              <rect width="320" height="50" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.3"/>
+              <text x="22" y="22" font-family="JetBrains Mono" font-size="11" fill="#6B6055" letter-spacing="2">2024 ·  US (SEC)</text>
+              <text x="22" y="40" font-family="Fraunces" font-size="17" fill="#15110D" font-weight="500">SEC climate disclosure</text>
+            </g>
+
+            <!-- Chip 2 -->
+            <g transform="translate(40, 100) rotate(-1.5 175 24)">
+              <rect width="320" height="50" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.3"/>
+              <text x="22" y="22" font-family="JetBrains Mono" font-size="11" fill="#6B6055" letter-spacing="2">2024 ·  EU</text>
+              <text x="22" y="40" font-family="Fraunces" font-size="17" fill="#15110D" font-weight="500">EU AI Act</text>
+            </g>
+
+            <!-- Chip 1 — top of stack (newest, accent-highlighted) -->
+            <g transform="translate(40, 35) rotate(1 175 24)">
+              <rect width="320" height="50" fill="#F2EDE3" stroke="#C2410C" stroke-width="2"/>
+              <text x="22" y="22" font-family="JetBrains Mono" font-size="11" fill="#C2410C" letter-spacing="2">2026 ·  CALIFORNIA</text>
+              <text x="22" y="40" font-family="Fraunces" font-size="17" fill="#15110D" font-weight="500">SB 253 first reporting</text>
+            </g>
+
+            <!-- Label at bottom -->
+            <text x="40" y="297" font-family="JetBrains Mono" font-size="10" fill="#6B6055" letter-spacing="2">↑ EACH DEMANDS SCOPE 3 / VENDOR-LEVEL DATA</text>
+          </svg>
+        </div>
+        <p class="force-take">All demand vendor-level emissions data. <em>None specify the technical standard.</em></p>
+      </div>
+
+      <!-- FORCE 02 — PROCUREMENT DEMAND -->
+      <div class="force">
+        <div class="fnum">02</div>
+        <h4>Procurement demand</h4>
+        <div class="force-visual">
+          <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Same buyers ribbon at top -->
+            <rect x="0" y="0" width="420" height="28" fill="#1E3A5F"/>
+            <text x="210" y="19" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#F2EDE3" letter-spacing="2.5">SAME BUYERS · SAME SCOPE 3 OBLIGATION</text>
+
+            <!-- LEFT: Cloud — has dashboard -->
+            <rect x="10" y="50" width="190" height="200" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.5"/>
+            <rect x="10" y="50" width="190" height="32" fill="#1E3A5F"/>
+            <text x="22" y="71" font-family="JetBrains Mono" font-size="11" fill="#F2EDE3" letter-spacing="1.8">CLOUD CARBON</text>
+            <text x="180" y="74" text-anchor="end" font-family="Fraunces" font-size="22" fill="#E8A642" font-style="italic">✓</text>
+
+            <!-- Mini bar chart -->
+            <rect x="30" y="170" width="18" height="58" fill="#1E3A5F" opacity="0.7"/>
+            <rect x="55" y="155" width="18" height="73" fill="#1E3A5F" opacity="0.55"/>
+            <rect x="80" y="140" width="18" height="88" fill="#1E3A5F" opacity="0.8"/>
+            <rect x="105" y="160" width="18" height="68" fill="#1E3A5F" opacity="0.6"/>
+            <rect x="130" y="125" width="18" height="103" fill="#1E3A5F" opacity="0.85"/>
+            <rect x="155" y="148" width="18" height="80" fill="#1E3A5F" opacity="0.6"/>
+            <line x1="25" y1="228" x2="180" y2="228" stroke="#15110D" stroke-width="1"/>
+            <text x="30" y="245" font-family="JetBrains Mono" font-size="9" fill="#6B6055" letter-spacing="1">per-service · 2021–</text>
+            <text x="30" y="103" font-family="Fraunces" font-size="14" fill="#15110D" font-weight="500">AWS · Azure · GCP</text>
+
+            <!-- RIGHT: AI — empty -->
+            <rect x="220" y="50" width="190" height="200" fill="#F2EDE3" stroke="#C2410C" stroke-width="1.5" stroke-dasharray="6 5"/>
+            <rect x="220" y="50" width="190" height="32" fill="#C2410C"/>
+            <text x="232" y="71" font-family="JetBrains Mono" font-size="11" fill="#F2EDE3" letter-spacing="1.8">AI CARBON</text>
+            <text x="390" y="74" text-anchor="end" font-family="Fraunces" font-size="22" fill="#F2EDE3" font-style="italic">✗</text>
+
+            <text x="315" y="180" text-anchor="middle" font-family="Fraunces" font-size="86" fill="#C2410C" font-style="italic" font-weight="300">?</text>
+            <text x="315" y="220" text-anchor="middle" font-family="Fraunces" font-size="13" fill="#15110D" font-weight="500">no equivalent</text>
+            <text x="315" y="245" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6B6055" letter-spacing="1">no standard yet</text>
+
+            <!-- Demand arrow -->
+            <line x1="125" y1="285" x2="295" y2="285" stroke="#C2410C" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <polygon points="305,285 295,280 295,290" fill="#C2410C"/>
+            <text x="210" y="280" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#C2410C" letter-spacing="1.5">DEMAND TRANSFERS</text>
+          </svg>
+        </div>
+        <p class="force-take">Cloud got per-service dashboards. <em>AI didn't.</em></p>
+      </div>
+
+      <!-- FORCE 03 — REUSABLE INFRASTRUCTURE -->
+      <div class="force">
+        <div class="fnum">03</div>
+        <h4>Reusable infrastructure</h4>
+        <div class="force-visual">
+          <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Top layer: THE GAP (highlighted) -->
+            <rect x="20" y="20" width="380" height="60" fill="#C2410C" stroke="#C2410C" stroke-width="1.5"/>
+            <text x="38" y="44" font-family="JetBrains Mono" font-size="10" fill="rgba(242,237,227,0.75)" letter-spacing="2">LAYER 04 · MISSING — THE GAP</text>
+            <text x="38" y="68" font-family="Fraunces" font-size="18" fill="#F2EDE3" font-weight="500">AI-specific stitching layer</text>
+
+            <!-- Connector indicating "stitched on top" -->
+            <line x1="210" y1="84" x2="210" y2="100" stroke="#C2410C" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+            <!-- Layer 3 -->
+            <rect x="20" y="105" width="380" height="55" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.2"/>
+            <text x="38" y="127" font-family="JetBrains Mono" font-size="10" fill="#6B6055" letter-spacing="2">LAYER 03 · EXISTS</text>
+            <text x="38" y="148" font-family="Fraunces" font-size="16" fill="#15110D" font-weight="500">API response headers · the plumbing</text>
+            <text x="385" y="135" text-anchor="end" font-family="Fraunces" font-size="18" fill="#1E3A5F" font-style="italic">✓</text>
+
+            <!-- Layer 2 -->
+            <rect x="20" y="170" width="380" height="55" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.2"/>
+            <text x="38" y="192" font-family="JetBrains Mono" font-size="10" fill="#6B6055" letter-spacing="2">LAYER 02 · EXISTS</text>
+            <text x="38" y="213" font-family="Fraunces" font-size="16" fill="#15110D" font-weight="500">Cloud carbon SDKs · AWS, Azure, GCP</text>
+            <text x="385" y="200" text-anchor="end" font-family="Fraunces" font-size="18" fill="#1E3A5F" font-style="italic">✓</text>
+
+            <!-- Layer 1 -->
+            <rect x="20" y="235" width="380" height="55" fill="#F2EDE3" stroke="#1E3A5F" stroke-width="1.2"/>
+            <text x="38" y="257" font-family="JetBrains Mono" font-size="10" fill="#6B6055" letter-spacing="2">LAYER 01 · EXISTS</text>
+            <text x="38" y="278" font-family="Fraunces" font-size="16" fill="#15110D" font-weight="500">Grid intensity · WattTime, Electricity Maps</text>
+            <text x="385" y="265" text-anchor="end" font-family="Fraunces" font-size="18" fill="#1E3A5F" font-style="italic">✓</text>
+          </svg>
+        </div>
+        <p class="force-take">Three layers already there. <em>The fourth is the work.</em></p>
+      </div>
+
+    </div>
+    <div class="slide-cite">
+      <span class="src-num">¹</span>Regulations: EU AI Act (Reg. 2024/1689, OJEU 13 June 2024); SEC, <em>Climate-Related Disclosures Final Rule</em>, March 2024; CSRD (Dir. 2022/2464); California SB 253, signed October 2023.&nbsp;&nbsp;<span class="src-num">²</span>Cloud vendor dashboards: AWS Customer Carbon Footprint Tool (2022–); Microsoft Emissions Impact Dashboard (2021–); Google Cloud Carbon Footprint (2021–).&nbsp;&nbsp;<span class="src-num">³</span>Grid intensity APIs: WattTime; Electricity Maps.
+    </div>
+    <div class="slide-footer">
+      <span>The opening · regulation + demand + reusable infrastructure</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 07 — SOLUTION OVERVIEW -->
+  <section class="slide" data-slide="7">
+    <div class="slide-mark">§ 07 · The solution</div>
+    <div class="slide-num">07 / 17</div>
+    <span class="eyebrow">Greener Hours</span>
+    <h2 class="display-md">One standard.<br>Three surfaces.</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px;">
+
+      <!-- T1 thumb -->
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.22em; margin-bottom: 12px; font-weight: 600;">TIER 01 · LEGIBILITY</div>
+        <div class="wf" style="box-shadow: 0 6px 22px rgba(21,17,13,0.07);">
+          <div class="wf-chrome" style="padding: 8px 12px;">
+            <span class="d r" style="width: 9px; height: 9px;"></span>
+            <span class="d y" style="width: 9px; height: 9px;"></span>
+            <span class="d g" style="width: 9px; height: 9px;"></span>
+          </div>
+          <div style="padding: 14px; min-height: 220px; background: #FFFEFB; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft);">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.1em;">SONNET 4.7</span>
+              <span style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; background: var(--paper); border: 1px solid var(--accent); border-radius: 10px;">
+                <span style="width: 5px; height: 5px; border-radius: 50%; background: var(--accent);"></span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em;">412 g/kWh</span>
+              </span>
+            </div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; align-items: flex-start;">
+              <span style="width: 14px; height: 14px; border-radius: 50%; background: var(--navy); flex-shrink: 0;"></span>
+              <div style="background: var(--paper); padding: 6px 9px; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 10px; color: var(--ink-soft); flex: 1; line-height: 1.4;">Help me draft a research summary…</div>
+            </div>
+            <div style="display: flex; gap: 6px; margin-bottom: 10px; align-items: flex-start;">
+              <span style="width: 14px; height: 14px; border-radius: 50%; background: var(--accent); flex-shrink: 0;"></span>
+              <div style="background: var(--paper-light); padding: 6px 9px; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 10px; color: var(--ink-soft); flex: 1; line-height: 1.4;">Sure — outline: regional baseline → operator disclosures → key reports…</div>
+            </div>
+            <div style="margin-top: auto; padding: 6px 10px; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 10px; color: var(--muted);">Reply…</div>
+          </div>
+        </div>
+        <h4 style="font-family: 'Fraunces', serif; font-size: 22px; margin-top: 16px; font-weight: 500;">Compute Window Indicator</h4>
+        <p style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--muted); margin-top: 4px; line-height: 1.4;">A glyph in chat. <em style="color: var(--ink-soft); font-style: italic;">Job: legibility.</em></p>
+      </div>
+
+      <!-- T2 thumb -->
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.22em; margin-bottom: 12px; font-weight: 600;">TIER 02 · BEHAVIOR</div>
+        <div class="wf" style="box-shadow: 0 6px 22px rgba(21,17,13,0.07);">
+          <div class="wf-chrome" style="padding: 8px 12px;">
+            <span class="d r" style="width: 9px; height: 9px;"></span>
+            <span class="d y" style="width: 9px; height: 9px;"></span>
+            <span class="d g" style="width: 9px; height: 9px;"></span>
+          </div>
+          <div style="padding: 14px; min-height: 220px; background: #FFFEFB;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 5px;">TASK</div>
+            <div style="font-family: 'Fraunces', serif; font-size: 15px; color: var(--ink); margin-bottom: 12px; font-weight: 500;">Translate 4,200 docs · ES→EN</div>
+            <div style="padding: 8px 11px; background: var(--paper); border: 1.5px solid var(--accent); border-radius: 4px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="width: 11px; height: 11px; border: 1.5px solid var(--accent); border-radius: 50%; position: relative; flex-shrink: 0;"><span style="position: absolute; top: 1.5px; left: 1.5px; width: 4px; height: 4px; background: var(--accent); border-radius: 50%; display: block;"></span></span>
+              <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: var(--ink); font-weight: 600;">Flexible · by deadline</span>
+            </div>
+            <div style="padding: 8px 11px; background: var(--paper-light); border: 1px solid var(--rule); border-radius: 4px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+              <span style="width: 11px; height: 11px; border: 1.5px solid var(--muted); border-radius: 50%; flex-shrink: 0;"></span>
+              <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: var(--muted);">Run immediately</span>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 4px;">GRID FORECAST · next 18h</div>
+            <svg viewBox="0 0 200 32" style="width: 100%; height: 30px; display: block;">
+              <rect x="0"   y="14" width="12" height="18" fill="#C2410C" opacity="0.55"/>
+              <rect x="14"  y="22" width="12" height="10" fill="#62C462" opacity="0.75"/>
+              <rect x="28"  y="24" width="12" height="8"  fill="#62C462" opacity="0.85"/>
+              <rect x="42"  y="22" width="12" height="10" fill="#62C462" opacity="0.7"/>
+              <rect x="56"  y="14" width="12" height="18" fill="#E9B947" opacity="0.65"/>
+              <rect x="70"  y="6"  width="12" height="26" fill="#C2410C" opacity="0.8"/>
+              <rect x="84"  y="2"  width="12" height="30" fill="#C2410C"/>
+              <rect x="98"  y="6"  width="12" height="26" fill="#C2410C" opacity="0.85"/>
+              <rect x="112" y="14" width="12" height="18" fill="#C2410C" opacity="0.55"/>
+              <rect x="126" y="18" width="12" height="14" fill="#E9B947" opacity="0.55"/>
+              <rect x="140" y="20" width="12" height="12" fill="#E9B947" opacity="0.55"/>
+              <rect x="154" y="14" width="12" height="18" fill="#C2410C" opacity="0.5"/>
+              <rect x="168" y="10" width="12" height="22" fill="#C2410C" opacity="0.65"/>
+              <rect x="182" y="14" width="12" height="18" fill="#C2410C" opacity="0.5"/>
+              <rect x="12" y="20" width="56" height="13" fill="none" stroke="#62C462" stroke-width="1" stroke-dasharray="2 2"/>
+            </svg>
+          </div>
+        </div>
+        <h4 style="font-family: 'Fraunces', serif; font-size: 22px; margin-top: 16px; font-weight: 500;">Flexible Compute Scheduler</h4>
+        <p style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--muted); margin-top: 4px; line-height: 1.4;">Deadline-based routing. <em style="color: var(--ink-soft); font-style: italic;">Job: one-click shift.</em></p>
+      </div>
+
+      <!-- T3 thumb -->
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.22em; margin-bottom: 12px; font-weight: 600;">TIER 03 · INSTITUTIONAL</div>
+        <div class="wf" style="box-shadow: 0 6px 22px rgba(21,17,13,0.07);">
+          <div class="wf-chrome" style="padding: 8px 12px;">
+            <span class="d r" style="width: 9px; height: 9px;"></span>
+            <span class="d y" style="width: 9px; height: 9px;"></span>
+            <span class="d g" style="width: 9px; height: 9px;"></span>
+          </div>
+          <div style="padding: 14px; min-height: 220px; background: #FFFEFB;">
+            <div style="display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule-soft);">
+              <span style="color: var(--accent); padding-bottom: 5px; border-bottom: 1.5px solid var(--accent);">OPERATIONAL EFF.</span>
+              <span>SUPPLY CHAIN</span>
+              <span>COST</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+              <div style="padding: 7px 9px; background: var(--paper); border: 1px solid var(--rule); border-radius: 3px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--muted); letter-spacing: 0.1em;">REQUESTS</div>
+                <div style="font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink); font-weight: 500;">2.4M</div>
+              </div>
+              <div style="padding: 7px 9px; background: var(--ink); border-radius: 3px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--accent-soft); letter-spacing: 0.1em;">SCOPE 3</div>
+                <div style="font-family: 'Fraunces', serif; font-size: 18px; color: var(--paper); font-weight: 500;">847 t</div>
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 4px;">VOLUME &amp; INTENSITY · DAILY</div>
+            <svg viewBox="0 0 190 42" style="width: 100%; height: 42px; display: block;">
+              <rect x="0" y="21" width="7" height="19" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="3" y="11" width="4" height="29" fill="#C2410C" opacity="0.9"/>
+              <rect x="16" y="20" width="7" height="19" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="19" y="12" width="4" height="27" fill="#C2410C" opacity="0.9"/>
+              <rect x="32" y="18" width="7" height="21" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="35" y="11" width="4" height="28" fill="#C2410C" opacity="0.9"/>
+              <rect x="48" y="22" width="7" height="17" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="51" y="18" width="4" height="21" fill="#C2410C" opacity="0.9"/>
+              <rect x="64" y="16" width="7" height="23" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="67" y="14" width="4" height="25" fill="#C2410C" opacity="0.9"/>
+              <rect x="80" y="22" width="7" height="18" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="83" y="21" width="4" height="19" fill="#C2410C" opacity="0.9"/>
+              <rect x="96" y="16" width="7" height="23" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="99" y="18" width="4" height="21" fill="#C2410C" opacity="0.9"/>
+              <rect x="112" y="20" width="7" height="19" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="115" y="22" width="4" height="17" fill="#C2410C" opacity="0.9"/>
+              <rect x="128" y="13" width="7" height="26" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="131" y="13" width="4" height="26" fill="#C2410C" opacity="0.9"/>
+              <rect x="144" y="20" width="7" height="19" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="147" y="15" width="4" height="24" fill="#C2410C" opacity="0.9"/>
+              <rect x="160" y="14" width="7" height="26" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="163" y="18" width="4" height="22" fill="#C2410C" opacity="0.9"/>
+              <rect x="176" y="17" width="7" height="22" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="179" y="16" width="4" height="23" fill="#C2410C" opacity="0.9"/>
+            </svg>
+          </div>
+        </div>
+        <h4 style="font-family: 'Fraunces', serif; font-size: 22px; margin-top: 16px; font-weight: 500;">Compute Footprint Dashboard</h4>
+        <p style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--muted); margin-top: 4px; line-height: 1.4;">Procurement view. <em style="color: var(--ink-soft); font-style: italic;">Job: institutional decisions.</em></p>
+      </div>
+
+    </div>
+
+    <!-- Connectors to substrate -->
+    <svg viewBox="0 0 1700 28" preserveAspectRatio="none" style="width: 100%; height: 22px; display: block; margin-top: 18px;">
+      <line x1="283" y1="0" x2="283" y2="26" stroke="#15110D" stroke-width="2"/>
+      <line x1="850" y1="0" x2="850" y2="26" stroke="#15110D" stroke-width="2"/>
+      <line x1="1417" y1="0" x2="1417" y2="26" stroke="#15110D" stroke-width="2"/>
+    </svg>
+
+    <!-- Substrate bar -->
+    <div style="background: var(--ink); padding: 22px 32px; border-radius: 4px;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-soft); letter-spacing: 0.24em; margin-bottom: 6px; font-weight: 600;">THE SUBSTRATE</div>
+      <div style="font-family: 'Fraunces', serif; font-size: 22px; color: var(--paper); font-weight: 400; line-height: 1.3;">Open API standard  ·  per-request carbon disclosure as a response header</div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Product definition · open standard + three implementation surfaces</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 08 — TIER 1 -->
+  <section class="slide" data-slide="8">
+    <div class="slide-mark">§ 08 · Solution · Tier 01</div>
+    <div class="slide-num">08 / 17</div>
+    <div class="tier-slide">
+      <div class="tier-left">
+        <div class="tier-num-huge">01</div>
+        <div class="tier-role">Legibility layer</div>
+        <h3 class="tier-name">Compute Window Indicator</h3>
+        <p class="tier-job">"A small glyph that makes invisible energy costs visible — without pretending it changes user behavior."</p>
+        <div class="principle-list">
+          <div class="p-row">
+            <div class="p-code anchor">P3</div>
+            <div class="p-content">
+              <div class="p-name">Anchor · Dark matter</div>
+              <div class="p-insight">The indicator makes invisible energy costs legible — at the point of use.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code load">P5</div>
+            <div class="p-content">
+              <div class="p-name">Culture</div>
+              <div class="p-insight">Procurement language ("g/kWh · region"), not climate framing.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code load">P7</div>
+            <div class="p-content">
+              <div class="p-name">Tech as both</div>
+              <div class="p-insight">Treats AI as both energy sink and disclosure surface.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tier-right">
+        <div class="wf">
+          <!-- Chrome -->
+          <div class="wf-chrome">
+            <span class="d r"></span>
+            <span class="d y"></span>
+            <span class="d g"></span>
+            <span class="url">↻  chat.ai/conversation/8e2f4a</span>
+          </div>
+
+          <!-- App body -->
+          <div style="display: grid; grid-template-columns: 240px 1fr; min-height: 600px;">
+
+            <!-- Sidebar -->
+            <div style="background: var(--paper-light); border-right: 1px solid var(--rule); padding: 20px 16px; display: flex; flex-direction: column;">
+              <div style="display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 18px;">
+                <span style="width: 16px; height: 16px; background: var(--ink); display: inline-block; border-radius: 3px;"></span>
+                Chat
+              </div>
+              <div style="width: 100%; padding: 9px 12px; background: var(--ink); color: var(--paper); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; margin-bottom: 22px;">+  New chat</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.18em; margin-bottom: 10px;">RECENT</div>
+              <div style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink); padding: 8px 10px; background: var(--paper); border-radius: 4px; margin-bottom: 4px;">Data center water usage</div>
+              <div style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft); padding: 8px 10px; margin-bottom: 4px;">Q3 product strategy</div>
+              <div style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft); padding: 8px 10px; margin-bottom: 4px;">Draft email · supplier</div>
+              <div style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft); padding: 8px 10px; margin-bottom: 4px;">Calendar conflict</div>
+              <div style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft); padding: 8px 10px;">SQL — quarterly forecast</div>
+              <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--rule-soft); display: flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft);">
+                <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--navy);"></span>
+                Rishabh S.
+              </div>
+            </div>
+
+            <!-- Main pane -->
+            <div style="display: flex; flex-direction: column; background: #FFFEFB;">
+
+              <!-- Topbar with model + indicator -->
+              <div style="padding: 12px 24px; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.15em;">MODEL</span>
+                  <span style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink); font-weight: 500;">Sonnet 4.7  ▾</span>
+                </div>
+                <!-- The Greener Hours indicator pill -->
+                <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--paper); border: 1.5px solid var(--accent); border-radius: 14px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent);"></span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 600; letter-spacing: 0.08em;">412 g/kWh · us-east-1</span>
+                </div>
+              </div>
+
+              <!-- Chat thread -->
+              <div style="flex: 1; padding: 22px 26px; overflow: hidden;">
+                <div style="margin-bottom: 18px; display: flex; gap: 12px; align-items: flex-start;">
+                  <span style="width: 26px; height: 26px; border-radius: 50%; background: var(--navy); flex-shrink: 0;"></span>
+                  <div style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.5;">Help me draft a research summary on data center water usage in the southwest US — focus on disclosures from major operators.</div>
+                </div>
+                <div style="margin-bottom: 18px; display: flex; gap: 12px; align-items: flex-start;">
+                  <span style="width: 26px; height: 26px; border-radius: 50%; background: var(--accent); flex-shrink: 0;"></span>
+                  <div style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink-soft); line-height: 1.55;">
+                    Sure — here's a starting outline structured around regional stress, cooling disclosures, and operator-level reports.<br><br>
+                    <strong style="color: var(--ink); font-weight: 600;">1. Regional baseline.</strong>  Arizona, Nevada, and west Texas clusters draw from already-stressed aquifers and Colorado River allocations.<br><br>
+                    <strong style="color: var(--ink); font-weight: 600;">2. Operator disclosures.</strong>  Microsoft, Google, and Meta publish annual sustainability reports with cooling-water figures; Amazon discloses less granularly. AWS US-Central reports the highest reuse-rate among the four, but reuse vs. consumption framing varies by operator.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input -->
+              <div style="border-top: 1px solid var(--rule); padding: 14px 24px;">
+                <div style="background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 11px 14px; display: flex; align-items: center; justify-content: space-between;">
+                  <span style="font-family: 'Inter', sans-serif; font-size: 12px; color: var(--muted);">Reply…</span>
+                  <span style="width: 26px; height: 26px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; color: var(--paper); font-size: 12px;">↑</span>
+                </div>
+                <!-- Bottom status strip — the expanded indicator -->
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule-soft); display: flex; justify-content: space-between; align-items: center;">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em;">COMPUTE WINDOW · CURRENT</div>
+                  <div style="display: flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-soft);">
+                    <span><span style="color: var(--accent);">●</span>  412 gCO₂eq/kWh</span>
+                    <span style="color: var(--rule);">|</span>
+                    <span>us-east-1</span>
+                    <span style="color: var(--rule);">|</span>
+                    <span style="color: var(--accent);">high confidence</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Two placements · topbar pill + persistent status strip</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 09 — TIER 2 -->
+  <section class="slide" data-slide="9">
+    <div class="slide-mark">§ 09 · Solution · Tier 02</div>
+    <div class="slide-num">09 / 17</div>
+    <div class="tier-slide">
+      <div class="tier-left">
+        <div class="tier-num-huge">02</div>
+        <div class="tier-role">Behavior layer</div>
+        <h3 class="tier-name">Flexible Compute Scheduler</h3>
+        <p class="tier-job">"Set a deadline. The system routes the task to the cleanest grid window. Same UX pattern as EV charging."</p>
+        <div class="principle-list">
+          <div class="p-row">
+            <div class="p-code load">P4</div>
+            <div class="p-content">
+              <div class="p-name">H2+ on H2-</div>
+              <div class="p-insight">Borrows EV charging UX — set a deadline, the system optimizes timing.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code load">P8</div>
+            <div class="p-content">
+              <div class="p-name">Hack</div>
+              <div class="p-insight">Adds a scheduling layer over existing batch infrastructure.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code">P6</div>
+            <div class="p-content">
+              <div class="p-name">Agency</div>
+              <div class="p-insight">Returns timing control to dev teams without climate framing.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tier-right">
+        <div class="wf">
+          <div class="wf-chrome">
+            <span class="d r"></span>
+            <span class="d y"></span>
+            <span class="d g"></span>
+            <span class="url">↻  console.ai/tasks/new-batch</span>
+          </div>
+
+          <div style="padding: 22px 26px; background: #FFFEFB; min-height: 620px;">
+
+            <!-- Breadcrumbs -->
+            <div style="display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 18px; letter-spacing: 0.08em;">
+              <span>TASKS</span>
+              <span style="color: var(--rule);">/</span>
+              <span style="color: var(--ink); font-weight: 600;">NEW BATCH REQUEST</span>
+            </div>
+
+            <!-- Task header -->
+            <div style="margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--rule-soft);">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.18em; margin-bottom: 6px;">TASK</div>
+              <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); font-weight: 500;">Translate 4,200 docs  ·  ES → EN</div>
+              <div style="display: flex; gap: 22px; margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-soft);">
+                <span><span style="color: var(--muted); margin-right: 4px;">MODEL</span>Sonnet 4.7</span>
+                <span><span style="color: var(--muted); margin-right: 4px;">INPUT</span>s3://docs-es</span>
+                <span><span style="color: var(--muted); margin-right: 4px;">EST. RUNTIME</span>~38m</span>
+              </div>
+            </div>
+
+            <!-- Schedule section -->
+            <div style="margin-bottom: 20px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.18em; margin-bottom: 14px; font-weight: 600;">SCHEDULE  ·  WHEN TO RUN</div>
+
+              <!-- Flexible option (selected) -->
+              <div style="padding: 18px 20px; background: var(--paper); border: 2px solid var(--accent); border-radius: 8px; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <span style="width: 16px; height: 16px; border: 2px solid var(--accent); border-radius: 50%; position: relative; flex-shrink: 0;"><span style="position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: block;"></span></span>
+                  <span style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); font-weight: 600;">Flexible timing</span>
+                  <span style="font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink-soft);">— complete by deadline</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 180px 1fr; gap: 18px; align-items: end;">
+                  <!-- Deadline -->
+                  <div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 5px;">DEADLINE</div>
+                    <div style="background: #FFF; border: 1px solid var(--rule); border-radius: 4px; padding: 8px 11px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink); display: flex; justify-content: space-between; align-items: center;">
+                      <span>Tomorrow · 09:00 ET</span>
+                      <span style="color: var(--muted);">▾</span>
+                    </div>
+                  </div>
+                  <!-- Forecast -->
+                  <div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 5px;">GRID INTENSITY FORECAST · next 18h</div>
+                    <svg viewBox="0 0 480 70" style="width: 100%; height: 56px; display: block;">
+                      <!-- Bars 0-17 (hourly) -->
+                      <rect x="0"   y="40" width="22" height="27" fill="#C2410C" opacity="0.5"/>
+                      <rect x="26"  y="34" width="22" height="33" fill="#C2410C" opacity="0.55"/>
+                      <rect x="52"  y="48" width="22" height="19" fill="#62C462" opacity="0.7"/>
+                      <rect x="78"  y="52" width="22" height="15" fill="#62C462" opacity="0.85"/>
+                      <rect x="104" y="50" width="22" height="17" fill="#62C462" opacity="0.85"/>
+                      <rect x="130" y="46" width="22" height="21" fill="#62C462" opacity="0.65"/>
+                      <rect x="156" y="36" width="22" height="31" fill="#E9B947" opacity="0.65"/>
+                      <rect x="182" y="22" width="22" height="45" fill="#C2410C" opacity="0.7"/>
+                      <rect x="208" y="12" width="22" height="55" fill="#C2410C" opacity="0.9"/>
+                      <rect x="234" y="8"  width="22" height="59" fill="#C2410C"/>
+                      <rect x="260" y="14" width="22" height="53" fill="#C2410C" opacity="0.85"/>
+                      <rect x="286" y="24" width="22" height="43" fill="#C2410C" opacity="0.7"/>
+                      <rect x="312" y="32" width="22" height="35" fill="#C2410C" opacity="0.6"/>
+                      <rect x="338" y="40" width="22" height="27" fill="#E9B947" opacity="0.6"/>
+                      <rect x="364" y="44" width="22" height="23" fill="#E9B947" opacity="0.55"/>
+                      <rect x="390" y="38" width="22" height="29" fill="#C2410C" opacity="0.55"/>
+                      <rect x="416" y="32" width="22" height="35" fill="#C2410C" opacity="0.6"/>
+                      <rect x="442" y="28" width="22" height="39" fill="#C2410C" opacity="0.65"/>
+                      <!-- Selected window highlight -->
+                      <rect x="48" y="44" width="108" height="24" fill="none" stroke="#62C462" stroke-width="1.5" stroke-dasharray="3 2"/>
+                    </svg>
+                    <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 3px;">
+                      <span>now</span><span>02:00</span><span>05:00</span><span>10:00</span><span>15:00</span><span>tom. 9am</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Result -->
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--rule-soft); display: flex; justify-content: space-between; align-items: center;">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-soft);">
+                    <span style="color: #62C462; font-size: 13px;">●</span>  Routing to  <strong style="color: var(--ink);">02:00–05:00 ET</strong>  ·  ~180 gCO₂eq/kWh
+                  </div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 600;">↓ 56% cleaner</div>
+                </div>
+              </div>
+
+              <!-- Run immediately option -->
+              <div style="padding: 14px 20px; background: var(--paper-light); border: 1px solid var(--rule); border-radius: 8px; display: flex; align-items: center; gap: 12px;">
+                <span style="width: 16px; height: 16px; border: 2px solid var(--muted); border-radius: 50%; flex-shrink: 0;"></span>
+                <span style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--muted);">Run immediately</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-left: auto;">~412 g/kWh · current grid mix</span>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div style="display: flex; justify-content: flex-end; gap: 10px; padding-top: 14px; border-top: 1px solid var(--rule-soft);">
+              <button style="padding: 9px 18px; background: #FFF; border: 1px solid var(--rule); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft);">Cancel</button>
+              <button style="padding: 9px 22px; background: var(--ink); border: 1px solid var(--ink); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--paper); font-weight: 500;">Schedule task  →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Borrows EV charging UX · deadline-driven, one toggle</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 10 — TIER 3 -->
+  <section class="slide" data-slide="10">
+    <div class="slide-mark">§ 10 · Solution · Tier 03</div>
+    <div class="slide-num">10 / 17</div>
+    <div class="tier-slide">
+      <div class="tier-left">
+        <div class="tier-num-huge">03</div>
+        <div class="tier-role">Institutional layer</div>
+        <h3 class="tier-name">Compute Footprint Dashboard</h3>
+        <p class="tier-job">"Procurement language. Mirrors AWS Cost Explorer. Surfaces total volume alongside timing — the anti-rebound layer."</p>
+        <div class="principle-list">
+          <div class="p-row">
+            <div class="p-code anchor">P9</div>
+            <div class="p-content">
+              <div class="p-name">Movable middle</div>
+              <div class="p-insight">Targets enterprise procurement teams — not end users.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code load">P2</div>
+            <div class="p-content">
+              <div class="p-name">Sufficiency</div>
+              <div class="p-insight">Anti-rebound — efficiency cannot disguise rising volume.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code">P6</div>
+            <div class="p-content">
+              <div class="p-name">Agency</div>
+              <div class="p-insight">Equips procurement with data to apply procurement pressure.</div>
+            </div>
+          </div>
+          <div class="p-row">
+            <div class="p-code">P7</div>
+            <div class="p-content">
+              <div class="p-name">Tech as both</div>
+              <div class="p-insight">Surfaces total volume alongside intensity.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tier-right">
+        <div class="wf">
+          <div class="wf-chrome">
+            <span class="d r"></span>
+            <span class="d y"></span>
+            <span class="d g"></span>
+            <span class="url">↻  console.ai/footprint/acmecorp</span>
+          </div>
+
+          <!-- Org bar -->
+          <div style="padding: 12px 22px; background: var(--paper-light); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <span style="width: 22px; height: 22px; background: var(--navy); border-radius: 4px;"></span>
+              <span style="font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; color: var(--ink);">AcmeCorp</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); padding-left: 12px; border-left: 1px solid var(--rule); letter-spacing: 0.12em;">COMPUTE FOOTPRINT</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-soft); padding: 5px 11px; background: #FFF; border: 1px solid var(--rule); border-radius: 4px;">May 2026  ▾</span>
+              <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: var(--accent); padding: 5px 11px; background: var(--paper); border: 1px solid var(--accent); border-radius: 4px;">Export  ↗</span>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div style="display: flex; gap: 0; border-bottom: 1px solid var(--rule); padding: 0 22px; background: #FFFEFB;">
+            <div style="padding: 13px 18px; border-bottom: 2px solid var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; font-weight: 600;">Operational efficiency</div>
+            <div style="padding: 13px 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase;">Supply chain transparency</div>
+            <div style="padding: 13px 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase;">Cost-of-compute</div>
+            <div style="padding: 13px 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase;">Teams</div>
+          </div>
+
+          <!-- KPI Row -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); padding: 18px 22px; gap: 14px; background: #FFFEFB;">
+
+            <div style="padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper); border-radius: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 5px;">TOTAL REQUESTS</div>
+              <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); font-weight: 500; line-height: 1.1;">2.4M</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--navy); margin-top: 4px;">+18% vs Apr</div>
+            </div>
+
+            <div style="padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper); border-radius: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 5px;">AVG INTENSITY</div>
+              <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); font-weight: 500; line-height: 1.1;">312<span style="font-size: 0.45em; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-left: 3px;">g/kWh</span></div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent); margin-top: 4px;">−24% vs Apr</div>
+            </div>
+
+            <div style="padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper); border-radius: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 5px;">PEAK INTENSITY</div>
+              <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); font-weight: 500; line-height: 1.1;">578<span style="font-size: 0.45em; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-left: 3px;">g/kWh</span></div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 4px;">May 14 · 14:00 ET</div>
+            </div>
+
+            <div style="padding: 12px 14px; border: 1px solid var(--ink); background: var(--ink); border-radius: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent-soft); letter-spacing: 0.15em; margin-bottom: 5px;">EST. SCOPE 3 · MAY</div>
+              <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--paper); font-weight: 500; line-height: 1.1;">847<span style="font-size: 0.45em; color: rgba(242,237,227,0.55); font-family: 'JetBrains Mono', monospace; margin-left: 3px;">tCO₂eq</span></div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(242,237,227,0.55); margin-top: 4px;">audit-ready · CSRD format</div>
+            </div>
+
+          </div>
+
+          <!-- Main chart -->
+          <div style="padding: 4px 22px 14px; background: #FFFEFB;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.12em;">CARBON INTENSITY & REQUEST VOLUME · DAILY · MAY 2026</div>
+              <div style="display: flex; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted);">
+                <span><span style="color: var(--accent);">▮</span> intensity (g/kWh)</span>
+                <span><span style="color: var(--navy);">▮</span> volume (M req)</span>
+              </div>
+            </div>
+
+            <svg viewBox="0 0 970 175" style="width: 100%; height: 142px; display: block;">
+              <!-- gridlines -->
+              <line x1="0" y1="160" x2="970" y2="160" stroke="#D4CDB8" stroke-width="0.5"/>
+              <line x1="0" y1="120" x2="970" y2="120" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+              <line x1="0" y1="80" x2="970" y2="80" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+              <line x1="0" y1="40" x2="970" y2="40" stroke="#D4CDB8" stroke-width="0.5" stroke-dasharray="2 4"/>
+              <!-- bars (31 days, generated) -->
+              <rect x="8" y="120" width="22" height="40" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="15" y="78" width="9" height="82" fill="#C2410C" opacity="0.92"/>
+              <rect x="39" y="117" width="22" height="43" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="46" y="64" width="9" height="96" fill="#C2410C" opacity="0.92"/>
+              <rect x="70" y="127" width="22" height="33" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="77" y="83" width="9" height="77" fill="#C2410C" opacity="0.92"/>
+              <rect x="101" y="110" width="22" height="50" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="108" y="84" width="9" height="76" fill="#C2410C" opacity="0.92"/>
+              <rect x="132" y="114" width="22" height="46" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="139" y="70" width="9" height="90" fill="#C2410C" opacity="0.92"/>
+              <rect x="163" y="140" width="22" height="20" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="170" y="73" width="9" height="87" fill="#C2410C" opacity="0.92"/>
+              <rect x="194" y="136" width="22" height="24" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="201" y="90" width="9" height="70" fill="#C2410C" opacity="0.92"/>
+              <rect x="225" y="119" width="22" height="41" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="232" y="79" width="9" height="81" fill="#C2410C" opacity="0.92"/>
+              <rect x="256" y="107" width="22" height="53" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="263" y="92" width="9" height="68" fill="#C2410C" opacity="0.92"/>
+              <rect x="287" y="112" width="22" height="48" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="294" y="93" width="9" height="67" fill="#C2410C" opacity="0.92"/>
+              <rect x="318" y="100" width="22" height="60" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="325" y="83" width="9" height="77" fill="#C2410C" opacity="0.92"/>
+              <rect x="349" y="115" width="22" height="45" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="356" y="80" width="9" height="80" fill="#C2410C" opacity="0.92"/>
+              <rect x="380" y="134" width="22" height="26" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="387" y="92" width="9" height="68" fill="#C2410C" opacity="0.92"/>
+              <rect x="411" y="124" width="22" height="36" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="418" y="81" width="9" height="79" fill="#C2410C" opacity="0.92"/>
+              <rect x="442" y="94" width="22" height="66" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="449" y="101" width="9" height="59" fill="#C2410C" opacity="0.92"/>
+              <rect x="473" y="93" width="22" height="67" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="480" y="85" width="9" height="75" fill="#C2410C" opacity="0.92"/>
+              <rect x="504" y="98" width="22" height="62" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="511" y="104" width="9" height="56" fill="#C2410C" opacity="0.92"/>
+              <rect x="535" y="101" width="22" height="59" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="542" y="105" width="9" height="55" fill="#C2410C" opacity="0.92"/>
+              <rect x="566" y="90" width="22" height="70" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="573" y="104" width="9" height="56" fill="#C2410C" opacity="0.92"/>
+              <rect x="597" y="125" width="22" height="35" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="604" y="96" width="9" height="64" fill="#C2410C" opacity="0.92"/>
+              <rect x="628" y="127" width="22" height="33" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="635" y="93" width="9" height="67" fill="#C2410C" opacity="0.92"/>
+              <rect x="659" y="100" width="22" height="60" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="666" y="94" width="9" height="66" fill="#C2410C" opacity="0.92"/>
+              <rect x="690" y="93" width="22" height="67" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="697" y="96" width="9" height="64" fill="#C2410C" opacity="0.92"/>
+              <rect x="721" y="96" width="22" height="64" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="728" y="112" width="9" height="48" fill="#C2410C" opacity="0.92"/>
+              <rect x="752" y="81" width="22" height="79" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="759" y="98" width="9" height="62" fill="#C2410C" opacity="0.92"/>
+              <rect x="783" y="78" width="22" height="82" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="790" y="111" width="9" height="49" fill="#C2410C" opacity="0.92"/>
+              <rect x="814" y="119" width="22" height="41" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="821" y="116" width="9" height="44" fill="#C2410C" opacity="0.92"/>
+              <rect x="845" y="115" width="22" height="45" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="852" y="98" width="9" height="62" fill="#C2410C" opacity="0.92"/>
+              <rect x="876" y="92" width="22" height="68" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="883" y="104" width="9" height="56" fill="#C2410C" opacity="0.92"/>
+              <rect x="907" y="92" width="22" height="68" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="914" y="104" width="9" height="56" fill="#C2410C" opacity="0.92"/>
+              <rect x="938" y="85" width="22" height="75" fill="#1E3A5F" opacity="0.32"/>
+              <rect x="945" y="109" width="9" height="51" fill="#C2410C" opacity="0.92"/>
+
+              <!-- axis labels -->
+              <text x="8" y="172" font-family="JetBrains Mono" font-size="8" fill="#6B6055">may 1</text>
+              <text x="938" y="172" font-family="JetBrains Mono" font-size="8" fill="#6B6055" text-anchor="end">may 31</text>
+            </svg>
+
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-soft); margin-top: 4px;">
+              <span style="color: var(--accent); font-weight: 600;">Anti-rebound view:</span>  intensity is falling, but volume is rising — both surfaced so efficiency cannot disguise growth.
+            </div>
+          </div>
+
+          <!-- Bottom breakdown row -->
+          <div style="padding: 14px 22px; background: var(--paper-light); border-top: 1px solid var(--rule-soft); display: grid; grid-template-columns: 1fr 1fr; gap: 26px;">
+            <div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 8px;">BY TEAM</div>
+              <div style="display: grid; grid-template-columns: 50px 1fr 50px; gap: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-soft); align-items: center;">
+                <span>R&amp;D</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 78%; background: var(--accent);"></div></div>
+                <span style="text-align: right;">782k</span>
+                <span>Eng</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 64%; background: var(--accent); opacity: 0.85;"></div></div>
+                <span style="text-align: right;">621k</span>
+                <span>Mktg</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 44%; background: var(--accent); opacity: 0.7;"></div></div>
+                <span style="text-align: right;">428k</span>
+                <span>Ops</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 28%; background: var(--accent); opacity: 0.55;"></div></div>
+                <span style="text-align: right;">275k</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 8px;">BY MODEL</div>
+              <div style="display: grid; grid-template-columns: 80px 1fr 50px; gap: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-soft); align-items: center;">
+                <span>Sonnet 4.7</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 62%; background: var(--navy);"></div></div>
+                <span style="text-align: right;">1.5M</span>
+                <span>Haiku 4.5</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 31%; background: var(--navy); opacity: 0.75;"></div></div>
+                <span style="text-align: right;">744k</span>
+                <span>Opus 4.7</span>
+                <div style="background: var(--rule-soft); height: 11px; position: relative; border-radius: 1px;"><div style="position: absolute; left: 0; top: 0; height: 100%; width: 9%; background: var(--navy); opacity: 0.55;"></div></div>
+                <span style="text-align: right;">211k</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Procurement-ready · slots into existing BI workflows</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 11 — HOW IT WORKS -->
+  <section class="slide" data-slide="11">
+    <div class="slide-mark">§ 11 · How it works</div>
+    <div class="slide-num">11 / 17</div>
+    <span class="eyebrow">The substrate · no new pipes</span>
+    <h2 class="display-md">The standard adds three headers <em class="accent">to existing API calls.</em></h2>
+    <div style="margin-top: 50px;">
+      <svg viewBox="0 0 1700 480" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+        <rect x="40" y="40" width="720" height="400" fill="#FAF6EE" stroke="#D4CDB8"/>
+        <text x="70" y="80" font-family="JetBrains Mono" font-size="14" fill="#6B6055" font-weight="600">EXISTING AI API CALL · UNCHANGED</text>
+        <line x1="70" y1="92" x2="740" y2="92" stroke="#D4CDB8"/>
+        <text x="70" y="130" font-family="JetBrains Mono" font-size="18" fill="#15110D">POST /v1/messages</text>
+        <text x="70" y="160" font-family="JetBrains Mono" font-size="18" fill="#15110D">Authorization: Bearer ...</text>
+        <text x="70" y="190" font-family="JetBrains Mono" font-size="18" fill="#15110D">Content-Type: application/json</text>
+        <text x="70" y="240" font-family="JetBrains Mono" font-size="14" fill="#6B6055" font-weight="600">RESPONSE</text>
+        <text x="70" y="275" font-family="JetBrains Mono" font-size="18" fill="#15110D">200 OK</text>
+        <text x="70" y="305" font-family="JetBrains Mono" font-size="18" fill="#15110D">Content-Type: application/json</text>
+        <rect x="60" y="320" width="680" height="110" fill="#C2410C" fill-opacity="0.08" stroke="#C2410C" stroke-width="1.5"/>
+        <text x="80" y="350" font-family="JetBrains Mono" font-size="16" fill="#C2410C" font-weight="600">X-Compute-Carbon-Intensity: 412 gCO2eq/kWh</text>
+        <text x="80" y="378" font-family="JetBrains Mono" font-size="16" fill="#C2410C" font-weight="600">X-Compute-Region: us-east-1</text>
+        <text x="80" y="406" font-family="JetBrains Mono" font-size="16" fill="#C2410C" font-weight="600">X-Compute-Confidence: high</text>
+        <line x1="790" y1="240" x2="880" y2="240" stroke="#15110D" stroke-width="2.5"/>
+        <polygon points="880,240 871,234 871,246" fill="#15110D"/>
+        <text x="835" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="13" fill="#6B6055">SDK PARSES</text>
+        <rect x="910" y="40" width="750" height="400" fill="#15110D"/>
+        <text x="940" y="80" font-family="JetBrains Mono" font-size="14" fill="#E8A642" font-weight="600">SURFACED ACROSS THREE TIERS</text>
+        <rect x="940" y="115" width="690" height="90" fill="#F2EDE3" fill-opacity="0.08" stroke="#E8A642" stroke-width="1"/>
+        <text x="970" y="148" font-family="JetBrains Mono" font-size="13" fill="#E8A642">T1 — CHAT INDICATOR</text>
+        <text x="970" y="180" font-family="Inter" font-size="18" fill="#F2EDE3">Inline glyph · "current compute window"</text>
+        <rect x="940" y="220" width="690" height="90" fill="#F2EDE3" fill-opacity="0.08" stroke="#E8A642" stroke-width="1"/>
+        <text x="970" y="253" font-family="JetBrains Mono" font-size="13" fill="#E8A642">T2 — FLEXIBLE SCHEDULER</text>
+        <text x="970" y="285" font-family="Inter" font-size="18" fill="#F2EDE3">Deadline · route to cleanest window</text>
+        <rect x="940" y="325" width="690" height="90" fill="#F2EDE3" fill-opacity="0.08" stroke="#E8A642" stroke-width="1"/>
+        <text x="970" y="358" font-family="JetBrains Mono" font-size="13" fill="#E8A642">T3 — ENTERPRISE DASHBOARD</text>
+        <text x="970" y="390" font-family="Inter" font-size="18" fill="#F2EDE3">Per-team aggregation · procurement view</text>
+      </svg>
+    </div>
+    <p class="lede serif" style="margin-top: 40px;">
+      Open-source spec · reference SDK in Python, TypeScript &amp; Go · piggybacks on existing API plumbing. <em class="accent">Adoption is three headers.</em>
+    </p>
+    <div class="slide-footer">
+      <span>P8 · Hack systems · no new pipes</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 12 — PRINCIPLE PYRAMID -->
+  <section class="slide" data-slide="12">
+    <div class="slide-mark">§ 12 · Principle synthesis</div>
+    <div class="slide-num">12 / 17</div>
+    <span class="eyebrow" style="margin-bottom: 6px;">Ten principles · ranked by structural load</span>
+    <h2 class="display-md" style="font-size: 56px; line-height: 1.05; margin-top: 6px;">What's doing structural work <em class="accent">and what isn't.</em></h2>
+
+    <div style="margin-top: 8px;">
+      <svg viewBox="0 0 1700 740" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+
+        <!-- ===== LEFT RAIL · TIER LABELS ===== -->
+        <g font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">
+          <text x="40" y="118" font-size="11" fill="#C2410C">ANCHOR</text>
+          <line x1="40" y1="128" x2="700" y2="128" stroke="#C2410C" stroke-width="0.5" stroke-dasharray="2 5" opacity="0.5"/>
+
+          <text x="40" y="308" font-size="11" fill="#C2410C">TOP THREE</text>
+          <line x1="40" y1="318" x2="450" y2="318" stroke="#C2410C" stroke-width="0.5" stroke-dasharray="2 5" opacity="0.5"/>
+
+          <text x="40" y="468" font-size="11" fill="#1E3A5F">LOAD-BEARING</text>
+          <line x1="40" y1="478" x2="500" y2="478" stroke="#1E3A5F" stroke-width="0.5" stroke-dasharray="2 5" opacity="0.45"/>
+
+          <text x="40" y="612" font-size="11" fill="#6B6055">SUPPORTING</text>
+          <line x1="40" y1="622" x2="120" y2="622" stroke="#6B6055" stroke-width="0.5" stroke-dasharray="2 5" opacity="0.45"/>
+
+          <text x="40" y="708" font-size="11" fill="#6B6055" opacity="0.5">OUT OF SCOPE</text>
+        </g>
+
+        <!-- ===== TENSION LINE (behind nodes) ===== -->
+        <line x1="640" y1="610" x2="1130" y2="305" stroke="#C2410C" stroke-width="2" stroke-dasharray="9 6" opacity="0.5"/>
+        <g transform="translate(920, 445)">
+          <rect x="-72" y="-13" width="144" height="26" fill="#FAF6EE" stroke="#C2410C" stroke-width="1.5" rx="2"/>
+          <text x="0" y="5" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#C2410C" font-weight="700" letter-spacing="2.5">TENSION · NAMED</text>
+        </g>
+
+        <!-- ===== TIER 1 · ANCHOR · P3 ===== -->
+        <g transform="translate(850, 115)">
+          <circle r="92" fill="#C2410C" stroke="#15110D" stroke-width="2.5"/>
+          <text y="-44" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="rgba(242,237,227,0.75)" letter-spacing="3" font-weight="700">ANCHOR · P3</text>
+          <text y="-12" text-anchor="middle" font-family="Fraunces" font-size="24" fill="#F2EDE3" font-weight="500">Dark matter</text>
+          <text y="18" text-anchor="middle" font-family="Inter" font-size="11" fill="rgba(242,237,227,0.92)">Per-request disclosure</text>
+          <text y="34" text-anchor="middle" font-family="Inter" font-size="11" fill="rgba(242,237,227,0.92)">makes invisible compute</text>
+          <text y="50" text-anchor="middle" font-family="Inter" font-size="11" fill="rgba(242,237,227,0.92)">legible.</text>
+        </g>
+
+        <!-- ===== TIER 2 · TOP THREE · P8, P9 ===== -->
+        <g transform="translate(570, 305)">
+          <circle r="76" fill="none" stroke="#C2410C" stroke-width="0.8" opacity="0.25"/>
+          <circle r="64" fill="#FAF6EE" stroke="#C2410C" stroke-width="3"/>
+          <text y="6" text-anchor="middle" font-family="Fraunces" font-size="26" fill="#15110D" font-weight="500">P8</text>
+        </g>
+        <text x="570" y="396" text-anchor="middle" font-family="Fraunces" font-size="18" fill="#15110D" font-weight="600">Hack systems</text>
+        <text x="570" y="417" text-anchor="middle" font-family="Inter" font-size="12" fill="#6B6055">stitches grid APIs + cloud SDKs</text>
+
+        <g transform="translate(1130, 305)">
+          <circle r="76" fill="none" stroke="#C2410C" stroke-width="0.8" opacity="0.25"/>
+          <circle r="64" fill="#FAF6EE" stroke="#C2410C" stroke-width="3"/>
+          <text y="6" text-anchor="middle" font-family="Fraunces" font-size="26" fill="#15110D" font-weight="500">P9</text>
+        </g>
+        <text x="1130" y="396" text-anchor="middle" font-family="Fraunces" font-size="18" fill="#15110D" font-weight="600">Movable middle</text>
+        <text x="1130" y="417" text-anchor="middle" font-family="Inter" font-size="12" fill="#6B6055">AI labs &amp; procurement teams</text>
+
+        <!-- ===== TIER 3 · LOAD-BEARING · P5, P7 ===== -->
+        <g transform="translate(620, 468)">
+          <circle r="47" fill="#FAF6EE" stroke="#1E3A5F" stroke-width="2.2"/>
+          <text y="4" text-anchor="middle" font-family="Fraunces" font-size="20" fill="#15110D" font-weight="500">P7</text>
+        </g>
+        <text x="620" y="538" text-anchor="middle" font-family="Fraunces" font-size="15" fill="#15110D" font-weight="600">Tech as both</text>
+        <text x="620" y="555" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6055">sink + disclosure surface</text>
+
+        <g transform="translate(1080, 468)">
+          <circle r="47" fill="#FAF6EE" stroke="#1E3A5F" stroke-width="2.2"/>
+          <text y="4" text-anchor="middle" font-family="Fraunces" font-size="20" fill="#15110D" font-weight="500">P5</text>
+        </g>
+        <text x="1080" y="538" text-anchor="middle" font-family="Fraunces" font-size="15" fill="#15110D" font-weight="600">Culture</text>
+        <text x="1080" y="555" text-anchor="middle" font-family="Inter" font-size="11" fill="#6B6055">procurement language</text>
+
+        <!-- ===== TIER 4 · SUPPORTING · P4, P1, P6, P2 ===== -->
+        <g transform="translate(280, 612)">
+          <circle r="34" fill="#FAF6EE" stroke="#6B6055" stroke-width="1.5"/>
+          <text y="3" text-anchor="middle" font-family="Fraunces" font-size="15" fill="#15110D" font-weight="500">P4</text>
+        </g>
+        <text x="280" y="668" text-anchor="middle" font-family="Inter" font-size="12" fill="#15110D" font-weight="600">H2+ on H2-</text>
+        <text x="280" y="684" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6055">EV · HTTPS · Cost Explorer</text>
+
+        <g transform="translate(640, 612)">
+          <circle r="34" fill="#FAF6EE" stroke="#6B6055" stroke-width="1.5"/>
+          <text y="3" text-anchor="middle" font-family="Fraunces" font-size="15" fill="#15110D" font-weight="500">P1</text>
+        </g>
+        <text x="640" y="668" text-anchor="middle" font-family="Inter" font-size="12" fill="#15110D" font-weight="600">Maximize impact</text>
+        <text x="640" y="684" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6055">via product, not pitch</text>
+
+        <g transform="translate(1060, 612)">
+          <circle r="34" fill="#FAF6EE" stroke="#6B6055" stroke-width="1.5"/>
+          <text y="3" text-anchor="middle" font-family="Fraunces" font-size="15" fill="#15110D" font-weight="500">P6</text>
+        </g>
+        <text x="1060" y="668" text-anchor="middle" font-family="Inter" font-size="12" fill="#15110D" font-weight="600">Agency</text>
+        <text x="1060" y="684" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6055">timing for devs &amp; procurement</text>
+
+        <g transform="translate(1420, 612)">
+          <circle r="34" fill="#FAF6EE" stroke="#6B6055" stroke-width="1.5"/>
+          <text y="3" text-anchor="middle" font-family="Fraunces" font-size="15" fill="#15110D" font-weight="500">P2</text>
+        </g>
+        <text x="1420" y="668" text-anchor="middle" font-family="Inter" font-size="12" fill="#15110D" font-weight="600">Sufficiency</text>
+        <text x="1420" y="684" text-anchor="middle" font-family="Inter" font-size="9" fill="#6B6055">anti-rebound · partial</text>
+
+        <!-- ===== TIER 5 · OUT OF SCOPE · P10 (corner, dimmed) ===== -->
+        <g transform="translate(1620, 712)" opacity="0.45">
+          <circle r="22" fill="#FAF6EE" stroke="#6B6055" stroke-width="1" stroke-dasharray="3 3"/>
+          <text y="4" text-anchor="middle" font-family="Fraunces" font-size="12" fill="#6B6055" font-weight="500">P10</text>
+        </g>
+        <text x="1585" y="708" text-anchor="end" font-family="Inter" font-size="11" fill="#6B6055" opacity="0.7" font-weight="600">Resilience</text>
+        <text x="1585" y="724" text-anchor="end" font-family="Inter" font-size="9" fill="#6B6055" font-style="italic" opacity="0.6">not activated</text>
+
+      </svg>
+    </div>
+
+    <div class="slide-footer">
+      <span>Synthesis · Godelnik course roadmap, Week 13 framework</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 13 — HTTPS -->
+  <section class="slide dark" data-slide="13">
+    <div class="slide-mark">§ 13 · Precedent · hero analog</div>
+    <div class="slide-num">13 / 17</div>
+    <div class="col-2">
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 16px; text-transform: uppercase; letter-spacing: 0.24em; color: var(--accent-soft); margin-bottom: 40px;">HTTPS ADOPTION · 1994–2025</div>
+        <h2 class="display-lg" style="color: var(--paper); font-size: 96px; line-height: 1.0;">End users didn't change.<br><em class="amber">Providers did.</em></h2>
+        <p class="lede serif" style="margin-top: 50px; color: rgba(242,237,227,0.85); max-width: 50ch;">
+          Backend protocol, made visible at the UI layer through a tiny glyph. No one wanted their site flagged as "Not Secure" in Chrome. Within a decade — the entire web shifted.
+        </p>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+          <defs>
+            <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#E8A642" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#E8A642" stop-opacity="0.05"/>
+            </linearGradient>
+          </defs>
+          <line x1="60" y1="380" x2="570" y2="380" stroke="#E8A642" stroke-width="1"/>
+          <line x1="60" y1="50" x2="60" y2="380" stroke="#E8A642" stroke-width="1"/>
+          <text x="50" y="385" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="rgba(242,237,227,0.5)">0%</text>
+          <text x="50" y="305" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="rgba(242,237,227,0.5)">25</text>
+          <text x="50" y="225" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="rgba(242,237,227,0.5)">50</text>
+          <text x="50" y="145" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="rgba(242,237,227,0.5)">75</text>
+          <text x="50" y="65" text-anchor="end" font-family="JetBrains Mono" font-size="13" fill="rgba(242,237,227,0.5)">100</text>
+          <path d="M 60,370 Q 130,367 190,355 T 290,320 Q 330,295 350,260 Q 370,205 410,140 Q 460,90 570,75" fill="none" stroke="#E8A642" stroke-width="2.5"/>
+          <path d="M 60,370 Q 130,367 190,355 T 290,320 Q 330,295 350,260 Q 370,205 410,140 Q 460,90 570,75 L 570,380 L 60,380 Z" fill="url(#g2)"/>
+          <line x1="350" y1="260" x2="350" y2="70" stroke="#C2410C" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <circle cx="350" cy="260" r="7" fill="#C2410C"/>
+          <text x="360" y="95" font-family="JetBrains Mono" font-size="13" fill="#C2410C">2018 · CHROME</text>
+          <text x="360" y="115" font-family="JetBrains Mono" font-size="13" fill="#C2410C">FLAGS "NOT SECURE"</text>
+          <text x="360" y="135" font-family="JetBrains Mono" font-size="13" fill="#C2410C">↓ THE INFLECTION</text>
+          <text x="65" y="410" font-family="JetBrains Mono" font-size="12" fill="rgba(242,237,227,0.5)">'94</text>
+          <text x="200" y="410" font-family="JetBrains Mono" font-size="12" fill="rgba(242,237,227,0.5)">'10</text>
+          <text x="345" y="410" font-family="JetBrains Mono" font-size="12" fill="rgba(242,237,227,0.5)" font-weight="600">'18</text>
+          <text x="565" y="410" font-family="JetBrains Mono" font-size="12" fill="rgba(242,237,227,0.5)" text-anchor="end">'25</text>
+          <text x="60" y="30" font-family="Fraunces" font-size="16" fill="#F2EDE3" font-weight="500">HTTPS share of web traffic · 1994–2025</text>
+        </svg>
+      </div>
+    </div>
+    <div class="slide-cite">
+      <span class="src-num">¹</span>Google Transparency Report, <em>HTTPS encryption on the web</em> (ongoing).&nbsp;&nbsp;<span class="src-num">²</span>Let's Encrypt, <em>Annual Reports</em> (2017–2024). Curve directional, illustrating widely-reported adoption trajectory.&nbsp;&nbsp;<span class="src-num">³</span>Inflection: Chrome 68 (July 2018) began flagging all non-HTTPS pages as "Not Secure."
+    </div>
+    <div class="slide-footer">
+      <span>Visibility moves providers · the pattern is proven</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 14 — PRECEDENTS GRID -->
+  <section class="slide" data-slide="14">
+    <div class="slide-mark">§ 14 · Precedents</div>
+    <div class="slide-num">14 / 17</div>
+    <span class="eyebrow">The pattern · across domains</span>
+    <h2 class="display-md">Greener Hours is not <em class="accent">the first attempt.</em></h2>
+    <div class="precedent-grid">
+      <div class="precedent">
+        <div class="ep">REGULATORY DISCLOSURE · CONSUMER-FACING</div>
+        <h4>EU Energy Labels</h4>
+        <p>The A–G grade reshaped manufacturer behavior more than consumer behavior. Appliances were re-engineered to climb the visible scale.</p>
+      </div>
+      <div class="precedent">
+        <div class="ep">FOOD INDUSTRY · MANDATORY DISCLOSURE</div>
+        <h4>FDA Nutrition Labels</h4>
+        <p>Did not change consumer behavior dramatically. Did drive food reformulation — trans fats, sodium, sugar — because manufacturers competed on what was visible.</p>
+      </div>
+      <div class="precedent">
+        <div class="ep">CLOUD COMPUTE · ALREADY HAPPENED</div>
+        <h4>AWS, Azure, GCP carbon dashboards</h4>
+        <p>Launched 2021–2022 in response to enterprise procurement demand. The pattern works. <em>The AI-specific extension is what's missing.</em></p>
+      </div>
+      <div class="precedent">
+        <div class="ep">OBSERVABILITY · STANDARDS-DRIVEN</div>
+        <h4>OpenTelemetry</h4>
+        <p>Open backend standard spawned an entire UI ecosystem — Datadog, Grafana, Honeycomb. None of them exist without the substrate.</p>
+      </div>
+      <div class="precedent">
+        <div class="ep">SOFTWARE SECURITY · IN PROGRESS</div>
+        <h4>Software Bill of Materials</h4>
+        <p>Federal procurement drives software supply chain disclosure. Procurement as adoption mechanism — same shape as Greener Hours.</p>
+      </div>
+      <div class="precedent">
+        <div class="ep">AI · ADJACENT BUT INCOMPLETE</div>
+        <h4>Green Software Foundation SCI</h4>
+        <p>The Software Carbon Intensity specification (ISO/IEC 21031). Methodology exists. Productization &amp; AI-specific extension do not.</p>
+      </div>
+    </div>
+    <div class="slide-cite">
+      <span class="src-num">¹</span>EU energy labels: Reg. 2017/1369 framework.&nbsp;&nbsp;<span class="src-num">²</span>FDA nutrition labels: 21 CFR Part 101.&nbsp;&nbsp;<span class="src-num">³</span>Cloud carbon dashboards: AWS, Azure, GCP (2021–2022).&nbsp;&nbsp;<span class="src-num">⁴</span>OpenTelemetry: CNCF graduated project, 2024.&nbsp;&nbsp;<span class="src-num">⁵</span>SBOM: US Executive Order 14028 (2021); CISA SBOM guidance.&nbsp;&nbsp;<span class="src-num">⁶</span>Green Software Foundation, <em>Software Carbon Intensity Specification</em> (ISO/IEC 21031:2024).
+    </div>
+    <div class="slide-footer">
+      <span>Pattern recognition · disclosure shapes the supply side</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 15 — TRADE-OFFS -->
+  <section class="slide" data-slide="15">
+    <div class="slide-mark">§ 15 · Trade-offs &amp; tensions</div>
+    <div class="slide-num">15 / 17</div>
+    <span class="eyebrow">Named, not hidden</span>
+    <h2 class="display-md">What this project <em class="accent">cannot pretend.</em></h2>
+    <div class="tradeoff-grid">
+      <div class="tradeoff">
+        <h4>P1 ↔ P9 · the structural tension</h4>
+        <p>The biggest lever for AI's climate footprint is supply-side: data center siting, PPAs, grid decarbonization. Greener Hours operates on a derivative lever — user-facing legibility pressuring the supply side. The bet is contestable. The HTTPS analog suggests the pattern works; the timeline is uncertain.</p>
+      </div>
+      <div class="tradeoff">
+        <h4>Greenwashing capture risk</h4>
+        <p>Open standards get captured. Three guardrails: open-source reference implementation, third-party verification of disclosure claims, anti-rebound layer surfacing total consumption alongside efficiency. None is sufficient alone.</p>
+      </div>
+      <div class="tradeoff">
+        <h4>Visibility ≠ behavior change</h4>
+        <p>Sharpest midterm critique. Addressed structurally: Tier 1 is not a behavior tool. Behavior change happens at Tier 2 (one-click default) and Tier 3 (institutional decisions). Tier 1's job is legibility that creates supply-side pressure.</p>
+      </div>
+      <div class="tradeoff">
+        <h4>The sufficiency limit</h4>
+        <p>Greener Hours is a timing and disclosure intervention, not a sufficiency intervention. It does not advocate for using less AI. Tier 3's total-consumption layer makes absolute usage visible — but visibility is not advocacy.</p>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Honest limits · credibility through naming</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 16 — KPIs / CLOSING -->
+  <section class="slide dark" data-slide="16">
+    <div class="slide-mark">§ 16 · Potential for change</div>
+    <div class="slide-num">16 / 17</div>
+    <span class="eyebrow">If the wedge works</span>
+    <h2 class="display-md" style="color: var(--paper);">What changes when AI compute disclosure becomes <em class="amber">a normal procurement field.</em></h2>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="k">ADOPTION · 24 MO</div>
+        <div class="v">3 of 5 major AI providers implement the spec</div>
+        <div class="desc">Voluntary, in response to competitive and procurement pressure</div>
+      </div>
+      <div class="kpi">
+        <div class="k">COVERAGE</div>
+        <div class="v">60% of enterprise AI API calls return standardized carbon data</div>
+        <div class="desc">Per-request disclosure becomes a default expectation</div>
+      </div>
+      <div class="kpi">
+        <div class="k">BEHAVIOR · TIER 2</div>
+        <div class="v">40% of deferrable batch tasks shift to cleaner windows</div>
+        <div class="desc">Direct timing optimization where flexibility already exists</div>
+      </div>
+      <div class="kpi">
+        <div class="k">INSTITUTIONAL · TIER 3</div>
+        <div class="v">5+ Fortune 100 buyers include the spec in AI RFPs</div>
+        <div class="desc">Procurement pressure becomes the adoption inflection</div>
+      </div>
+      <div class="kpi">
+        <div class="k">REGULATORY</div>
+        <div class="v">EU AI Act or California SB 253 references the spec</div>
+        <div class="desc">The mandate moment — the Chrome-flagging-HTTPS equivalent</div>
+      </div>
+      <div class="kpi">
+        <div class="k">CULTURAL</div>
+        <div class="v">"What's your compute carbon disclosure?" becomes a normal sales question</div>
+        <div class="desc">The standard becomes the floor, not the ceiling</div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Speculative · directional, not predictive</span>
+      <span>SP26 · May 12, 2026</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 17 — CLOSE -->
+  <section class="slide dark" data-slide="17">
+    <div class="slide-mark">§ 17 · Close</div>
+    <div class="slide-num">17 / 17</div>
+
+    <div style="display: flex; flex-direction: column; justify-content: center; height: 100%; max-width: 1400px;">
+      <span class="eyebrow" style="color: var(--accent-soft);">End of presentation</span>
+      <h2 style="font-family: 'Fraunces', Georgia, serif; font-size: 180px; font-weight: 300; font-style: italic; color: var(--paper); line-height: 0.95; margin-bottom: 24px; letter-spacing: -0.03em; font-variation-settings: 'opsz' 144, 'SOFT' 80;">Thank you.</h2>
+
+      <div style="font-family: 'Fraunces', serif; font-size: 38px; color: rgba(242,237,227,0.88); margin-bottom: 80px; font-weight: 400; line-height: 1.3; max-width: 30ch;">Questions, push-backs, hard ones — <em class="amber">all welcome.</em></div>
+
+      <div style="display: flex; gap: 70px; align-items: flex-start; padding-top: 36px; border-top: 1px solid rgba(242,237,227,0.18); max-width: 1200px;">
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-soft); letter-spacing: 0.24em; margin-bottom: 10px; font-weight: 600;">PROJECT</div>
+          <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--paper); font-weight: 500;">Greener Hours</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(242,237,227,0.55); margin-top: 4px;">v0.1 · final</div>
+        </div>
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-soft); letter-spacing: 0.24em; margin-bottom: 10px; font-weight: 600;">AUTHOR</div>
+          <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--paper); font-weight: 500;">Rishabh Salian</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(242,237,227,0.55); margin-top: 4px;">MS-SDM · The New School</div>
+        </div>
+        <div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-soft); letter-spacing: 0.24em; margin-bottom: 10px; font-weight: 600;">COURSE</div>
+          <div style="font-family: 'Fraunces', serif; font-size: 26px; color: var(--paper); font-weight: 500;">Design for a Warming World</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(242,237,227,0.55); margin-top: 4px;">Prof. Raz Godelnik · Spring 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>PGDM 5310 B · CRN 14494</span>
+      <span>May 12, 2026</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-zone prev" id="navPrev"></div>
+<div class="nav-zone next" id="navNext"></div>
+<div class="dots" id="dots"></div>
+<div class="hud">
+  <div class="progress-track">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+<div class="hud-info">
+  <span class="keys">← →</span>
+  <span class="counter" id="counter">01 / 17</span>
+  <button class="fs-btn" id="fsBtn">Fullscreen</button>
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progressBar = document.getElementById('progressBar');
+  const counter = document.getElementById('counter');
+  const dotsContainer = document.getElementById('dots');
+  const fsBtn = document.getElementById('fsBtn');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => go(i));
+    dotsContainer.appendChild(dot);
+  });
+  const dots = document.querySelectorAll('.dot');
+
+  function go(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    updateHUD();
+  }
+
+  function updateHUD() {
+    const pct = ((current + 1) / total) * 100;
+    progressBar.style.width = pct + '%';
+    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  }
+
+  function updateScale() {
+    const scaleX = window.innerWidth / 1920;
+    const scaleY = window.innerHeight / 1080;
+    document.documentElement.style.setProperty('--scale', Math.min(scaleX, scaleY));
+  }
+  window.addEventListener('resize', updateScale);
+  updateScale();
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault(); go(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault(); go(current - 1);
+    } else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(total - 1); }
+    else if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); }
+  });
+
+  document.getElementById('navPrev').addEventListener('click', () => go(current - 1));
+  document.getElementById('navNext').addEventListener('click', () => go(current + 1));
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  fsBtn.addEventListener('click', toggleFullscreen);
+
+  updateHUD();
+})();
+</script>
+
+</body>
+</html>
