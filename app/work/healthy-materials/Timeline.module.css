@@ -1,0 +1,84 @@
+/* Deck-style timeline — legend + horizontal-scroll SVG viewport (ported from
+   Follow's tl* styles). All geometry is in the SVG; CSS only handles the legend
+   chips and the mobile scroll wrapper. Reads global + page-root tokens. */
+
+/* the whole chart sits on a frosted-glass panel (end-to-end); the swirling
+   ambient orbs blur through it behind the timeline. */
+.glass {
+  margin-top: var(--space-6);
+  /* full-bleed band — spans the whole page edge-to-edge, not a contained box.
+     .page has overflow-x:clip, so 100vw adds no horizontal scrollbar. */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: clamp(28px, 4vw, 48px);
+  background: rgba(252, 251, 247, 0.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(16px) saturate(1.08);
+  border-top: 1px solid rgba(26, 26, 26, 0.06);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+}
+/* content stays centered + readable inside the full-width band */
+.glassInner {
+  max-width: 980px;
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+.glass .legend {
+  margin-top: 0;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+}
+.it {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--soft);
+}
+.sw {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.ink {
+  background: var(--ink);
+}
+.acc {
+  background: var(--accent);
+}
+.holo {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+}
+.clay {
+  background: var(--clay, #b0763f);
+}
+
+.scroll {
+  margin-top: 18px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+}
+.scroll svg {
+  display: block;
+  min-width: 760px;
+  width: 100%;
+  height: auto;
+}
+
+.foot {
+  margin-top: var(--space-5);
+  font-size: 13px;
+  color: var(--soft);
+  line-height: 1.55;
+  max-width: 70ch;
+}
+.foot strong {
+  color: var(--ink);
+}

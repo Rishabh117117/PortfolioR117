@@ -1,0 +1,76 @@
+/* Healthy Materials — page-wide ambient backdrop (recoloured copy of Follow's).
+   A fixed, full-viewport soft-light layer behind the whole page (z-index 0; page
+   content sits on a z-index:1 layer above it). Sage-green (#5C7A3A / #8FB06A,
+   the page accent) + clay (#B0763F) orbs, sized large and parked partly
+   off-screen so only a smooth gradient falloff bleeds into the light sections —
+   an intentional colour wash, not a faint speckle. Per-orb opacity is JS-driven
+   for the scroll-based colour cross-fade, so CSS only sets position/size/blur/colour. */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ambient .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+}
+/* green orbs */
+.ambient .g1 {
+  width: 56vw;
+  height: 56vw;
+  max-width: 760px;
+  max-height: 760px;
+  top: -12vh;
+  left: -10vw;
+  background: radial-gradient(circle, rgba(92, 122, 58, 0.42), transparent 70%);
+}
+.ambient .g2 {
+  width: 42vw;
+  height: 42vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: 28vh;
+  right: -2vw;
+  background: radial-gradient(circle, rgba(143, 176, 106, 0.36), transparent 72%);
+}
+/* clay orbs */
+.ambient .c1 {
+  width: 60vw;
+  height: 60vw;
+  max-width: 820px;
+  max-height: 820px;
+  bottom: -18vh;
+  right: -12vw;
+  background: radial-gradient(circle, rgba(176, 118, 63, 0.4), transparent 72%);
+}
+.ambient .c2 {
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: 4vh;
+  left: -2vw;
+  background: radial-gradient(circle, rgba(176, 118, 63, 0.3), transparent 72%);
+}
+
+/* resting opacity = the motion baseline (intro: green 0.9, clay 0.62), so the
+   pre-first-frame paint and reduced-motion users match motion mode rather than
+   rendering every orb at full strength. The rAF loop overrides this in motion. */
+.ambient .g1,
+.ambient .g2 {
+  opacity: 0.9;
+}
+.ambient .c1,
+.ambient .c2 {
+  opacity: 0.62;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient .orb {
+    transform: none !important;
+  }
+}

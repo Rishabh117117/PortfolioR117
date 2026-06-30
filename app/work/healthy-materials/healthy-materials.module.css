@@ -4,14 +4,22 @@
    full-bleed photo slots. Rhythm alternates TEAL gallery (immersive) and
    PAPER (reading) sections. Tokens per docs/DESIGN.md; the deep forest-teal
    atmosphere is an ADDITIVE, page-scoped variable set (defined in page.tsx
-   rootStyle), never a global token. The hm-* motion/line classes live in
-   ./hm-motion.css (JS-wired by ./Motion.tsx).
+   rootStyle), never a global token. Ambient background motion lives in
+   ./AmbientField.{tsx,css}; the timeline in ./Timeline.{tsx,module.css}.
    ========================================================================= */
 
 .page {
   /* full-bleed children manage their own width; type scenes center an inner
      reading column. The page root spans the full main width. */
+  position: relative;
   overflow-x: clip;
+}
+/* content layer above the page-wide AmbientField backdrop (it is z-index:0,
+   fixed; the light/paper sections float over it on this z-index:1 layer, the
+   opaque teal galleries sit on top of the orbs). */
+.pageContent {
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------- shared type scene (paper, reading) ---------- */
@@ -79,17 +87,56 @@
    3.1 Hero (teal)
    ========================================================================= */
 .hero {
-  min-height: 96svh;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 92svh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-block: clamp(72px, 12vw, 120px) 0;
+  justify-content: flex-end;
+  color: var(--paper);
+  padding-block: clamp(72px, 12vw, 120px) clamp(40px, 7vw, 72px);
+}
+/* full-bleed photo behind the hero copy (Housing-Works treatment) */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(8, 18, 15, 0.66) 0%,
+    rgba(8, 18, 15, 0.46) 40%,
+    rgba(8, 18, 15, 0.26) 72%,
+    rgba(8, 18, 15, 0.24) 100%
+  );
 }
 .heroInner {
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: var(--maxw-wide);
   margin-inline: auto;
   padding-inline: var(--page-pad);
+}
+/* frosted-glass panel the hero copy sits on — the photo blurs through it */
+.heroCard {
+  width: fit-content;
+  max-width: min(100%, 660px);
+  padding: clamp(22px, 3.4vw, 38px) clamp(24px, 3.8vw, 44px);
+  background: rgba(16, 34, 29, 0.32);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid rgba(244, 242, 236, 0.18);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.55);
 }
 .heroEyebrow {
   font-family: var(--font-mono);
@@ -604,6 +651,312 @@
 }
 
 /* =========================================================================
+   Rebuild additions — badge, hero image, frame hook, scope spectrum,
+   field-visit (teal), leverage cascade, why-list. (HM-PAGE-2)
+   ========================================================================= */
+
+/* status badge (hero, teal) */
+.badge {
+  display: inline-block;
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage-light);
+  border: 1px solid rgba(143, 176, 106, 0.5);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+.heroAuthors {
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(244, 242, 236, 0.7);
+}
+.heroImg {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius);
+  border: 1px solid rgba(244, 242, 236, 0.12);
+  display: block;
+}
+
+/* 3.2 frame — the hook line above the body */
+.frameHook {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 4.6vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+/* small label introducing the material cards, sat right under the hook */
+.railCaption {
+  margin-top: var(--space-7);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.fnref {
+  font-size: 0.7em;
+  color: var(--accent);
+  margin-left: 1px;
+}
+.footnote {
+  margin-top: var(--space-6);
+  font-size: var(--fs-cap);
+  color: var(--soft);
+  line-height: 1.5;
+}
+.fnnum {
+  color: var(--accent);
+  margin-right: 4px;
+  font-weight: 600;
+}
+
+/* scope spectrum (mineral/technical → bio-based) */
+.spectrum {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.spectrumEnd {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.spectrumLabel {
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.spectrumItems {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.spectrumArrow {
+  display: flex;
+  align-items: center;
+  color: var(--soft);
+}
+.spectrumArrow svg {
+  width: 40px;
+  height: 12px;
+  transform: rotate(90deg); /* point down when stacked (mobile) */
+}
+.spectrumNote {
+  margin-top: var(--space-3);
+  font-size: var(--fs-cap);
+  color: var(--soft);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+/* real material images (replace the old PhotoSlot) */
+.materialImg {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius);
+  border: 1px solid rgba(244, 242, 236, 0.12);
+  display: block;
+}
+.imgCredit {
+  margin-top: var(--space-7);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--soft);
+}
+
+/* clubbed "why these methods" under the timeline */
+.clubbed {
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.whyList {
+  list-style: none;
+  margin-top: var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+.why {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.why::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+}
+.why strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* the research list under the timeline (primary / secondary), Follow pattern */
+.rcols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: var(--space-5);
+}
+.rlabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.rlist {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.rlist .r {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--soft);
+}
+.rlist .r::before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  top: -2px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 17px;
+}
+.rlist .r strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.rlist .r .kind {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 1px;
+}
+@media (max-width: 760px) {
+  .rcols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* 5 — field visit (teal); the deck strip is full-bleed, head/foot are contained */
+.field {
+  padding-block: clamp(64px, 11vw, 120px);
+}
+.fieldHead {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin: 0 auto var(--space-6);
+  padding-inline: var(--page-pad);
+}
+.fieldTitle {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, 5vw, 40px);
+  letter-spacing: -0.025em;
+  color: #fff;
+  max-width: 18ch;
+}
+.fieldIntro {
+  margin-top: var(--space-3);
+  font-size: clamp(16px, 2.2vw, 18px);
+  line-height: 1.55;
+  color: rgba(244, 242, 236, 0.82);
+  max-width: 52ch;
+}
+.fieldFoot {
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin: var(--space-5) auto 0;
+  padding-inline: var(--page-pad);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--sage-light);
+}
+
+/* 7 — leverage points (cascade) */
+.leverage {
+  list-style: none;
+  margin-top: var(--space-7);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+.lp {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+.lpNum {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  padding-top: 2px;
+}
+.lpBodyWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lpName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.lpBody {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+
+/* =========================================================================
    Responsive — tablet (>=768) and desktop (>=1180)
    ========================================================================= */
 @media (min-width: 768px) {
@@ -631,9 +984,6 @@
   .concepts {
     grid-template-columns: repeat(3, 1fr);
   }
-  .conceptFirst {
-    grid-column: span 3;
-  }
 }
 
 @media (min-width: 1180px) {
@@ -649,6 +999,22 @@
   }
 }
 
+/* desktop tweaks for the rebuild additions */
+@media (min-width: 768px) {
+  .spectrum {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .spectrumArrow svg {
+    transform: rotate(0deg); /* point across when laid out in a row */
+  }
+  .whyList {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+}
+
 /* the journey stacks its connector arrows point-down on mobile already; on
-   desktop they rotate to point across (handled above). reduced-motion is
-   honored globally in globals.css + ./hm-motion.css. */
+   desktop they rotate to point across (handled above). Ambient motion lives in
+   ./AmbientField.{tsx,css}; reduced-motion is honored globally in globals.css. */

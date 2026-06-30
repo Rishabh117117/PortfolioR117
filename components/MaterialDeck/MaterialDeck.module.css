@@ -1,0 +1,201 @@
+/* Field-visit moving photo strip (marquee) — copy of WorkshopDeck, captions
+   adapted for photos. Cards carry a light surface + soft shadow; the strip
+   auto-scrolls, pauses on hover/focus, and degrades to a manual scroller under
+   reduced motion. Used once, on the teal field-visit section. */
+.deck {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.strip {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+.track {
+  display: flex;
+  width: max-content;
+  list-style: none;
+  padding-block: var(--space-2);
+  animation: marquee 56s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.strip:hover .track,
+.strip:focus-within .track {
+  animation-play-state: paused;
+}
+.cell {
+  flex: 0 0 auto;
+  margin-right: var(--space-4); /* uniform gap → exact -50% loop */
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: clamp(220px, 68vw, 264px);
+  padding: 0;
+  text-align: left;
+  background: var(--card);
+  border: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(26, 26, 26, 0.1),
+    0 14px 32px -18px rgba(26, 26, 26, 0.5);
+  cursor: pointer;
+}
+.cardFrame {
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.cardCap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.cardDetail {
+  font-size: var(--fs-cap);
+  letter-spacing: 0.01em;
+  color: var(--soft);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hint {
+  text-align: center;
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 236, 0.55);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    box-shadow:
+      0 2px 4px rgba(26, 26, 26, 0.12),
+      0 20px 44px -16px rgba(26, 26, 26, 0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .track {
+    animation: none;
+  }
+  .cell {
+    scroll-snap-align: start;
+  }
+}
+
+/* ---- lightbox (tap a card to enlarge the full photo) ---- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: rgba(12, 18, 14, 0.86);
+  animation: lbFade 0.2s ease;
+}
+@keyframes lbFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.lbClose {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .lbClose:hover {
+    background: rgba(255, 255, 255, 0.26);
+  }
+}
+.lbFig {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: min(92vw, 620px);
+  max-height: 90vh;
+}
+.lbImg {
+  width: 100%;
+  height: auto;
+  max-height: 76vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+.lbCap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lbTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-body-l);
+  color: #f4f2ec;
+}
+.lbDetail {
+  font-size: var(--fs-cap);
+  color: rgba(244, 242, 236, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox {
+    animation: none;
+  }
+}
