@@ -31,7 +31,10 @@ export const FLAGSHIPS: Project[] = [
     year: "2025–26",
     discipline: "Climate · AI",
     accent: "#1C3B36",
-    status: "SIMULATED",
+    // GH-PAGE-1: bespoke narrative case study (deck-as-page retired). Honest
+    // badge for a speculative open-standard course project; propagates to the
+    // home grid + /work chips via ProjectCard.
+    status: "COURSE PROJECT · CONCEPT",
   },
   {
     name: "Healthy Materials",
