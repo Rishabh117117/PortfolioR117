@@ -1,0 +1,77 @@
+/* Deck-style timeline — legend + horizontal-scroll SVG viewport (the Healthy
+   Materials mechanic, copy-adapted). All geometry is in the SVG; CSS handles
+   the glass band, the legend chips and the mobile scroll wrapper. Reads global
+   + page-root tokens (accent = the Housing Works crimson). */
+
+/* the whole chart sits on a frosted-glass band (end-to-end); the World AIDS Day
+   ambient orbs blur through it behind the timeline. .page has overflow-x:clip,
+   so the 100vw bleed adds no horizontal scrollbar. */
+.glass {
+  margin-top: var(--space-6);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: clamp(28px, 4vw, 48px);
+  background: rgba(252, 251, 247, 0.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(16px) saturate(1.08);
+  border-top: 1px solid rgba(26, 26, 26, 0.06);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+}
+/* content stays centered + readable inside the full-width band */
+.glassInner {
+  max-width: 980px;
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.it {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--soft);
+}
+.sw {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.ink {
+  background: var(--ink);
+}
+.acc {
+  background: var(--accent);
+}
+.holo {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+}
+
+.scroll {
+  margin-top: 18px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+}
+.scroll svg {
+  display: block;
+  min-width: 760px;
+  width: 100%;
+  height: auto;
+}
+
+/* footnote aligns with the page's reading column below the band */
+.foot {
+  max-width: var(--maxw-text);
+  margin: var(--space-5) auto 0;
+  padding-inline: var(--page-pad);
+  font-size: 13px;
+  color: var(--soft);
+  line-height: 1.55;
+}

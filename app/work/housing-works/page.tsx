@@ -4,6 +4,7 @@ import BridgesGallery from "@/components/BridgesGallery/BridgesGallery";
 import WorkshopHarness from "@/components/WorkshopHarness/WorkshopHarness";
 import Motion from "./Motion";
 import AmbientField from "./AmbientField";
+import Timeline from "./Timeline";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
 
@@ -106,6 +107,20 @@ export default function HousingWorksPage() {
             frameworks we delivered — a system for trustee-led workshops.
           </p>
         </div>
+      </section>
+
+      {/* ============ SCENE 2b — THE SEMESTER (project timeline) ============ */}
+      <section className={styles.scene}>
+        <div className={`${styles.wrap} hw-reveal`} data-ambient-dim>
+          <p className={`mono ${styles.kicker}`}>The semester</p>
+          <p className={styles.lede}>
+            Fifteen weeks — from meeting the partner to handing over the
+            strategy.
+          </p>
+        </div>
+        {/* the chart breaks out of the reading column onto a full-bleed glass
+            band; kept outside the reveal so the backdrop blur stays clean */}
+        <Timeline />
       </section>
 
       {/* ============ SCENE 3 — DIVIDER (storefront) ============ */}

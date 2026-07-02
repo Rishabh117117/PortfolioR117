@@ -222,6 +222,31 @@
 /* =========================================================================
    Project timeline (deck-style horizontal)
    ========================================================================= */
+/* the legend + chart sit on a full-bleed frosted-glass band (the Healthy
+   Materials timeline recipe): the blue/orange ambient orbs blur through it
+   behind the chart. .page has overflow-x:clip, so the 100vw bleed adds no
+   horizontal scrollbar. */
+.tlGlass {
+  margin-top: var(--space-5);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: clamp(28px, 4vw, 48px);
+  background: rgba(252, 251, 247, 0.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(16px) saturate(1.08);
+  border-top: 1px solid rgba(26, 26, 26, 0.06);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+}
+/* the chart keeps (roughly) its old measure, centered inside the band */
+.tlGlassInner {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+.tlGlass .tlLegend {
+  margin-top: 0;
+}
+
 .tlLegend {
   display: flex;
   flex-wrap: wrap;

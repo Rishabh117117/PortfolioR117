@@ -67,6 +67,11 @@ export default function FollowPage() {
             two pivots that turned Follow from an AI-native document tool into a
             team-memory layer.
           </p>
+          {/* legend + chart sit on a full-bleed frosted band (the Healthy
+              Materials timeline recipe) — the blue/orange ambient blurs
+              through behind the chart */}
+          <div className={styles.tlGlass}>
+          <div className={styles.tlGlassInner}>
           <div className={styles.tlLegend}>
             <span className={styles.it}>
               <span className={`${styles.sw} ${styles.ink}`} />
@@ -204,6 +209,8 @@ export default function FollowPage() {
                 teams-first · this artifact
               </text>
             </svg>
+          </div>
+          </div>
           </div>
           <p className={styles.tlFoot}>
             <strong>What this is not:</strong> a longitudinal deployment study.
