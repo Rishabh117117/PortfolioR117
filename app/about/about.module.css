@@ -1,6 +1,494 @@
-.blocks {
+/* ABOUT — ported from the approved sandbox build (about me page.html).
+   Uses the shell for .container/.section/.kicker/.lede/.btn/.lift; this module
+   carries only the page-specific pieces. Accent = the global Persian Blue
+   default (the person, not a project). */
+
+.page {
+  position: relative;
+  overflow-x: clip;
+}
+.pageContent {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================================
+   HERO — intro + photo cluster
+   ========================================================================= */
+.hero {
+  max-width: var(--maxw-wide);
+  margin-inline: auto;
+  padding: var(--space-8) var(--page-pad) var(--space-7);
+}
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .heroGrid {
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-8);
+  }
+}
+.heroThesis {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 6.2vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.heroThesis em {
+  color: var(--accent);
+  font-style: normal;
+}
+.heroLede {
+  margin-top: var(--space-5);
+  max-width: 54ch;
+  font-size: var(--fs-body-l);
+  line-height: 1.55;
+}
+.heroMeta {
+  margin-top: var(--space-5);
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--soft);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 5px 9px;
+}
+.metaItemLive {
+  color: var(--accent);
+  background: var(--accent-tint);
+  border-color: var(--accent-wash);
+}
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 7px;
+  flex: 0 0 auto;
+  animation: aboutPulse 1.9s var(--e-snappy) infinite;
+}
+@keyframes aboutPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+/* ---- photo cluster — designed placeholders, warm→blue wash + hatch ----
+   Slots carry position + the scroll-drift transform (data-depth); the inner
+   .frame carries rotation + hover so the transforms never fight. */
+.cluster {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
+  padding: 18px 26px 30px;
+}
+.mainSlot {
+  position: relative;
+  z-index: 1;
+}
+.smSlot {
+  position: absolute;
+  width: 44%;
+  aspect-ratio: 1 / 1;
+  z-index: 2;
+}
+.smA {
+  left: -6px;
+  bottom: -2px;
+}
+.smB {
+  right: -8px;
+  top: -4px;
+}
+.frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 90% at 20% 12%, rgba(154, 123, 79, 0.22), transparent 60%),
+    radial-gradient(120% 100% at 90% 96%, rgba(28, 57, 187, 0.2), transparent 62%),
+    var(--card);
+  box-shadow: var(--shadow-rest);
+}
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(26, 26, 26, 0.03) 0,
+    rgba(26, 26, 26, 0.03) 1px,
+    transparent 1px,
+    transparent 7px
+  );
+}
+.frameMain {
+  aspect-ratio: 4 / 5;
+  height: auto;
+}
+.frameMark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  opacity: 0.45;
+}
+.frameSm .frameMark {
+  font-size: 22px;
+}
+.frameLabel {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soft);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 7px;
+}
+.frameLabelMain {
+  left: auto;
+  right: 12px;
+  bottom: 12px;
+  font-size: 10px;
+  padding: 4px 9px;
+}
+.rotA {
+  transform: rotate(-3deg);
+}
+.rotB {
+  transform: rotate(2.5deg);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .frameSm {
+    transition: transform var(--t-fast) var(--e-snappy);
+  }
+  .rotA:hover {
+    transform: rotate(-1deg) translateY(-3px);
+  }
+  .rotB:hover {
+    transform: rotate(1deg) translateY(-3px);
+  }
+}
+
+/* =========================================================================
+   JOURNEY — deck-style horizontal timeline (the Follow device, for a life)
+   ========================================================================= */
+.tlLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+}
+.tlIt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--soft);
+}
+.sw {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.swHolo {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+}
+.swInk {
+  background: var(--ink);
+}
+.swAcc {
+  background: var(--accent);
+}
+.swPiv {
+  width: 14px;
+  height: 4px;
+  border-radius: 0;
+  background: var(--accent);
+}
+.tlScroll {
+  margin-top: 18px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-2);
+}
+.tlScroll svg {
+  display: block;
+  min-width: 900px;
+  width: 100%;
+  height: auto;
+}
+/* next/font loads hashed family names — SVG text must go through the tokens */
+.tlScroll text {
+  font-family: var(--font-body);
+}
+.tMono {
+  font-family: var(--font-mono);
+}
+.tlFoot {
+  margin-top: var(--space-4);
+  font-size: var(--fs-cap);
+  color: var(--soft);
+  line-height: 1.55;
+  max-width: 70ch;
+}
+.tlFoot strong {
+  color: var(--ink);
+}
+
+/* =========================================================================
+   THE WORK — list, newest era first, with CTAs out to the work itself
+   ========================================================================= */
+.workList {
+  margin-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+.wrow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 820px) {
+  .wrow {
+    grid-template-columns: 150px 1fr;
+    gap: 28px;
+  }
+}
+.wrow.now {
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-wash);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-block: var(--space-4);
+}
+.wEra {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  padding-top: 3px;
+}
+.wrow.now .wEra {
+  color: var(--accent-deep);
+}
+.wTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.org {
+  color: var(--soft);
+  font-weight: 500;
+}
+.wDesc {
+  margin-top: 5px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--soft);
+  max-width: 62ch;
+}
+.wCtas {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.wLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  transition:
+    transform var(--t-fast) var(--e-snappy),
+    border-color var(--t-fast) var(--e-snappy),
+    box-shadow var(--t-fast) var(--e-snappy);
+}
+.wrow.now .wLink {
+  background: #fff;
+}
+.arr {
+  font-family: var(--font-mono);
+}
+@media (hover: hover) {
+  .wLink:hover {
+    text-decoration: none;
+    border-color: var(--accent-wash);
+    box-shadow: var(--shadow-lift);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .wLink:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* education — one quiet strip closing the CV block */
+.edu {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) 0;
+  align-items: baseline;
+}
+.eduLabel {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-right: 14px;
+}
+.eduItem {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+.eduItem strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.eduItem:not(:last-child)::after {
+  content: "·";
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 10px;
+}
+
+/* =========================================================================
+   SKILLS — three grouped panels (hover-lift via the global .lift utility)
+   ========================================================================= */
+.skills {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--space-4);
-  max-width: var(--maxw-text);
+  margin-top: var(--space-5);
+}
+@media (min-width: 760px) {
+  .skills {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.skillGroup {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.skillLabel {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.skillList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  list-style: none;
+}
+.skillList li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.skillList li:not(:last-child)::after {
+  content: "·";
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 8px;
+}
+
+/* =========================================================================
+   CONTACT — closing section (the footer below carries the #contact anchor)
+   ========================================================================= */
+.contact {
+  border-top: 1px solid var(--line);
+}
+.contactText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 5.4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  max-width: 18ch;
+}
+.contactText em {
+  color: var(--accent);
+  font-style: normal;
+}
+.contactSub {
+  margin-top: var(--space-4);
+  font-size: var(--fs-body);
+  color: var(--soft);
+  max-width: 52ch;
+}
+.ctaRow {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.contactFoot {
+  margin-top: 22px;
+  font-size: 12px;
+  color: var(--soft);
+}
+.contactFoot a {
+  color: var(--accent);
 }
