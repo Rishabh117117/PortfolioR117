@@ -1,5 +1,21 @@
 # Healthy Materials — Page Build Spec (REBUILD)
 
+> **UPDATE (2026-07-02, HM-PROTO-1) — §9 SUPERSEDED: SwapCard → the working
+> `PackagesApp`.** Per Rishabh ("prototypes need to feel like proper web
+> applications … built on mock data but simulating the real thing very
+> accurately"), the §9 SwapCard was retired (files deleted) and replaced by a
+> browser-framed **working configurator** for Healthy Materials Packages:
+> 4 scopes / 20 lines in `lib/hmPackages.ts` (BAU vs swap: installed $/unit,
+> A1–A3 kgCO₂e/unit, VOC class, certs, supplier count + lead, VE read +
+> defense, EGC tie), live totals, a cost-pressure lens, a spec-sheet export
+> (CSV/copy), and a grounded assistant on `/api/ask` (OpenRouter preferred).
+> **The old "no fabricated numbers — directional only" rule for §9 is replaced
+> by: illustrative-but-realistic figures, labeled on-product** (honesty strip +
+> spec-sheet footer: "illustrative data — representative magnitudes, not
+> measured quotes or verified EPDs"). Also new: `/work/healthy-materials/prototype`
+> (standalone mount) and a `DemoCallout` with an honest **WORKING** badge.
+> §9 of this spec is retained below for history only.
+
 > **STATUS — BUILT & VERIFIED (2026-06-29, HM-PAGE-2).** This spec is implemented:
 > 10-section page, MaterialDeck carousel + recoloured AmbientField + data-driven
 > Timeline + kept SwapCard, real assets in `public/images/healthy-materials/`.
