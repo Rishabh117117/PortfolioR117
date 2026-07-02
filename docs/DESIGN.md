@@ -1,4 +1,4 @@
-# docs/DESIGN.md — Design Language (LOCKED v1.0)
+# docs/DESIGN.md — Design Language (v1.1 — v1.0 LOCKED + SHELL-1.1 additive layer, see §7)
 
 > The single source of truth for the visual system. Claude Code: implement these as CSS
 > custom properties in a global stylesheet and reference the tokens everywhere — never
@@ -186,6 +186,29 @@ Full motion system is deferred. For the shell, implement ONLY these, snappy:
   All pure CSS + a little vanilla rAF; `motion@12` still unused; locked tokens +
   Follow burnt-orange only. The signature "objects→interfaces→systems" arc and
   page-wide scroll-reveals remain deferred.
+- **SHELL-1.1 (2026-07-01) — the ambient + drift language goes site-wide.** After
+  all four flagship pages converged on the same DNA, it was promoted into the
+  shell at Rishabh's direction:
+  - New v1.1 tokens in `globals.css`: `--shadow-rest`, `--shadow-lift`,
+    `--glass-bg`, `--glass-blur`, `--nav-h`; new global utilities `.kicker`
+    (mono-gold section heading) and `.lift` (opt-in pointer-gated hover-lift).
+    All v1.0 tokens are unchanged — this is additive.
+  - `components/AmbientField` — the shared, parameterized version of the
+    flagship orb backdrop (HW-generation engine: scroll-phase Lissajous,
+    `[data-ambient-dim]` fades, `document.hidden` guard, reduced-motion
+    no-attach). Props: per-orb `{color, alpha}` ×4 + rest opacities + dim. Used
+    by `/` and `/about` (gold → Persian Blue), `/archive` (gold-led), and every
+    `/archive/[slug]` (the project's accent + gold). The flagship pages keep
+    their own tuned copies.
+  - `components/DriftGroup` — the MaterialRail scroll-parallax recipe
+    generalized: children with `data-depth="<px>"` drift by depth × distance
+    from viewport centre. Keep hover transforms on an INNER element.
+  - `components/Breadcrumbs` — a mono "where am I" trail under the nav on every
+    route except `/` (in §5 Global elements now). Non-sticky by design: it must
+    not add permanent chrome height (the Follow reel pins at ~60px).
+  - The home page moved onto this language (ambient, gold hero kicker, frosted
+    arc band, `--shadow-lift` card hovers); `.kicker`/`.lift`/the shared field
+    are the defaults for any new shell surface.
 
 ---
 
@@ -223,11 +246,13 @@ When a project sets --accent, also set --accent-deep/-wash/-tint to matching sha
 
 ## 10. What's NOT decided yet (do not invent)
 
-- Full motion system (scroll reveals, the signature "objects→interfaces→systems" arc, true
-  parallax) — deferred to the motion phase, built against real pages. (One scoped
-  exception has shipped: the `/work/follow` reel's autoplay-on-view loop — see §7.)
+- The signature "objects→interfaces→systems" arc animation and page-wide
+  scroll-REVEALS — still deferred. (The ambient backdrop + subtle drift
+  parallax shipped site-wide in SHELL-1.1, see §7; the home arc strip drifts
+  but does not yet morph.)
 - Hero copy / positioning line — depends on D-01.
-- About/CV content — depends on D-04, D-05.
+- CV content — depends on D-05 (About content resolved by ABOUT-PAGE-1; its
+  photos remain designed placeholders until real images land).
 - Exact imagery — extracted from the portfolio PDF in Phase 2.
 
 Build the shell and static structure on the LOCKED tokens above. Leave the deferred items as
