@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import SwapCard from "./SwapCard";
 import AmbientField from "./AmbientField";
 import Timeline from "./Timeline";
 import MaterialDeck from "@/components/MaterialDeck/MaterialDeck";
 import MaterialRail from "./MaterialRail";
+import PackagesApp from "./PackagesApp";
+import DemoCallout from "@/components/DemoCallout/DemoCallout";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
+import { HM_ROOT_STYLE } from "./theme";
 import styles from "./healthy-materials.module.css";
 
 export const metadata: Metadata = {
@@ -13,23 +15,9 @@ export const metadata: Metadata = {
     "Graduate capstone with the Healthy Materials Lab at Parsons (with Henry Schroder): mixed-methods research on why healthier, lower-carbon building materials fall out of construction — four barriers, the leverage points, and three interventions, led by the one I'd build first: Healthy Materials Packages.",
 };
 
-/* §6 / spec — set the project accent (sage) PLUS the page-scoped forest-teal
-   atmosphere here at the page root. The teal/clay vars are additive and
+/* §6 / spec — the project accent (sage) + page-scoped forest-teal atmosphere
+   live in ./theme.ts (shared with the /prototype route). Additive and
    page-local; they never touch the global tokens. Everything inherits. */
-const rootStyle = {
-  // accent — Healthy Materials sage (DESIGN.md §8) + derived shades
-  "--accent": "#5C7A3A",
-  "--accent-deep": "#47602D",
-  "--accent-wash": "#DCE6CE",
-  "--accent-tint": "#EFF3E7",
-  // page-scoped atmosphere (NOT global tokens)
-  "--teal": "#15302B",
-  "--panel": "#1E3A33",
-  "--sage-light": "#8FB06A",
-  "--clay": "#B0763F",
-  "--clay-deep": "#8A5A2E",
-  "--clay-light": "#C99A6A",
-} as React.CSSProperties;
 
 /* Tabler-style outline icons for the three concept cards (no emoji, no deps). */
 const ICONS = {
@@ -57,7 +45,7 @@ const ICONS = {
 
 export default function HealthyMaterialsPage() {
   return (
-    <div style={rootStyle} className={styles.page}>
+    <div style={HM_ROOT_STYLE} className={styles.page}>
       {/* page-wide soft background layer — light sections float over this */}
       <AmbientField />
 
@@ -482,22 +470,39 @@ export default function HealthyMaterialsPage() {
           </div>
         </section>
 
-        {/* ============ 9 — MADE TANGIBLE (paper + teal card) → SWAPCARD ====== */}
+        {/* ============ 9 — MADE TANGIBLE (paper) → THE WORKING PROTOTYPE ===== */}
         <section className={styles.scene}>
-          <div className={styles.wrap}>
+          <div className={styles.wrapWide}>
             <p className={`mono ${styles.kicker}`}>the intervention, made tangible</p>
             <div className={styles.tangibleIntro}>
-              <p className={styles.lede}>Healthy Materials Packages.</p>
+              <p className={styles.lede}>Healthy Materials Packages — a working slice.</p>
               <p className={styles.body}>
-                Pick a room scope and watch a conventional spec swap to a
-                healthier one. The pitch the package makes: cost holds even while
-                carbon drops and health improves. Direction only — never invented
-                figures.
+                The product I&apos;d build first, running on illustrative data.
+                Pick a scope, accept or reject each vetted swap, and watch cost,
+                carbon, and health totals recompute. Flip on the cost-pressure
+                lens to see which lines a value-engineering pass would attack —
+                and the defense each one carries. The built-in assistant answers
+                from the package you&apos;ve configured, over a real model API.
               </p>
             </div>
+          </div>
 
-            <div className={styles.swapMount}>
-              <SwapCard />
+          <div className={styles.appBleed}>
+            <div className={styles.appBleedInner}>
+              <PackagesApp />
+            </div>
+          </div>
+
+          <div className={styles.wrapWide}>
+            <div className={styles.appCallout}>
+              <DemoCallout
+                name="Healthy Materials Packages"
+                status="WORKING"
+                title="The packages tool above is live."
+                body="Real interactions on illustrative data: per-line swaps recompute cost, carbon, and health totals; the cost-pressure lens simulates a value-engineering pass; the spec sheet exports to CSV; and the assistant answers from your configured package through a real model API behind a server-side proxy — no key ever reaches the browser."
+                buttonLabel="Open the prototype full-screen"
+                href="/work/healthy-materials/prototype"
+              />
             </div>
           </div>
         </section>
