@@ -1,16 +1,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
-import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
+import EarlierWorkDeck from "@/components/EarlierWorkDeck/EarlierWorkDeck";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import { FollowThumb, GreenerHoursThumb } from "@/components/ProjectThumbs/ProjectThumbs";
 import { FLAGSHIPS } from "@/lib/projects";
-import { ARCHIVE_PROJECTS } from "@/lib/archive";
 import styles from "./page.module.css";
-
-// subtle scroll-drift stagger for the earlier-work grid (px, alternating)
-const EARLIER_DEPTHS = [12, -10, 14, -12, 10, -14, 12];
 
 // flagship cover art by slug: real photos where they exist, bespoke SVG motifs
 // for Follow + Greener Hours (which ship diagrams, not photography).
@@ -150,17 +146,7 @@ export default function Home() {
               Open the full portfolio →
             </Link>
           </div>
-          <DriftGroup>
-            <ul className={styles.earlierGrid}>
-              {ARCHIVE_PROJECTS.map((p, i) => (
-                <ArchiveCard
-                  key={p.slug}
-                  project={p}
-                  depth={EARLIER_DEPTHS[i % EARLIER_DEPTHS.length]}
-                />
-              ))}
-            </ul>
-          </DriftGroup>
+          <EarlierWorkDeck />
         </div>
       </section>
 

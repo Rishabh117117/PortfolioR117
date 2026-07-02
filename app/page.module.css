@@ -133,25 +133,9 @@
   }
 }
 
-/* earlier-work section (real portfolio thumbnails, linking straight to projects) */
+/* earlier-work section (real portfolio thumbnails in a floating marquee) */
 .earlierSection {
   border-top: 1px solid var(--line);
-}
-.earlierGrid {
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-5);
-}
-@media (min-width: 768px) {
-  .earlierGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (min-width: 1180px) {
-  .earlierGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* ---------- closing CTA ---------- */
