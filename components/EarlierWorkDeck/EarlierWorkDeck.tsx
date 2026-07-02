@@ -20,13 +20,13 @@ import styles from "./EarlierWorkDeck.module.css";
 // portrait crop — the covers compose differently (title left / artwork right /
 // centered), so each card centres its own subject.
 const CROP: Record<string, string> = {
-  vsg: "15%",
-  obc: "80%",
-  best: "42%",
-  "music-rooms": "60%",
-  yaap: "50%",
-  "stun-gun": "78%",
-  "lotus-heater": "62%",
+  vsg: "20%", // full logo incl. the swoosh tip + title + red team panel
+  obc: "95%", // the framed logo box, clear of the title's tail
+  best: "22%", // title block + full phone + palette row, no clipped paragraph
+  "music-rooms": "62%", // "Music Rooms" title centred, clear of the phone
+  yaap: "50%", // the chili IG card framed whole
+  "stun-gun": "78%", // the product's nose + wordmark
+  "lotus-heater": "62%", // both heaters + the companion phone
 };
 
 export default function EarlierWorkDeck() {
