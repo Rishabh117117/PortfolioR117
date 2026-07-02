@@ -2,13 +2,33 @@ import Link from "next/link";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import DemoCallout from "@/components/DemoCallout/DemoCallout";
 import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
+import AmbientField from "@/components/AmbientField/AmbientField";
+import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import { FLAGSHIPS } from "@/lib/projects";
 import { ARCHIVE_PROJECTS } from "@/lib/archive";
 import styles from "./page.module.css";
 
+// subtle scroll-drift stagger for the earlier-work grid (px, alternating)
+const EARLIER_DEPTHS = [12, -10, 14, -12, 10, -14, 12];
+
 export default function Home() {
   return (
-    <>
+    <div className={styles.page}>
+      {/* shell ambient — warm gold (origin) → Persian Blue (the site accent) */}
+      <AmbientField
+        warm={[
+          { color: "#9A7B4F", alpha: 0.3 },
+          { color: "#9A7B4F", alpha: 0.26 },
+        ]}
+        cool={[
+          { color: "#1C39BB", alpha: 0.28 },
+          { color: "#1C39BB", alpha: 0.24 },
+        ]}
+        restWarm={0.85}
+        restCool={0.55}
+      />
+
+      <div className={styles.pageContent}>
       {/* ================= HERO ================= */}
       <section className={`section ${styles.hero}`}>
         <div className="container">
@@ -42,31 +62,33 @@ export default function Home() {
       <section className={`section ${styles.arcSection}`} aria-label="The arc">
         <div className="container">
           <p className={`eyebrow ${styles.arcEyebrow}`}>The arc</p>
-          <ol className={styles.arc}>
-            <li className={styles.arcItem}>
-              <span className={styles.arcWord}>OBJECTS</span>
-              <span className={`cap ${styles.arcCap}`}>Industrial design · 2019–22</span>
-            </li>
-            <li className={styles.arcArrow} aria-hidden="true">
-              →
-            </li>
-            <li className={styles.arcItem}>
-              <span className={styles.arcWord}>INTERFACES</span>
-              <span className={`cap ${styles.arcCap}`}>Product & UX · 2021–24</span>
-            </li>
-            <li className={styles.arcArrow} aria-hidden="true">
-              →
-            </li>
-            <li className={styles.arcItem}>
-              <span className={styles.arcWord}>SYSTEMS</span>
-              <span className={`cap ${styles.arcCap}`}>AI-powered systems · 2025–26</span>
-            </li>
-          </ol>
+          <DriftGroup>
+            <ol className={styles.arc}>
+              <li className={styles.arcItem} data-depth="-9">
+                <span className={styles.arcWord}>OBJECTS</span>
+                <span className={`cap ${styles.arcCap}`}>Industrial design · 2019–22</span>
+              </li>
+              <li className={styles.arcArrow} aria-hidden="true">
+                →
+              </li>
+              <li className={styles.arcItem} data-depth="7">
+                <span className={styles.arcWord}>INTERFACES</span>
+                <span className={`cap ${styles.arcCap}`}>Product & UX · 2021–24</span>
+              </li>
+              <li className={styles.arcArrow} aria-hidden="true">
+                →
+              </li>
+              <li className={styles.arcItem} data-depth="-12">
+                <span className={styles.arcWord}>SYSTEMS</span>
+                <span className={`cap ${styles.arcCap}`}>AI-powered systems · 2025–26</span>
+              </li>
+            </ol>
+          </DriftGroup>
         </div>
       </section>
 
       {/* ================= PROJECT GRID ================= */}
-      <section id="work" className={`section ${styles.workSection}`}>
+      <section id="work" className={`section ${styles.workSection}`} data-ambient-dim>
         <div className="container">
           <div className={styles.sectionHead}>
             <h2 className={styles.h2}>Selected work</h2>
@@ -117,11 +139,17 @@ export default function Home() {
               Open the full portfolio →
             </Link>
           </div>
-          <ul className={styles.earlierGrid}>
-            {ARCHIVE_PROJECTS.map((p) => (
-              <ArchiveCard key={p.slug} project={p} />
-            ))}
-          </ul>
+          <DriftGroup>
+            <ul className={styles.earlierGrid}>
+              {ARCHIVE_PROJECTS.map((p, i) => (
+                <ArchiveCard
+                  key={p.slug}
+                  project={p}
+                  depth={EARLIER_DEPTHS[i % EARLIER_DEPTHS.length]}
+                />
+              ))}
+            </ul>
+          </DriftGroup>
         </div>
       </section>
 
@@ -141,6 +169,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+      </div>
+    </div>
   );
 }

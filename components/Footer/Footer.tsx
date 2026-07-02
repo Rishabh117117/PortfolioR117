@@ -11,18 +11,26 @@ export default function Footer() {
         </p>
 
         <ul className={styles.links}>
-          {/* Placeholder contact links — real handles pending D-04. */}
+          {/* Real handles per the About build (D-04 resolved). */}
           <li>
             <a href="mailto:rishabhsalian@ymail.com">Email</a>
           </li>
           <li>
-            <a href="#" aria-disabled="true" className={styles.disabled}>
-              LinkedIn
+            <a
+              href="https://github.com/Rishabh117117"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
             </a>
           </li>
           <li>
-            <a href="#" aria-disabled="true" className={styles.disabled}>
-              GitHub
+            <a
+              href="https://behance.net/rishabhsalian"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Behance
             </a>
           </li>
         </ul>

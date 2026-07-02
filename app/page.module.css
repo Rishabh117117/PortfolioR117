@@ -1,11 +1,21 @@
-/* Homepage shell — tokens only (see docs/DESIGN.md). Mobile-first. */
+/* Homepage shell — tokens only (see docs/DESIGN.md). Mobile-first.
+   v1.1: content floats on a z-1 layer over the fixed AmbientField (z-0). */
+
+.page {
+  position: relative;
+  overflow-x: clip;
+}
+.pageContent {
+  position: relative;
+  z-index: 1;
+}
 
 /* ---------- hero ---------- */
 .hero {
   padding-top: var(--space-8);
 }
 .eyebrow {
-  color: var(--accent);
+  color: var(--gold); /* v1.1 — the shared mono-gold kicker convention */
   margin-bottom: var(--space-4);
 }
 .headline {
@@ -35,10 +45,12 @@
 }
 
 /* ---------- the arc (static placeholder) ---------- */
+/* frosted band (v1.1) — the ambient orbs blur through instead of a flat card */
 .arcSection {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: var(--card);
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+  backdrop-filter: blur(7px) saturate(1.04);
 }
 .arcEyebrow {
   color: var(--gold);

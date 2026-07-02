@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
+import AmbientField from "@/components/AmbientField/AmbientField";
+import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import { ARCHIVE_PROJECTS, ARCHIVE_COVER } from "@/lib/archive";
 import styles from "./archive.module.css";
+
+// subtle scroll-drift stagger for the project grid (px, alternating)
+const GRID_DEPTHS = [12, -10, 14, -12, 10, -14, 12];
 
 export const metadata: Metadata = {
   title: "Earlier work (2019–23) — Rishabh Salian",
@@ -12,7 +17,22 @@ export const metadata: Metadata = {
 
 export default function ArchivePage() {
   return (
-    <>
+    <div className={styles.page}>
+      {/* shell ambient — the archive is a shell surface: gold leads, blue rises */}
+      <AmbientField
+        warm={[
+          { color: "#9A7B4F", alpha: 0.3 },
+          { color: "#9A7B4F", alpha: 0.26 },
+        ]}
+        cool={[
+          { color: "#1C39BB", alpha: 0.26 },
+          { color: "#1C39BB", alpha: 0.22 },
+        ]}
+        restWarm={0.85}
+        restCool={0.5}
+      />
+
+      <div className={styles.pageContent}>
       <header className="container pageHeader">
         <p className="pageEyebrow">Archive · 2019–23</p>
         <h1 className="pageTitle">Earlier work</h1>
@@ -41,12 +61,19 @@ export default function ArchivePage() {
       </section>
 
       <section className="container section">
-        <ul className={styles.grid}>
-          {ARCHIVE_PROJECTS.map((p) => (
-            <ArchiveCard key={p.slug} project={p} />
-          ))}
-        </ul>
+        <DriftGroup>
+          <ul className={styles.grid}>
+            {ARCHIVE_PROJECTS.map((p, i) => (
+              <ArchiveCard
+                key={p.slug}
+                project={p}
+                depth={GRID_DEPTHS[i % GRID_DEPTHS.length]}
+              />
+            ))}
+          </ul>
+        </DriftGroup>
       </section>
-    </>
+      </div>
+    </div>
   );
 }

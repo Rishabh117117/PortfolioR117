@@ -1,5 +1,16 @@
 /* per-project archive reader — the real portfolio, slide by slide.
-   The wrapper sets --accent inline (per project). */
+   The wrapper sets --accent inline (per project).
+   v1.1: content floats on a z-1 layer over the fixed AmbientField (z-0);
+   the side index (z-30), mobile bar (z-20) and lightbox (z-100) out-stack it. */
+
+.page {
+  position: relative;
+  overflow-x: clip;
+}
+.pageContent {
+  position: relative;
+  z-index: 1;
+}
 
 .headMeta {
   margin-top: var(--space-3);

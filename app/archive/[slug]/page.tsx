@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ARCHIVE_PROJECTS, getArchiveProject } from "@/lib/archive";
+import AmbientField from "@/components/AmbientField/AmbientField";
 import ArchiveReader from "./ArchiveReader";
 import styles from "./reader.module.css";
 
@@ -36,7 +37,26 @@ export default function ArchiveProjectPage({
     idx < ARCHIVE_PROJECTS.length - 1 ? ARCHIVE_PROJECTS[idx + 1] : null;
 
   return (
-    <div style={{ "--accent": project.accent } as React.CSSProperties}>
+    <div
+      className={styles.page}
+      style={{ "--accent": project.accent } as React.CSSProperties}
+    >
+      {/* per-project ambient — the project's accent leads, shell gold rises;
+          orbs show in the gutters and blur through the glass side index */}
+      <AmbientField
+        warm={[
+          { color: project.accent, alpha: 0.3 },
+          { color: project.accent, alpha: 0.24 },
+        ]}
+        cool={[
+          { color: "#9A7B4F", alpha: 0.26 },
+          { color: "#9A7B4F", alpha: 0.22 },
+        ]}
+        restWarm={0.8}
+        restCool={0.5}
+      />
+
+      <div className={styles.pageContent}>
       <header className="container pageHeader">
         <p className="pageEyebrow">
           <Link href="/archive" className={styles.crumb}>
@@ -79,6 +99,7 @@ export default function ArchiveProjectPage({
           )}
         </div>
       </nav>
+      </div>
     </div>
   );
 }

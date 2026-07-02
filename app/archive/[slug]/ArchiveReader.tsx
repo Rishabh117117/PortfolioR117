@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { ArchiveProject } from "@/lib/archive";
 import styles from "./reader.module.css";
@@ -10,6 +11,12 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
   const [activeN, setActiveN] = useState(1);
   const [lbIndex, setLbIndex] = useState<number | null>(null);
   const [zoomed, setZoomed] = useState(false);
+  // portal the lightbox to <body> so its fixed z-100 overlay isn't trapped
+  // below the sticky Nav by the page's z-index:1 .pageContent stacking context
+  // (the AmbientField lift). Mirrors the housing-works lightbox fix. The
+  // lightbox styles use only global tokens, so it needs no accent scope.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const slidesRef = useRef<HTMLDivElement>(null);
   const asideRef = useRef<HTMLElement>(null);
 
@@ -156,8 +163,10 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
         </div>
       </div>
 
-      {/* lightbox */}
-      {lb && (
+      {/* lightbox — portaled to <body> to escape the .pageContent stacking context */}
+      {mounted &&
+        lb &&
+        createPortal(
         <div
           className={styles.lb}
           role="dialog"
@@ -216,8 +225,9 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
             {zoomed ? "Tap image to fit · " : "Tap image to zoom · "}
             Esc to close
           </p>
-        </div>
-      )}
+        </div>,
+          document.body
+        )}
     </>
   );
 }

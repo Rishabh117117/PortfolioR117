@@ -1,3 +1,13 @@
+/* v1.1: content floats on a z-1 layer over the fixed AmbientField (z-0) */
+.page {
+  position: relative;
+  overflow-x: clip;
+}
+.pageContent {
+  position: relative;
+  z-index: 1;
+}
+
 /* ---- the real portfolio cover ---- */
 .cover {
   border: 1px solid var(--line);
