@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./ProjectCard.module.css";
 
 export type ProjectCardProps = {
@@ -12,6 +13,10 @@ export type ProjectCardProps = {
   status?: string;
   /** Larger card treatment (desktop) for the flagship. */
   featured?: boolean;
+  /** Optional cover photo (16:9, object-fit cover). */
+  thumb?: { src: string; alt: string };
+  /** Optional bespoke thumbnail node (inline SVG) — used when no photo exists. */
+  thumbNode?: React.ReactNode;
 };
 
 export default function ProjectCard({
@@ -22,7 +27,20 @@ export default function ProjectCard({
   accent,
   status,
   featured = false,
+  thumb,
+  thumbNode,
 }: ProjectCardProps) {
+  const media = thumb ? (
+    <Image
+      className={styles.thumb}
+      src={thumb.src}
+      alt={thumb.alt}
+      fill
+      sizes="(min-width: 1180px) 580px, (min-width: 768px) 50vw, 100vw"
+    />
+  ) : (
+    thumbNode
+  );
   // Drive the whole card from the project's accent: set --accent on the root so
   // BOTH the bar and the status chip (which uses --accent/-tint/-wash) take the
   // project color. The module derives the light tint/wash from --accent, so the
@@ -38,6 +56,11 @@ export default function ProjectCard({
     >
       {/* thin accent bar in the project's own color (via --accent on the card) */}
       <span className={styles.bar} aria-hidden="true" />
+      {media && (
+        <div className={styles.media} aria-hidden="true">
+          {media}
+        </div>
+      )}
       <div className={styles.body}>
         <div className={styles.head}>
           <h3 className={styles.name}>{name}</h3>

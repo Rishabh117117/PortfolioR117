@@ -67,29 +67,107 @@
   padding-block: var(--space-6) var(--space-8);
 }
 
-/* ---- floating overlay nav (desktop) ---- */
+/* ---- floating overlay index (desktop): docked panel + collapsed pill ---- */
 .side {
   display: none;
 }
+.sidePill {
+  display: none;
+}
 @media (min-width: 1024px) {
-  .side {
-    display: block;
+  /* shared anchor + glass — both live in the same left-gutter slot, only one
+     visible at a time (the hidden one drops out via visibility:hidden below) */
+  .side,
+  .sidePill {
     position: fixed;
     z-index: 30;
     top: 50%;
     /* sit in the left gutter when there's room; overlay the slide edge when tight */
     left: max(var(--space-5), calc((100vw - var(--maxw-wide)) / 2 - 226px));
+    background: color-mix(in srgb, var(--paper) 80%, transparent);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.55);
     transform: translateY(-50%);
+    transition:
+      opacity 0.24s var(--e-snappy),
+      transform 0.24s var(--e-snappy);
+  }
+
+  .side {
+    display: block;
     width: 212px;
     max-height: calc(100dvh - 132px);
     overflow: auto;
     padding: var(--space-4) var(--space-3) var(--space-4) var(--space-4);
-    background: color-mix(in srgb, var(--paper) 80%, transparent);
-    backdrop-filter: blur(12px) saturate(150%);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 20px 50px -30px rgba(0, 0, 0, 0.55);
   }
+
+  .sidePill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    width: 46px;
+    padding: 12px 0;
+    cursor: pointer;
+    color: var(--soft);
+    transition:
+      opacity 0.24s var(--e-snappy),
+      transform 0.24s var(--e-snappy),
+      color var(--t-fast) var(--e-snappy),
+      border-color var(--t-fast) var(--e-snappy);
+  }
+  @media (hover: hover) {
+    .sidePill:hover {
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+  }
+
+  /* retracted state — slide left + fade, then leave the tab/a11y order */
+  .side[data-open="false"],
+  .sidePill[data-open="false"] {
+    opacity: 0;
+    transform: translate(-14px, -50%);
+    pointer-events: none;
+    visibility: hidden;
+    transition:
+      opacity 0.24s var(--e-snappy),
+      transform 0.24s var(--e-snappy),
+      visibility 0s 0.24s;
+  }
+  /* pre-hydration: keep both hidden with no animation until the default is set */
+  .side[data-ready="false"],
+  .sidePill[data-ready="false"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+    transition: none !important;
+  }
+}
+
+.pillIcon {
+  display: inline-flex;
+  color: var(--soft);
+}
+.pillCount {
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-align: center;
+  line-height: 1.2;
+}
+.pillSlash {
+  color: var(--soft);
+}
+
+.sideHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
 }
 .sideTitle {
   font-size: var(--fs-label);
@@ -97,8 +175,37 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--soft);
-  margin-bottom: var(--space-3);
   padding-left: 10px;
+}
+.sideClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: var(--soft);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--t-fast) var(--e-snappy),
+    background var(--t-fast) var(--e-snappy);
+}
+@media (hover: hover) {
+  .sideClose:hover {
+    color: var(--ink);
+    background: var(--fill);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .side,
+  .sidePill {
+    transition: none !important;
+  }
 }
 .sideList {
   list-style: none;

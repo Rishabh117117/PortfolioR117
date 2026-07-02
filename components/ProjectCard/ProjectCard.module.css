@@ -35,6 +35,17 @@
   background: var(--accent);
 }
 
+/* cover media — photo (next/image fill) or a bespoke inline-SVG thumbnail */
+.media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--fill);
+}
+.thumb {
+  object-fit: cover;
+}
+
 .body {
   display: flex;
   flex-direction: column;
@@ -68,6 +79,11 @@
 @media (min-width: 1180px) {
   .featured {
     grid-column: span 2;
+  }
+  /* the featured card spans two columns; a wider banner crop reads better than
+     a tall 16:9 at that width */
+  .featured .media {
+    aspect-ratio: 2.3 / 1;
   }
   .featured .body {
     padding: var(--space-7);

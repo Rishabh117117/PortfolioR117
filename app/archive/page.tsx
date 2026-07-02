@@ -21,15 +21,16 @@ export default function ArchivePage() {
       {/* shell ambient — the archive is a shell surface: gold leads, blue rises */}
       <AmbientField
         warm={[
-          { color: "#9A7B4F", alpha: 0.3 },
-          { color: "#9A7B4F", alpha: 0.26 },
+          { color: "#9A7B4F", alpha: 0.4 },
+          { color: "#9A7B4F", alpha: 0.34 },
         ]}
         cool={[
-          { color: "#1C39BB", alpha: 0.26 },
-          { color: "#1C39BB", alpha: 0.22 },
+          { color: "#1C39BB", alpha: 0.34 },
+          { color: "#1C39BB", alpha: 0.3 },
         ]}
-        restWarm={0.85}
-        restCool={0.5}
+        restWarm={0.9}
+        restCool={0.6}
+        dim={0.28}
       />
 
       <div className={styles.pageContent}>

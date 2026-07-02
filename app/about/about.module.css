@@ -210,6 +210,14 @@
 /* =========================================================================
    JOURNEY — deck-style horizontal timeline (the Follow device, for a life)
    ========================================================================= */
+/* frosted band — the swirling orbs blur through behind the timeline, giving the
+   page's centrepiece a sense of depth (mirrors the Healthy Materials timeline) */
+.journeyBand {
+  border-block: 1px solid var(--line);
+  background: color-mix(in srgb, var(--card) 50%, transparent);
+  backdrop-filter: blur(16px) saturate(1.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+}
 .tlLegend {
   display: flex;
   flex-wrap: wrap;
@@ -421,7 +429,10 @@
   }
 }
 .skillGroup {
-  background: var(--card);
+  /* glass card (v1.1 tokens) — the ambient shows through behind the skill panels */
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 20px;
@@ -458,6 +469,10 @@
    ========================================================================= */
 .contact {
   border-top: 1px solid var(--line);
+  /* frosted closing band — the cool orbs that rise toward the page end blur through */
+  background: color-mix(in srgb, var(--card) 50%, transparent);
+  backdrop-filter: blur(12px) saturate(1.06);
+  -webkit-backdrop-filter: blur(12px) saturate(1.06);
 }
 .contactText {
   font-family: var(--font-display);

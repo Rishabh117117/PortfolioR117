@@ -1,9 +1,10 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
-import DemoCallout from "@/components/DemoCallout/DemoCallout";
 import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
+import { FollowThumb, GreenerHoursThumb } from "@/components/ProjectThumbs/ProjectThumbs";
 import { FLAGSHIPS } from "@/lib/projects";
 import { ARCHIVE_PROJECTS } from "@/lib/archive";
 import styles from "./page.module.css";
@@ -11,21 +12,46 @@ import styles from "./page.module.css";
 // subtle scroll-drift stagger for the earlier-work grid (px, alternating)
 const EARLIER_DEPTHS = [12, -10, 14, -12, 10, -14, 12];
 
+// flagship cover art by slug: real photos where they exist, bespoke SVG motifs
+// for Follow + Greener Hours (which ship diagrams, not photography).
+const THUMBS: Record<
+  string,
+  { thumb?: { src: string; alt: string }; node?: ReactNode }
+> = {
+  follow: { node: <FollowThumb /> },
+  "greener-hours": { node: <GreenerHoursThumb /> },
+  "healthy-materials": {
+    thumb: {
+      src: "/images/healthy-materials/samples-overhead.jpg",
+      alt: "Material samples laid out overhead",
+    },
+  },
+  "housing-works": {
+    thumb: {
+      src: "/images/housing-works/hero.jpg",
+      alt: "Housing Works service-design fieldwork",
+    },
+  },
+};
+
 export default function Home() {
   return (
     <div className={styles.page}>
-      {/* shell ambient — warm gold (origin) → Persian Blue (the site accent) */}
+      {/* shell ambient — warm gold (origin) → Persian Blue (the site accent).
+          Bolder alphas + a deeper dim target: orbs read solid in open space and
+          fall back hard (per-orb) as their core crosses a [data-ambient-dim] block. */}
       <AmbientField
         warm={[
-          { color: "#9A7B4F", alpha: 0.3 },
-          { color: "#9A7B4F", alpha: 0.26 },
+          { color: "#9A7B4F", alpha: 0.4 },
+          { color: "#9A7B4F", alpha: 0.34 },
         ]}
         cool={[
-          { color: "#1C39BB", alpha: 0.28 },
-          { color: "#1C39BB", alpha: 0.24 },
+          { color: "#1C39BB", alpha: 0.38 },
+          { color: "#1C39BB", alpha: 0.32 },
         ]}
-        restWarm={0.85}
-        restCool={0.55}
+        restWarm={0.9}
+        restCool={0.65}
+        dim={0.28}
       />
 
       <div className={styles.pageContent}>
@@ -34,25 +60,24 @@ export default function Home() {
         <div className="container">
           <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer</p>
 
-          {/* HERO COPY PLACEHOLDER — pending decision D-01 */}
+          {/* HERO COPY — interim wording; final line pending D-01 */}
           <h1 className={styles.headline}>
             I design <em>systems</em> that used to be objects.
           </h1>
 
-          {/* Subhead placeholder — pending D-01 */}
           <p className={styles.subhead}>
-            Placeholder positioning line. A short, honest sentence about the arc
-            from products to interfaces to AI-powered systems goes here.
+            I started in industrial and product design, moved through UX, and
+            now build AI-native products end to end. The work below traces that
+            arc.
           </p>
 
           <div className={styles.ctaRow}>
-            <Link href="/work/follow" className="btn primary">
-              <span className="pulseDot" aria-hidden="true" />
-              Try the Follow demo
-            </Link>
-            <a href="#work" className="btn ghost">
+            <a href="#work" className="btn primary">
               View work ↓
             </a>
+            <Link href="/about" className="btn ghost">
+              About &amp; CV
+            </Link>
           </div>
         </div>
       </section>
@@ -60,7 +85,7 @@ export default function Home() {
       {/* ================= "THE ARC" — static placeholder ================= */}
       {/* SIGNATURE MOTION DEFERRED — static placeholder, see DESIGN.md §10 */}
       <section className={`section ${styles.arcSection}`} aria-label="The arc">
-        <div className="container">
+        <div className="container" data-ambient-dim>
           <p className={`eyebrow ${styles.arcEyebrow}`}>The arc</p>
           <DriftGroup>
             <ol className={styles.arc}>
@@ -88,8 +113,8 @@ export default function Home() {
       </section>
 
       {/* ================= PROJECT GRID ================= */}
-      <section id="work" className={`section ${styles.workSection}`} data-ambient-dim>
-        <div className="container">
+      <section id="work" className={`section ${styles.workSection}`}>
+        <div className="container" data-ambient-dim>
           <div className={styles.sectionHead}>
             <h2 className={styles.h2}>Selected work</h2>
             <Link href="/work" className={`mono ${styles.seeAll}`}>
@@ -108,31 +133,17 @@ export default function Home() {
                 accent={p.accent}
                 status={p.status}
                 featured={p.featured}
+                thumb={THUMBS[p.slug]?.thumb}
+                thumbNode={THUMBS[p.slug]?.node}
               />
             ))}
-          </div>
-
-          {/* ONE example DemoCallout instance near the Follow card (§6.3).
-              Kept in sync with the Follow page + projects.ts (D-03): SIMULATED
-              badge, burnt-orange accent. The link goes to the Follow case study,
-              whose on-page artifact is the illustrative pipeline reel. */}
-          <div className={styles.demoWrap}>
-            <DemoCallout
-              name="Follow"
-              status="SIMULATED"
-              title="See how the pipeline works"
-              body="Walk the Follow case study: the scroll-driven pipeline reel, the research, and the two pivots to a shared team-memory layer. The on-page animation is illustrative; the live MCP product connects to your real AI tools."
-              buttonLabel="Open the Follow case study"
-              href="/work/follow"
-              accent="#C2410C"
-            />
           </div>
         </div>
       </section>
 
       {/* ================= EARLIER WORK (real portfolio thumbnails) ================= */}
       <section className={`section ${styles.earlierSection}`}>
-        <div className="container">
+        <div className="container" data-ambient-dim>
           <div className={styles.sectionHead}>
             <h2 className={styles.h2}>Earlier work · 2019–23</h2>
             <Link href="/archive" className={`mono ${styles.seeAll}`}>
@@ -155,7 +166,7 @@ export default function Home() {
 
       {/* ================= FOOTER CTA ROW ================= */}
       <section className={`section ${styles.ctaSection}`}>
-        <div className="container">
+        <div className="container" data-ambient-dim>
           <div className={styles.ctaBlock}>
             <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
             <div className={styles.ctaRow}>

@@ -23,15 +23,16 @@ export default function AboutPage() {
     <div className={styles.page}>
       <AmbientField
         warm={[
-          { color: "#9A7B4F", alpha: 0.3 },
-          { color: "#9A7B4F", alpha: 0.26 },
+          { color: "#9A7B4F", alpha: 0.4 },
+          { color: "#9A7B4F", alpha: 0.34 },
         ]}
         cool={[
-          { color: "#1C39BB", alpha: 0.28 },
-          { color: "#1C39BB", alpha: 0.24 },
+          { color: "#1C39BB", alpha: 0.38 },
+          { color: "#1C39BB", alpha: 0.32 },
         ]}
-        restWarm={0.85}
-        restCool={0.55}
+        restWarm={0.9}
+        restCool={0.65}
+        dim={0.28}
       />
 
       <div className={styles.pageContent}>
@@ -89,7 +90,7 @@ export default function AboutPage() {
         </header>
 
         {/* ============ JOURNEY (deck-style timeline) ============ */}
-        <section className="section">
+        <section className={`section ${styles.journeyBand}`}>
           <div className="container">
             <h2 className="kicker">The journey</h2>
             <p className="lede">
@@ -228,8 +229,8 @@ export default function AboutPage() {
         </section>
 
         {/* ============ THE WORK (CV as a list, newest era first) ============ */}
-        <section className="section" data-ambient-dim>
-          <div className="container">
+        <section className="section">
+          <div className="container" data-ambient-dim>
             <h2 className="kicker">The work</h2>
             <p className="lede">
               Where I&rsquo;ve worked, and where each era&rsquo;s work lives on

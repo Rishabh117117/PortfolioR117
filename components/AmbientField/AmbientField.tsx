@@ -89,10 +89,25 @@ export default function AmbientField({
       tx = 0,
       ty = 0,
       t = 0,
-      raf = 0,
-      dimF = 1; // eased fade factor over text-heavy zones
+      raf = 0;
+    // per-orb eased fade: each orb dims only while ITS core sits over a
+    // [data-ambient-dim] block, so orbs in open space stay solid while one
+    // drifting across the text column lightens on its own.
+    const dimF = orbs.map(() => 1);
+    // last transform applied per orb (px) — lets measure() recover each orb's
+    // untransformed viewport-space centre by subtracting it from the live rect.
+    const appliedX = orbs.map(() => 0);
+    const appliedY = orbs.map(() => 0);
+    // base = orb centre in (fixed) viewport space + core radius. Scroll-independent
+    // because .ambient is position:fixed; refreshed on resize / font settle.
+    const base = orbs.map(() => ({ cx: 0, cy: 0, r: 0 }));
     let max = document.documentElement.scrollHeight - window.innerHeight || 1;
-    let dimZones: { top: number; bottom: number }[] = [];
+    let dimZones: {
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
+    }[] = [];
     // cache layout-dependent values; refresh on resize (+ once after fonts settle)
     const measure = () => {
       max = document.documentElement.scrollHeight - window.innerHeight || 1;
@@ -100,9 +115,21 @@ export default function AmbientField({
         document.querySelectorAll<HTMLElement>("[data-ambient-dim]")
       ).map((s) => {
         const r = s.getBoundingClientRect();
-        const top = r.top + window.scrollY;
-        return { top, bottom: top + r.height };
+        return {
+          top: r.top + window.scrollY,
+          bottom: r.bottom + window.scrollY,
+          left: r.left + window.scrollX,
+          right: r.right + window.scrollX,
+        };
       });
+      for (let i = 0; i < orbs.length; i++) {
+        const r = orbs[i].getBoundingClientRect();
+        base[i] = {
+          cx: r.left + r.width / 2 - appliedX[i],
+          cy: r.top + r.height / 2 - appliedY[i],
+          r: r.width / 2,
+        };
+      }
     };
     measure();
 
@@ -131,29 +158,48 @@ export default function AmbientField({
       let coolW = restCool + 0.12 * a;
       coolW = coolW + (1.0 - coolW) * b;
 
-      // fade back over text-heavy sections (viewport-centre inside a dim zone)
-      const center = window.scrollY + window.innerHeight * 0.5;
-      let inDim = false;
-      for (let z = 0; z < dimZones.length; z++) {
-        if (center > dimZones[z].top && center < dimZones[z].bottom) {
-          inDim = true;
-          break;
-        }
-      }
-      dimF += ((inDim ? dim : 1) - dimF) * 0.05;
+      // viewport is fixed and the orbs are pinned to it; scroll only shifts the
+      // document-space zone tests below.
+      const sx = window.scrollX;
+      const sy = window.scrollY;
 
       for (let i = 0; i < orbs.length; i++) {
         const p = P[i];
         // scroll advances the path phase → the orb swirls/travels as you scroll
         const driftX = Math.sin(t * p.fx + s * TAU * p.sx + p.ph) * p.ampX;
         const driftY = Math.cos(t * p.fy + s * TAU * p.sy + p.ph) * p.ampY;
+        const tX = px * factors[i] + driftX;
+        const tY = py * factors[i] * 0.5 + driftY;
+        appliedX[i] = tX;
+        appliedY[i] = tY;
         orbs[i].style.transform =
-          "translate3d(" +
-          (px * factors[i] + driftX).toFixed(1) +
-          "px," +
-          (py * factors[i] * 0.5 + driftY).toFixed(1) +
-          "px,0)";
-        orbs[i].style.opacity = ((isCool[i] ? coolW : warmW) * dimF).toFixed(3);
+          "translate3d(" + tX.toFixed(1) + "px," + tY.toFixed(1) + "px,0)";
+
+        // per-orb dim: does this orb's core overlap a [data-ambient-dim] block?
+        // orb doc-space centre = fixed base centre + live transform + scroll.
+        // grow the zone by ~a third of the core radius so the fade begins as the
+        // gradient hotspot (not just the exact centre) crosses the text.
+        const ocx = base[i].cx + tX + sx;
+        const ocy = base[i].cy + tY + sy;
+        const m = base[i].r * 0.35;
+        let hit = false;
+        for (let z = 0; z < dimZones.length; z++) {
+          const zn = dimZones[z];
+          if (
+            ocx > zn.left - m &&
+            ocx < zn.right + m &&
+            ocy > zn.top - m &&
+            ocy < zn.bottom + m
+          ) {
+            hit = true;
+            break;
+          }
+        }
+        dimF[i] += ((hit ? dim : 1) - dimF[i]) * 0.05;
+        orbs[i].style.opacity = (
+          (isCool[i] ? coolW : warmW) *
+          dimF[i]
+        ).toFixed(3);
       }
       raf = requestAnimationFrame(loop);
     };

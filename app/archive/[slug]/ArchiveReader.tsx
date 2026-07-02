@@ -20,6 +20,19 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
   const slidesRef = useRef<HTMLDivElement>(null);
   const asideRef = useRef<HTMLElement>(null);
 
+  // collapsible "Contents" index. Docked in the left gutter on wide screens
+  // (≥1680px, where it clears the slides); a slim pill you expand on narrower
+  // desktops, where the fixed panel would otherwise overlay the slide edge.
+  const [navOpen, setNavOpen] = useState(true);
+  const [overlay, setOverlay] = useState(false);
+  const [navReady, setNavReady] = useState(false);
+  const navUserSet = useRef(false);
+  const pillRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  // set by a user toggle so the focus effect only moves focus on intent, never
+  // on the mount/resize matchMedia default.
+  const pendingFocus = useRef<null | "pill" | "panel">(null);
+
   // scroll-spy: highlight the slide crossing the viewport centre band
   useEffect(() => {
     const root = slidesRef.current;
@@ -43,6 +56,7 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
 
   // keep the active item visible inside the floating overlay nav (long lists)
   useEffect(() => {
+    if (!navOpen) return;
     const nav = asideRef.current;
     if (!nav) return;
     const btn = nav.querySelector<HTMLElement>('[aria-current="true"]');
@@ -52,15 +66,95 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
     if (bb.top < nb.top + 8 || bb.bottom > nb.bottom - 8) {
       nav.scrollTop += bb.top - nb.top - (nb.height - bb.height) / 2;
     }
-  }, [activeN]);
+  }, [activeN, navOpen]);
 
-  const goTo = useCallback((n: number) => {
-    const el = document.getElementById(`slide-${n}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveN(n);
-    }
+  // pick the default open/closed state from the viewport: docked-open on wide
+  // screens, collapsed on narrower desktops. Track "overlay" (the range where an
+  // open panel covers the slides) to gate the dismiss-on-outside behavior. Once
+  // the reader is measured, mark ready so the panel/pill don't flash pre-hydration.
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 1680px)");
+    const over = window.matchMedia(
+      "(min-width: 1024px) and (max-width: 1679.98px)"
+    );
+    const apply = () => {
+      setOverlay(over.matches);
+      if (!navUserSet.current) setNavOpen(wide.matches);
+    };
+    apply();
+    setNavReady(true);
+    wide.addEventListener("change", apply);
+    over.addEventListener("change", apply);
+    return () => {
+      wide.removeEventListener("change", apply);
+      over.removeEventListener("change", apply);
+    };
   }, []);
+
+  // manual toggles lock the user's choice (survives resize); auto-dismiss doesn't.
+  const expand = useCallback(() => {
+    navUserSet.current = true;
+    pendingFocus.current = "panel";
+    setNavOpen(true);
+  }, []);
+  const collapse = useCallback(() => {
+    navUserSet.current = true;
+    pendingFocus.current = "pill";
+    setNavOpen(false);
+  }, []);
+
+  // in overlay mode only, dismiss the open panel on Escape or an outside click
+  // (wide/docked screens keep it pinned, exactly as before). Suspended while a
+  // lightbox is open so Escape dismisses only the topmost surface.
+  useEffect(() => {
+    if (!overlay || !navOpen || lbIndex !== null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        pendingFocus.current = "pill";
+        setNavOpen(false);
+      }
+    };
+    const onDown = (e: PointerEvent) => {
+      const el = asideRef.current;
+      if (el && !el.contains(e.target as Node)) setNavOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onDown);
+    };
+  }, [overlay, navOpen, lbIndex]);
+
+  // Keep the retracted surface out of the tab/a11y order immediately (the CSS
+  // visibility flip is delayed for the fade), and hand focus to whatever control
+  // is now active so keyboard users don't lose their place. inert is toggled
+  // imperatively so it works regardless of the installed React typings.
+  useEffect(() => {
+    asideRef.current?.toggleAttribute("inert", !navOpen);
+    pillRef.current?.toggleAttribute("inert", navOpen);
+    const want = pendingFocus.current;
+    pendingFocus.current = null;
+    if (!navReady || !want) return;
+    const target = want === "pill" ? pillRef.current : closeRef.current;
+    target?.focus({ preventScroll: true });
+  }, [navOpen, navReady]);
+
+  const goTo = useCallback(
+    (n: number) => {
+      const el = document.getElementById(`slide-${n}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setActiveN(n);
+        // the overlay panel covers what you just jumped to — get out of the way
+        if (overlay) {
+          pendingFocus.current = "pill";
+          setNavOpen(false);
+        }
+      }
+    },
+    [overlay]
+  );
 
   const openAt = useCallback((i: number) => {
     setZoomed(false);
@@ -110,9 +204,55 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
       </div>
 
       <div className={styles.layout}>
+        {/* collapsed pill — expands the index (shown when the panel is retracted) */}
+        <button
+          ref={pillRef}
+          type="button"
+          className={styles.sidePill}
+          data-open={!navOpen}
+          data-ready={navReady}
+          onClick={expand}
+          aria-expanded={navOpen}
+          aria-controls="archive-contents"
+          aria-label="Show contents"
+        >
+          <span className={styles.pillIcon} aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <g stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                <line x1="3" y1="4.5" x2="13" y2="4.5" />
+                <line x1="3" y1="8" x2="13" y2="8" />
+                <line x1="3" y1="11.5" x2="13" y2="11.5" />
+              </g>
+            </svg>
+          </span>
+          <span className={`mono ${styles.pillCount}`}>
+            {activeN}
+            <span className={styles.pillSlash}>/</span>
+            {slides.length}
+          </span>
+        </button>
+
         {/* side scroll-index */}
-        <aside ref={asideRef} className={styles.side}>
-          <p className={styles.sideTitle}>Contents</p>
+        <aside
+          ref={asideRef}
+          id="archive-contents"
+          className={styles.side}
+          data-open={navOpen}
+          data-ready={navReady}
+          aria-hidden={!navOpen}
+        >
+          <div className={styles.sideHead}>
+            <p className={styles.sideTitle}>Contents</p>
+            <button
+              ref={closeRef}
+              type="button"
+              className={styles.sideClose}
+              onClick={collapse}
+              aria-label="Collapse contents"
+            >
+              ‹
+            </button>
+          </div>
           <ol className={styles.sideList}>
             {slides.map((s) => (
               <li key={s.n}>
