@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import WorkshopDeck from "@/components/WorkshopDeck/WorkshopDeck";
 import BridgesGallery from "@/components/BridgesGallery/BridgesGallery";
-import WorkshopHarness from "@/components/WorkshopHarness/WorkshopHarness";
+import DemoCallout from "@/components/DemoCallout/DemoCallout";
 import Motion from "./Motion";
 import AmbientField from "./AmbientField";
 import Timeline from "./Timeline";
+import WorkshopsApp from "./WorkshopsApp";
+import { HW_ROOT_STYLE } from "./theme";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
 
@@ -14,14 +16,8 @@ export const metadata: Metadata = {
     "A talent study for Housing Works: mixed-methods research on attracting and keeping younger staff a nonprofit can't outbid — plus the trustee-led workshop system that runs the strategy.",
 };
 
-// §4 — Housing Works accent (#C0263B, echoing the AIDS red ribbon) + derived
-// shades, set at the page root; everything inherits.
-const rootStyle = {
-  "--accent": "#C0263B",
-  "--accent-deep": "#9E1E30",
-  "--accent-wash": "#F4D6DB",
-  "--accent-tint": "#FBEEF0",
-} as React.CSSProperties;
+// §4 — the Housing Works accent lives in ./theme.ts (shared with the
+// /prototype route); set at the page root, everything inherits.
 
 // Photo slots (§9). Real hi-res frames drop into public/images/housing-works/
 // on import; until then each scene shows a labeled placeholder caption.
@@ -29,7 +25,7 @@ const IMG = "/images/housing-works";
 
 export default function HousingWorksPage() {
   return (
-    <div style={rootStyle} className={styles.page}>
+    <div style={HW_ROOT_STYLE} className={styles.page}>
       {/* Motion adds `.hw-js` after hydration to activate scroll reveals/draws.
           The hero ribbon draws on load via pure CSS (no JS gating), so there's
           no hydration mismatch and no re-draw flicker. JS-off = fully visible. */}
@@ -578,11 +574,12 @@ export default function HousingWorksPage() {
             <text x="288" y="134" textAnchor="middle">WORKSHOP</text>
           </svg>
 
-          <p className={styles.body}>The tool below runs that logic on sample data.</p>
-
-          <div className={styles.harnessWrap}>
-            <WorkshopHarness />
-          </div>
+          <p className={styles.body}>
+            Below is a working slice of that system, as the People team would
+            use it: an open needs queue, a matcher that scores every trustee in
+            the open, the session itself — captured, summarized, and badged —
+            and an archive the built-in assistant answers from.
+          </p>
 
           {/* session timeline: 45 min split 5 / 15 / 15 / 10 (§6) */}
           <svg
@@ -606,6 +603,25 @@ export default function HousingWorksPage() {
             <text x="203" y="64" textAnchor="middle">15m</text>
             <text x="286" y="64" textAnchor="middle">10m</text>
           </svg>
+        </div>
+
+        <div className={styles.appBleed}>
+          <div className={styles.appBleedInner}>
+            <WorkshopsApp />
+          </div>
+        </div>
+
+        <div className={`${styles.wrapWide} hw-reveal`}>
+          <div className={styles.appCallout}>
+            <DemoCallout
+              name="Trustee Workshops"
+              status="WORKING"
+              title="The tool above is live."
+              body="Real interactions on illustrative stand-in data: the matcher scores skill fit, strategic fit, and trustee load in the open; sessions run through the full capture loop — transcript, auto-summary, badge, archive; and the assistant answers from the archive through a real model API behind a server-side proxy. Housing Works hasn't piloted the framework — this is the proposal, made operable."
+              buttonLabel="Open the prototype full-screen"
+              href="/work/housing-works/prototype"
+            />
+          </div>
         </div>
       </section>
 

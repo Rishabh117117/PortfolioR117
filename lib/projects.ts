@@ -51,7 +51,10 @@ export const FLAGSHIPS: Project[] = [
     year: "2025–26",
     discipline: "Service · AI",
     accent: "#C0263B",
-    status: "SIMULATED",
+    // HW-PROTO-1: framing badge like GH/HM (the old SIMULATED demo-status tag
+    // became wrong once the Trustee Workshops prototype went WORKING — demo
+    // status now lives on the page's DemoCallout, per the D-03 axes split).
+    status: "STUDIO PROJECT · CONCEPT",
   },
 ];
 

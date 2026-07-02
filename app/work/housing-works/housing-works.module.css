@@ -612,7 +612,19 @@
   margin: var(--space-7) 0 var(--space-6);
   overflow: visible;
 }
-.harnessWrap {
+/* the working Trustee Workshops prototype — full-bleed band (like .dataStrip;
+   .page has overflow-x: clip, so the 100vw pull adds no scrollbar). */
+.appBleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: var(--space-6);
+  padding-inline: clamp(14px, 3vw, 44px);
+}
+.appBleedInner {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.appCallout {
   margin-top: var(--space-6);
 }
 .timeline {
