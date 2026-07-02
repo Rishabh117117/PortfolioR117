@@ -3,7 +3,7 @@
 - `/` Home: hero + positioning line; "The Arc" strip (objects → interfaces → systems); flagship Follow card; project grid; earlier-work teaser; footer CTA.
 - Global layer (every page): nav (Work/About/Contact) + a breadcrumb trail under it (SHELL-1.1); project pager; "Ask the portfolio" — a Claude-powered concierge loaded with all 11 projects + CV, answers with citations/deep-links.
 ## L1 — Sections
-- `/work` index: Systems & AI (2025–26) + Earlier work (2019–23); filter by discipline.
+- `/#work` (nav "Work"): the projects section on the landing page (Selected work + Earlier-work marquee). The standalone `/work` index duplicated the landing and is retired — `/work` now **301-redirects to `/#work`** and its component is preserved unrouted at `app/work/WorkPage.tsx`. Returns as a real page when discipline filtering ships.
 - `/about`: arc narrative; timeline (roles/education); skills; photo; contact — **and the CV PDF download** (ABOUT-PAGE-1). [D-04 resolved]
 - `/archive`: visual gallery of the 7 earlier projects.
 - (`/cv` route REMOVED, CV-DOWNLOAD-1 — the CV is a direct PDF download from /about; `public/Rishabh-Salian-CV.pdf`.)

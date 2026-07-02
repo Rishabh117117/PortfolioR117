@@ -44,7 +44,13 @@ export default function Breadcrumbs() {
   const crumbs = [
     { href: "/", label: "Home" },
     ...segments.map((seg, i) => ({
-      href: "/" + segments.slice(0, i + 1).join("/"),
+      // the "Work" section is not a standalone page — it's the projects section
+      // on the landing (see next.config.js redirect + the nav), so its crumb
+      // points at /#work rather than the retired /work route.
+      href:
+        i === 0 && seg === "work"
+          ? "/#work"
+          : "/" + segments.slice(0, i + 1).join("/"),
       label: labelFor(seg, i),
     })),
   ];

@@ -113,7 +113,7 @@ export default function Home() {
         <div className="container" data-ambient-dim>
           <div className={styles.sectionHead}>
             <h2 className={styles.h2}>Selected work</h2>
-            <Link href="/work" className={`mono ${styles.seeAll}`}>
+            <Link href="/#work" className={`mono ${styles.seeAll}`}>
               All work →
             </Link>
           </div>
