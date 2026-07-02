@@ -325,7 +325,7 @@ export default function GreenerHoursPage() {
               name="Greener Hours"
               status="WORKING"
               title="The three surfaces above are live."
-              body="Tab through them: the scheduler queues real jobs to the cleanest grid window, the dashboard ticks live, and the chat runs on the real Claude API through a server-side proxy (the key never reaches the browser). Greener Hours itself remains a speculative open standard — the full argument lives in the presentation deck."
+              body="Tab through them: the scheduler queues real jobs to the cleanest grid window, the dashboard ticks live, and the chat runs on a real model API through a server-side proxy (the key never reaches the browser). Greener Hours itself remains a speculative open standard — the full argument lives in the presentation deck."
               buttonLabel="View the full deck ↗"
               href="/greener-hours/index.html"
               external

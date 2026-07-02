@@ -38,7 +38,7 @@ export default function ComputeWindowMock() {
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "assistant",
-      text: "Hi — this chat is wired to the Claude API through a server-side proxy. Ask me anything; the indicator above shows the live carbon state for each response.",
+      text: "Hi — this chat is wired to a live model API through a server-side proxy. Ask me anything; the indicator above shows the live carbon state for each response.",
       hour: 14,
     },
   ]);
