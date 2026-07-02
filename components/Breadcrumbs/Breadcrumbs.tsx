@@ -19,7 +19,6 @@ import styles from "./Breadcrumbs.module.css";
 const SECTION_LABELS: Record<string, string> = {
   work: "Work",
   about: "About",
-  cv: "CV",
   archive: "Archive",
 };
 

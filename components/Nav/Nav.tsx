@@ -8,8 +8,8 @@ import styles from "./Nav.module.css";
 const LINKS = [
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/cv", label: "CV" },
   // Contact has no dedicated route yet — scrolls to the footer contact block.
+  // (CV is no longer a route — it downloads from the About page.)
   { href: "#contact", label: "Contact" },
 ];
 

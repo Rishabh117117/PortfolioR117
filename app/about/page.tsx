@@ -452,10 +452,9 @@ export default function AboutPage() {
               >
                 Behance
               </a>
-              {/* PDF download pending D-05 — the current CV file is outdated */}
-              <button type="button" className="btn ghost" disabled title="PDF coming soon">
+              <a className="btn ghost" href="/Rishabh-Salian-CV.pdf" download>
                 Download CV · PDF
-              </button>
+              </a>
             </div>
             <p className={`mono ${styles.contactFoot}`}>
               <a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a>

@@ -159,8 +159,8 @@ export default function Home() {
           <div className={styles.ctaBlock}>
             <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
             <div className={styles.ctaRow}>
-              <Link href="/cv" className="btn primary">
-                View CV
+              <Link href="/about" className="btn primary">
+                About &amp; CV
               </Link>
               <a href="#contact" className="btn ghost">
                 Get in touch

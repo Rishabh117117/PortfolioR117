@@ -116,7 +116,9 @@ Rules:
 ## 5. Global elements
 
 Nav (every page): wordmark "Rishabh Salian" (display 600/18px) left; links
-Work · About · CV · Contact right. Active link in --accent, mono 11px. Mobile → burger.
+Work · About · Contact right (CV dropped — it downloads from About, CV-DOWNLOAD-1).
+Active link in --accent, mono 11px. Mobile → burger. A breadcrumb trail
+(components/Breadcrumbs) sits directly under the nav on every route except `/`.
 
 Footer (every page): mono meta line + contact links + "Ask the portfolio" entry (later phase).
 
@@ -228,7 +230,7 @@ Set --accent (+ derived shades) at the project page/root level; everything else 
 When a project sets --accent, also set --accent-deep/-wash/-tint to matching shades.
 
 > Note: the global default `--accent` in `globals.css` remains Persian Blue
-> `#1C39BB` (used by pages with no project accent, e.g. /about, /cv). Follow now
+> `#1C39BB` (used by pages with no project accent, e.g. /about). Follow now
 > overrides it to burnt orange at its own page root via an inline `rootStyle`, so
 > the `#1C39BB` label on the Follow row above is historical, not the current value.
 
@@ -251,8 +253,9 @@ When a project sets --accent, also set --accent-deep/-wash/-tint to matching sha
   parallax shipped site-wide in SHELL-1.1, see §7; the home arc strip drifts
   but does not yet morph.)
 - Hero copy / positioning line — depends on D-01.
-- CV content — depends on D-05 (About content resolved by ABOUT-PAGE-1; its
-  photos remain designed placeholders until real images land).
+- (CV — resolved: the `/cv` route was removed; the CV is a PDF download from
+  About, CV-DOWNLOAD-1. About's photos remain designed placeholders until real
+  images land.)
 - Exact imagery — extracted from the portfolio PDF in Phase 2.
 
 Build the shell and static structure on the LOCKED tokens above. Leave the deferred items as
