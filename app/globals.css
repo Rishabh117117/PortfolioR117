@@ -1,8 +1,11 @@
 /* =========================================================================
-   GLOBAL STYLESHEET — Design Language LOCKED v1.0 (see docs/DESIGN.md)
+   GLOBAL STYLESHEET — Design Language v1.1 (see docs/DESIGN.md)
    All raw values live here as tokens. Components reference tokens only.
    Font family tokens (--font-display/-body/-mono) are injected by next/font
    in app/layout.tsx, so they are intentionally NOT redefined in :root.
+   v1.1 (SHELL-1.1): the shared DNA the four flagship pages converged on —
+   elevation shadows, glass, the mono-gold kicker, hover-lift — promoted from
+   page modules into the shell. All v1.0 tokens and utilities are unchanged.
    ========================================================================= */
 
 :root {
@@ -51,9 +54,18 @@
   --radius-sm: 8px;
   --radius-lg: 16px;
 
+  /* §3 layout (v1.1) — the sticky nav's effective height, for offsets */
+  --nav-h: 60px;
+
   /* §7 micro-transitions */
   --t-fast: 0.22s;
   --e-snappy: cubic-bezier(0.2, 0.9, 0.25, 1);
+
+  /* §7 elevation + glass (v1.1) — the flagship pages' shared recipes */
+  --shadow-rest: 0 1px 2px rgba(26, 26, 26, 0.04), 0 10px 30px rgba(26, 26, 26, 0.06);
+  --shadow-lift: 0 2px 4px rgba(26, 26, 26, 0.05), 0 16px 40px rgba(26, 26, 26, 0.09);
+  --glass-bg: color-mix(in srgb, var(--paper) 80%, transparent);
+  --glass-blur: blur(12px) saturate(150%);
 }
 
 /* ---- reset ---- */
@@ -303,6 +315,43 @@ img {
   color: var(--accent);
   background: var(--accent-tint);
   border-color: var(--accent-wash);
+}
+
+/* =========================================================================
+   §6.5 (v1.1) — mono-gold section kicker. The flagship pages' section-heading
+   convention (Follow/HM/GH/HW all carry a page-local copy of this rule);
+   promoted so shell pages can use it without a module.
+   ========================================================================= */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-4);
+}
+
+/* =========================================================================
+   §6.6 (v1.1) — opt-in hover-lift for cards/panels. Pointer-gated; the
+   transform additionally respects reduced motion (shadow/border still react).
+   ========================================================================= */
+.lift {
+  transition:
+    transform var(--t-fast) var(--e-snappy),
+    box-shadow var(--t-fast) var(--e-snappy),
+    border-color var(--t-fast) var(--e-snappy);
+}
+@media (hover: hover) {
+  .lift:hover {
+    border-color: var(--accent-wash);
+    box-shadow: var(--shadow-lift);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .lift:hover {
+    transform: translateY(-3px);
+  }
 }
 
 /* =========================================================================

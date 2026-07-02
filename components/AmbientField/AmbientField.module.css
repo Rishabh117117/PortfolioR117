@@ -1,0 +1,58 @@
+/* Shared AmbientField — geometry/blur only; gradients + resting opacity come
+   inline from the component's props, transform/opacity are JS-driven.
+   Same orb layout as the flagship pages (56/42vw high pair, 60/40vw low pair).
+   Fixed, z-0; the page mounts content on a sibling z-1 layer. */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+}
+
+/* warm pair — parked high */
+.w1 {
+  width: 56vw;
+  height: 56vw;
+  max-width: 760px;
+  max-height: 760px;
+  top: -12vh;
+  left: -10vw;
+}
+.w2 {
+  width: 42vw;
+  height: 42vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: 26vh;
+  right: -2vw;
+}
+/* cool pair — parked low */
+.c1 {
+  width: 60vw;
+  height: 60vw;
+  max-width: 820px;
+  max-height: 820px;
+  bottom: -18vh;
+  right: -12vw;
+}
+.c2 {
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: 4vh;
+  left: -2vw;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    transform: none !important;
+  }
+}

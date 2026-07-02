@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav/Nav";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Footer from "@/components/Footer/Footer";
 
 // §2 typography — wired to the design tokens via CSS variables.
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body>
         <div className="appShell">
           <Nav />
+          <Breadcrumbs />
           <main className="appMain">{children}</main>
           <Footer />
         </div>

@@ -3,9 +3,16 @@ import Image from "next/image";
 import type { ArchiveProject } from "@/lib/archive";
 import styles from "./ArchiveCard.module.css";
 
-export default function ArchiveCard({ project }: { project: ArchiveProject }) {
+export default function ArchiveCard({
+  project,
+  depth,
+}: {
+  project: ArchiveProject;
+  /** optional scroll-drift offset (px) — picked up by an enclosing DriftGroup */
+  depth?: number;
+}) {
   return (
-    <li className={styles.card}>
+    <li className={styles.card} data-depth={depth}>
       <Link
         href={`/archive/${project.slug}`}
         className={styles.cardLink}
