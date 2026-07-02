@@ -1,5 +1,23 @@
 # Housing Works — Page Build Spec
 
+> **UPDATE (2026-07-02, HW-PROTO-1) — the Workshop Harness became the working
+> `WorkshopsApp` ("Trustee Workshops").** Per Rishabh's proper-web-application
+> directive, scene 9's scripted 3-step harness was retired (component deleted;
+> its synthetic data superseded by `lib/hwWorkshops.ts`) and replaced by a
+> browser-framed internal-tool prototype: an open needs queue → an explainable
+> trustee matcher (skill 55 + strategy 25 + capacity 20, scored in the open —
+> real computation, not model output) → scheduled 45-min sessions run through
+> the full capture loop (transcript → auto-summary → tags + badge) → a
+> searchable archive with an "Ask the archive" assistant on `/api/ask`
+> (demo `hw-workshops`, OpenRouter preferred). Live program stats (sessions,
+> badges, rating, $-of-$900 budget) update as sessions run; trustee load feeds
+> back into matching. Honesty strip on-product: all people/figures are
+> illustrative stand-ins. Also new: `/work/housing-works/prototype`
+> (standalone mount) + a WORKING `DemoCallout`; `lib/projects.ts` status
+> `SIMULATED` → `STUDIO PROJECT · CONCEPT` (framing badge; demo status lives
+> on the callout, per the D-03 axes split). The old "Phase B live harness"
+> plan below is superseded.
+
 > **Rebuild note (current):** the live page is now the **scene-based, borderless,
 > image-forward** presentation rebuild (researcher voice, parallax photos +
 > scroll-drawn line-SVGs, 11 scenes), replacing the Phase-A 7-beat version
