@@ -79,6 +79,10 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* anchor links (nav "Work"/"Contact", in-page CTAs) glide instead of jumping.
+     Next's app router suppresses this during route-change scroll resets, and
+     the reduced-motion block below forces it back to auto. */
+  scroll-behavior: smooth;
 }
 
 body {

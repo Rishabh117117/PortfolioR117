@@ -21,9 +21,9 @@ export const FLAGSHIPS: Project[] = [
     // (was Persian Blue #1C39BB). status SIMULATED per D-03 (the on-page artifact
     // is an illustrative scroll animation; the sandbox isn't built) — must stay in
     // sync with the page's DemoCallout and the home-page callout.
+    // (No `featured` flag: the home grid is an equal 2×2 per Rishabh 2026-07-02.)
     accent: "#C2410C",
     status: "SIMULATED",
-    featured: true,
   },
   {
     name: "Greener Hours",

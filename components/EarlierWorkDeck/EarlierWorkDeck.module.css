@@ -1,7 +1,9 @@
 /* Earlier-work marquee — mirrors the Housing Works WorkshopDeck float: a strip
-   that auto-scrolls, pauses on hover/focus, fades at both edges, and degrades to
-   a manual horizontal scroller under reduced motion. Cards are the archive
-   projects (16:9 cover + accent foot), linking straight to each project. */
+   that auto-scrolls, pauses on hover/focus, and degrades to a manual horizontal
+   scroller under reduced motion. Full-bleed (viewport-wide) with NO edge fade —
+   cards enter and leave at the screen edges. Cards are portrait: a 3/4 crop of
+   the landscape cover (per-card focus via --crop), linking straight to each
+   archive project. */
 .deck {
   display: flex;
   flex-direction: column;
@@ -9,23 +11,14 @@
   width: 100%;
 }
 
+/* full-bleed: break the strip out of the centered .container to the viewport
+   edges (same trick as the Healthy Materials timeline band; the page root
+   clips overflow-x, so the 100vw never causes a scrollbar) */
 .strip {
   position: relative;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 5%,
-    #000 95%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 5%,
-    #000 95%,
-    transparent 100%
-  );
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 .track {
   display: flex;
@@ -34,12 +27,14 @@
   padding-block: var(--space-2);
   animation: ewMarquee 60s linear infinite;
 }
+/* the set is tripled; shifting one full set (-100%/3) reproduces the frame
+   exactly, and the two extra sets keep ultrawide viewports covered */
 @keyframes ewMarquee {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% / 3));
   }
 }
 .strip:hover .track,
@@ -48,13 +43,13 @@
 }
 .cell {
   flex: 0 0 auto;
-  margin-right: var(--space-4); /* uniform gap → exact -50% loop */
+  margin-right: var(--space-4); /* uniform gap → exact one-set loop */
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  width: clamp(258px, 80vw, 300px);
+  width: clamp(210px, 58vw, 248px);
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -74,10 +69,11 @@
     box-shadow: var(--shadow-lift);
   }
 }
+/* portrait window on a landscape cover — --crop picks what stays in frame */
 .frame {
   position: relative;
   display: block;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 4;
   border-bottom: 3px solid var(--accent);
   background: var(--fill);
   overflow: hidden;
@@ -86,6 +82,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--crop, 50%) 50%;
   display: block;
 }
 .count {
@@ -131,6 +128,10 @@
   .strip {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    /* the manual scroller keeps the full-bleed width, so give the first/last
+       card the page gutter back */
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
   }
   .track {
     animation: none;
@@ -138,8 +139,8 @@
   .cell {
     scroll-snap-align: start;
   }
-  /* the duplicate set only exists to seam the -50% loop; with no animation it
-     would just repeat every project in the manual scroller — drop it */
+  /* the duplicate sets only exist to seam the loop; with no animation they
+     would just repeat every project in the manual scroller — drop them */
   .dup {
     display: none;
   }

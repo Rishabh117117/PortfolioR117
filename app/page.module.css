@@ -121,6 +121,17 @@
   white-space: nowrap;
 }
 
+/* anchor target of the nav "Work" link — land clear of the sticky nav when
+   the page smooth-scrolls to it */
+.workSection {
+  scroll-margin-top: calc(var(--nav-h) + 8px);
+}
+/* narrower measure than the container so the 2×2 cards read compact */
+.workInner {
+  max-width: 1000px;
+  margin-inline: auto;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;

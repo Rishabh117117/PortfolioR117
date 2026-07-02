@@ -111,28 +111,31 @@ export default function Home() {
       {/* ================= PROJECT GRID ================= */}
       <section id="work" className={`section ${styles.workSection}`}>
         <div className="container" data-ambient-dim>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.h2}>Selected work</h2>
-            <Link href="/#work" className={`mono ${styles.seeAll}`}>
-              All work →
-            </Link>
-          </div>
+          {/* the flagship grid sits on a narrower measure — four equal cards
+              in a compact 2×2 (the featured banner treatment is retired) */}
+          <div className={styles.workInner}>
+            <div className={styles.sectionHead}>
+              <h2 className={styles.h2}>Selected work</h2>
+              <Link href="/#work" className={`mono ${styles.seeAll}`}>
+                All work →
+              </Link>
+            </div>
 
-          <div className={styles.grid}>
-            {FLAGSHIPS.map((p) => (
-              <ProjectCard
-                key={p.slug}
-                name={p.name}
-                year={p.year}
-                discipline={p.discipline}
-                href={`/work/${p.slug}`}
-                accent={p.accent}
-                status={p.status}
-                featured={p.featured}
-                thumb={THUMBS[p.slug]?.thumb}
-                thumbNode={THUMBS[p.slug]?.node}
-              />
-            ))}
+            <div className={styles.grid}>
+              {FLAGSHIPS.map((p) => (
+                <ProjectCard
+                  key={p.slug}
+                  name={p.name}
+                  year={p.year}
+                  discipline={p.discipline}
+                  href={`/work/${p.slug}`}
+                  accent={p.accent}
+                  status={p.status}
+                  thumb={THUMBS[p.slug]?.thumb}
+                  thumbNode={THUMBS[p.slug]?.node}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
