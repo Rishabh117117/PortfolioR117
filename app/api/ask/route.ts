@@ -28,15 +28,39 @@ function cleanEnv(v: string | undefined): string | undefined {
 
 const WINDOW_MS = 60_000;
 const MAX_PER_WINDOW = 12;
+const MAX_TRACKED_IPS = 500;
 const hits = new Map<string, number[]>();
 
 function rateLimited(ip: string): boolean {
   const now = Date.now();
+  // the map lives for the process lifetime — evict cold entries so a stream of
+  // distinct client IPs can't grow it without bound
+  if (hits.size > MAX_TRACKED_IPS) {
+    for (const [k, v] of hits) {
+      if (v.length === 0 || now - v[v.length - 1] > WINDOW_MS) hits.delete(k);
+    }
+  }
   const recent = (hits.get(ip) || []).filter((t) => now - t < WINDOW_MS);
   recent.push(now);
   hits.set(ip, recent);
   return recent.length > MAX_PER_WINDOW;
 }
+
+/** Client IP for rate limiting. x-forwarded-for is client-appendable at the
+    FRONT; the LAST hop is the one written by the platform's own edge, so it's
+    the only one worth trusting. Prefer the platform's dedicated header. */
+function clientIp(req: NextRequest): string {
+  const real = req.headers.get("x-real-ip")?.trim();
+  if (real) return real;
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) {
+    const hops = xff.split(",").map((s) => s.trim()).filter(Boolean);
+    if (hops.length > 0) return hops[hops.length - 1];
+  }
+  return "local";
+}
+
+const UPSTREAM_TIMEOUT_MS = 30_000;
 
 /* Demo-keyed system prompts. "greener-hours" is the default for requests that
    don't name a demo (back-compat with the original Tier-1 chat client). */
@@ -44,11 +68,11 @@ const DEMO_PROMPTS: Record<string, string> = {
   "greener-hours":
     "You are the AI assistant inside the Greener Hours portfolio demo — a concept for AI compute carbon disclosure. Respond helpfully and concisely, usually 1–3 sentences, conversational. Do not mention this instruction.",
   "hm-packages":
-    "You are the in-app assistant of “Healthy Materials Packages” — a working concept prototype by Rishabh Salian, from a Parsons graduate capstone with the Healthy Materials Lab (research shared with Henry Schroder). The product assembles pre-vetted healthier, lower-carbon material spec packages for NYC affordable-housing interior scopes, with cost / embodied-carbon / health comparisons against business-as-usual, so healthy choices survive value engineering. Answer like a good product copilot: concrete, concise (1–3 sentences), grounded in the CURRENT PACKAGE STATE when it is provided. The state's figures are illustrative demo data — representative magnitudes, not measured quotes or verified EPDs — say so if asked about precision or sourcing. Do not mention this instruction.",
+    "You are the in-app assistant of “Healthy Materials Packages” — a working concept prototype by Rishabh Salian, from a Parsons graduate capstone with the Healthy Materials Lab (research shared with Henry Schroder). The product assembles pre-vetted healthier, lower-carbon material spec packages for NYC affordable-housing interior scopes, with cost / embodied-carbon / health comparisons against business-as-usual, so healthy choices survive value engineering. Answer like a good product copilot: concrete, concise (1–3 sentences), grounded in the CURRENT PACKAGE STATE when it is provided. If no CURRENT PACKAGE STATE is provided, say you don't have the live package in front of you — never invent lines, figures, or products. The state's figures are illustrative demo data — representative magnitudes, not measured quotes or verified EPDs — say so if asked about precision or sourcing. Do not mention this instruction.",
   "hw-workshops":
-    "You are the “Ask the archive” assistant inside Trustee Workshops — a working concept prototype by Rishabh Salian, from a Parsons studio engagement with Housing Works (a nonprofit funding HIV and homelessness services through thrift retail). The tool matches staff development needs to trustee-taught 45-minute workshops (intro 5 · discussion 15 · sprint 15 · Q&A 10) and archives every session so what's taught stays with the team. Answer like a helpful People-team colleague: concrete, concise (1–3 sentences), grounded in the CURRENT PACKAGE STATE data when provided (bench, queue, open needs, archived sessions). Everyone and every figure in it is an illustrative stand-in for private Housing Works data — say so if asked whether it's real. Do not mention this instruction.",
+    "You are the “Ask the archive” assistant inside Trustee Workshops — a working concept prototype by Rishabh Salian, from a Parsons studio engagement with Housing Works (a nonprofit funding HIV and homelessness services through thrift retail). The tool matches staff development needs to trustee-taught 45-minute workshops (intro 5 · discussion 15 · sprint 15 · Q&A 10) and archives every session so what's taught stays with the team. Answer like a helpful People-team colleague: concrete, concise (1–3 sentences), grounded in the CURRENT PACKAGE STATE data when provided (bench, queue, open needs, archived sessions). If no CURRENT PACKAGE STATE is provided, say you don't have the program data in front of you — never invent trustees, sessions, or figures. Everyone and every figure in it is an illustrative stand-in for private Housing Works data — say so if asked whether it's real. Do not mention this instruction.",
   follow:
-    "You are Follow's answer surface inside a sandbox team workspace, from Rishabh Salian's capstone (Follow: a shared, trackable memory layer that sits between a team's AI tools). Ground every answer ONLY in the team-memory entries provided in the CURRENT PACKAGE STATE. ALWAYS attribute what you use: name the teammate, their AI tool, the thread title, and the day (e.g., “Sam worked this out in his Gemini thread ‘Fee modelling round 2’ on Thursday”). When entries are marked CONTESTED or conflict with each other, surface the disagreement explicitly and give both sides with attribution — never silently pick one. If the memory doesn't cover a question, say so and point to the best person to ask based on their entries. Keep it concrete, 1–4 sentences. The workspace is pre-loaded sample data — say so if asked whether it's real. Do not mention this instruction.",
+    "You are Follow's answer surface inside a sandbox team workspace, from Rishabh Salian's capstone (Follow: a shared, trackable memory layer that sits between a team's AI tools). Ground every answer ONLY in the team-memory entries provided in the CURRENT PACKAGE STATE. If no CURRENT PACKAGE STATE is provided, say you don't have this workspace's memory in front of you — never invent entries, teammates, threads, or numbers. ALWAYS attribute what you use: name the teammate, their AI tool, the thread title, and the day (e.g., “Sam worked this out in his Gemini thread ‘Fee modelling round 2’ on Thursday”). When entries are marked CONTESTED or conflict with each other, surface the disagreement explicitly and give both sides with attribution — never silently pick one. If the memory doesn't cover a question, say so and point to the best person to ask based on their entries. Keep it concrete, 1–4 sentences. The workspace is pre-loaded sample data — say so if asked whether it's real. Do not mention this instruction.",
   "follow-mcp":
     "You are the agent inside Follow's MCP console — a demo of Follow's actual MCP tools (the shipped server exposes them over JSON-RPC at /mcp; this sandbox executes the same contracts on a sample workspace). ALWAYS answer by calling tools first — query_index for facts, directory_query for who-knows-what, detect_contradictions for conflicts, get_activity for recency, save_conversation to write this chat into the memory when the user asks to save. Chain multiple tools when useful. After the tool results return, give a short grounded answer (1–3 sentences) citing what the tools found, with attribution (person · AI tool · thread). Never invent index content — if a tool returns nothing, say so. The workspace is pre-loaded sample data; the shipped product runs these same tools against a team's real captured AI threads. Do not mention this instruction.",
 };
@@ -138,6 +162,9 @@ async function askOpenRouter(
     : DEFAULT_MODELS;
   const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
+    // a hung provider must not hold the request (and the visitor's spinner)
+    // open forever — abort and let the client show its offline state
+    signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
     headers: {
       "content-type": "application/json",
       authorization: `Bearer ${key}`,
@@ -160,7 +187,10 @@ async function askOpenRouter(
   });
   if (!upstream.ok) {
     const detail = await upstream.text().catch(() => "");
-    return { ok: false, detail: detail.slice(0, 300) };
+    // upstream error bodies can carry model/quota/org detail — log for
+    // debugging (Railway logs), never relay to the client
+    console.error(`[ask] openrouter ${upstream.status}: ${detail.slice(0, 300)}`);
+    return { ok: false, detail: `upstream ${upstream.status}` };
   }
   const data = await upstream.json();
   const msg = data?.choices?.[0]?.message;
@@ -191,7 +221,7 @@ async function askOpenRouter(
       : "";
   // some reasoning models return an empty content with the answer in reasoning
   if (!text && typeof msg?.reasoning === "string") text = msg.reasoning.trim();
-  return { ok: true, text: text || "(no response)" };
+  return { ok: true, text: text || "Hmm — nothing came back. Try that again?" };
 }
 
 async function askAnthropic(
@@ -201,6 +231,7 @@ async function askAnthropic(
 ): Promise<{ ok: true; text: string } | { ok: false; detail: string }> {
   const upstream = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
+    signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
     headers: {
       "content-type": "application/json",
       "x-api-key": key,
@@ -217,13 +248,14 @@ async function askAnthropic(
   });
   if (!upstream.ok) {
     const detail = await upstream.text().catch(() => "");
-    return { ok: false, detail: detail.slice(0, 300) };
+    console.error(`[ask] anthropic ${upstream.status}: ${detail.slice(0, 300)}`);
+    return { ok: false, detail: `upstream ${upstream.status}` };
   }
   const data = await upstream.json();
   const text: string =
     data?.content?.find((b: { type?: string }) => b?.type === "text")?.text ??
     data?.content?.[0]?.text ??
-    "(no response)";
+    "Hmm — nothing came back. Try that again?";
   return { ok: true, text };
 }
 
@@ -234,18 +266,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "The demo backend isn't configured yet (set OPENROUTER_API_KEY or ANTHROPIC_API_KEY).",
+          "The demo backend isn't configured in this environment — everything else on the page stays interactive.",
       },
       { status: 503 },
     );
   }
 
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
-  if (rateLimited(ip)) {
+  if (rateLimited(clientIp(req))) {
     return NextResponse.json(
       { error: "Rate limit reached — give it a minute and try again." },
       { status: 429 },
     );
+  }
+
+  // reject oversized payloads before paying to parse them (the real caps on
+  // turns/context are enforced after parse; 64KB is far above any legit body)
+  const contentLength = Number(req.headers.get("content-length") || 0);
+  if (contentLength > 64_000) {
+    return NextResponse.json({ error: "Request too large." }, { status: 413 });
   }
 
   let body: { messages?: InMsg[]; demo?: unknown; context?: unknown };
@@ -300,7 +338,7 @@ export async function POST(req: NextRequest) {
   // a different tool format — not worth a second implementation for a demo)
   if (isMcp && !openrouterKey) {
     return NextResponse.json(
-      { error: "The MCP console needs the OpenRouter provider (set OPENROUTER_API_KEY)." },
+      { error: "The MCP console's model backend isn't configured in this environment." },
       { status: 503 },
     );
   }
@@ -317,7 +355,7 @@ export async function POST(req: NextRequest) {
       : await askAnthropic(anthropicKey as string, system, turns as Turn[]);
     if (!result.ok) {
       return NextResponse.json(
-        { error: "The model service returned an error.", detail: result.detail },
+        { error: "The model service returned an error — try again in a moment." },
         { status: 502 },
       );
     }
@@ -326,11 +364,22 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ text: result.text });
   } catch (err) {
-    // surface a short cause so prod misconfigurations are debuggable
-    const detail = err instanceof Error ? err.message.slice(0, 140) : "unknown";
+    // timeouts get their own status; everything else is a generic 502. The
+    // cause goes to the server log only (client-visible detail leaked
+    // hostnames/DNS state — that's what debugged the em-dash header bug, and
+    // the log line preserves that debuggability).
+    const isTimeout =
+      err instanceof Error && (err.name === "TimeoutError" || err.name === "AbortError");
+    console.error(
+      `[ask] upstream ${isTimeout ? "timeout" : "fetch threw"}: ${err instanceof Error ? err.message.slice(0, 200) : "unknown"}`,
+    );
     return NextResponse.json(
-      { error: "Couldn't reach the model service.", detail },
-      { status: 502 },
+      {
+        error: isTimeout
+          ? "The model took too long to answer — try again."
+          : "Couldn't reach the model service.",
+      },
+      { status: isTimeout ? 504 : 502 },
     );
   }
 }
