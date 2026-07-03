@@ -16,6 +16,16 @@ import { FOLLOW_MCP_TOOLS } from "@/lib/followMcp";
 
 export const runtime = "nodejs";
 
+/* Env values pasted into dashboards routinely pick up stray whitespace,
+   newlines, or wrapping quotes — any of which makes the Authorization header
+   invalid and undici THROW (surfacing as "Couldn't reach the model service").
+   Sanitize every env read. */
+function cleanEnv(v: string | undefined): string | undefined {
+  if (!v) return undefined;
+  const t = v.trim().replace(/^["']+|["']+$/g, "").trim();
+  return t || undefined;
+}
+
 const WINDOW_MS = 60_000;
 const MAX_PER_WINDOW = 12;
 const hits = new Map<string, number[]>();
@@ -122,7 +132,7 @@ async function askOpenRouter(
   referer: string,
   withTools = false,
 ): Promise<AskResult> {
-  const override = process.env.OPENROUTER_MODEL;
+  const override = cleanEnv(process.env.OPENROUTER_MODEL);
   const models = override
     ? [override, ...DEFAULT_MODELS.filter((m) => m !== override)]
     : DEFAULT_MODELS;
@@ -217,8 +227,8 @@ async function askAnthropic(
 }
 
 export async function POST(req: NextRequest) {
-  const openrouterKey = process.env.OPENROUTER_API_KEY;
-  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  const openrouterKey = cleanEnv(process.env.OPENROUTER_API_KEY);
+  const anthropicKey = cleanEnv(process.env.ANTHROPIC_API_KEY);
   if (!openrouterKey && !anthropicKey) {
     return NextResponse.json(
       {
@@ -295,7 +305,10 @@ export async function POST(req: NextRequest) {
   }
 
   const referer =
-    process.env.SITE_URL || req.headers.get("origin") || req.nextUrl.origin || "http://localhost";
+    cleanEnv(process.env.SITE_URL) ||
+    req.headers.get("origin") ||
+    req.nextUrl.origin ||
+    "http://localhost";
 
   try {
     const result = openrouterKey
@@ -311,7 +324,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ toolCalls: result.toolCalls });
     }
     return NextResponse.json({ text: result.text });
-  } catch {
-    return NextResponse.json({ error: "Couldn't reach the model service." }, { status: 502 });
+  } catch (err) {
+    // surface a short cause so prod misconfigurations are debuggable
+    const detail = err instanceof Error ? err.message.slice(0, 140) : "unknown";
+    return NextResponse.json(
+      { error: "Couldn't reach the model service.", detail },
+      { status: 502 },
+    );
   }
 }
