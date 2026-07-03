@@ -143,11 +143,12 @@ const MAX_TOKENS = 700;
 const DEFAULT_MODELS = [
   "openai/gpt-oss-120b:free", // proven in this app's prod tool loop — the reliable primary
   "nvidia/nemotron-3-super-120b-a12b:free", // newest-gen free fallback (tools-capable)
-  "meta-llama/llama-3.3-70b-instruct:free", // proven free fallback
   "google/gemini-2.5-flash-lite", // paid safety net: $0.10 in / $0.40 out per MTok
-  // NOTE: nemotron-3-ultra-550b:free as PRIMARY hard-502'd the whole request
-  // in prod (2026-07-03) despite a live tools-capable endpoint — re-add only
-  // after reading the [ask] upstream log line on Railway.
+  // HARD CEILING: OpenRouter rejects requests whose `models` array has more
+  // than 3 entries ("'models' array must have 3 items or fewer", 400) — seen
+  // in prod logs 2026-07-03; it was the real cause of the "nemotron-ultra
+  // hard-502" mystery (the array had 4 items, so EVERY request failed
+  // regardless of the lead model). Never let this list exceed 3.
 ];
 
 type AskResult =
@@ -163,9 +164,9 @@ async function askOpenRouter(
   withTools = false,
 ): Promise<AskResult> {
   const override = cleanEnv(process.env.OPENROUTER_MODEL);
-  const models = override
-    ? [override, ...DEFAULT_MODELS.filter((m) => m !== override)]
-    : DEFAULT_MODELS;
+  const models = (
+    override ? [override, ...DEFAULT_MODELS.filter((m) => m !== override)] : DEFAULT_MODELS
+  ).slice(0, 3); // OpenRouter hard-caps `models` at 3 — an env prepend must not push past it
   const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     // a hung provider must not hold the request (and the visitor's spinner)
