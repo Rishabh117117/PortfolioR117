@@ -141,10 +141,13 @@ const MAX_TOKENS = 700;
    /models list (the MCP console needs `tools` end-to-end).
    OPENROUTER_MODEL (env) prepends an override as the new primary. */
 const DEFAULT_MODELS = [
-  "nvidia/nemotron-3-ultra-550b-a55b:free", // flagship-scale free tier, 1M ctx
-  "nvidia/nemotron-3-super-120b-a12b:free", // same family, lighter + faster
-  "openai/gpt-oss-120b:free", // proven in this app's prod tool loop
+  "openai/gpt-oss-120b:free", // proven in this app's prod tool loop — the reliable primary
+  "nvidia/nemotron-3-super-120b-a12b:free", // newest-gen free fallback (tools-capable)
+  "meta-llama/llama-3.3-70b-instruct:free", // proven free fallback
   "google/gemini-2.5-flash-lite", // paid safety net: $0.10 in / $0.40 out per MTok
+  // NOTE: nemotron-3-ultra-550b:free as PRIMARY hard-502'd the whole request
+  // in prod (2026-07-03) despite a live tools-capable endpoint — re-add only
+  // after reading the [ask] upstream log line on Railway.
 ];
 
 type AskResult =
