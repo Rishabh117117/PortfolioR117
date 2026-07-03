@@ -18,12 +18,12 @@ export const FLAGSHIPS: Project[] = [
     year: "2025–26",
     discipline: "Systems · AI",
     // §4.4 — burnt orange, matching the bespoke /work/follow page + capstone deck
-    // (was Persian Blue #1C39BB). status SIMULATED per D-03 (the on-page artifact
-    // is an illustrative scroll animation; the sandbox isn't built) — must stay in
-    // sync with the page's DemoCallout and the home-page callout.
+    // (was Persian Blue #1C39BB). FOLLOW-DEMO-1: the team-memory sandbox is built
+    // and live, so the old SIMULATED demo-status tag became a framing badge like
+    // the other flagships; demo status (WORKING) lives on the page's DemoCallout.
     // (No `featured` flag: the home grid is an equal 2×2 per Rishabh 2026-07-02.)
     accent: "#C2410C",
-    status: "SIMULATED",
+    status: "CAPSTONE · WORKING DEMO",
   },
   {
     name: "Greener Hours",
