@@ -599,3 +599,22 @@
 }
 
 /* (the "four questions" grid was removed — section deleted DESIGN-PHASE-1 v3) */
+
+
+/* =========================================================================
+   The sandbox (FOLLOW-DEMO-1) — full-bleed band for the working sandbox,
+   like .tlGlass; .page has overflow-x:clip so the 100vw pull is scrollbar-safe.
+   ========================================================================= */
+.appBleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: var(--space-5);
+  padding-inline: clamp(14px, 3vw, 44px);
+}
+.appBleedInner {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.appCallout {
+  margin-top: var(--space-6);
+}

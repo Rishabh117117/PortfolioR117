@@ -3,6 +3,8 @@ import DemoCallout from "@/components/DemoCallout/DemoCallout";
 import FollowReel from "./FollowReel";
 import CompareDiagram from "./CompareDiagram";
 import AmbientField from "./AmbientField";
+import FollowSandbox from "./FollowSandbox";
+import { FOLLOW_ROOT_STYLE } from "./theme";
 import styles from "./follow.module.css";
 
 export const metadata: Metadata = {
@@ -11,19 +13,13 @@ export const metadata: Metadata = {
     "Follow — a shared, trackable memory layer that sits between a team’s AI tools. The capstone: the pipeline, the research, and the two pivots to a team-memory layer.",
 };
 
-// §4.1 — Follow accent (burnt orange #C2410C, overriding Persian Blue) + derived
-// shades, set at the page root; everything inherits. --navy (the dark band) is
-// declared on styles.page so it stays scoped to this route.
-const rootStyle = {
-  "--accent": "#C2410C",
-  "--accent-deep": "#9E340A",
-  "--accent-wash": "#F7E0D4",
-  "--accent-tint": "#FBEFE7",
-} as React.CSSProperties;
+// §4.1 — the Follow accent lives in ./theme.ts (shared with the /prototype
+// route); --navy (the dark band) is declared on styles.page so it stays
+// scoped to this route.
 
 export default function FollowPage() {
   return (
-    <div style={rootStyle} className={styles.page}>
+    <div style={FOLLOW_ROOT_STYLE} className={styles.page}>
       {/* page-wide soft background layer — every section floats over this */}
       <AmbientField />
       <div className={styles.pageContent}>
@@ -451,17 +447,40 @@ export default function FollowPage() {
         </div>
       </section>
 
-      {/* ============ DEMO CALLOUT (honest badge — D-03 default: SIMULATED) ============ */}
+      {/* ============ THE SANDBOX (the demo promise, made real) ============ */}
       <section className="section">
         <div className="container">
-          <DemoCallout
-            name="Follow"
-            status="SIMULATED"
-            title="Query a shared team memory."
-            body="Step into a small, pre-loaded team workspace and ask it what's contested, who to ask, or what changed — watch answers come back with provenance and contested points flagged. Runs on sample data; the live MCP product connects to your real AI tools."
-            buttonLabel="Open the team-memory sandbox"
-            href="#"
-          />
+          <p className={`mono ${styles.kicker}`}>The sandbox</p>
+          <h2 className={styles.reelTitle}>
+            Query a shared team memory — <em>live</em>.
+          </h2>
+          <p className={styles.body}>
+            A small, pre-loaded workspace: Maya, Alex, and Sam, three different
+            AI tools, one memory. Browse what the team knows with per-entry
+            provenance, open the who-knows-what directory Follow keeps
+            automatically, and ask it what&apos;s contested, who to ask, or what
+            changed — answers come back attributed, with disagreements flagged
+            instead of resolved.
+          </p>
+        </div>
+
+        <div className={styles.appBleed}>
+          <div className={styles.appBleedInner}>
+            <FollowSandbox />
+          </div>
+        </div>
+
+        <div className="container">
+          <div className={styles.appCallout}>
+            <DemoCallout
+              name="Follow"
+              status="WORKING"
+              title="The sandbox above is live."
+              body="The memory browser, the contested pairs, and the who-knows-what directory run on a pre-loaded sample workspace; Ask Follow answers from that memory through a real model API behind a server-side proxy, with provenance in every answer. The shipped Follow product does this across your team's real AI tools over MCP."
+              buttonLabel="Open the sandbox full-screen"
+              href="/work/follow/prototype"
+            />
+          </div>
         </div>
       </section>
 
