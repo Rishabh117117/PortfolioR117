@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   F_WORKSPACE,
   F_HONESTY,
@@ -11,20 +11,31 @@ import {
   followContext,
   type FEntry,
 } from "@/lib/followSandbox";
+import { F_DOC_ENTRIES } from "@/lib/followDocEntries";
+import { fSourceForEntry, type FChat, type FDoc } from "@/lib/followProduct";
 import { FOLLOW_MCP_TOOLS } from "@/lib/followMcp";
 import FollowAskDock from "./FollowAskDock";
 import McpConsole from "./McpConsole";
+import AllItemsView from "./AllItemsView";
+import ConversationsView from "./ConversationsView";
+import FilesView from "./FilesView";
 import s from "./FollowSandbox.module.css";
 
 /**
- * The Follow team-memory sandbox (D-02: self-contained) — the page's demo
- * promise made real: step into a pre-loaded workspace, browse the shared
- * memory with per-entry provenance (who · tool · chat · when), see the two
- * genuinely contested pairs flagged instead of resolved, and ask Follow
- * questions the live model answers from this memory (/api/ask, demo "follow").
+ * The Follow product-replica sandbox — the shipped dashboard's landing
+ * surface, mirrored: All items · Conversations · Files · Facts · Who knows
+ * what · MCP console. Every one of the 20 canonical memory entries traces
+ * back to a fully written captured conversation (16 threads) or an uploaded
+ * file (7 docs, 12 doc-facts) — browsable here with the MCP tool loop shown
+ * on the wire, exactly like the live console renders it.
+ *
+ * Chats + docs are LAZY: they arrive via a dynamic import of
+ * lib/followProductData (16 transcripts + 7 doc bodies) once this component
+ * mounts, so /work/follow's first-load JS isn't ballooned by content that
+ * only matters once someone opens the sandbox.
  */
 
-type View = "memory" | "directory" | "mcp";
+type View = "items" | "conversations" | "files" | "memory" | "directory" | "mcp";
 
 const KIND_LABEL: Record<FEntry["kind"], string> = {
   decision: "decision",
@@ -33,13 +44,42 @@ const KIND_LABEL: Record<FEntry["kind"], string> = {
 };
 
 export default function FollowSandbox() {
-  const [view, setView] = useState<View>("memory");
+  const [view, setView] = useState<View>("items");
   const [query, setQuery] = useState("");
   const [topicFilter, setTopicFilter] = useState<string | null>(null);
   const [contestedOnly, setContestedOnly] = useState(false);
-  // the memory is mutable: the MCP console's save_conversation writes to it
-  const [entries, setEntries] = useState<FEntry[]>(F_ENTRIES);
+
+  // the memory is mutable: MCP console saves + doc-fact entries both write
+  // into this array. Doc entries are small + eager (no doc bodies), so they
+  // seed alongside the canonical 20 from the very first render.
+  const [entries, setEntries] = useState<FEntry[]>([...F_ENTRIES, ...F_DOC_ENTRIES]);
   const addEntry = useCallback((e: FEntry) => setEntries((prev) => [...prev, e]), []);
+
+  // chats + docs (bodies) are lazy — undefined until the dynamic import
+  // resolves; the three product views render a loading skeleton until then.
+  const [chats, setChats] = useState<FChat[] | null>(null);
+  const [docs, setDocs] = useState<FDoc[] | null>(null);
+  const addChat = useCallback((c: FChat) => setChats((prev) => (prev ? [...prev, c] : [c])), []);
+
+  const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
+  const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    import("@/lib/followProductData").then((mod) => {
+      if (cancelled) return;
+      setChats(mod.F_CHATS);
+      setDocs(mod.F_DOCS);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const chatsReady = chats !== null;
+  const docsReady = docs !== null;
+  const loadedChats = chats ?? [];
+  const loadedDocs = docs ?? [];
 
   const topics = useMemo(() => fTopics(entries), [entries]);
   const directory = useMemo(() => fDirectory(entries), [entries]);
@@ -63,6 +103,35 @@ export default function FollowSandbox() {
       );
     });
   }, [entries, query, topicFilter, contestedOnly]);
+
+  const jumpToFacts = useCallback((topic: string) => {
+    setView("memory");
+    setTopicFilter(topic);
+    setContestedOnly(false);
+    setQuery("");
+  }, []);
+
+  const openChat = useCallback((id: string) => {
+    setSelectedChatId(id);
+    setView("conversations");
+  }, []);
+
+  const openDoc = useCallback((id: string) => {
+    setSelectedDocId(id);
+    setView("files");
+  }, []);
+
+  const openSource = useCallback(
+    (e: FEntry) => {
+      const src = fSourceForEntry(e, loadedChats, loadedDocs);
+      if (!src) return;
+      if (src.kind === "chat") openChat(src.chat.id);
+      else openDoc(src.doc.id);
+    },
+    [loadedChats, loadedDocs, openChat, openDoc],
+  );
+
+  const itemCount = chatsReady && docsReady ? entries.length + loadedChats.length + loadedDocs.length : null;
 
   return (
     <div className={s.frame}>
@@ -113,11 +182,44 @@ export default function FollowSandbox() {
               <li>
                 <button
                   type="button"
+                  className={`${s.viewBtn} ${view === "items" ? s.viewOn : ""}`}
+                  aria-current={view === "items" ? "true" : undefined}
+                  onClick={() => setView("items")}
+                >
+                  <span>All items</span>
+                  <span className={s.viewCount}>{itemCount ?? "·"}</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className={`${s.viewBtn} ${view === "conversations" ? s.viewOn : ""}`}
+                  aria-current={view === "conversations" ? "true" : undefined}
+                  onClick={() => setView("conversations")}
+                >
+                  <span>Conversations</span>
+                  <span className={s.viewCount}>{chatsReady ? loadedChats.length : "·"}</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className={`${s.viewBtn} ${view === "files" ? s.viewOn : ""}`}
+                  aria-current={view === "files" ? "true" : undefined}
+                  onClick={() => setView("files")}
+                >
+                  <span>Files</span>
+                  <span className={s.viewCount}>{docsReady ? loadedDocs.length : "·"}</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
                   className={`${s.viewBtn} ${view === "memory" ? s.viewOn : ""}`}
                   aria-current={view === "memory" ? "true" : undefined}
                   onClick={() => setView("memory")}
                 >
-                  <span>Team memory</span>
+                  <span>Facts</span>
                   <span className={s.viewCount}>{entries.length}</span>
                 </button>
               </li>
@@ -165,7 +267,7 @@ export default function FollowSandbox() {
           <div className={s.stats}>
             <p className={s.railLabel}>this workspace</p>
             <div className={s.statRow}>
-              <span className={s.statName}>Entries captured</span>
+              <span className={s.statName}>Facts captured</span>
               <span className={s.statVal}>{entries.length}</span>
             </div>
             <div className={s.statRow}>
@@ -185,13 +287,83 @@ export default function FollowSandbox() {
 
         {/* ---------------- main ---------------- */}
         <section className={s.main} aria-label="Follow sandbox">
+          {view === "items" && (
+            <>
+              <header className={s.mainHead}>
+                <h3 className={s.mainTitle}>All items</h3>
+                <p className={s.mainBlurb}>
+                  Every captured conversation, uploaded file, and extracted fact — one feed, newest
+                  first.
+                </p>
+              </header>
+              {!chatsReady || !docsReady ? (
+                <p className={s.loadingSkeleton}>loading the workspace…</p>
+              ) : (
+                <AllItemsView
+                  entries={entries}
+                  chats={loadedChats}
+                  docs={loadedDocs}
+                  onOpenChat={openChat}
+                  onOpenDoc={openDoc}
+                  onOpenFactTopic={jumpToFacts}
+                />
+              )}
+            </>
+          )}
+
+          {view === "conversations" && (
+            <>
+              <header className={s.mainHead}>
+                <h3 className={s.mainTitle}>Conversations</h3>
+                <p className={s.mainBlurb}>
+                  Captured AI threads, transcript and all — thinking, tool calls, and the facts each
+                  one produced.
+                </p>
+              </header>
+              {!chatsReady ? (
+                <p className={s.loadingSkeleton}>loading the workspace…</p>
+              ) : (
+                <ConversationsView
+                  chats={loadedChats}
+                  entries={entries}
+                  selectedId={selectedChatId}
+                  onSelect={setSelectedChatId}
+                  onOpenFactTopic={jumpToFacts}
+                />
+              )}
+            </>
+          )}
+
+          {view === "files" && (
+            <>
+              <header className={s.mainHead}>
+                <h3 className={s.mainTitle}>Files</h3>
+                <p className={s.mainBlurb}>
+                  Uploaded documents the team indexed — PRDs, research notes, analytics exports,
+                  specs.
+                </p>
+              </header>
+              {!docsReady ? (
+                <p className={s.loadingSkeleton}>loading the workspace…</p>
+              ) : (
+                <FilesView
+                  docs={loadedDocs}
+                  entries={entries}
+                  selectedId={selectedDocId}
+                  onSelect={setSelectedDocId}
+                  onOpenFactTopic={jumpToFacts}
+                />
+              )}
+            </>
+          )}
+
           {view === "memory" && (
             <>
               <header className={s.mainHead}>
-                <h3 className={s.mainTitle}>Team memory</h3>
+                <h3 className={s.mainTitle}>Facts</h3>
                 <p className={s.mainBlurb}>
-                  Every entry keeps its provenance — who worked it out, in which AI, in which
-                  thread. Conflicts stay visible.
+                  Every entry keeps its provenance — who worked it out, in which AI or file, in
+                  which thread. Conflicts stay visible.
                 </p>
               </header>
               <input
@@ -222,15 +394,25 @@ export default function FollowSandbox() {
                 const m = fMember(e.memberId);
                 const other = e.contradicts ? entries.find((x) => x.id === e.contradicts) : null;
                 const otherM = other ? fMember(other.memberId) : null;
+                const isDoc = e.sourceKind === "doc";
+                const canOpenSource = chatsReady && docsReady && !!fSourceForEntry(e, loadedChats, loadedDocs);
                 return (
                   <article key={e.id} className={`${s.entry} ${e.contradicts ? s.entryHot : ""}`}>
                     <p className={s.claim}>{e.claim}</p>
                     <div className={s.provRow}>
-                      <span className={`${s.avatar} ${s.avatarSm} ${s[`tool${m.tool}`]}`} aria-hidden="true">
-                        {m.name[0]}
-                      </span>
+                      {isDoc ? (
+                        <span className={`${s.avatar} ${s.avatarSm} ${s.avatarDoc}`} aria-hidden="true">
+                          📄
+                        </span>
+                      ) : (
+                        <span className={`${s.avatar} ${s.avatarSm} ${s[`tool${m.tool}`]}`} aria-hidden="true">
+                          {m.name[0]}
+                        </span>
+                      )}
                       <span className={s.prov}>
-                        {m.name} · {m.tool} · “{e.chat}” · {e.when}
+                        {isDoc
+                          ? `${m.name} · 📄 "${e.chat}" · uploaded ${e.when}`
+                          : `${m.name} · ${m.tool} · "${e.chat}" · ${e.when}`}
                       </span>
                       <span className={`${s.kind} ${s[`kind_${e.kind}`]}`}>{KIND_LABEL[e.kind]}</span>
                       <span className={s.topicTag}>{e.topic}</span>
@@ -241,6 +423,11 @@ export default function FollowSandbox() {
                         disagrees with {otherM.name}&apos;s “{other.chat}” ({other.when}) — Follow keeps
                         both sides on the record instead of picking one.
                       </p>
+                    )}
+                    {canOpenSource && (
+                      <button type="button" className={s.openSource} onClick={() => openSource(e)}>
+                        open source →
+                      </button>
                     )}
                   </article>
                 );
@@ -297,7 +484,7 @@ export default function FollowSandbox() {
           )}
 
           {/* stays MOUNTED across view switches so the tool wire survives a
-              hop to Team memory (to see a saved entry) and back */}
+              hop to Facts (to see a saved entry) and back */}
           <div className={view === "mcp" ? s.mcpWrap : s.mcpHidden}>
             <header className={s.mainHead}>
               <h3 className={s.mainTitle}>MCP console</h3>
@@ -307,7 +494,7 @@ export default function FollowSandbox() {
                 response shapes here.
               </p>
             </header>
-            <McpConsole entries={entries} addEntry={addEntry} />
+            <McpConsole entries={entries} addEntry={addEntry} docs={loadedDocs} addChat={addChat} />
           </div>
         </section>
 

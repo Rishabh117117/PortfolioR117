@@ -25,6 +25,7 @@ import {
   fTopics,
   type FEntry,
 } from "./followSandbox";
+import type { FDoc } from "./followProduct";
 
 /* ---- OpenAI/OpenRouter function-tool format (what /api/ask forwards) ---- */
 export type McpToolDef = {
@@ -183,6 +184,10 @@ export type McpExecResult = { text: string; isError?: boolean };
 export type McpExecCtx = {
   entries: FEntry[];
   addEntry: (e: FEntry) => void;
+  /* uploaded files — optional so the sandbox's pre-doc-view executor calls
+     keep working unchanged; when present, directory_query/get_activity fold
+     file-ingestion signal in alongside the conversation-derived facts */
+  docs?: FDoc[];
 };
 
 const STOP = new Set([
@@ -272,18 +277,33 @@ function execDirectoryQuery(args: Record<string, unknown>, ctx: McpExecCtx): Mcp
     byMember.set(e.memberId, [...(byMember.get(e.memberId) ?? []), e]);
   }
 
+  // files whose declared topics match the query — folds upload activity
+  // into the same routing signal as conversation-derived facts
+  const docs = ctx.docs ?? [];
+  const matchedDocs = docs.filter((d) => d.topics.some((t) => toks.some((tok) => t.includes(tok))));
+  const filesByMember = new Map<string, number>();
+  for (const d of matchedDocs) {
+    filesByMember.set(d.uploaderId, (filesByMember.get(d.uploaderId) ?? 0) + 1);
+  }
+  const memberIds = new Set([...byMember.keys(), ...filesByMember.keys()]);
+
   const pairs = contestedPairs(matched);
-  const contributors = [...byMember.entries()]
-    .map(([memberId, own]) => {
+  const contributors = [...memberIds]
+    .map((memberId) => {
       const m = fMember(memberId);
+      const own = byMember.get(memberId) ?? [];
+      const filesUploaded = filesByMember.get(memberId) ?? 0;
       const chats = new Set(own.map((e) => e.chat));
-      const latest = own.reduce((a, b) => (WHEN_RANK[a.when] >= WHEN_RANK[b.when] ? a : b));
+      const latest = own.length
+        ? own.reduce((a, b) => (WHEN_RANK[a.when] >= WHEN_RANK[b.when] ? a : b))
+        : null;
       return {
         userId: m.id,
         name: m.name,
         email: `${m.id}@aurora.team`,
         totalFacts: own.length,
         totalFiles: 0,
+        filesUploaded,
         totalConversations: chats.size,
         sessionCount: chats.size,
         totalTimeMinutes: 0,
@@ -291,7 +311,7 @@ function execDirectoryQuery(args: Record<string, unknown>, ctx: McpExecCtx): Mcp
         sources: ["ai"],
         avgEngagement: Math.round((0.4 + own.length * 0.05) * 100) / 100,
         contradictionCount: own.filter((e) => e.contradicts).length,
-        latestContribution: latest.when,
+        latestContribution: latest ? latest.when : "—",
         stateChainDepth: own.length * 2,
         supersededCount: 0,
       };
@@ -347,24 +367,53 @@ function execDetectContradictions(args: Record<string, unknown>, ctx: McpExecCtx
   return { text: text.trim() };
 }
 
-/* ---- get_activity: `Activity for {scope} index since {since}:` ---- */
+/* ---- get_activity: `Activity for {scope} index since {since}:` — folds
+   file-ingestion lines in alongside captured-conversation facts ---- */
 function execGetActivity(args: Record<string, unknown>, ctx: McpExecCtx): McpExecResult {
   const since = String(args.since ?? "today");
+  const type = String(args.type ?? "all");
   const lower = since.toLowerCase();
   const minRank = lower === "today" ? WHEN_RANK.today : lower.includes("3 day") ? WHEN_RANK.Wed : 0;
-  const kept = ctx.entries
-    .filter((e) => (WHEN_RANK[e.when] ?? 0) >= minRank)
-    .sort((a, b) => (WHEN_RANK[b.when] ?? 0) - (WHEN_RANK[a.when] ?? 0));
 
-  if (kept.length === 0) {
+  const showContributions = type === "all" || type === "contributions" || type === "messages";
+  const showContradictions = type === "all" || type === "contradictions";
+  const showIngestions = type === "all" || type === "ingestions";
+
+  type Line = { rank: number; when: string; text: string };
+  const lines: Line[] = [];
+
+  if (showContributions || showContradictions) {
+    const kept = ctx.entries.filter((e) => (WHEN_RANK[e.when] ?? 0) >= minRank);
+    for (const e of kept) {
+      if (showContradictions && !showContributions && !e.contradicts) continue;
+      const m = fMember(e.memberId);
+      const flag = e.contradicts ? " ⚑ contested" : "";
+      lines.push({
+        rank: WHEN_RANK[e.when] ?? 0,
+        when: e.when,
+        text: `- [${e.when}] ${m.name} captured “${e.chat}” → ${e.kind}: ${e.claim.slice(0, 90)}${e.claim.length > 90 ? "…" : ""}${flag}`,
+      });
+    }
+  }
+
+  if (showIngestions) {
+    const docs = (ctx.docs ?? []).filter((d) => (WHEN_RANK[d.when] ?? 0) >= minRank);
+    for (const d of docs) {
+      const m = fMember(d.uploaderId);
+      lines.push({
+        rank: WHEN_RANK[d.when] ?? 0,
+        when: d.when,
+        text: `- [${d.when}] ${m.name} uploaded “${d.title}” (${d.filename}, ${d.sizeKb}KB) → ${d.producedEntryIds.length} fact(s) extracted`,
+      });
+    }
+  }
+
+  lines.sort((a, b) => b.rank - a.rank);
+
+  if (lines.length === 0) {
     return { text: `No activity in project index since ${since}.` };
   }
-  let text = `Activity for project index since ${since}:\n\n`;
-  for (const e of kept) {
-    const m = fMember(e.memberId);
-    text += `- [${e.when}] ${m.name} captured “${e.chat}” → ${e.kind}: ${e.claim.slice(0, 90)}${e.claim.length > 90 ? "…" : ""}\n`;
-  }
-  text += `\nTotal: ${kept.length} activities`;
+  const text = `Activity for project index since ${since}:\n\n${lines.map((l) => l.text).join("\n")}\n\nTotal: ${lines.length} activities`;
   return { text };
 }
 
@@ -433,6 +482,7 @@ export function mcpConsoleContext(entries: FEntry[]): string {
     .map((t) => `${t.topic}(${t.count})`)
     .join(", ");
   return [
+    `Also captured this week: 16 conversations · 7 files — every fact links back to its source.`,
     `Workspace: ${F_WORKSPACE.name} (${F_WORKSPACE.meta}).`,
     `Team: ${F_MEMBERS.map((m) => `${m.name} (${m.role}, uses ${m.tool})`).join("; ")}.`,
     `Index: ${entries.length} entries across topics ${topics}. Days run Mon→today.`,

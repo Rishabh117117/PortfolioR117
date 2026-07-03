@@ -23,12 +23,14 @@ export type FKind = "decision" | "finding" | "constraint";
 export type FEntry = {
   id: string;
   memberId: string;
-  chat: string; // the AI thread the fact came from
+  chat: string; // the AI thread (or uploaded file) the fact came from
   when: string; // relative label (Mon … today)
   topic: string;
   kind: FKind;
   claim: string; // the extracted, queryable fact
   contradicts?: string; // id of the entry it conflicts with
+  sourceKind?: "chat" | "doc"; // default "chat"; "doc" = extracted from an uploaded file
+  sourceId?: string; // FDoc id for doc facts; chat facts resolve via producedEntryIds
 };
 
 export const F_WORKSPACE = {
@@ -322,6 +324,22 @@ export function fDirectory(entries: FEntry[]): FDirectoryRow[] {
 
 /* ------------------- assistant grounding context ------------------------ */
 
+/* contested-first, then newest-day-first — the server slices at a fixed
+   char budget, so the tail (oldest, uncontested) is the least important */
+function orderForContext(entries: FEntry[]): FEntry[] {
+  return [...entries].sort((a, b) => {
+    const ac = a.contradicts ? 0 : 1;
+    const bc = b.contradicts ? 0 : 1;
+    if (ac !== bc) return ac - bc;
+    return fWhenRank(b.when) - fWhenRank(a.when);
+  });
+}
+
+function fWhenRank(when: string): number {
+  const i = (F_WHEN_ORDER as readonly string[]).indexOf(when);
+  return i === -1 ? -1 : i;
+}
+
 export function followContext(entries: FEntry[]): string {
   const dir = fDirectory(entries)
     .map(
@@ -331,14 +349,19 @@ export function followContext(entries: FEntry[]): string {
           .join(", ")}; last active ${d.lastActive}`,
     )
     .join("\n");
-  const mem = entries
+  const mem = orderForContext(entries)
     .map((e) => {
       const m = fMember(e.memberId);
       const flag = e.contradicts ? ` [CONTESTED — conflicts with ${e.contradicts}]` : "";
-      return `${e.id} [${e.topic} · ${e.kind} · ${e.when}] ${e.claim} (${m.name} · ${m.tool} · “${e.chat}”)${flag}`;
+      const src =
+        e.sourceKind === "doc"
+          ? `${m.name} · uploaded file "${e.chat}"`
+          : `${m.name} · ${m.tool} · “${e.chat}”`;
+      return `${e.id} [${e.topic} · ${e.kind} · ${e.when}] ${e.claim} (${src})${flag}`;
     })
     .join("\n");
   return [
+    `Also captured this week: 16 conversations · 7 files — every fact links back to its source.`,
     `Workspace: ${F_WORKSPACE.name} (${F_WORKSPACE.meta}). Days run Mon→today; "recent" = Thu/today.`,
     `Team directory:\n${dir}`,
     `Team memory entries:\n${mem}`,
@@ -349,5 +372,5 @@ export const F_ASK_PROMPTS = [
   "What's contested right now?",
   "Who should I ask about payments?",
   "What changed today?",
-  "Catch me up on guest checkout",
+  "What do the docs say about promo codes?",
 ];

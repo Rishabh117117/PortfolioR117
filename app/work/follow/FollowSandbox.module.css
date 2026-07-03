@@ -259,6 +259,14 @@
 .toolGemini {
   background: #4285f4;
 }
+/* file/doc-sourced provenance — round avatar slot holding 📄 instead of an
+   initial, so doc facts sit visually consistent with chat-sourced ones */
+.avatarDoc {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 10px;
+}
 .teamWho {
   display: flex;
   flex-direction: column;
@@ -872,4 +880,469 @@
 }
 .mcpHidden {
   display: none;
+}
+
+/* =========================================================================
+   FOLLOW-PRODUCT-1 — the dashboard replica: All items · Conversations ·
+   Files · Facts (existing Team memory). Day groups, the unified feed rows,
+   master-detail (Conversations/Files), transcript blocks (thinking + the
+   shared ⚙ tool-card pattern), the doc reader, and the facts footer.
+   ========================================================================= */
+
+/* ---------------- loading skeleton (lazy chats+docs) ---------------- */
+.loadingSkeleton {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--soft);
+  padding: 14px 2px;
+}
+
+/* ---------------- day groups (All items / Conversations / Files) ---------------- */
+.dayGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dayHeader {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin: 10px 0 2px 2px;
+}
+.dayGroup:first-child .dayHeader {
+  margin-top: 0;
+}
+.dayRows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ---------------- All items feed rows ---------------- */
+.feedRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.feedRow:hover {
+  border-color: var(--accent-wash);
+  box-shadow: var(--shadow-rest);
+}
+.feedBadge {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  border-radius: 6px;
+}
+.feedBadgeConvo {
+  background: var(--paper);
+}
+.feedBadgeFile {
+  background: var(--paper);
+}
+.feedBadgeFact {
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+.feedMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.feedTitle {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.feedZap {
+  color: var(--navy, #0a1f33);
+}
+.feedSnippet {
+  font-size: 11px;
+  color: var(--soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.feedMeta {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feedWho {
+  font-size: 10.5px;
+  color: var(--soft);
+  white-space: nowrap;
+}
+.feedFactWrap {
+  display: flex;
+  flex-direction: column;
+}
+.feedFactBody {
+  margin: 4px 0 2px 32px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--paper) 60%, var(--card));
+  border: 1px dashed var(--line);
+  border-radius: 0 8px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.feedFactBody .claim {
+  margin: 0;
+}
+
+/* "open source →" affordance — used in All items, Facts, and (soon) any
+   fact card that resolves a source via fSourceForEntry */
+.openSource {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--accent-deep);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--accent-wash);
+}
+.openSource:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* ---------------- master-detail (Conversations / Files) ---------------- */
+.masterDetail {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 14px;
+  flex: 1;
+  min-height: 0;
+}
+.mdList {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 2px;
+}
+.mdRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 9px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.mdRow:hover {
+  border-color: var(--accent-wash);
+}
+.mdRowOn,
+.mdRowOn:hover {
+  background: var(--accent-tint);
+  border-color: var(--accent-wash);
+}
+.mdRowMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.mdRowTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mdRowSub {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mdDetail {
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+.mdBack {
+  display: none;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-deep);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ---------------- transcript / doc reader header (shared) ---------------- */
+.transcriptHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.transcriptHeadMain {
+  flex: 1;
+  min-width: 0;
+}
+.transcriptTitle {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 3px;
+}
+.transcriptSub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--soft);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.docKindBadge {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+  border-radius: 6px;
+  padding: 2px 6px;
+  flex: 0 0 auto;
+}
+.docKindBadgeLg {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+  border-radius: 8px;
+  padding: 6px 10px;
+  flex: 0 0 auto;
+}
+
+/* ---------------- transcript blocks ---------------- */
+.transcriptScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.assistantTurn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+}
+.assistantLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-left: 2px;
+}
+.thinking {
+  max-width: 92%;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--paper) 70%, var(--card));
+}
+.thinkingSummary {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--soft);
+  cursor: pointer;
+  list-style: none;
+}
+.thinkingSummary::-webkit-details-marker {
+  display: none;
+}
+.thinkingSummary::marker {
+  content: "";
+}
+.thinkingBody {
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--soft);
+  margin: 6px 0 0;
+}
+
+/* ---------------- doc reader (markdown-subset renderer) ---------------- */
+.docReader {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.docH2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 16px 0 4px;
+}
+.docReader > .docH2:first-child {
+  margin-top: 0;
+}
+.docH3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--soft);
+  margin: 12px 0 3px;
+}
+.docPara {
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.docList {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.docList li {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.docQuote {
+  margin: 6px 0 10px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-tint);
+  border-radius: 0 6px 6px 0;
+}
+.docQuote p {
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--ink);
+}
+.docQuote p + p {
+  margin-top: 4px;
+}
+
+/* ---------------- facts footer (Conversations + Files) ---------------- */
+.factsFooter {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.factsFooterHead {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin: 0;
+}
+.factsFooterChips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.factChip {
+  text-align: left;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.factChip:hover {
+  border-color: var(--accent);
+}
+.factChipZap {
+  color: var(--navy, #0a1f33);
+}
+.factCountChip {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  background: var(--paper);
+}
+
+/* ---------------- responsive: master-detail stacks ≤880px ---------------- */
+@media (max-width: 880px) {
+  .masterDetail {
+    display: block;
+  }
+  .mdList {
+    display: none;
+  }
+  .mdListShowMobile {
+    display: flex;
+  }
+  .mdDetail {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .mdDetailHideMobile {
+    display: none;
+  }
+  .mdBack {
+    display: inline-block;
+  }
 }

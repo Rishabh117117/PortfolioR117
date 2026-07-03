@@ -8,6 +8,7 @@ import {
   runFollowTool,
 } from "@/lib/followMcp";
 import type { FEntry } from "@/lib/followSandbox";
+import type { FBlock, FChat, FDoc } from "@/lib/followProduct";
 import s from "./FollowSandbox.module.css";
 
 /**
@@ -44,9 +45,13 @@ function prettyArgs(raw: string): string {
 export default function McpConsole({
   entries,
   addEntry,
+  docs,
+  addChat,
 }: {
   entries: FEntry[];
   addEntry: (e: FEntry) => void;
+  docs: FDoc[];
+  addChat: (c: FChat) => void;
 }) {
   const [items, setItems] = useState<WireItem[]>([]);
   const [input, setInput] = useState("");
@@ -54,6 +59,7 @@ export default function McpConsole({
   const [offline, setOffline] = useState(false);
   const apiMsgs = useRef<ApiMsg[]>([]);
   const entriesRef = useRef(entries);
+  const savedChatCount = useRef(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -70,12 +76,63 @@ export default function McpConsole({
       entriesRef.current = [...entriesRef.current, e];
       addEntry(e);
     },
+    docs,
   });
+
+  function wireItemToBlock(it: WireItem): FBlock | null {
+    if (it.kind === "user") return { t: "user", text: it.text };
+    if (it.kind === "assistant") return { t: "assistant", text: it.text };
+    if (it.kind === "tool") {
+      let args: Record<string, unknown> = {};
+      try {
+        args = JSON.parse(it.args);
+      } catch {
+        /* malformed args render as an empty object on the transcript */
+      }
+      return { t: "tool", name: it.name, args, result: it.result, isError: it.isError };
+    }
+    return null; // "note" items (offline/error banners) aren't part of the transcript
+  }
+
+  /* After a successful save_conversation, the console's own wire this turn
+     becomes a captured conversation — an FChat built from the wire items so
+     this session appears in Conversations/All items exactly like any other
+     captured thread. The tool result text carries the entry id ("id:
+     mcp-N") the executor just wrote via addEntry. producedEntryIds parses
+     that id out of the save result text. */
+  function recordSavedChat(wire: WireItem[], saveArgs: Record<string, unknown>, resultText: string) {
+    const idMatch = resultText.match(/id:\s*([a-z0-9-]+)/i);
+    const producedId = idMatch ? idMatch[1] : undefined;
+    const title =
+      typeof saveArgs.title === "string" && saveArgs.title.trim() ? saveArgs.title.trim() : "MCP console session";
+
+    savedChatCount.current += 1;
+    const blocks = wire.map(wireItemToBlock).filter((b): b is FBlock => b !== null);
+
+    const chat: FChat = {
+      id: `cnv-you-${savedChatCount.current}`,
+      memberId: "you",
+      title,
+      when: "today",
+      seq: 900 + savedChatCount.current,
+      tool: "ChatGPT",
+      summary: title,
+      producedEntryIds: producedId ? [producedId] : [],
+      blocks,
+    };
+    addChat(chat);
+  }
 
   async function send(preset?: string) {
     const q = (preset ?? input).trim();
     if (!q || loading) return;
     setInput("");
+    // wireLog mirrors the FULL session's setItems synchronously (no race on
+    // the closing save detection below — React state updates are async,
+    // this array isn't), so a save captures the whole console session up
+    // to and including this turn, not just this turn's slice.
+    let wireLog: WireItem[] = [...items, { kind: "user", text: q }];
+    let savedThisTurn: { args: Record<string, unknown>; resultText: string } | null = null;
     setItems((it) => [...it, { kind: "user", text: q }]);
     apiMsgs.current = [...apiMsgs.current, { role: "user", content: q }];
     setLoading(true);
@@ -101,7 +158,7 @@ export default function McpConsole({
               kind: "note",
               text:
                 r.status === 503
-                  ? "The tool-loop backend isn't configured in this environment — the tools themselves still run: browse Team memory, or read the schemas below."
+                  ? "The tool-loop backend isn't configured in this environment — the tools themselves still run: browse Facts, or read the schemas below."
                   : data?.error || "The model service returned an error.",
             },
           ]);
@@ -132,28 +189,40 @@ export default function McpConsole({
               /* tolerate malformed args — the executor reports the miss */
             }
             const res = runFollowTool(c.name, args, execCtx());
-            setItems((it) => [
-              ...it,
-              { kind: "tool", name: c.name, args: c.arguments, result: res.text, isError: res.isError },
-            ]);
+            const toolItem: WireItem = {
+              kind: "tool",
+              name: c.name,
+              args: c.arguments,
+              result: res.text,
+              isError: res.isError,
+            };
+            wireLog = [...wireLog, toolItem];
+            setItems((it) => [...it, toolItem]);
             apiMsgs.current = [
               ...apiMsgs.current,
               { role: "tool", tool_call_id: c.id, content: res.text },
             ];
+            if (c.name === "save_conversation" && !res.isError) {
+              savedThisTurn = { args, resultText: res.text };
+            }
           }
           continue; // hand the results back to the model
         }
 
         // final grounded answer
-        setItems((it) => [...it, { kind: "assistant", text: data?.text || "(no response)" }]);
+        const answerText = data?.text || "(no response)";
+        wireLog = [...wireLog, { kind: "assistant", text: answerText }];
+        setItems((it) => [...it, { kind: "assistant", text: answerText }]);
         apiMsgs.current = [...apiMsgs.current, { role: "assistant", content: data?.text || "" }];
         setOffline(false);
+        if (savedThisTurn) recordSavedChat(wireLog, savedThisTurn.args, savedThisTurn.resultText);
         return;
       }
       setItems((it) => [
         ...it,
         { kind: "note", text: `(stopped after ${MAX_ROUNDS} tool rounds — ask a follow-up to continue)` },
       ]);
+      if (savedThisTurn) recordSavedChat(wireLog, savedThisTurn.args, savedThisTurn.resultText);
     } catch {
       setItems((it) => [...it, { kind: "note", text: "(connection error — the console couldn't reach the API.)" }]);
     } finally {
@@ -191,8 +260,8 @@ export default function McpConsole({
         {fresh && (
           <p className={s.consoleEmpty}>
             Try one of the prompts below — the model will pick its tools, and you&apos;ll see the
-            JSON-RPC-shaped traffic in the open. Ask it to <em>save the conversation</em> and the
-            entry lands in Team memory, under “You”.
+            JSON-RPC-shaped traffic in the open. Ask it to <em>save the conversation</em> and this
+            session appears in Conversations and Facts, under “You”.
           </p>
         )}
         {items.map((it, i) => {
