@@ -141,9 +141,10 @@ async function askOpenRouter(
     headers: {
       "content-type": "application/json",
       authorization: `Bearer ${key}`,
-      // optional OpenRouter attribution headers
+      // optional OpenRouter attribution headers (ASCII only — header values
+      // are ByteStrings; an em dash here made undici throw in prod)
       "http-referer": referer,
-      "x-title": "Rishabh Salian — Portfolio",
+      "x-title": "Rishabh Salian - Portfolio",
     },
     body: JSON.stringify({
       models, // fallback routing: first available serves the request
