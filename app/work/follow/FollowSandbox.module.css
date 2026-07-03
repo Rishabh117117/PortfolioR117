@@ -739,3 +739,137 @@
     display: none;
   }
 }
+
+
+/* ---------------- MCP console (FOLLOW-MCP-1) ---------------- */
+.console {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.consoleIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.consoleLede {
+  font-size: 12px;
+  color: var(--soft);
+  line-height: 1.55;
+  margin: 0;
+}
+.toolLegend {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.toolChip {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: var(--card);
+  cursor: help;
+}
+.repoLink {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--accent-deep);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--accent-wash);
+  white-space: nowrap;
+}
+.repoLink:hover {
+  border-bottom-color: var(--accent);
+}
+.consoleThread {
+  flex: 1;
+  min-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  padding: 12px;
+}
+.consoleEmpty {
+  font-size: 12px;
+  color: var(--soft);
+  line-height: 1.6;
+  margin: 0;
+}
+.toolCard {
+  border: 1px solid color-mix(in srgb, var(--navy, #0a1f33) 30%, var(--line));
+  border-left: 3px solid var(--navy, #0a1f33);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--navy, #0a1f33) 4%, var(--card));
+  padding: 8px 10px;
+  max-width: 96%;
+}
+.toolCardErr {
+  border-left-color: var(--accent);
+}
+.toolHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.toolName {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--navy, #0a1f33);
+}
+.toolTag {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--navy, #0a1f33);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+.toolArgs,
+.toolRes {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.toolResHead {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin: 6px 0 4px;
+}
+
+.mcpWrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mcpHidden {
+  display: none;
+}

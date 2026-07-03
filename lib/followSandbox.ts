@@ -46,6 +46,11 @@ export const F_MEMBERS: FMember[] = [
   { id: "sam", name: "Sam", role: "Engineer", tool: "Gemini" },
 ];
 
+/* the visitor — entries written through the MCP console's save_conversation
+   land under this identity (it appears in the team/directory once it has
+   at least one entry) */
+export const F_YOU: FMember = { id: "you", name: "You", role: "Visitor · MCP console", tool: "ChatGPT" };
+
 /* chronological order for "what changed" reasoning */
 export const F_WHEN_ORDER = ["Mon", "Tue", "Wed", "Thu", "today"] as const;
 
@@ -269,7 +274,7 @@ export const F_ENTRIES: FEntry[] = [
 /* ------------------------------ derivations ---------------------------- */
 
 export function fMember(id: string): FMember {
-  return F_MEMBERS.find((m) => m.id === id) as FMember;
+  return F_MEMBERS.find((m) => m.id === id) ?? F_YOU;
 }
 
 export type FTopicStat = { topic: string; count: number; contested: boolean };
@@ -295,7 +300,10 @@ export type FDirectoryRow = {
 };
 
 export function fDirectory(entries: FEntry[]): FDirectoryRow[] {
-  return F_MEMBERS.map((member) => {
+  const members = entries.some((e) => e.memberId === F_YOU.id)
+    ? [...F_MEMBERS, F_YOU]
+    : F_MEMBERS;
+  return members.map((member) => {
     const own = entries.filter((e) => e.memberId === member.id);
     const topics = new Map<string, number>();
     own.forEach((e) => topics.set(e.topic, (topics.get(e.topic) || 0) + 1));

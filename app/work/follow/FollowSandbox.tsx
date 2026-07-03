@@ -1,10 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   F_WORKSPACE,
   F_HONESTY,
-  F_MEMBERS,
   F_ENTRIES,
   fMember,
   fTopics,
@@ -12,7 +11,9 @@ import {
   followContext,
   type FEntry,
 } from "@/lib/followSandbox";
+import { FOLLOW_MCP_TOOLS } from "@/lib/followMcp";
 import FollowAskDock from "./FollowAskDock";
+import McpConsole from "./McpConsole";
 import s from "./FollowSandbox.module.css";
 
 /**
@@ -23,7 +24,7 @@ import s from "./FollowSandbox.module.css";
  * questions the live model answers from this memory (/api/ask, demo "follow").
  */
 
-type View = "memory" | "directory";
+type View = "memory" | "directory" | "mcp";
 
 const KIND_LABEL: Record<FEntry["kind"], string> = {
   decision: "decision",
@@ -36,16 +37,19 @@ export default function FollowSandbox() {
   const [query, setQuery] = useState("");
   const [topicFilter, setTopicFilter] = useState<string | null>(null);
   const [contestedOnly, setContestedOnly] = useState(false);
+  // the memory is mutable: the MCP console's save_conversation writes to it
+  const [entries, setEntries] = useState<FEntry[]>(F_ENTRIES);
+  const addEntry = useCallback((e: FEntry) => setEntries((prev) => [...prev, e]), []);
 
-  const topics = useMemo(() => fTopics(F_ENTRIES), []);
-  const directory = useMemo(() => fDirectory(F_ENTRIES), []);
-  const context = useMemo(() => followContext(F_ENTRIES), []);
-  const contestedCount = F_ENTRIES.filter((e) => e.contradicts).length / 2;
+  const topics = useMemo(() => fTopics(entries), [entries]);
+  const directory = useMemo(() => fDirectory(entries), [entries]);
+  const context = useMemo(() => followContext(entries), [entries]);
+  const contestedCount = entries.filter((e) => e.contradicts).length / 2;
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
     // newest first: reverse of authored order (authored Mon→today)
-    return [...F_ENTRIES].reverse().filter((e) => {
+    return [...entries].reverse().filter((e) => {
       if (contestedOnly && !e.contradicts) return false;
       if (topicFilter && e.topic !== topicFilter) return false;
       if (!q) return true;
@@ -58,7 +62,7 @@ export default function FollowSandbox() {
         m.tool.toLowerCase().includes(q)
       );
     });
-  }, [query, topicFilter, contestedOnly]);
+  }, [entries, query, topicFilter, contestedOnly]);
 
   return (
     <div className={s.frame}>
@@ -83,7 +87,7 @@ export default function FollowSandbox() {
         <div className={s.topRight}>
           <span className={s.syncPill}>
             <span className={s.syncDot} aria-hidden="true" />
-            memory synced · {F_ENTRIES.length} entries
+            memory synced · {entries.length} entries
           </span>
           <button
             type="button"
@@ -114,7 +118,7 @@ export default function FollowSandbox() {
                   onClick={() => setView("memory")}
                 >
                   <span>Team memory</span>
-                  <span className={s.viewCount}>{F_ENTRIES.length}</span>
+                  <span className={s.viewCount}>{entries.length}</span>
                 </button>
               </li>
               <li>
@@ -125,7 +129,18 @@ export default function FollowSandbox() {
                   onClick={() => setView("directory")}
                 >
                   <span>Who knows what</span>
-                  <span className={s.viewCount}>{F_MEMBERS.length}</span>
+                  <span className={s.viewCount}>{directory.length}</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className={`${s.viewBtn} ${view === "mcp" ? s.viewOn : ""}`}
+                  aria-current={view === "mcp" ? "true" : undefined}
+                  onClick={() => setView("mcp")}
+                >
+                  <span>MCP console</span>
+                  <span className={s.viewCount}>{FOLLOW_MCP_TOOLS.length}</span>
                 </button>
               </li>
             </ul>
@@ -151,7 +166,7 @@ export default function FollowSandbox() {
             <p className={s.railLabel}>this workspace</p>
             <div className={s.statRow}>
               <span className={s.statName}>Entries captured</span>
-              <span className={s.statVal}>{F_ENTRIES.length}</span>
+              <span className={s.statVal}>{entries.length}</span>
             </div>
             <div className={s.statRow}>
               <span className={s.statName}>Topics tracked</span>
@@ -205,7 +220,7 @@ export default function FollowSandbox() {
               {shown.length === 0 && <p className={s.empty}>Nothing in memory matches that.</p>}
               {shown.map((e) => {
                 const m = fMember(e.memberId);
-                const other = e.contradicts ? F_ENTRIES.find((x) => x.id === e.contradicts) : null;
+                const other = e.contradicts ? entries.find((x) => x.id === e.contradicts) : null;
                 const otherM = other ? fMember(other.memberId) : null;
                 return (
                   <article key={e.id} className={`${s.entry} ${e.contradicts ? s.entryHot : ""}`}>
@@ -280,6 +295,20 @@ export default function FollowSandbox() {
               </p>
             </>
           )}
+
+          {/* stays MOUNTED across view switches so the tool wire survives a
+              hop to Team memory (to see a saved entry) and back */}
+          <div className={view === "mcp" ? s.mcpWrap : s.mcpHidden}>
+            <header className={s.mainHead}>
+              <h3 className={s.mainTitle}>MCP console</h3>
+              <p className={s.mainBlurb}>
+                Follow is headless by design — the shipped server exposes these tools over
+                JSON-RPC at /mcp, to people and machines alike. Same names, schemas, and
+                response shapes here.
+              </p>
+            </header>
+            <McpConsole entries={entries} addEntry={addEntry} />
+          </div>
         </section>
 
         {/* ---------------- Ask Follow dock ---------------- */}

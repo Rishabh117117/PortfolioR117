@@ -460,7 +460,19 @@ export default function FollowPage() {
             provenance, open the who-knows-what directory Follow keeps
             automatically, and ask it what&apos;s contested, who to ask, or what
             changed — answers come back attributed, with disagreements flagged
-            instead of resolved.
+            instead of resolved. Then open the <strong>MCP console</strong> and
+            watch the machine side: a live model calling Follow&apos;s actual
+            tools — <code>query_index</code>, <code>directory_query</code>,{" "}
+            <code>detect_contradictions</code> — with every call and result on
+            the wire, straight from the{" "}
+            <a
+              href="https://github.com/Rishabh117117/workspace-platform"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              workspace-platform repo
+            </a>
+            &apos;s contracts.
           </p>
         </div>
 
@@ -476,7 +488,7 @@ export default function FollowPage() {
               name="Follow"
               status="WORKING"
               title="The sandbox above is live."
-              body="The memory browser, the contested pairs, and the who-knows-what directory run on a pre-loaded sample workspace; Ask Follow answers from that memory through a real model API behind a server-side proxy, with provenance in every answer. The shipped Follow product does this across your team's real AI tools over MCP."
+              body="The memory browser, the contested pairs, and the who-knows-what directory run on a pre-loaded sample workspace; Ask Follow answers from that memory through a real model API, with provenance in every answer. The MCP console goes further: a real tool-calling loop over Follow's actual MCP tool contracts — same names, schemas, and response shapes as the shipped headless server (12 tools over JSON-RPC), executed on the sandbox. Saving a conversation there writes a real entry into the memory views."
               buttonLabel="Open the sandbox full-screen"
               href="/work/follow/prototype"
             />
