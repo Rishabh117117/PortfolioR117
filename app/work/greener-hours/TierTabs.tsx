@@ -11,13 +11,17 @@ import {
 import ComputeWindowMock from "./ComputeWindowMock";
 import SchedulerMock from "./SchedulerMock";
 import DashboardMock from "./DashboardMock";
+import { GhSimProvider } from "./GhSim";
 import s from "./TierTabs.module.css";
 
 /**
  * §The product — the three surfaces in a tabbed panel. One tab per tier; the
  * active tab shows a compact brief + principle chips and the tier's full-width
- * LIVE surface (chat / scheduler / dashboard). Client component; WAI-ARIA
- * tablist with roving-tabindex keyboard nav.
+ * LIVE surface (chat / scheduler / dashboard). GH-SIM-1: all three surfaces
+ * run on ONE shared sim (GhSimProvider mounts here, above the tabs, so the
+ * clock and job queue survive tab switches — pause in T2 and the T1 pill
+ * freezes; submit a job in T2 and T3's flex strip moves). Client component;
+ * WAI-ARIA tablist with roving-tabindex keyboard nav.
  */
 
 const PRINCIPLES: Principle[][] = [TIER1_PRINCIPLES, TIER2_PRINCIPLES, TIER3_PRINCIPLES];
@@ -42,6 +46,7 @@ export default function TierTabs() {
   };
 
   return (
+    <GhSimProvider>
     <div>
       <div className={s.tabs} role="tablist" aria-label="The three surfaces" onKeyDown={onKeyDown}>
         {TIERS.map((t, i) => (
@@ -87,5 +92,6 @@ export default function TierTabs() {
         </div>
       </div>
     </div>
+    </GhSimProvider>
   );
 }

@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { GRID, hh, useGhSim } from "./GhSim";
 import "./diagrams.css";
 import s from "./TierMocks.module.css";
 
 /**
- * §Tier 3 — Compute Footprint Dashboard (deck slide 10), now LIVE. The KPI
- * counters tick while LIVE is on; the anti-rebound chart pairs falling intensity
- * (amber) with rising volume (navy) so efficiency can't disguise growth.
+ * §Tier 3 — Compute Footprint Dashboard (deck slide 10), LIVE on the shared
+ * sim (GH-SIM-1). The request counter ticks while LIVE is on; AVG INTENSITY
+ * follows the same sim clock as the T1 pill and T2 scheduler; the flex strip
+ * reflects the actual Tier-2 queue — submit a job there and this moves.
  */
 
 // 24 days · [volume 0-1 (rising), intensity 0-1 (falling)] — deterministic
@@ -28,20 +30,23 @@ const BY_MODEL: [string, number, string][] = [
 ];
 
 export default function DashboardMock() {
+  const { hour, jobs, flex } = useGhSim();
   const [live, setLive] = useState(true);
   const [calls, setCalls] = useState(2_400_000);
-  const [avg, setAvg] = useState(312);
+  const [jitter, setJitter] = useState(0);
 
   useEffect(() => {
     if (!live) return;
     const t = setInterval(() => {
       setCalls((c) => c + Math.floor(40 + Math.random() * 120));
-      setAvg((a) => Math.max(180, Math.min(340, Math.round(a + (Math.random() - 0.5) * 6))));
+      setJitter(Math.round((Math.random() - 0.5) * 8));
     }, 900);
     return () => clearInterval(t);
   }, [live]);
 
   const callsLabel = (calls / 1_000_000).toFixed(2) + "M";
+  // avg intensity tracks the SAME sim clock as the T1 pill (small live jitter)
+  const avg = GRID[hour] + (live ? jitter : 0);
 
   return (
     <div className={s.frame}>
@@ -99,6 +104,21 @@ export default function DashboardMock() {
           <div className={s.kFig}>847<span className={s.u}>tCO₂eq</span></div>
           <div className={s.kDelta}>audit-ready · CSRD</div>
         </div>
+      </div>
+
+      {/* the cross-tier read: this is the actual Tier-2 queue, live */}
+      <div className={s.flexStrip}>
+        <span className={s.flexLbl}>
+          FLEX SCHEDULER · {hh(hour)}:00
+        </span>
+        {jobs.length > 0 ? (
+          <span className={s.flexVals}>
+            {flex.count} job{flex.count === 1 ? "" : "s"} routed ({flex.complete} complete) · avg −{flex.avgSavePct}%
+            intensity · ~{flex.gramsAvoided} g CO₂eq avoided <i>(sim)</i>
+          </span>
+        ) : (
+          <span className={s.flexVals}>no flexible jobs in the queue — submit one on the Tier-2 scheduler</span>
+        )}
       </div>
 
       <div className={s.chartBlock}>

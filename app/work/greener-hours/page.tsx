@@ -324,11 +324,10 @@ export default function GreenerHoursPage() {
             <DemoCallout
               name="Greener Hours"
               status="WORKING"
-              title="The three surfaces above are live."
-              body="Tab through them: the scheduler queues real jobs to the cleanest grid window, the dashboard ticks live, and the chat runs on a real model API through a server-side proxy (the key never reaches the browser). Greener Hours itself remains a speculative open standard — the full argument lives in the presentation deck."
-              buttonLabel="View the full deck ↗"
-              href="/greener-hours/index.html"
-              external
+              title="The three surfaces above are live — on one simulation."
+              body="Tab through them: pause the scheduler's clock and the chat's carbon indicator freezes with it; submit a flexible job and the dashboard's flex strip picks it up. The chat runs on a real model API through a server-side proxy, grounded in the sim state it sits on. Greener Hours itself remains a speculative open standard — the full argument lives in the presentation deck, linked above."
+              buttonLabel="Open the prototype full-screen"
+              href="/work/greener-hours/prototype"
             />
           </div>
         </section>

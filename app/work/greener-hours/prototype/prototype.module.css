@@ -1,0 +1,57 @@
+/* Full-screen mount for the Greener Hours three-surface prototype — minimal
+   chrome, the tabs are the page. Inherits Forest + amber/navy from
+   GH_ROOT_STYLE. */
+
+.page {
+  min-height: calc(100vh - var(--nav-h));
+  padding: 26px clamp(14px, 3vw, 44px) 48px;
+  background: var(--paper);
+}
+
+.head {
+  max-width: 1180px;
+  margin: 0 auto 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.kicker {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin: 0 0 6px;
+}
+
+.title {
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.back {
+  font-size: 11px;
+  color: var(--soft);
+  text-decoration: none;
+  padding-bottom: 4px;
+}
+.back:hover {
+  color: var(--accent-deep);
+}
+
+.mount {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.foot {
+  max-width: 1180px;
+  margin: 14px auto 0;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--soft);
+}

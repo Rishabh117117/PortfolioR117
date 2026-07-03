@@ -1,28 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { GRID, tone, hh, useGhSim, type GhJob } from "./GhSim";
 import s from "./TierMocks.module.css";
 
 /**
- * §Tier 2 — Flexible Compute Scheduler (deck slide 9 + prototype), now LIVE.
- * Submit a job → it's scheduled to the cleanest grid window before its deadline.
- * Advance the sim clock (or auto-run) to watch jobs run and complete. Self-
- * contained simulation — no backend.
+ * §Tier 2 — Flexible Compute Scheduler (deck slide 9 + prototype), LIVE on the
+ * shared sim (GH-SIM-1). Submit a job → it's scheduled to the cleanest grid
+ * window before its deadline. The clock here is THE product clock — pausing it
+ * pauses the T1 indicator and the T3 dashboard too, and every job submitted
+ * shows up on the dashboard's flex strip.
  */
-
-const GRID = Array.from({ length: 24 }, (_, h) => {
-  const base = 320;
-  const peak = Math.sin(((h - 8) / 24) * Math.PI * 2) * 140;
-  const noise = ((h * 17) % 11) - 5;
-  return Math.max(140, Math.round(base + peak + noise));
-});
-
-// clean = forest, mixed = amber-soft, dirty = amber
-function tone(i: number) {
-  if (i < 220) return "var(--accent)";
-  if (i < 340) return "var(--amber-soft)";
-  return "var(--amber)";
-}
 
 const SAMPLE_JOBS = [
   "Batch transcription · 412 audio files",
@@ -33,76 +21,24 @@ const SAMPLE_JOBS = [
   "Fine-tune evaluation run",
 ];
 
-type Job = {
-  id: number;
-  name: string;
-  submitted: number;
-  deadlineH: number;
-  scheduled: number;
-  schedInt: number;
-  immInt: number;
-  status: "queued" | "running" | "complete";
-};
-
-const STATUS: Record<Job["status"], { label: string; color: string; bg: string }> = {
+const STATUS: Record<GhJob["status"], { label: string; color: string; bg: string }> = {
   queued: { label: "Queued", color: "var(--soft)", bg: "var(--fill)" },
   running: { label: "Running", color: "var(--amber)", bg: "var(--amber-wash)" },
   complete: { label: "Complete", color: "var(--accent)", bg: "var(--accent-tint)" },
 };
 
 export default function SchedulerMock() {
-  const [hour, setHour] = useState(14);
-  const [auto, setAuto] = useState(false);
+  const { hour, advanceHour, auto, setAuto, jobs, submitJob } = useGhSim();
   const [deadline, setDeadline] = useState(8);
   const [idx, setIdx] = useState(0);
-  const [jobs, setJobs] = useState<Job[]>([
-    { id: 1, name: "Batch transcription · 412 audio files", submitted: 13, deadlineH: 21, scheduled: 17, schedInt: 168, immInt: 342, status: "queued" },
-    { id: 2, name: "Overnight feedback summary", submitted: 12, deadlineH: 20, scheduled: 16, schedInt: 194, immInt: 360, status: "queued" },
-  ]);
-  const [nextId, setNextId] = useState(3);
-
-  useEffect(() => {
-    if (!auto) return;
-    const t = setInterval(() => setHour((h) => (h + 1) % 24), 2200);
-    return () => clearInterval(t);
-  }, [auto]);
-
-  useEffect(() => {
-    setJobs((js) =>
-      js.map((j) => {
-        if (j.status === "queued" && hour === j.scheduled) return { ...j, status: "running" };
-        if (j.status === "running" && hour === (j.scheduled + 1) % 24) return { ...j, status: "complete" };
-        return j;
-      }),
-    );
-  }, [hour]);
-
-  const findCleanest = (start: number, win: number) => {
-    let best = start;
-    let bestI = GRID[start];
-    for (let i = 0; i < win; i++) {
-      const h = (start + i) % 24;
-      if (GRID[h] < bestI) {
-        bestI = GRID[h];
-        best = h;
-      }
-    }
-    return { hour: best, intensity: bestI };
-  };
 
   const addJob = () => {
-    const { hour: sh, intensity } = findCleanest(hour, deadline);
-    setJobs((js) => [
-      { id: nextId, name: SAMPLE_JOBS[idx % SAMPLE_JOBS.length], submitted: hour, deadlineH: (hour + deadline) % 24, scheduled: sh, schedInt: intensity, immInt: GRID[hour], status: "queued" },
-      ...js,
-    ]);
-    setNextId((n) => n + 1);
+    submitJob(SAMPLE_JOBS[idx % SAMPLE_JOBS.length], deadline);
     setIdx((i) => i + 1);
   };
 
   const queued = jobs.filter((j) => j.status === "queued");
   const W = 480, H = 96, STEP = W / 24, BASE = H - 12, MAXH = BASE - 6;
-  const hh = (i: number) => String(i).padStart(2, "0");
 
   return (
     <div className={s.frame}>
@@ -115,7 +51,7 @@ export default function SchedulerMock() {
         <div>
           <div className={s.clock}>
             <div className={s.clockTop}>
-              <span className={s.clockLbl}>Sim clock</span>
+              <span className={s.clockLbl}>Sim clock · shared</span>
               <button className={`${s.autoBtn} ${auto ? s.on : ""}`} onClick={() => setAuto(!auto)} type="button">
                 {auto ? "Pause" : "Auto"}
               </button>
@@ -124,7 +60,7 @@ export default function SchedulerMock() {
               {hh(hour)}<span className={s.c}>:</span>00
             </div>
             <div className={s.clockMeta}>{GRID[hour]} gCO₂/kWh</div>
-            <button className={s.advBtn} onClick={() => setHour((h) => (h + 1) % 24)} type="button">
+            <button className={s.advBtn} onClick={advanceHour} type="button">
               › Advance hour
             </button>
           </div>

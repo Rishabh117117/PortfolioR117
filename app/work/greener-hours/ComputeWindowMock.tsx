@@ -1,28 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GRID, classify, findCleanest, hh, useGhSim } from "./GhSim";
 import s from "./ComputeWindowMock.module.css";
 
 /**
- * §Tier 1 — Compute Window Indicator (deck slide 8), now LIVE. The carbon
- * indicator cycles through a simulated 24h grid; the chat is wired to the
- * server-side /api/ask proxy (the API key stays server-side). Falls back
- * gracefully when the backend isn't configured.
+ * §Tier 1 — Compute Window Indicator (deck slide 8), LIVE on the shared sim
+ * (GH-SIM-1): the carbon pill reads the same clock as the scheduler and the
+ * dashboard. The chat runs through the server-side /api/ask proxy and is
+ * grounded with the live sim state, so it can answer "when's the cleanest
+ * window?" from the actual forecast it's sitting on.
  */
-
-// simulated 24h grid intensity (gCO₂/kWh)
-const GRID = Array.from({ length: 24 }, (_, h) => {
-  const base = 320;
-  const peak = Math.sin(((h - 8) / 24) * Math.PI * 2) * 140;
-  const noise = ((h * 17) % 11) - 5;
-  return Math.max(140, Math.round(base + peak + noise));
-});
-
-function classify(i: number) {
-  if (i < 220) return { label: "Low intensity", varc: "var(--navy-soft)" };
-  if (i < 340) return { label: "Mixed", varc: "var(--amber-soft)" };
-  return { label: "High intensity", varc: "var(--amber)" };
-}
 
 const RECENT = [
   "Data-center water usage",
@@ -32,25 +20,27 @@ const RECENT = [
   "SQL — quarterly forecast",
 ];
 
+const CHIPS = [
+  "When's the cleanest window today?",
+  "Why does timing matter for carbon?",
+  "What does this indicator change?",
+];
+
 type Msg = { role: "user" | "assistant"; text: string; hour: number; error?: boolean };
 
 export default function ComputeWindowMock() {
+  const { hour: simHour, jobs } = useGhSim();
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "assistant",
-      text: "Hi — this chat is wired to a live model API through a server-side proxy. Ask me anything; the indicator above shows the live carbon state for each response.",
+      text: "Hi — this chat is wired to a live model API through a server-side proxy, and it can see the carbon state in the indicator above. Ask me anything.",
       hour: 14,
     },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [simHour, setSimHour] = useState(14);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const t = setInterval(() => setSimHour((h) => (h + 1) % 24), 8000);
-    return () => clearInterval(t);
-  }, []);
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, loading]);
@@ -58,8 +48,8 @@ export default function ComputeWindowMock() {
   const intensity = GRID[simHour];
   const ind = classify(intensity);
 
-  async function send() {
-    const text = input.trim();
+  async function send(preset?: string) {
+    const text = (preset ?? input).trim();
     if (!text || loading) return;
     setInput("");
     const hour = simHour;
@@ -67,11 +57,16 @@ export default function ComputeWindowMock() {
     setMessages(next);
     setLoading(true);
     try {
-      const history = next.map((m) => ({ role: m.role, content: m.text }));
+      const best = findCleanest(simHour, 12);
+      const context = `Simulated live grid, region us-east-1: it is ${hh(simHour)}:00; current intensity ${intensity} gCO2e/kWh (${ind.label}). Cleanest hour in the next 12h: ${hh(best.hour)}:00 at ${best.intensity} gCO2e/kWh. Tier-2 flexible queue: ${jobs.length} job(s), ${jobs.filter((j) => j.status === "queued").length} queued. The user sees a Compute Window Indicator pill with exactly this state.`;
+      const history = next
+        .filter((m) => !m.error)
+        .slice(1) // drop the canned greeting
+        .map((m) => ({ role: m.role, content: m.text }));
       const r = await fetch("/api/ask", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ messages: history }),
+        body: JSON.stringify({ demo: "greener-hours", context, messages: history }),
       });
       const data = await r.json();
       if (!r.ok) {
@@ -91,6 +86,8 @@ export default function ComputeWindowMock() {
       setLoading(false);
     }
   }
+
+  const showChips = messages.length <= 1 && !loading;
 
   return (
     <div className={s.frame}>
@@ -149,6 +146,15 @@ export default function ComputeWindowMock() {
               </div>
             ))}
             {loading && <div className={s.typing}>Generating response…</div>}
+            {showChips && (
+              <div className={s.chips}>
+                {CHIPS.map((c) => (
+                  <button key={c} type="button" className={s.chip} onClick={() => send(c)}>
+                    {c}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className={s.foot}>
@@ -169,7 +175,7 @@ export default function ComputeWindowMock() {
               />
               <button
                 className={s.send}
-                onClick={send}
+                onClick={() => send()}
                 disabled={loading || !input.trim()}
                 aria-label="Send"
                 type="button"

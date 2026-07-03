@@ -707,3 +707,35 @@
     animation: none;
   }
 }
+
+
+/* GH-SIM-1 — the cross-tier flex strip on the dashboard: reads the ACTUAL
+   Tier-2 queue from the shared sim. */
+.flexStrip {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 18px 14px;
+  padding: 9px 12px;
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+  background: var(--accent-tint);
+}
+.flexLbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.flexVals {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink);
+}
+.flexVals i {
+  color: var(--soft);
+  font-style: normal;
+}
