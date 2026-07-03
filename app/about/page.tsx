@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
+import { SOCIALS } from "@/lib/site";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
@@ -434,12 +435,20 @@ export default function AboutPage() {
               AI-native teams, and to conversations about Follow.
             </p>
             <div className={styles.ctaRow}>
-              <a className="btn primary" href="mailto:rishabhsalian@ymail.com">
+              <a className="btn primary" href={`mailto:${SOCIALS.email}`}>
                 Email me
               </a>
               <a
                 className="btn ghost"
-                href="https://github.com/Rishabh117117"
+                href={SOCIALS.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+              <a
+                className="btn ghost"
+                href={SOCIALS.github}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -447,7 +456,7 @@ export default function AboutPage() {
               </a>
               <a
                 className="btn ghost"
-                href="https://behance.net/rishabhsalian"
+                href={SOCIALS.behance}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -458,7 +467,7 @@ export default function AboutPage() {
               </a>
             </div>
             <p className={`mono ${styles.contactFoot}`}>
-              <a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a>
+              <a href={`mailto:${SOCIALS.email}`}>{SOCIALS.email}</a>
             </p>
           </div>
         </section>

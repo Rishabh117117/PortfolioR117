@@ -133,14 +133,17 @@ function sanitizeMcpTurns(raw: InMsg[]): McpTurn[] | null {
 
 const MAX_TOKENS = 700;
 
-/* Cost policy (2026-07-02, per Rishabh): free models first, paid fallback well
-   under $1–2/MTok. OpenRouter's `models` array is fallback ROUTING — it tries
+/* Cost policy (2026-07-03, per Rishabh: "the best free models with best
+   intelligence"): the smartest tools-capable :free models first, tiny paid
+   safety net last. OpenRouter's `models` array is fallback ROUTING — it tries
    each in order on 429/5xx/unavailability, so the free tier's flakiness never
-   reaches the user. Chain verified against the live /models list + pricing.
+   reaches the user. Every link verified tools-capable against the live
+   /models list (the MCP console needs `tools` end-to-end).
    OPENROUTER_MODEL (env) prepends an override as the new primary. */
 const DEFAULT_MODELS = [
-  "openai/gpt-oss-120b:free",
-  "meta-llama/llama-3.3-70b-instruct:free",
+  "nvidia/nemotron-3-ultra-550b-a55b:free", // flagship-scale free tier, 1M ctx
+  "nvidia/nemotron-3-super-120b-a12b:free", // same family, lighter + faster
+  "openai/gpt-oss-120b:free", // proven in this app's prod tool loop
   "google/gemini-2.5-flash-lite", // paid safety net: $0.10 in / $0.40 out per MTok
 ];
 

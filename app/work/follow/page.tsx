@@ -149,7 +149,7 @@ export default function FollowPage() {
                 Peer tests
               </text>
               <text x="375" y="230" textAnchor="middle" fontFamily="Inter,sans-serif" fontSize="11" fontStyle="italic" fill="var(--soft)">
-                5 peers · early wireframe
+                4 peers · early wireframe
               </text>
 
               <line x1="540" y1="150" x2="540" y2="108" stroke="var(--soft)" strokeDasharray="2 3" />
@@ -158,7 +158,7 @@ export default function FollowPage() {
                 Alexandra Becker
               </text>
               <text x="540" y="82" textAnchor="middle" fontFamily="Inter,sans-serif" fontSize="11" fontStyle="italic" fill="var(--soft)">
-                outside perspective · Mar 31
+                concept test · outside view · Mar 31
               </text>
 
               <line x1="620" y1="150" x2="620" y2="196" stroke="var(--soft)" strokeDasharray="2 3" />
@@ -259,7 +259,7 @@ export default function FollowPage() {
                   </div>
                   <div className={styles.r}>
                     <strong>Peer concept tests</strong>
-                    <span className={styles.kind}>5 participants · early wireframe</span>
+                    <span className={styles.kind}>4 peers · early wireframe</span>
                   </div>
                   <div className={styles.r}>
                     <strong>Andy</strong>
@@ -267,7 +267,7 @@ export default function FollowPage() {
                   </div>
                   <div className={styles.r}>
                     <strong>Alexandra Becker</strong>
-                    <span className={styles.kind}>Outside perspective</span>
+                    <span className={styles.kind}>Concept test · outside perspective</span>
                   </div>
                   <div className={styles.r}>
                     <strong>Atanu Sinha</strong>
@@ -293,8 +293,8 @@ export default function FollowPage() {
             Teams already run as a transactive memory system with each other:
             everyone keeps a rough map of who knows what. But they don’t have
             that with their AI tools. The context that actually shaped the work
-            scatters across separate chats and disappears. When we tested the
-            idea, most participants volunteered the same feeling before seeing
+            scatters across separate chats and disappears. Across five concept
+            tests, most people volunteered the same feeling before seeing
             anything — that their AI-assisted work didn’t quite feel like theirs.
           </p>
           <aside className={styles.defNote}>
@@ -366,8 +366,8 @@ export default function FollowPage() {
               better work if I’d known how my teammates got where they got.”
             </p>
             <p className={styles.src}>
-              From the Housing Works experience — and concept-test participants
-              kept naming the same feeling, unprompted.
+              From the Housing Works experience — and the five concept tests
+              kept surfacing the same feeling, unprompted.
             </p>
           </div>
         </div>

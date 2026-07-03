@@ -25,7 +25,7 @@ const mono = IBM_Plex_Mono({
   display: "swap",
 });
 
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, SOCIALS } from "@/lib/site";
 
 /* Page titles are plain strings — the template suffixes them. */
 export const metadata: Metadata = {
@@ -78,7 +78,7 @@ const PERSON_LD = {
     },
     { "@type": "CollegeOrUniversity", name: "ISDI" },
   ],
-  sameAs: ["https://github.com/Rishabh117117", "https://behance.net/rishabhsalian"],
+  sameAs: [SOCIALS.linkedin, SOCIALS.github, SOCIALS.behance],
 };
 
 export default function RootLayout({

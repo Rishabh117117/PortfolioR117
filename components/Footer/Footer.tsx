@@ -1,3 +1,4 @@
+import { SOCIALS } from "@/lib/site";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -11,25 +12,22 @@ export default function Footer() {
         </p>
 
         <ul className={styles.links}>
-          {/* Real handles per the About build (D-04 resolved). */}
+          {/* Real handles per the About build (D-04 resolved); one source in lib/site.ts. */}
           <li>
-            <a href="mailto:rishabhsalian@ymail.com">Email</a>
+            <a href={`mailto:${SOCIALS.email}`}>Email</a>
           </li>
           <li>
-            <a
-              href="https://github.com/Rishabh117117"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={SOCIALS.linkedin} target="_blank" rel="noreferrer">
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href={SOCIALS.github} target="_blank" rel="noreferrer">
               GitHub
             </a>
           </li>
           <li>
-            <a
-              href="https://behance.net/rishabhsalian"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={SOCIALS.behance} target="_blank" rel="noreferrer">
               Behance
             </a>
           </li>
