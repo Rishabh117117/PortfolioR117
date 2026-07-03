@@ -97,6 +97,15 @@ export function GhSimProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!auto) return;
+    // reduced-motion users get a still world by default — the T2 controls
+    // (Advance hour / Pause) still drive the clock by hand
+    if (
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     const t = setInterval(() => {
       // pause the world while the tab is hidden (page-wide convention)
       if (typeof document !== "undefined" && document.hidden) return;

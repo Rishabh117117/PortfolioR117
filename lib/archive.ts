@@ -37,7 +37,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     "year": "2019–23",
     "discipline": "Industrial design",
     "accent": "#A85F45",
-    "oneLine": "Industrial/product design of a sleek rose-gold self-defense stun gun for women, branded with the Lockheed Martin wordmark.",
+    "oneLine": "Industrial/product design of a sleek rose-gold self-defense stun gun for women — a student concept styled after Lockheed Martin's aircraft aesthetics (speculative brand treatment).",
     "thumb": "/images/archive/stun-gun/thumb.jpg",
     "slideCount": 5,
     "slides": [
@@ -120,7 +120,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
         "zoom": "/images/archive/lotus-heater/s2@2x.jpg",
         "w": 1600,
         "h": 900,
-        "label": "Problems with exisiting room heaters / My Conce…",
+        "label": "Problems with existing room heaters / My concept",
         "role": "problem"
       },
       {

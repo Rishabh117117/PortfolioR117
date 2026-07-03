@@ -33,7 +33,7 @@ export const SCALE_BARS: ScaleBar[] = [
 export const SCALE_GIANT = "945";
 export const SCALE_UNIT = "TWh";
 export const SCALE_LEDE =
-  "Projected global data-centre electricity demand by 2030 — more than double 2024's 415 TWh, with AI identified by the IEA as the lead driver.";
+  "Projected global data-center electricity demand by 2030 — more than double 2024's 415 TWh, with AI identified by the IEA as the lead driver.";
 export const SCALE_SOURCE =
   "IEA, Energy and AI (April 2025); Shehabi et al., 2024 U.S. Data Center Energy Usage Report, LBNL (Dec 2024).";
 

@@ -38,6 +38,8 @@ export default function DashboardMock() {
   useEffect(() => {
     if (!live) return;
     const t = setInterval(() => {
+      // same hidden-tab convention as the sim clock
+      if (typeof document !== "undefined" && document.hidden) return;
       setCalls((c) => c + Math.floor(40 + Math.random() * 120));
       setJitter(Math.round((Math.random() - 0.5) * 8));
     }, 900);

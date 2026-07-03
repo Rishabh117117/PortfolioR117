@@ -5,7 +5,7 @@ import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
-  title: "About — Rishabh Salian",
+  title: "About",
   description:
     "Industrial and product design, then UX, now AI-native products built end to end — the journey, the work, and what I work with.",
 };
@@ -42,16 +42,16 @@ export default function AboutPage() {
             <div>
               <p className="kicker">About</p>
               <h1 className={styles.heroThesis}>
-                I design <em>systems</em> that used to be objects.
+                I build AI-native products <em>end to end</em>.
               </h1>
               <p className={styles.heroLede}>
-                I started in industrial and product design, spent several years
-                in UX, and now build AI-native products end to end — not just
-                the design, but the working software, shipped by directing AI
-                coding agents like Claude Code. I&rsquo;m completing an MS in
-                Strategic Design &amp; Management at Parsons, where most of my
-                current work lives. I care about clear thinking, honest craft,
-                and building things that actually run.
+                I started in industrial and product design and spent several
+                years in UX — now I ship not just the design but the working
+                software, by directing AI coding agents like Claude Code.
+                I&rsquo;m completing an MS in Strategic Design &amp; Management
+                at Parsons, where most of my current work lives. I care about
+                clear thinking, honest craft, and building things that actually
+                run.
               </p>
               <div className={styles.heroMeta}>
                 <span className={styles.metaItem}>Brooklyn, NY</span>
@@ -240,7 +240,7 @@ export default function AboutPage() {
             <div className={styles.workList}>
               {/* 2024–26 · The New School — the anchor row */}
               <div className={`${styles.wrow} ${styles.now}`}>
-                <p className={styles.wEra}>2024 — 26</p>
+                <p className={styles.wEra}>2024–26</p>
                 <div>
                   <p className={styles.wTitle}>
                     Parsons School of Design{" "}
@@ -269,7 +269,7 @@ export default function AboutPage() {
               </div>
 
               <div className={styles.wrow}>
-                <p className={styles.wEra}>2023 — 24</p>
+                <p className={styles.wEra}>2023–24</p>
                 <div>
                   <p className={styles.wTitle}>
                     Freelance{" "}
@@ -289,7 +289,7 @@ export default function AboutPage() {
               </div>
 
               <div className={styles.wrow}>
-                <p className={styles.wEra}>2022 — 23</p>
+                <p className={styles.wEra}>2022–23</p>
                 <div>
                   <p className={styles.wTitle}>
                     Mindseye Creative{" "}
@@ -309,7 +309,7 @@ export default function AboutPage() {
               </div>
 
               <div className={styles.wrow}>
-                <p className={styles.wEra}>2021 — 22</p>
+                <p className={styles.wEra}>2021–22</p>
                 <div>
                   <p className={styles.wTitle}>
                     YAAP Digital{" "}
@@ -368,7 +368,7 @@ export default function AboutPage() {
                 <strong>ISDI</strong> Product Design · 2021
               </span>
               <span className={styles.eduItem}>
-                <strong>Mumbai</strong> BA Sociology · 2021
+                <strong>University of Mumbai</strong> BA Sociology · 2021
               </span>
               <span className={styles.eduItem}>
                 <strong>Vibgyor High</strong> A Levels · 2016

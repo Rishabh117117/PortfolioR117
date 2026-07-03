@@ -44,6 +44,47 @@
   margin-top: var(--space-6);
 }
 
+/* the intent line under the CTAs — mirrors the About hero's live chip */
+.availability {
+  display: inline-flex;
+  align-items: center;
+  margin-top: var(--space-5);
+  padding: 6px 12px;
+  border: 1px solid var(--accent-wash);
+  border-radius: 999px;
+  background: var(--accent-tint);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 7px;
+  flex: 0 0 auto;
+  animation: homePulse 1.9s var(--e-snappy) infinite;
+}
+@keyframes homePulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .liveDot {
+    animation: none;
+  }
+}
+
 /* ---------- the arc (static placeholder) ---------- */
 /* frosted band (v1.1) — the ambient orbs blur through instead of a flat card */
 .arcSection {

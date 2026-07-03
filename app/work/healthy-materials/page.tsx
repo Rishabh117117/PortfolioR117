@@ -5,12 +5,13 @@ import MaterialDeck from "@/components/MaterialDeck/MaterialDeck";
 import MaterialRail from "./MaterialRail";
 import PackagesApp from "./PackagesApp";
 import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
 import { HM_ROOT_STYLE } from "./theme";
 import styles from "./healthy-materials.module.css";
 
 export const metadata: Metadata = {
-  title: "Healthy Materials — Rishabh Salian",
+  title: "Healthy Materials",
   description:
     "Graduate capstone with the Healthy Materials Lab at Parsons (with Henry Schroder): mixed-methods research on why healthier, lower-carbon building materials fall out of construction — four barriers, the leverage points, and three interventions, led by the one I'd build first: Healthy Materials Packages.",
 };
@@ -72,7 +73,8 @@ export default function HealthyMaterialsPage() {
                 </span>
               </h1>
               <p className={styles.heroAuthors}>
-                Capstone · Fall 2025 · Rishabh Salian &amp; Henry Schroder
+                Research capstone · Fall 2025 · Rishabh Salian &amp; Henry
+                Schroder
               </p>
             </div>
             <div className={styles.scrollCue} aria-hidden="true">
@@ -519,14 +521,17 @@ export default function HealthyMaterialsPage() {
               and focus on practical improvements rather than industry-wide
               disruption. If I take it further, I start with the packages — the
               smallest intervention aimed at the biggest blocker, cost fear, at the
-              exact moment specs get written. Next: finish the contractor and
-              manufacturer interviews and finalize the affinity mapping.
+              exact moment specs get written. Next: the contractor and
+              manufacturer interviews, then the final affinity mapping.
             </p>
             <p className={styles.credit}>
               With Henry Schroder · Healthy Materials Lab, Parsons School of Design.
             </p>
           </div>
         </section>
+
+        {/* ============ PROJECT PAGER ============ */}
+        <ProjectPager slug="healthy-materials" />
       </div>
     </div>
   );

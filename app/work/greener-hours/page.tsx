@@ -1,9 +1,6 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Fraunces } from "next/font/google";
 import DemoCallout from "@/components/DemoCallout/DemoCallout";
-import { FLAGSHIPS } from "@/lib/projects";
 import {
   HERO,
   SCALE_GIANT,
@@ -32,14 +29,17 @@ import ForceVisual from "./ForceVisual";
 import HeadersDiagram from "./HeadersDiagram";
 import AdoptionCurve from "./AdoptionCurve";
 import TierTabs from "./TierTabs";
-import pager from "../[slug]/project.module.css";
+import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import { GH_ROOT_STYLE } from "./theme";
 import styles from "./greener-hours.module.css";
 
 // Page-scoped serif (the deck's Fraunces) — loaded here, exposed as --font-serif
-// on the page root only. Cannot leak past this route.
+// on the page root only. Cannot leak past this route. Fraunces is a variable
+// font: the variable load is 2 files (normal+italic) covering every weight the
+// page uses — including the 300 the tier numerals ask for, which the old
+// fixed-weight load didn't ship.
 const serif = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
@@ -48,7 +48,7 @@ const serif = Fraunces({
 const SLUG = "greener-hours";
 
 export const metadata: Metadata = {
-  title: "Greener Hours — Rishabh Salian",
+  title: "Greener Hours",
   description:
     "Greener Hours — an open accountability standard for AI compute carbon disclosure, with three implementation surfaces that turn invisible energy costs into legible procurement infrastructure. A Design-for-a-Warming-World case study.",
 };
@@ -56,27 +56,10 @@ export const metadata: Metadata = {
 const FORCE_VARIANTS = ["regulatory", "procurement", "infrastructure"] as const;
 
 export default function GreenerHoursPage() {
-  const index = FLAGSHIPS.findIndex((p) => p.slug === SLUG);
-  if (index === -1) notFound();
-  const project = FLAGSHIPS[index];
-  const prev = index > 0 ? FLAGSHIPS[index - 1] : null;
-  const next = index < FLAGSHIPS.length - 1 ? FLAGSHIPS[index + 1] : null;
-
   // §8 accent — Forest (matches the work-grid card) + the deck's amber/navy as
-  // page-scoped atmosphere/diagram colors. Never global tokens.
-  const rootStyle = {
-    "--accent": project.accent, // #1C3B36 Forest
-    "--accent-deep": "#142B27",
-    "--accent-wash": "#D7E0DD",
-    "--accent-tint": "#EAF0EE",
-    "--amber": "#C2410C",
-    "--amber-soft": "#E8A642",
-    "--amber-wash": "#F7E4D6",
-    "--navy": "#1E3A5F",
-    "--navy-soft": "#3A5A82",
-    "--navy-deep": "#15293F",
-    "--sky": "#7A9BBE",
-  } as React.CSSProperties;
+  // page-scoped atmosphere/diagram colors. One source (./theme.ts), shared
+  // with the /prototype route so the two mounts can't drift.
+  const rootStyle = GH_ROOT_STYLE;
 
   return (
     <div className={`${serif.variable} ${styles.page}`} style={rootStyle}>
@@ -333,29 +316,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §12 PROJECT PAGER ============ */}
-        <nav className="container section" aria-label="Project pager">
-          <div className={pager.pager}>
-            {prev ? (
-              <Link href={`/work/${prev.slug}`} className={pager.pagerLink}>
-                <span className={`mono ${pager.pagerLabel}`}>← Previous</span>
-                <span className={pager.pagerName}>{prev.name}</span>
-              </Link>
-            ) : (
-              <span />
-            )}
-            {next ? (
-              <Link
-                href={`/work/${next.slug}`}
-                className={`${pager.pagerLink} ${pager.pagerNext}`}
-              >
-                <span className={`mono ${pager.pagerLabel}`}>Next →</span>
-                <span className={pager.pagerName}>{next.name}</span>
-              </Link>
-            ) : (
-              <span />
-            )}
-          </div>
-        </nav>
+        <ProjectPager slug={SLUG} />
       </div>
     </div>
   );

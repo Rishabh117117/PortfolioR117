@@ -85,7 +85,7 @@ export default function FollowAskDock({ context }: { context: string }) {
         <span className={s.assistStatus}>{offline ? "offline" : "live model"}</span>
       </header>
 
-      <div className={s.assistThread} ref={scrollRef}>
+      <div className={s.assistThread} ref={scrollRef} aria-live="polite">
         {messages.map((m, i) => (
           <div
             key={i}

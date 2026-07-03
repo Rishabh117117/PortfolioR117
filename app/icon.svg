@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Site mark: the four flagship accents as a 2x2 dot grid on paper.
+       (Follow burnt orange / Greener Hours forest / Healthy Materials sage /
+       Housing Works crimson — the same order as the home grid.) -->
+  <rect width="64" height="64" rx="14" fill="#F4F2EC"/>
+  <circle cx="24" cy="24" r="9" fill="#C2410C"/>
+  <circle cx="40" cy="24" r="9" fill="#1C3B36"/>
+  <circle cx="24" cy="40" r="9" fill="#4F6B33"/>
+  <circle cx="40" cy="40" r="9" fill="#C0263B"/>
+</svg>

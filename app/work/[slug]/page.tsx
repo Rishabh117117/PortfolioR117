@@ -21,7 +21,7 @@ export function generateMetadata({
   params: { slug: string };
 }): Metadata {
   const project = FLAGSHIPS.find((p) => p.slug === params.slug);
-  return { title: project ? `${project.name} — Rishabh Salian` : "Work" };
+  return { title: project ? project.name : "Work" };
 }
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {

@@ -5,7 +5,7 @@ import { GH_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 export const metadata: Metadata = {
-  title: "Greener Hours — live prototype · Rishabh Salian",
+  title: "Greener Hours — live prototype",
   description:
     "The three Greener Hours surfaces running on one shared simulation: the Tier-1 compute-window chat (grounded live model), the Tier-2 flexible scheduler, and the Tier-3 footprint dashboard — pause the clock in one and it pauses everywhere.",
 };

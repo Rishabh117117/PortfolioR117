@@ -135,7 +135,7 @@ export default function ComputeWindowMock() {
             </div>
           </div>
 
-          <div className={s.thread} ref={scrollRef}>
+          <div className={s.thread} ref={scrollRef} aria-live="polite">
             {messages.map((m, i) => (
               <div key={i} className={`${s.msg} ${m.role === "user" ? s.msgUser : ""}`}>
                 <span

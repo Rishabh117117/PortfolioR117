@@ -69,10 +69,18 @@
   color: var(--ink);
 }
 
+/* one-line value prop — what the project IS, before the mono meta line */
+.tagline {
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
 .meta {
   font-size: var(--fs-cap);
   color: var(--soft);
   letter-spacing: 0.02em;
+  margin-top: auto;
 }
 
 /* featured (flagship) card — larger on desktop */

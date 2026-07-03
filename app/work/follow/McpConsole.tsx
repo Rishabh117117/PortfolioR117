@@ -101,7 +101,7 @@ export default function McpConsole({
               kind: "note",
               text:
                 r.status === 503
-                  ? "The tool-loop backend isn't configured in this environment (OPENROUTER_API_KEY) — the tools themselves still run: browse Team memory, or read the schemas below."
+                  ? "The tool-loop backend isn't configured in this environment — the tools themselves still run: browse Team memory, or read the schemas below."
                   : data?.error || "The model service returned an error.",
             },
           ]);

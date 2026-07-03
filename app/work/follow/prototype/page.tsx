@@ -5,7 +5,7 @@ import { FOLLOW_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 export const metadata: Metadata = {
-  title: "Follow — team-memory sandbox · Rishabh Salian",
+  title: "Follow — team-memory sandbox",
   description:
     "The live Follow sandbox: a pre-loaded team workspace with per-entry provenance, contested pairs flagged instead of resolved, a who-knows-what directory, and Ask Follow — a grounded model answering from the shared memory. Sample data.",
 };

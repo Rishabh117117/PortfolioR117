@@ -230,7 +230,7 @@ export default function PackagesApp() {
           </nav>
 
           <div className={s.totals} aria-live="polite">
-            <p className={s.railLabel}>package vs bau</p>
+            <p className={s.railLabel}>package vs BAU</p>
 
             <div className={s.stat}>
               <div className={s.statTop}>

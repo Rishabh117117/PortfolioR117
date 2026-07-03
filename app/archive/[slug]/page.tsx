@@ -18,7 +18,7 @@ export function generateMetadata({
   const p = getArchiveProject(params.slug);
   if (!p) return {};
   return {
-    title: `${p.name} (${p.year}) — Rishabh Salian`,
+    title: `${p.name} (${p.year})`,
     description: p.oneLine,
   };
 }

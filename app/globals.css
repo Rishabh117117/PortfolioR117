@@ -17,7 +17,10 @@
   --ink: #1a1a1a;
   --ink-2: #2a2a28;
   --soft: #6b6b66;
-  --gold: #9a7b4f;
+  /* kickers/eyebrows/crumbs are 11px text — #9a7b4f was 3.5:1 on paper (AA
+     fail); this darker bronze clears 4.5:1. Decorative golds (ambient orbs)
+     keep the lighter hex via props and are unaffected. */
+  --gold: #7a5f3c;
 
   /* §1 color — accent (default = Follow Persian Blue; overridden per project) */
   --accent: #1c39bb;
@@ -137,6 +140,24 @@ img {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+/* §9 skip link — hidden until keyboard-focused, then a pill over the nav */
+.skipLink {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 2000;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: var(--fs-cap);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+}
+.skipLink:focus-visible {
+  transform: none;
 }
 
 /* =========================================================================

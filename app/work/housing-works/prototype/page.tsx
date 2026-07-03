@@ -5,7 +5,7 @@ import { HW_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 export const metadata: Metadata = {
-  title: "Trustee Workshops — live prototype · Rishabh Salian",
+  title: "Trustee Workshops — live prototype",
   description:
     "The working slice of the Trustee-Led Workshops framework proposed to Housing Works: a needs queue, explainable trustee matching, the 45-minute session capture loop, and a searchable archive with a grounded AI assistant. Illustrative stand-in data.",
 };

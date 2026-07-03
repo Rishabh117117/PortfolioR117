@@ -8,6 +8,8 @@ export type Project = {
   discipline: string;
   accent: string;
   status?: string;
+  /** One-line value prop for cards — what the project IS, no click needed. */
+  tagline?: string;
   featured?: boolean;
 };
 
@@ -24,6 +26,7 @@ export const FLAGSHIPS: Project[] = [
     // (No `featured` flag: the home grid is an equal 2×2 per Rishabh 2026-07-02.)
     accent: "#C2410C",
     status: "CAPSTONE · WORKING DEMO",
+    tagline: "A shared, trackable memory layer between your team's AI tools.",
   },
   {
     name: "Greener Hours",
@@ -35,6 +38,7 @@ export const FLAGSHIPS: Project[] = [
     // badge for a speculative open-standard course project; propagates to the
     // home grid + /work chips via ProjectCard.
     status: "COURSE PROJECT · CONCEPT",
+    tagline: "An open carbon-disclosure standard for AI compute — one indicator, three surfaces.",
   },
   {
     name: "Healthy Materials",
@@ -44,6 +48,7 @@ export const FLAGSHIPS: Project[] = [
     accent: "#5C7A3A",
     // §2 — the page badge; the card on /work + the home grid must match it.
     status: "GRADUATE RESEARCH · CONCEPT",
+    tagline: "Healthier-material spec packages priced to survive value engineering.",
   },
   {
     name: "Housing Works",
@@ -55,6 +60,7 @@ export const FLAGSHIPS: Project[] = [
     // became wrong once the Trustee Workshops prototype went WORKING — demo
     // status now lives on the page's DemoCallout, per the D-03 axes split).
     status: "STUDIO PROJECT · CONCEPT",
+    tagline: "Trustee-taught micro-workshops that keep learning in-house.",
   },
 ];
 

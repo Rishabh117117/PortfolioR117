@@ -6,14 +6,15 @@ import Motion from "./Motion";
 import AmbientField from "./AmbientField";
 import Timeline from "./Timeline";
 import WorkshopsApp from "./WorkshopsApp";
+import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import { HW_ROOT_STYLE } from "./theme";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
 
 export const metadata: Metadata = {
-  title: "Housing Works — Rishabh Salian",
+  title: "Housing Works",
   description:
-    "A talent study for Housing Works: mixed-methods research on attracting and keeping younger staff a nonprofit can't outbid — plus the trustee-led workshop system that runs the strategy.",
+    "A talent study for Housing Works: mixed-methods research on attracting and keeping younger staff when a nonprofit can't outbid private-sector pay — plus the trustee-led workshop system that runs the strategy.",
 };
 
 // §4 — the Housing Works accent lives in ./theme.ts (shared with the
@@ -158,7 +159,7 @@ export default function HousingWorksPage() {
               <p className={styles.passBody}>
                 <strong>The sites.</strong> We visited four Housing Works
                 locations — a thrift store, the cannabis dispensary, the Keith
-                Cylar health centre, and the bookstore — to see the work
+                Cylar health center, and the bookstore — to see the work
                 first-hand.
               </p>
             </li>
@@ -268,7 +269,7 @@ export default function HousingWorksPage() {
         {/* insight — glass panel over the same photo */}
         <div className={styles.posterStudyInner}>
           <p className={`cap ${styles.deckNoteOnPhoto}`}>
-            From our spring 2025 participatory poster survey at The New School —
+            From our Spring 2025 participatory poster survey at The New School —
             the cards show the real posters; the quotes are real responses,
             lightly trimmed for length.
           </p>
@@ -277,8 +278,8 @@ export default function HousingWorksPage() {
             <p className={styles.insightPanelBody}>
               The provocative headline is what pulled people in — but the real
               answers were messier, and more honest. On the work-modality poster,
-              the loud “72% prefer hybrid” settled into a closer 52 / 23 / 6 once
-              people actually wrote down what they wanted.
+              the loud “72% prefer hybrid” settled into 52 hybrid · 23 remote ·
+              6 in-person once people actually wrote down what they wanted.
             </p>
             <p className={styles.insightPanelBody}>
               The gap is the point: a sharp claim earns attention, but the real
@@ -525,7 +526,7 @@ export default function HousingWorksPage() {
               </h3>
               <p className={`mono ${styles.propBy}`}>mine</p>
               <p className={styles.body}>
-                Act on the plan’s commitment to offer training and development to
+                Acts on the plan’s commitment to offer training and development to
                 Board members and managers, and on its promise that it’s not just
                 a job, it’s a career.
               </p>
@@ -639,6 +640,9 @@ export default function HousingWorksPage() {
           </p>
         </div>
       </section>
+
+      {/* ============ PROJECT PAGER ============ */}
+      <ProjectPager slug="housing-works" />
 
       {/* ============ SCENE 11 — FOOTER RIBBON ============ */}
       <div className={styles.footerRibbon}>

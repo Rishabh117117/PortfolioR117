@@ -11,6 +11,8 @@ export type ProjectCardProps = {
   accent?: string;
   /** Optional demo status tag, e.g. "WORKING" / "SIMULATED". */
   status?: string;
+  /** One-line value prop shown under the name (what the project IS). */
+  tagline?: string;
   /** Larger card treatment (desktop) for the flagship. */
   featured?: boolean;
   /** Optional cover photo (16:9, object-fit cover). */
@@ -26,6 +28,7 @@ export default function ProjectCard({
   href,
   accent,
   status,
+  tagline,
   featured = false,
   thumb,
   thumbNode,
@@ -66,6 +69,7 @@ export default function ProjectCard({
           <h3 className={styles.name}>{name}</h3>
           {status && <span className="chip accent">{status}</span>}
         </div>
+        {tagline && <p className={styles.tagline}>{tagline}</p>}
         <p className={`mono ${styles.meta}`}>
           {year} · {discipline}
         </p>

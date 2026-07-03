@@ -75,6 +75,13 @@ export default function Home() {
               About &amp; CV
             </Link>
           </div>
+
+          {/* the intent line, above the fold — mirrors the About hero chip so
+              a recruiter never has to scroll to learn what he's looking for */}
+          <p className={styles.availability}>
+            <span className={styles.liveDot} aria-hidden="true" />
+            Open to Design Engineer &amp; Product roles — Brooklyn, NY
+          </p>
         </div>
       </section>
 
@@ -116,9 +123,6 @@ export default function Home() {
           <div className={styles.workInner}>
             <div className={styles.sectionHead}>
               <h2 className={styles.h2}>Selected work</h2>
-              <Link href="/#work" className={`mono ${styles.seeAll}`}>
-                All work →
-              </Link>
             </div>
 
             <div className={styles.grid}>
@@ -131,6 +135,7 @@ export default function Home() {
                   href={`/work/${p.slug}`}
                   accent={p.accent}
                   status={p.status}
+                  tagline={p.tagline}
                   thumb={THUMBS[p.slug]?.thumb}
                   thumbNode={THUMBS[p.slug]?.node}
                 />

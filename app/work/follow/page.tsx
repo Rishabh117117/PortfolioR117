@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import FollowReel from "./FollowReel";
 import CompareDiagram from "./CompareDiagram";
 import AmbientField from "./AmbientField";
@@ -8,7 +9,7 @@ import { FOLLOW_ROOT_STYLE } from "./theme";
 import styles from "./follow.module.css";
 
 export const metadata: Metadata = {
-  title: "Follow — Rishabh Salian",
+  title: "Follow",
   description:
     "Follow — a shared, trackable memory layer that sits between a team’s AI tools. The capstone: the pipeline, the research, and the two pivots to a team-memory layer.",
 };
@@ -38,7 +39,7 @@ export default function FollowPage() {
             </span>
           </div>
           <p className={styles.heroEyebrow}>
-            Capstone · PGDM Design Strategy, Parsons · 2025–26
+            Capstone · MS Strategic Design &amp; Management, Parsons · 2025–26
           </p>
           <h1 className={styles.heroLockup}>
             Follow<span className={styles.dot}>.</span>
@@ -293,14 +294,14 @@ export default function FollowPage() {
             everyone keeps a rough map of who knows what. But they don’t have
             that with their AI tools. The context that actually shaped the work
             scatters across separate chats and disappears. When we tested the
-            idea, six of eight people volunteered the same feeling before seeing
+            idea, most participants volunteered the same feeling before seeing
             anything — that their AI-assisted work didn’t quite feel like theirs.
           </p>
           <aside className={styles.defNote}>
             <p className={styles.defTerm}>Transactive memory system</p>
             <p className={styles.defBody}>
               A group’s shared memory: instead of everyone knowing everything,
-              members specialise and quietly keep a directory of{" "}
+              members specialize and quietly keep a directory of{" "}
               <em>who knows what</em> — so the team retrieves knowledge by knowing
               whom to ask. Coined by Daniel Wegner, 1985.
             </p>
@@ -365,8 +366,8 @@ export default function FollowPage() {
               better work if I’d known how my teammates got where they got.”
             </p>
             <p className={styles.src}>
-              From the Housing Works experience — and six of eight concept-test
-              participants named the same feeling, unprompted.
+              From the Housing Works experience — and concept-test participants
+              kept naming the same feeling, unprompted.
             </p>
           </div>
         </div>
@@ -534,6 +535,9 @@ export default function FollowPage() {
           </div>
         </div>
       </section>
+
+      {/* ============ PROJECT PAGER ============ */}
+      <ProjectPager slug="follow" />
       </div>
     </div>
   );

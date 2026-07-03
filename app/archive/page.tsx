@@ -10,7 +10,7 @@ import styles from "./archive.module.css";
 const GRID_DEPTHS = [12, -10, 14, -12, 10, -14, 12];
 
 export const metadata: Metadata = {
-  title: "Earlier work (2019–23) — Rishabh Salian",
+  title: "Earlier work (2019–23)",
   description:
     "The original design portfolio (2019–23): seven product, UX and graphic-design projects, shown page-for-page.",
 };
