@@ -465,9 +465,11 @@
 }
 
 /* =========================================================================
-   CONTACT — closing section (the footer below carries the #contact anchor)
+   CONTACT — closing section (owns the #contact anchor for the nav + home CTA)
    ========================================================================= */
 .contact {
+  /* clear the sticky nav when the nav/CTA scroll here */
+  scroll-margin-top: calc(var(--nav-h) + 8px);
   border-top: 1px solid var(--line);
   /* frosted closing band — the cool orbs that rise toward the page end blur through */
   background: color-mix(in srgb, var(--card) 50%, transparent);

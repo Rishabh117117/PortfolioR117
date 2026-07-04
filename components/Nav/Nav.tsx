@@ -10,9 +10,9 @@ const LINKS = [
   // (/#work, not #work) so it also works from /about and project detail pages.
   { href: "/#work", label: "Work" },
   { href: "/about", label: "About" },
-  // Contact has no dedicated route yet — scrolls to the footer contact block.
-  // (CV is no longer a route — it downloads from the About page.)
-  { href: "#contact", label: "Contact" },
+  // Contact = the full contact block at the bottom of /about (where the CV lives
+  // too). scroll={false} + the About page's ContactScroll glide it into view.
+  { href: "/about#contact", label: "Contact" },
 ];
 
 export default function Nav() {
@@ -21,6 +21,16 @@ export default function Nav() {
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
+
+  // Contact points at /about#contact. When already on /about, Next won't
+  // navigate, so glide to the section here; otherwise ContactScroll handles it
+  // on arrival. Also closes the mobile menu on any tap.
+  const handleNav = (href: string) => {
+    setOpen(false);
+    if (href === "/about#contact" && pathname === "/about") {
+      document.getElementById("contact")?.scrollIntoView({ block: "start" });
+    }
+  };
 
   return (
     <nav className={styles.nav} aria-label="Primary">
@@ -35,6 +45,8 @@ export default function Nav() {
             <li key={l.href}>
               <Link
                 href={l.href}
+                scroll={l.href.includes("#contact") ? false : undefined}
+                onClick={() => handleNav(l.href)}
                 className={isActive(l.href) ? styles.active : styles.link}
                 aria-current={isActive(l.href) ? "page" : undefined}
               >
@@ -66,9 +78,10 @@ export default function Nav() {
             <li key={l.href}>
               <Link
                 href={l.href}
+                scroll={l.href.includes("#contact") ? false : undefined}
                 className={isActive(l.href) ? styles.mActive : styles.mLink}
                 aria-current={isActive(l.href) ? "page" : undefined}
-                onClick={() => setOpen(false)}
+                onClick={() => handleNav(l.href)}
               >
                 {l.label}
               </Link>

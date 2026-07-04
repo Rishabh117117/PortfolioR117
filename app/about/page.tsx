@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
+import ContactScroll from "./ContactScroll";
 import { SOCIALS } from "@/lib/site";
 import styles from "./about.module.css";
 
@@ -37,6 +38,9 @@ export default function AboutPage() {
       />
 
       <div className={styles.pageContent}>
+        {/* Glides to #contact when arriving via /about#contact (nav + home CTA). */}
+        <ContactScroll />
+
         {/* ============ INTRO ============ */}
         <header className={styles.hero}>
           <div className={styles.heroGrid}>
@@ -423,8 +427,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ============ CONTACT (the footer carries the #contact anchor) ============ */}
-        <section className={`section ${styles.contact}`}>
+        {/* ============ CONTACT (owns the #contact anchor — nav + home CTA land here) ============ */}
+        <section id="contact" className={`section ${styles.contact}`}>
           <div className="container">
             <h2 className="kicker">Contact</h2>
             <p className={styles.contactText}>

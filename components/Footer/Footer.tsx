@@ -5,7 +5,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer id="contact" className={styles.footer}>
+    <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
         <p className={`mono ${styles.meta}`}>
           Rishabh Salian — portfolio · {year} · built in the open

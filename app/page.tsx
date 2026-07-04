@@ -167,9 +167,9 @@ export default function Home() {
               <Link href="/about" className="btn primary">
                 About &amp; CV
               </Link>
-              <a href="#contact" className="btn ghost">
+              <Link href="/about#contact" scroll={false} className="btn ghost">
                 Get in touch
-              </a>
+              </Link>
             </div>
           </div>
         </div>
