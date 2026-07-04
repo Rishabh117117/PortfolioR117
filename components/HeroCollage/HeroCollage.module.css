@@ -1,232 +1,110 @@
-/* HeroCollage — the homepage hero's photo wall. An edge-to-edge 6×3 mosaic
-   of project-original photography (posters, workshops, products, visits);
-   the hero copy floats in front on a light glass card (page.module.css
-   .heroCard). Decorative only: pointer-transparent, aria-hidden; DriftGroup
-   moves each image a few px INSIDE its clipped cell (skipped under reduced
-   motion), so the wall stays sealed while it breathes. */
+/* HeroCollage — Rishabh's cover set thrown across the hero like physical
+   cards: tilted, overlapping, no gaps, z = throw order. The hero copy floats
+   in front on a light glass card (page.module.css .heroCard). Hovering a card
+   parts the pile (JS sets --px/--py per neighbour; see HeroCollage.tsx).
+   Decorative: aria-hidden; the wall accepts hover but the washes above it are
+   pointer-transparent so hovers reach the cards. */
 
 .collage {
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  overflow: hidden; /* the box clips card bleed — a filled, edge-to-edge pile */
+  /* own stacking context: traps the cards' z-index (1–60) below the hero
+     glass (which sits at z-1 in the page-content context) — without this the
+     thrown cards' explicit z-index paints them OVER the copy panel */
+  z-index: 0;
 }
 
-/* ---------- the wall ---------- */
+/* ---------- the pile ---------- */
 .wall {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 10px;
+  --wm: 1; /* width multiplier — bumped on small screens */
 }
-.cell {
-  position: relative;
-  overflow: hidden;
-  border-radius: 6px;
-  border: 1px solid rgba(26, 26, 26, 0.08);
-}
-/* the drift layer oversizes the cell by more than the max |depth| (16px),
-   so its translate never exposes a cell edge */
-.shift {
+
+.card {
   position: absolute;
-  inset: -20px;
+  width: calc(var(--w) * var(--wm) * 1vw);
+  /* left/top (inline) mark the card CENTRE; -50%/-50% re-centres, then the
+     hover push (--px/--py) and the throw tilt (--rot) */
+  transform: translate(-50%, -50%) translate(var(--px, 0px), var(--py, 0px))
+    rotate(var(--rot, 0deg));
+  transition:
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.25, 1),
+    box-shadow 0.35s ease;
+  border-radius: 7px;
+  /* the physical-card edge: a thin white print border + a thrown-down shadow */
+  background: #fdfcf9;
+  padding: 6px;
+  box-shadow:
+    0 1px 2px rgba(26, 22, 18, 0.18),
+    0 14px 28px -12px rgba(26, 22, 18, 0.42);
+  will-change: transform;
+}
+.inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--fill);
 }
 .img {
   object-fit: cover;
-  /* one warm grade so ten sources read as one wall */
-  filter: saturate(0.92) sepia(0.08) contrast(1.02);
+  /* one warm grade so fifteen sources read as one thrown set */
+  filter: saturate(0.94) sepia(0.06) contrast(1.015);
 }
 
-/* crop windows — which region of each source the cell shows */
-.libWall .img {
-  object-position: 50% 40%;
+/* the hovered card: straighten, lift, brighten, and jump above the pile */
+.card[data-hover] {
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.07);
+  z-index: 60 !important;
+  box-shadow:
+    0 2px 6px rgba(26, 22, 18, 0.2),
+    0 30px 60px -18px rgba(26, 22, 18, 0.5);
 }
-.taxonomy .img {
-  object-position: 50% 35%;
-}
-.bloom .img {
-  object-position: 22% 35%;
-}
-.stunHero .img {
-  object-position: 50% 45%;
-}
-.foamModel .img {
-  object-position: 50% 30%;
-}
-.siteSofa .img {
-  object-position: 40% 55%;
-}
-.poster .img {
-  object-position: 50% 30%;
-}
-.siteRooms .img {
-  object-position: 50% 45%;
-}
-.siteRacks .img {
-  object-position: 50% 50%;
-}
-.stunFront .img {
-  object-position: 50% 50%;
-}
-
-/* ---------- placement (6 cols × 3 rows) ---------- */
-/* row 1 */
-.libWall {
-  grid-column: 1 / span 2;
-  grid-row: 1;
-}
-.taxonomy {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-}
-.bloom {
-  grid-column: 4;
-  grid-row: 1;
-}
-/* its caption rides the cell's top edge — the glass card covers this
-   cell's bottom-left corner on desktop */
-.bloom .tag {
-  top: 10px;
-  bottom: auto;
-}
-.stunHero {
-  grid-column: 5 / span 2;
-  grid-row: 1 / span 2;
-}
-/* row 2 */
-.foamModel {
-  grid-column: 1;
-  grid-row: 2 / span 2;
-}
-.siteSofa {
-  grid-column: 2;
-  grid-row: 2;
-}
-.poster {
-  grid-column: 4;
-  grid-row: 2 / span 2;
-}
-/* row 3 */
-.siteRooms {
-  grid-column: 2 / span 2;
-  grid-row: 3;
-}
-.siteRacks {
-  grid-column: 5;
-  grid-row: 3;
-}
-.stunFront {
-  grid-column: 6;
-  grid-row: 3;
-}
-
-/* ---------- captions ---------- */
-/* mono chip pinned inside a cell's bottom-left corner */
-.tag {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  z-index: 1;
-  padding: 3px 8px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--ink-2);
-  background: color-mix(in srgb, var(--paper) 85%, transparent);
-  border: 1px solid rgba(26, 26, 26, 0.08);
-  border-radius: 4px;
+.card[data-hover] .img {
+  filter: saturate(1) contrast(1.03);
 }
 
 /* ---------- washes ---------- */
-/* left-heavy paper wash: quiet under the glass, open over the right field,
-   with a soft re-wash at the far edge so the wall doesn't fight the frame */
+/* left-heavy paper veil: dense under the glass, thinning across the open pile
+   so the right-hand cards stay legible + hoverable */
 .wash {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(
-    97deg,
-    rgba(244, 242, 236, 0.55) 0%,
-    rgba(244, 242, 236, 0.4) 30%,
-    rgba(244, 242, 236, 0.2) 50%,
-    rgba(244, 242, 236, 0.05) 68%,
-    rgba(244, 242, 236, 0.05) 88%,
-    rgba(244, 242, 236, 0.16) 100%
+    99deg,
+    rgba(244, 242, 236, 0.9) 0%,
+    rgba(244, 242, 236, 0.68) 26%,
+    rgba(244, 242, 236, 0.34) 44%,
+    rgba(244, 242, 236, 0.08) 62%,
+    rgba(244, 242, 236, 0.04) 100%
   );
 }
-/* top settle under the nav + a melt into flat paper before the arc band */
+/* settle under the nav + melt into flat paper before the arc band */
 .fade {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(244, 242, 236, 0.25) 0%,
-    rgba(244, 242, 236, 0) 12%,
+    rgba(244, 242, 236, 0.4) 0%,
+    rgba(244, 242, 236, 0) 13%,
     rgba(244, 242, 236, 0) 80%,
     var(--paper) 100%
   );
 }
 
-/* ---------- ephemera ---------- */
-/* the exhibit chip — frames the wall as a curated set */
-.chip {
-  position: absolute;
-  right: 14px;
-  bottom: 12px;
-  padding: 4px 10px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--gold);
-  background: color-mix(in srgb, var(--paper) 80%, transparent);
-  border: 1px solid rgba(122, 95, 60, 0.28);
-  border-radius: 999px;
-}
-
 /* ---------- responsive ---------- */
 @media (max-width: 767px) {
-  /* phones: a 3×3 wall of the four strongest textless frames behind the
-     full-width glass — model-in-hand, product, field visit, sample-in-hand
-     (the poster's typeset headline would sit beside the H1 at like scale,
-     so it stays a desktop moment) */
+  /* phones: same thrown pile, cards enlarged so the set still reads behind
+     the full-width glass (hover parting is disabled on touch by the JS) */
   .wall {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 8px;
+    --wm: 2.7;
   }
-  .libWall,
-  .taxonomy,
-  .poster,
-  .siteSofa,
-  .siteRacks,
-  .stunFront,
-  .tag,
-  .chip {
-    display: none;
-  }
-  .foamModel {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-  }
-  .stunHero {
-    grid-column: 2 / span 2;
-    grid-row: 1 / span 2;
-  }
-  .siteRooms {
-    grid-column: 1 / span 2;
-    grid-row: 3;
-  }
-  .bloom {
-    grid-column: 3;
-    grid-row: 3;
-  }
-  .wash {
-    background: rgba(244, 242, 236, 0.55);
+  .card {
+    padding: 4px;
   }
 }

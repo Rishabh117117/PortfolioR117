@@ -24,23 +24,30 @@
 .heroContainer {
   position: relative;
   z-index: 1;
+  /* the container spans full width but is mostly transparent — let hovers
+     fall through to the collage cards behind; the glass re-enables itself */
+  pointer-events: none;
 }
 
 /* the hero copy sits on the flagship glass recipe (HW/HM .heroCard geometry),
    tuned light so ink text + the shell buttons keep their contrast — the
    collage plates blur through it */
 .heroCard {
+  pointer-events: auto; /* re-enable over the transparent .heroContainer */
   width: fit-content;
   max-width: min(100%, 680px);
   padding: clamp(26px, 3.6vw, 46px) clamp(24px, 3.8vw, 50px);
-  background: color-mix(in srgb, var(--card) 64%, transparent);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
-  backdrop-filter: blur(18px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  /* the copy is the point — opaque enough to stay legible over the vivid,
+     high-contrast card pile (a harder case than the flagships' dark photos),
+     while the heavy blur keeps the pile reading as texture behind it */
+  background: color-mix(in srgb, var(--card) 86%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.25);
+  backdrop-filter: blur(22px) saturate(1.25);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-lg);
   box-shadow:
-    0 24px 70px -24px rgba(26, 26, 26, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 28px 80px -26px rgba(26, 26, 26, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 @media (max-width: 767px) {
   .hero {
