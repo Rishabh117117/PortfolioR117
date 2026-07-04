@@ -1415,34 +1415,83 @@
   }
 }
 
-/* --------- the scenario premise (All-items landing) --------------------- */
-.premise {
+/* --------- Ask Follow: compact live tool steps (product-style) ---------- */
+/* ✳ Thinking / ⚙ Query index rows, the way the shipped product renders the
+   loop — request/result expand on click; the console keeps the raw wire */
+.dockStep {
+  max-width: 96%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--paper) 60%, var(--card));
+}
+.dockStep:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+.dockStepErr {
+  border-color: color-mix(in srgb, #b3423a 55%, var(--line));
+}
+.dockStepSummary {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
-  border-radius: var(--radius, 10px);
-  background: color-mix(in srgb, var(--accent-tint, #fbefe7) 55%, var(--card));
-  padding: 12px 14px;
-  margin-bottom: 14px;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 9px;
+  cursor: pointer;
+  list-style: none;
+  overflow: hidden;
+  white-space: nowrap;
 }
-.premiseKicker {
-  margin: 0;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-deep, #9e340a);
+.dockStepSummary::-webkit-details-marker {
+  display: none;
 }
-.premiseBody {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
+.dockStepSummary::marker {
+  content: "";
+}
+.dockStepName {
+  flex: none;
+  font-size: 11.5px;
+  font-weight: 600;
   color: var(--ink);
 }
-.premiseHint {
-  margin: 2px 0 0;
+.dockStepGist {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: var(--font-mono);
-  font-size: 10.5px;
-  line-height: 1.6;
+  font-size: 10px;
   color: var(--soft);
+}
+.dockStepChev {
+  flex: none;
+  font-size: 10px;
+  color: var(--soft);
+  transition: transform 0.15s ease;
+}
+.dockStep[open] .dockStepChev {
+  transform: rotate(180deg);
+}
+.dockStepIo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 9px 9px;
+}
+.dockStepIoLabel {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.dockThinkBody {
+  margin: 0;
+  padding: 0 9px 9px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--soft);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dockStepChev {
+    transition: none;
+  }
 }

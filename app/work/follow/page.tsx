@@ -455,32 +455,45 @@ export default function FollowPage() {
           <h2 className={styles.reelTitle}>
             The shipped dashboard, replicated — <em>live</em>.
           </h2>
+          <div className={styles.storyCard}>
+            <p className={`mono ${styles.storyKicker}`}>the story</p>
+            <p className={styles.storyBody}>
+              Meet <strong>Aurora</strong> — a fictional checkout-redesign
+              team, invented and pre-loaded into this sandbox so you can walk
+              through Follow with real material. Maya designs in Claude. Alex
+              runs product in ChatGPT. Sam builds in Gemini. Three people,
+              three different AI tools — normally three separate silos.
+            </p>
+            <p className={styles.storyBody}>
+              For one working week they had the Follow connector attached, and
+              the week captured itself as they worked: <strong>16
+              conversations</strong>, <strong>7 uploaded files</strong>, and
+              the <strong>32-fact team memory</strong> those produced. Three
+              questions ended the week still genuinely contested — Follow
+              keeps both sides on the record instead of picking a winner.
+            </p>
+          </div>
           <p className={styles.body}>
-            A small, pre-loaded workspace: Maya, Alex, and Sam, three different
-            AI tools, one memory. Land on <strong>All items</strong> and see
-            the whole week — 16 captured conversations, 7 uploaded files, and
-            every fact they produced, newest first. Open a{" "}
-            <strong>conversation</strong> and read the full transcript: the
-            reasoning, the tool calls, the moment the memory got checked
-            before anyone answered. Open a <strong>file</strong> and read the
-            PRD, the usability notes, the analytics export the team actually
-            indexed. Browse <strong>Facts</strong> with per-entry provenance,
-            open the who-knows-what directory Follow keeps automatically, and
-            ask it what&apos;s contested, who to ask, or what changed —
-            answers come back attributed, with disagreements flagged instead
-            of resolved. Then open the <strong>MCP console</strong> and watch
-            the machine side: a live model calling Follow&apos;s actual tools —{" "}
-            <code>query_index</code>, <code>directory_query</code>,{" "}
-            <code>detect_contradictions</code> — with every call and result on
-            the wire, straight from the{" "}
+            Start on <strong>All items</strong> and skim their week, newest
+            first. Open a <strong>conversation</strong> to see how an answer
+            actually happened — the assistant thinks, checks the team&apos;s
+            index, then answers. Open a <strong>file</strong> — the PRD, the
+            usability notes, the analytics export. Then interrogate the memory
+            yourself: <strong>Ask Follow</strong> answers by running
+            Follow&apos;s real tools live, thinking and tool calls on screen
+            as it works, and the <strong>MCP console</strong> shows the same
+            loop with the raw wire exposed.
+          </p>
+          <p className={`mono ${styles.techLine}`}>
+            live model · Follow&apos;s actual MCP tool contracts (
             <a
               href="https://github.com/Rishabh117117/workspace-platform"
               target="_blank"
               rel="noopener noreferrer"
             >
-              workspace-platform repo
+              workspace-platform ↗
             </a>
-            &apos;s contracts.
+            ) · fictional sample workspace
           </p>
         </div>
 

@@ -1,79 +1,191 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { F_ASK_PROMPTS } from "@/lib/followSandbox";
+import { F_ASK_PROMPTS, type FEntry } from "@/lib/followSandbox";
+import { mcpConsoleContext, runFollowTool } from "@/lib/followMcp";
+import type { FDoc } from "@/lib/followProduct";
 import s from "./FollowSandbox.module.css";
 
 /**
- * "Ask Follow" — the sandbox's query surface. Wired to /api/ask
- * (demo "follow") with the whole pre-loaded team memory as grounding
- * context; the server-side prompt makes answers carry provenance and flag
- * contested entries. Degrades to a labeled offline state without a key.
+ * "Ask Follow" — the workspace assistant. Show, don't tell: every answer is
+ * assembled live on screen — the model's thinking, then each Follow tool it
+ * calls against this workspace's index (query_index, directory_query, …),
+ * rendered the way the shipped product renders them (✳ Thinking · ⚙ Query
+ * index · request/result on expand), then the grounded answer. Same loop as
+ * the MCP console; this surface keeps the steps compact, the console shows
+ * the raw wire.
  */
 
-type Msg = { role: "user" | "assistant"; text: string; error?: boolean };
+type DockItem =
+  | { kind: "user"; text: string }
+  | { kind: "answer"; text: string; error?: boolean }
+  | { kind: "thinking"; text: string }
+  | { kind: "step"; name: string; args: string; result: string; isError?: boolean };
 
-const GREETING: Msg = {
-  role: "assistant",
-  text: "Hi — I answer from this workspace's shared memory, with provenance. Ask what's contested, who to ask, or what changed.",
+type ApiMsg =
+  | { role: "user" | "assistant"; content: string }
+  | { role: "assistant"; content: string; tool_calls: { id: string; type: "function"; function: { name: string; arguments: string } }[] }
+  | { role: "tool"; tool_call_id: string; content: string };
+
+const MAX_ROUNDS = 4;
+
+const GREETING =
+  "Ask about Aurora's week — what's contested, who to talk to, what changed. I check the team's index before answering, and you'll see every step.";
+
+/* the shipped product humanizes tool names in the step rows */
+const STEP_NAME: Record<string, string> = {
+  query_index: "Query index",
+  directory_query: "Directory query",
+  detect_contradictions: "Detect contradictions",
+  get_activity: "Get activity",
+  save_conversation: "Save conversation",
 };
 
-export default function FollowAskDock({ context }: { context: string }) {
-  const [messages, setMessages] = useState<Msg[]>([GREETING]);
+function stepGist(result: string): string {
+  const first = (result || "").split("\n").find((l) => l.trim()) ?? "";
+  let m = first.match(/Found (\d+) result/i);
+  if (m) return `${m[1]} result${m[1] === "1" ? "" : "s"}`;
+  m = first.match(/Found (\d+) contradiction/i);
+  if (m) return `${m[1]} conflict${m[1] === "1" ? "" : "s"}`;
+  if (/^No results/i.test(first)) return "no results";
+  if (/^Saved \d+ message/i.test(first)) return "saved";
+  if (/^Activity/i.test(first)) return "activity";
+  return first.length > 26 ? `${first.slice(0, 25)}…` : first || "done";
+}
+
+function prettyArgs(raw: string): string {
+  try {
+    return JSON.stringify(JSON.parse(raw), null, 2);
+  } catch {
+    return raw;
+  }
+}
+
+export default function FollowAskDock({
+  entries,
+  addEntry,
+  docs,
+}: {
+  entries: FEntry[];
+  addEntry: (e: FEntry) => void;
+  docs: FDoc[];
+}) {
+  const [items, setItems] = useState<DockItem[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [offline, setOffline] = useState(false);
+  const apiMsgs = useRef<ApiMsg[]>([]);
+  const entriesRef = useRef(entries);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    entriesRef.current = entries;
+  }, [entries]);
+  useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [messages, loading]);
+  }, [items, loading]);
 
-  async function send(text: string) {
-    const q = text.trim();
+  const execCtx = () => ({
+    entries: entriesRef.current,
+    addEntry: (e: FEntry) => {
+      entriesRef.current = [...entriesRef.current, e];
+      addEntry(e);
+    },
+    docs,
+  });
+
+  async function send(preset?: string) {
+    const q = (preset ?? input).trim();
     if (!q || loading) return;
     setInput("");
-    const next: Msg[] = [...messages, { role: "user", text: q }];
-    setMessages(next);
+    setItems((it) => [...it, { kind: "user", text: q }]);
+    apiMsgs.current = [...apiMsgs.current, { role: "user", content: q }];
     setLoading(true);
+
     try {
-      const history = next
-        .filter((m) => !m.error && m !== GREETING)
-        .map((m) => ({ role: m.role, content: m.text }));
-      const r = await fetch("/api/ask", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ demo: "follow", context, messages: history }),
-      });
-      const data = await r.json().catch(() => null);
-      if (!r.ok) {
-        if (r.status === 503) setOffline(true);
-        setMessages((m) => [
-          ...m,
-          {
-            role: "assistant",
-            text:
-              r.status === 503
-                ? "The answer backend isn't configured in this environment — the memory browser and directory still work."
-                : data?.error || "(Follow couldn't reach the model.)",
-            error: true,
-          },
-        ]);
-      } else {
+      for (let round = 0; round < MAX_ROUNDS; round++) {
+        const r = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            demo: "follow-mcp",
+            context: mcpConsoleContext(entriesRef.current),
+            messages: apiMsgs.current,
+          }),
+        });
+        const data = await r.json().catch(() => null);
+
+        if (!r.ok) {
+          if (r.status === 503) setOffline(true);
+          setItems((it) => [
+            ...it,
+            {
+              kind: "answer",
+              text:
+                r.status === 503
+                  ? "The answer backend isn't configured in this environment — the memory, files, and directory still work."
+                  : data?.error || "(Follow couldn't reach the model.)",
+              error: true,
+            },
+          ]);
+          return;
+        }
+
+        if (typeof data?.thinking === "string" && data.thinking.trim()) {
+          setItems((it) => [...it, { kind: "thinking", text: data.thinking.trim() }]);
+        }
+
+        if (Array.isArray(data?.toolCalls) && data.toolCalls.length > 0) {
+          const calls = data.toolCalls as { id: string; name: string; arguments: string }[];
+          apiMsgs.current = [
+            ...apiMsgs.current,
+            {
+              role: "assistant",
+              content: "",
+              tool_calls: calls.map((c) => ({
+                id: c.id,
+                type: "function" as const,
+                function: { name: c.name, arguments: c.arguments },
+              })),
+            },
+          ];
+          for (const c of calls) {
+            let args: Record<string, unknown> = {};
+            try {
+              args = JSON.parse(c.arguments);
+            } catch {
+              /* the executor reports malformed args */
+            }
+            const res = runFollowTool(c.name, args, execCtx());
+            setItems((it) => [
+              ...it,
+              { kind: "step", name: c.name, args: c.arguments, result: res.text, isError: res.isError },
+            ]);
+            apiMsgs.current = [...apiMsgs.current, { role: "tool", tool_call_id: c.id, content: res.text }];
+          }
+          continue;
+        }
+
         setOffline(false);
-        setMessages((m) => [...m, { role: "assistant", text: data?.text || "(no response)" }]);
+        setItems((it) => [...it, { kind: "answer", text: data?.text || "(no response)" }]);
+        apiMsgs.current = [...apiMsgs.current, { role: "assistant", content: data?.text || "" }];
+        return;
       }
+      setItems((it) => [
+        ...it,
+        { kind: "answer", text: "(that took more tool rounds than I get here — ask a follow-up to continue)", error: true },
+      ]);
     } catch {
-      setMessages((m) => [
-        ...m,
-        { role: "assistant", text: "(connection error — Follow couldn't reach the API.)", error: true },
+      setItems((it) => [
+        ...it,
+        { kind: "answer", text: "(connection error — Follow couldn't reach the API.)", error: true },
       ]);
     } finally {
       setLoading(false);
     }
   }
 
-  const showChips = messages.length <= 2 && !loading;
+  const showChips = items.length === 0 && !loading;
 
   return (
     <aside className={s.assist} aria-label="Ask Follow">
@@ -86,15 +198,54 @@ export default function FollowAskDock({ context }: { context: string }) {
       </header>
 
       <div className={s.assistThread} ref={scrollRef} aria-live="polite">
-        {messages.map((m, i) => (
-          <div
-            key={i}
-            className={`${s.msg} ${m.role === "user" ? s.msgUser : ""} ${m.error ? s.msgErr : ""}`}
-          >
-            {m.text}
-          </div>
-        ))}
-        {loading && <div className={s.typing}>Consulting the team memory…</div>}
+        <div className={s.msg}>{GREETING}</div>
+        {items.map((it, i) => {
+          if (it.kind === "user") {
+            return (
+              <div key={i} className={`${s.msg} ${s.msgUser}`}>
+                {it.text}
+              </div>
+            );
+          }
+          if (it.kind === "answer") {
+            return (
+              <div key={i} className={`${s.msg} ${it.error ? s.msgErr : ""}`}>
+                {it.text}
+              </div>
+            );
+          }
+          if (it.kind === "thinking") {
+            return (
+              <details key={i} className={s.dockStep}>
+                <summary className={s.dockStepSummary}>
+                  <span className={s.dockStepName}>✳ Thinking</span>
+                  <span className={s.dockStepChev} aria-hidden="true">
+                    ▾
+                  </span>
+                </summary>
+                <p className={s.dockThinkBody}>{it.text}</p>
+              </details>
+            );
+          }
+          return (
+            <details key={i} className={`${s.dockStep} ${it.isError ? s.dockStepErr : ""}`}>
+              <summary className={s.dockStepSummary}>
+                <span className={s.dockStepName}>⚙ {STEP_NAME[it.name] ?? it.name}</span>
+                <span className={s.dockStepGist}>{stepGist(it.result)}</span>
+                <span className={s.dockStepChev} aria-hidden="true">
+                  ▾
+                </span>
+              </summary>
+              <div className={s.dockStepIo}>
+                <div className={s.dockStepIoLabel}>request</div>
+                <pre className={s.toolArgs}>{prettyArgs(it.args)}</pre>
+                <div className={s.dockStepIoLabel}>result</div>
+                <pre className={s.toolRes}>{it.result}</pre>
+              </div>
+            </details>
+          );
+        })}
+        {loading && <div className={s.typing}>…</div>}
         {showChips && (
           <div className={s.chips}>
             {F_ASK_PROMPTS.map((p) => (
@@ -110,7 +261,7 @@ export default function FollowAskDock({ context }: { context: string }) {
         className={s.assistFoot}
         onSubmit={(e) => {
           e.preventDefault();
-          send(input);
+          send();
         }}
       >
         <input

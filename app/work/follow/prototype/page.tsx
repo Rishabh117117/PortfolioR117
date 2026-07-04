@@ -19,6 +19,13 @@ export default function FollowPrototypePage() {
           <h1 className={styles.title}>
             Follow<span className={styles.dot}>.</span>
           </h1>
+          <p className={styles.story}>
+            The story: <strong>Aurora</strong>, a fictional checkout-redesign team — Maya in
+            Claude, Alex in ChatGPT, Sam in Gemini — spent a week working with the Follow
+            connector attached. Their 16 conversations, 7 files, and 32 extracted facts are
+            below; three questions are still contested. Ask Follow answers from this memory by
+            running the real tools, live.
+          </p>
         </div>
         <Link className={`mono ${styles.back}`} href="/work/follow">
           ← Back to the case study
