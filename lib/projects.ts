@@ -17,7 +17,7 @@ export const FLAGSHIPS: Project[] = [
   {
     name: "Follow",
     slug: "follow",
-    year: "2025–26",
+    year: "Spring 2026",
     discipline: "Systems · AI",
     // §4.4 — burnt orange, matching the bespoke /work/follow page + capstone deck
     // (was Persian Blue #1C39BB). FOLLOW-DEMO-1: the team-memory sandbox is built
@@ -31,7 +31,7 @@ export const FLAGSHIPS: Project[] = [
   {
     name: "Greener Hours",
     slug: "greener-hours",
-    year: "2025–26",
+    year: "Spring 2026",
     discipline: "Climate · AI",
     accent: "#1C3B36",
     // GH-PAGE-1: bespoke narrative case study (deck-as-page retired). Honest
@@ -43,7 +43,7 @@ export const FLAGSHIPS: Project[] = [
   {
     name: "Healthy Materials",
     slug: "healthy-materials",
-    year: "2025–26",
+    year: "Fall 2025",
     discipline: "Materials · Research",
     accent: "#5C7A3A",
     // §2 — the page badge; the card on /work + the home grid must match it.
@@ -53,7 +53,7 @@ export const FLAGSHIPS: Project[] = [
   {
     name: "Housing Works",
     slug: "housing-works",
-    year: "2025–26",
+    year: "Spring 2025",
     discipline: "Service · AI",
     accent: "#C0263B",
     // HW-PROTO-1: framing badge like GH/HM (the old SIMULATED demo-status tag

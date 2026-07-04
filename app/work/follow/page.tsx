@@ -39,7 +39,7 @@ export default function FollowPage() {
             </span>
           </div>
           <p className={styles.heroEyebrow}>
-            Capstone · MS Strategic Design &amp; Management, Parsons · 2025–26
+            Capstone · MS Strategic Design &amp; Management, Parsons · Spring 2026
           </p>
           <h1 className={styles.heroLockup}>
             Follow<span className={styles.dot}>.</span>
