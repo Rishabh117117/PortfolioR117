@@ -167,7 +167,7 @@ export default function Home() {
       {/* mirrors the hero — the same pile (fresh arrangement) behind the same
           glass — so the page opens and closes on the one language */}
       <section className={`section ${styles.ctaSection}`}>
-        <HeroCollage cards={FOOTER_CARDS} eager={false} bleed={false} />
+        <HeroCollage cards={FOOTER_CARDS} eager={false} bleed={false} behindGlass />
         <div className={styles.ctaGlass} />
         <div className={`container ${styles.ctaContent}`}>
           <div className={styles.ctaBlock}>

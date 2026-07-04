@@ -251,20 +251,28 @@
   isolation: isolate; /* stacking context: pile z1–20 < glass z40 < copy z50 */
   border-top: 1px solid var(--line);
 }
-/* full-width frosted glass over the closing pile — a LIGHT frost so the blurred
-   cards read through as a soft decorative background. Covers the pile (z40 >
-   cards) and takes the pointer, so the footer pile is purely decorative. */
+/* full-width frosted glass over the closing pile — a LIGHT frost (25%) so the
+   blurred cards read through as a decorative background. pointer-events:none so
+   hovers pass THROUGH to the pile behind (the hover pop plays out behind the
+   glass); the pile's own hover keeps the pop below z40, so it stays behind. */
 .ctaGlass {
   position: absolute;
   inset: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--card) 35%, transparent);
+  pointer-events: none;
+  background: color-mix(in srgb, var(--card) 25%, transparent);
   -webkit-backdrop-filter: blur(18px) saturate(1.1);
   backdrop-filter: blur(18px) saturate(1.1);
 }
+/* the copy sits above the glass, but is pointer-transparent so hovers reach the
+   pile; only the links re-enable themselves */
 .ctaContent {
   position: relative;
-  z-index: 50; /* the copy sits above the frosted glass */
+  z-index: 50;
+  pointer-events: none;
+}
+.ctaContent a {
+  pointer-events: auto;
 }
 .ctaBlock {
   display: flex;
@@ -276,4 +284,7 @@
   letter-spacing: -0.015em;
   line-height: 1.1;
   max-width: 18ch;
+  /* soft paper halo — keeps the dark copy legible over the lighter 25% frost
+     even where a busier card sits behind it */
+  text-shadow: 0 1px 14px rgba(252, 251, 247, 0.7);
 }

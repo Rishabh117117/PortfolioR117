@@ -98,6 +98,17 @@
   filter: saturate(1) contrast(1.03);
 }
 
+/* footer decorative mode: the pile lives behind a frosted glass, so the hover
+   pop rises above its neighbours (z35) but stays BEHIND the glass (z40) — a
+   soft motion seen through the frost — and the labels are hidden (they'd be an
+   unreadable blur behind the glass) */
+.collage.behindGlass .card[data-hover] {
+  z-index: 35 !important;
+}
+.collage.behindGlass .label {
+  display: none;
+}
+
 /* ---------- the glass label (appears only on the selected card) ---------- */
 .label {
   position: absolute;

@@ -97,6 +97,9 @@ type Props = {
   /** let the bottom row bleed below the box into the next section + run the
       scroll parallax (hero only) */
   bleed?: boolean;
+  /** footer mode: the pile sits behind a frosted glass, so the hover pop stays
+      BEHIND the glass (doesn't rise above it) and the labels are hidden */
+  behindGlass?: boolean;
 };
 
 /* radial falloff for the part: closer cards slide further */
@@ -108,6 +111,7 @@ export default function HeroCollage({
   cards = CARDS,
   eager = true,
   bleed = true,
+  behindGlass = false,
 }: Props = {}) {
   const wallRef = useRef<HTMLDivElement>(null);
   const active = useRef(false);
@@ -214,7 +218,9 @@ export default function HeroCollage({
 
   return (
     <div
-      className={`${styles.collage} ${bleed ? "" : styles.noBleed}`}
+      className={`${styles.collage} ${bleed ? "" : styles.noBleed} ${
+        behindGlass ? styles.behindGlass : ""
+      }`}
       aria-hidden="true"
     >
       <div ref={wallRef} className={styles.wall} onPointerLeave={settle}>
