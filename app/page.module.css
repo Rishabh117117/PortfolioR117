@@ -246,34 +246,31 @@
    hovered card z60) so a hovered card pops above the glass here too. */
 .ctaSection {
   position: relative;
-  z-index: 1;
+  isolation: isolate; /* stacking context: decorative pile z1–20 sits below the glass z40 */
   display: flex;
   align-items: center;
-  min-height: min(70vh, 660px);
-  min-height: min(70svh, 660px);
+  min-height: min(70vh, 620px);
+  min-height: min(70svh, 620px);
   border-top: 1px solid var(--line);
 }
-.ctaContainer {
-  position: relative;
-  z-index: 30;
-  pointer-events: none; /* let hovers fall through to the collage cards */
+/* full-width frosted glass over the closing pile — the cards read as a soft
+   blurred decorative background and the copy sits on the frost. It covers the
+   pile (z40 > cards) and takes the pointer, so the footer pile is purely
+   decorative (non-interactive). */
+.ctaGlass {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--card) 66%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  backdrop-filter: blur(18px) saturate(1.1);
 }
-.ctaCard {
-  pointer-events: auto;
-  width: fit-content;
-  max-width: min(100%, 680px);
+.ctaBlock {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  padding: clamp(26px, 3.6vw, 46px) clamp(24px, 3.8vw, 50px);
-  background: color-mix(in srgb, var(--card) 86%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.25);
-  backdrop-filter: blur(22px) saturate(1.25);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: var(--radius-lg);
-  box-shadow:
-    0 28px 80px -26px rgba(26, 26, 26, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .ctaTitle {
   font-size: var(--fs-h2);
@@ -284,9 +281,5 @@
 @media (max-width: 767px) {
   .ctaSection {
     min-height: min(64vh, 560px);
-  }
-  .ctaCard {
-    width: 100%;
-    padding: clamp(20px, 6vw, 30px) clamp(18px, 5vw, 28px);
   }
 }
