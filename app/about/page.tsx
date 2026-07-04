@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import AmbientField from "@/components/AmbientField/AmbientField";
-import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import ContactScroll from "./ContactScroll";
+import AboutPhotos from "./AboutPhotos";
 import { SOCIALS } from "@/lib/site";
 import styles from "./about.module.css";
 
@@ -15,7 +15,9 @@ export const metadata: Metadata = {
 /**
  * ABOUT — ported from the approved sandbox build (about me page.html).
  * Resolves D-04 (bio, arc narrative, role/education timeline, skills, contact).
- * Photos stay as designed placeholders per Rishabh — swap when portraits land.
+ * Photo cluster = Rishabh's own photos (public/images/about): New School
+ * commencement on Fifth Ave (hero) + a Parsons studio crit + a Mumbai group —
+ * the NYC "now" over the two-city arc the page tells. They drift on scroll.
  * Accent = the global default Persian Blue (the person, not a project), so no
  * page-scoped accent override. Ambient = warm gold (objects / origin) → blue
  * (systems), the shared AmbientField engine.
@@ -67,30 +69,9 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* photo cluster — designed placeholders (labelled); the two small
-                frames drift on scroll, rotation + hover live on the inner card */}
-            <DriftGroup className={styles.cluster}>
-              <div className={styles.mainSlot} data-depth="7">
-                <div className={`${styles.frame} ${styles.frameMain}`}>
-                  <span className={styles.frameMark}>RS</span>
-                  <span className={`${styles.frameLabel} ${styles.frameLabelMain}`}>
-                    Portrait — to come
-                  </span>
-                </div>
-              </div>
-              <div className={`${styles.smSlot} ${styles.smA}`} data-depth="-16">
-                <div className={`${styles.frame} ${styles.frameSm} ${styles.rotA}`}>
-                  <span className={styles.frameMark}>·</span>
-                  <span className={styles.frameLabel}>Studio · NYC</span>
-                </div>
-              </div>
-              <div className={`${styles.smSlot} ${styles.smB}`} data-depth="12">
-                <div className={`${styles.frame} ${styles.frameSm} ${styles.rotB}`}>
-                  <span className={styles.frameMark}>·</span>
-                  <span className={styles.frameLabel}>Mumbai</span>
-                </div>
-              </div>
-            </DriftGroup>
+            {/* photo cluster — Rishabh's own photos + click-to-zoom lightbox;
+                the two small frames drift on scroll (see AboutPhotos) */}
+            <AboutPhotos />
           </div>
         </header>
 
@@ -129,10 +110,10 @@ export default function AboutPage() {
               aria-label="Career timeline (scroll horizontally)"
             >
               <svg
-                viewBox="0 0 1120 300"
+                viewBox="0 0 1380 300"
                 preserveAspectRatio="xMidYMid meet"
                 role="img"
-                aria-label="Journey timeline, 2016 to now: A Levels, ISDI product design, YAAP internship, Think Design research, pivot one from objects to interfaces in 2021, YAAP art direction, Mindseye UX, freelance, pivot two — the move from Mumbai to New York in 2024 — then Parsons studios and Follow, the working prototype, now."
+                aria-label="Journey timeline, 2016 to now: A Levels, ISDI product design, YAAP internship, Think Design research, pivot one from objects to interfaces in 2021, YAAP art direction, Mindseye UX, freelance, pivot two — the move from Mumbai to New York in 2024 — then the Parsons systems era: Housing Works in Spring 2025, Healthy Materials in Fall 2025, Greener Hours and Follow in Spring 2026, and graduating with the MS in Fall 2026."
               >
                 {/* PIVOT 1 · 2021 — objects → interfaces */}
                 <rect x="468.5" y="22" width="3" height="248" fill="var(--accent)" opacity=".85" />
@@ -155,7 +136,7 @@ export default function AboutPage() {
                 </text>
 
                 {/* axis */}
-                <line x1="50" y1="150" x2="1070" y2="150" stroke="var(--ink)" strokeWidth="2" />
+                <line x1="50" y1="150" x2="1225" y2="150" stroke="var(--ink)" strokeWidth="2" />
                 <g className={styles.tMono} fontSize="10" fill="var(--soft)" letterSpacing="1">
                   <line x1="95" y1="150" x2="95" y2="156" stroke="var(--soft)" />
                   <text x="95" y="172" textAnchor="middle">2016</text>
@@ -165,8 +146,8 @@ export default function AboutPage() {
                   <text x="620" y="172" textAnchor="middle">2022</text>
                   <line x1="890" y1="150" x2="890" y2="156" stroke="var(--soft)" />
                   <text x="890" y="172" textAnchor="middle">2025</text>
-                  <line x1="1040" y1="150" x2="1040" y2="156" stroke="var(--soft)" />
-                  <text x="1040" y="172" textAnchor="middle">NOW</text>
+                  <line x1="1225" y1="150" x2="1225" y2="156" stroke="var(--soft)" />
+                  <text x="1225" y="172" textAnchor="middle">NOW</text>
                 </g>
 
                 {/* 2016 · A Levels (below, holo) */}
@@ -211,17 +192,37 @@ export default function AboutPage() {
                 <text x="736" y="214" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Freelance</text>
                 <text x="736" y="230" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--soft)">product &amp; UX · ’23–24</text>
 
-                {/* 2025 · Parsons studios (above, accent) */}
-                <line x1="925" y1="150" x2="925" y2="108" stroke="var(--soft)" strokeDasharray="2 3" />
-                <circle cx="925" cy="150" r="6" fill="var(--accent)" />
-                <text x="925" y="98" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Housing Works</text>
-                <text x="925" y="82" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">+ Healthy Materials · ’25</text>
+                {/* Parsons systems era — the four graduate projects, dated by term.
+                    Greener Hours + Follow share one Spring '26 point (above/below). */}
 
-                {/* 2025–26 · Follow → now (below, accent) */}
-                <line x1="980" y1="150" x2="980" y2="196" stroke="var(--soft)" strokeDasharray="2 3" />
-                <circle cx="980" cy="150" r="6" fill="var(--accent)" />
-                <text x="980" y="214" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Follow</text>
-                <text x="980" y="230" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">working prototype · now</text>
+                {/* Housing Works · Spring 2025 (above, accent) */}
+                <line x1="955" y1="150" x2="955" y2="108" stroke="var(--soft)" strokeDasharray="2 3" />
+                <circle cx="955" cy="150" r="6" fill="var(--accent)" />
+                <text x="955" y="98" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Housing Works</text>
+                <text x="955" y="82" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">Spring ’25</text>
+
+                {/* Healthy Materials · Fall 2025 (below, accent) */}
+                <line x1="1050" y1="150" x2="1050" y2="196" stroke="var(--soft)" strokeDasharray="2 3" />
+                <circle cx="1050" cy="150" r="6" fill="var(--accent)" />
+                <text x="1050" y="214" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Healthy Materials</text>
+                <text x="1050" y="230" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">Fall ’25</text>
+
+                {/* Greener Hours + Follow · Spring 2026 — one term, one point, two labels */}
+                <line x1="1150" y1="150" x2="1150" y2="108" stroke="var(--soft)" strokeDasharray="2 3" />
+                <line x1="1150" y1="150" x2="1150" y2="196" stroke="var(--soft)" strokeDasharray="2 3" />
+                <circle cx="1150" cy="150" r="6" fill="var(--accent)" />
+                <text x="1150" y="98" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Greener Hours</text>
+                <text x="1150" y="82" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">Spring ’26</text>
+                <text x="1150" y="214" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Follow</text>
+                <text x="1150" y="230" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">Spring ’26</text>
+
+                {/* Fall 2026 · Graduation — the upcoming milestone: a hollow accent
+                    ring on a dashed "months ahead" segment reaching past NOW */}
+                <line x1="1225" y1="150" x2="1340" y2="150" stroke="var(--accent)" strokeWidth="2.5" strokeDasharray="2 5" opacity=".7" />
+                <line x1="1305" y1="150" x2="1305" y2="108" stroke="var(--accent)" strokeDasharray="2 3" opacity=".65" />
+                <circle cx="1305" cy="150" r="6" fill="var(--paper)" stroke="var(--accent)" strokeWidth="2.5" />
+                <text x="1305" y="98" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Graduating</text>
+                <text x="1305" y="82" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">MS · Fall ’26</text>
               </svg>
             </div>
 
@@ -367,7 +368,7 @@ export default function AboutPage() {
             <div className={styles.edu}>
               <span className={styles.eduLabel}>Education</span>
               <span className={styles.eduItem}>
-                <strong>Parsons</strong> MS · exp. 2026
+                <strong>Parsons</strong> MS · exp. Fall 2026
               </span>
               <span className={styles.eduItem}>
                 <strong>ISDI</strong> Product Design · 2021
