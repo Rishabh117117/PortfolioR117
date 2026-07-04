@@ -22,6 +22,16 @@
   overflow: hidden;
 }
 
+/* noBleed (footer instance): no overhang — clip on all four sides at the box
+   edge, so nothing spills into the site footer below. */
+.collage.noBleed {
+  bottom: 0;
+}
+.collage.noBleed .wall,
+.collage.noBleed .wash {
+  bottom: 0;
+}
+
 /* ---------- the pile ---------- */
 /* the card grid stays at HERO height (inset from the collage's bottom by the
    overhang), so cx/cy % positions are unchanged; cards bleed past its bottom

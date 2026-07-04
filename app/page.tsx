@@ -4,7 +4,7 @@ import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import EarlierWorkDeck from "@/components/EarlierWorkDeck/EarlierWorkDeck";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
-import HeroCollage from "@/components/HeroCollage/HeroCollage";
+import HeroCollage, { FOOTER_CARDS } from "@/components/HeroCollage/HeroCollage";
 import { FollowThumb, GreenerHoursThumb } from "@/components/ProjectThumbs/ProjectThumbs";
 import { FLAGSHIPS } from "@/lib/projects";
 import styles from "./page.module.css";
@@ -164,9 +164,12 @@ export default function Home() {
       </section>
 
       {/* ================= FOOTER CTA ROW ================= */}
+      {/* mirrors the hero — the same pile (fresh arrangement) behind the same
+          glass — so the page opens and closes on the one language */}
       <section className={`section ${styles.ctaSection}`}>
-        <div className="container" data-ambient-dim>
-          <div className={styles.ctaBlock}>
+        <HeroCollage cards={FOOTER_CARDS} eager={false} bleed={false} />
+        <div className={`container ${styles.ctaContainer}`}>
+          <div className={styles.ctaCard}>
             <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
             <div className={styles.ctaRow}>
               <Link href="/about" className="btn primary">

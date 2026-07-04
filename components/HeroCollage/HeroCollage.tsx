@@ -73,12 +73,42 @@ const CARDS: Card[] = [
   { k: "flyerTable", src: "/images/home-hero/flyer-table.jpg", cx: 93, cy: 84, w: 18, rot: 4, ar: "3 / 4", what: "Research posters", proj: "hw", sizes: "(max-width: 767px) 34vw, 18vw" },
 ];
 
+/* Footer arrangement — the SAME gapless slots (geometry) as the hero but the
+   images rotated onto different slots, so the closing collage rhymes with the
+   hero for continuity without being a carbon copy. Never eager/priority
+   (below the fold), no bottom bleed (it's the last section). */
+export const FOOTER_CARDS: Card[] = CARDS.map((slot, i) => {
+  const img = CARDS[(i + 11) % CARDS.length];
+  return {
+    ...slot,
+    k: `f-${img.k}`,
+    src: img.src,
+    what: img.what,
+    proj: img.proj,
+    priority: false,
+  };
+});
+
+type Props = {
+  /** card layout to render (defaults to the hero arrangement) */
+  cards?: Card[];
+  /** eager-load the priority cards (hero above the fold); off for the footer */
+  eager?: boolean;
+  /** let the bottom row bleed below the box into the next section + run the
+      scroll parallax (hero only) */
+  bleed?: boolean;
+};
+
 /* radial falloff for the part: closer cards slide further */
 const PUSH_MAX = 40;
 const PUSH_RADIUS = 620;
 const PUSH_BREATH = 6;
 
-export default function HeroCollage() {
+export default function HeroCollage({
+  cards = CARDS,
+  eager = true,
+  bleed = true,
+}: Props = {}) {
   const wallRef = useRef<HTMLDivElement>(null);
   const active = useRef(false);
 
@@ -103,6 +133,7 @@ export default function HeroCollage() {
      other. Sets --pary per card (composed into the card transform in CSS);
      rAF-throttled, paused while hidden, skipped under reduced motion. */
   useEffect(() => {
+    if (!bleed) return; // parallax is a hero-only motion; the footer sits still
     const wall = wallRef.current;
     const box = wall?.parentElement; // .collage (the clip box)
     if (!wall || !box) return;
@@ -137,7 +168,7 @@ export default function HeroCollage() {
       if (raf) cancelAnimationFrame(raf);
       els.forEach((el) => el.style.removeProperty("--pary"));
     };
-  }, []);
+  }, [bleed]);
 
   const cardsOf = (root: HTMLDivElement) =>
     Array.from(root.querySelectorAll<HTMLElement>("[data-k]"));
@@ -182,9 +213,12 @@ export default function HeroCollage() {
   };
 
   return (
-    <div className={styles.collage} aria-hidden="true">
+    <div
+      className={`${styles.collage} ${bleed ? "" : styles.noBleed}`}
+      aria-hidden="true"
+    >
       <div ref={wallRef} className={styles.wall} onPointerLeave={settle}>
-        {CARDS.map((c, i) => {
+        {cards.map((c, i) => {
           const p = PROJECTS[c.proj];
           return (
             <Link
@@ -213,7 +247,7 @@ export default function HeroCollage() {
                   alt=""
                   fill
                   sizes={c.sizes}
-                  priority={c.priority}
+                  priority={eager && !!c.priority}
                 />
               </span>
               {/* the glass label — rises from the bottom edge only when the
