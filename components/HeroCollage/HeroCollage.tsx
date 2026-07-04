@@ -54,7 +54,7 @@ const CARDS: Card[] = [
   { k: "lotusPair", src: "/images/home-hero/lotus-pair.jpg", cx: 35, cy: 15, w: 19, rot: -3, ar: "14 / 10", what: "Product render", proj: "lotus", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
   { k: "hwTag", src: "/images/home-hero/hw-tag.jpg", cx: 50, cy: 14, w: 15, rot: 5, ar: "3 / 4", what: "Thrift-shop tag", proj: "hw", sizes: "(max-width: 767px) 28vw, 15vw" },
   { k: "stun3q", src: "/images/home-hero/stun-3q.jpg", cx: 64, cy: 16, w: 20, rot: -4, ar: "4 / 3", what: "Concept render", proj: "stun", sizes: "(max-width: 767px) 38vw, 20vw", priority: true },
-  { k: "vsgPersonas", src: "/images/home-hero/vsg-personas.jpg", cx: 78, cy: 15, w: 21, rot: 3, ar: "16 / 15", what: "User personas", proj: "vsg", sizes: "(max-width: 767px) 40vw, 21vw" },
+  { k: "vsgPersonas", src: "/images/home-hero/vsg-personas.jpg", cx: 78, cy: 15, w: 21, rot: 3, ar: "16 / 15", what: "User personas", proj: "vsg", sizes: "(max-width: 767px) 40vw, 21vw", priority: true },
   { k: "hwHealthcare", src: "/images/home-hero/hw-healthcare.jpg", cx: 93, cy: 15, w: 16, rot: -5, ar: "3 / 4", what: "Cylar Health Center", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   /* row 2 (6, offset) */
   { k: "lotusTop", src: "/images/home-hero/lotus-top.jpg", cx: 10, cy: 51, w: 21, rot: 4, ar: "13 / 10", what: "Top view", proj: "lotus", sizes: "(max-width: 767px) 40vw, 21vw" },
@@ -62,7 +62,7 @@ const CARDS: Card[] = [
   { k: "hwPresenting", src: "/images/home-hero/hw-presenting.jpg", cx: 43, cy: 50, w: 16, rot: 5, ar: "3 / 4", what: "Team workshop", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "bloomFoam", src: "/images/home-hero/bloom-foam.jpg", cx: 57, cy: 50, w: 16, rot: -4, ar: "3 / 4", what: "Bloom Foam", proj: "hm", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "thriftDenim", src: "/images/home-hero/thrift-denim.jpg", cx: 71, cy: 50, w: 16, rot: 4, ar: "3 / 4", what: "Thrift textile", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
-  { k: "stunSide", src: "/images/home-hero/stun-side.jpg", cx: 90, cy: 48, w: 22, rot: -4, ar: "4 / 3", what: "Concept render", proj: "stun", sizes: "(max-width: 767px) 42vw, 22vw" },
+  { k: "stunSide", src: "/images/home-hero/stun-side.jpg", cx: 90, cy: 48, w: 22, rot: -4, ar: "4 / 3", what: "Concept render", proj: "stun", sizes: "(max-width: 767px) 42vw, 22vw", priority: true },
   /* row 3 (7) */
   { k: "workshopMatrix", src: "/images/home-hero/workshop-matrix.jpg", cx: 7, cy: 85, w: 16, rot: 5, ar: "3 / 4", what: "Engagement matrix", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "hmlDrawers", src: "/images/home-hero/hml-drawers.jpg", cx: 21, cy: 86, w: 16, rot: -4, ar: "3 / 4", what: "Materials taxonomy", proj: "hm", sizes: "(max-width: 767px) 30vw, 16vw" },
@@ -110,8 +110,10 @@ export default function HeroCollage() {
 
     const els = Array.from(wall.querySelectorAll<HTMLElement>("[data-k]"));
     const n = els.length;
-    // rate by depth: back (i=0) still-ish → front (i=n-1) fastest
-    const rate = (i: number) => 0.015 + (i / (n - 1)) * 0.14;
+    // depth rate — kept SMALL so the differential stays under the cards'
+    // overlap and the pile never opens white gaps as it drifts (back barely
+    // moves, front a little more); the bottom bleed is the main scroll motion
+    const rate = (i: number) => 0.01 + (i / (n - 1)) * 0.04;
     let raf = 0;
     const tick = () => {
       raf = 0;

@@ -11,11 +11,16 @@
 }
 
 /* ---------- hero ---------- */
-/* the section is the collage's positioning box: HeroCollage fills it
-   absolutely (and gets clipped by it); the container floats above on z-1 */
+/* the section is the collage's positioning box. It is a stacking context
+   (z-index) that paints ABOVE the following sections, so the collage's
+   bottom bleed shows over the next section as you scroll. It does NOT clip
+   (the collage clips itself on 3 sides via clip-path, leaving the bottom
+   open to bleed). Stacking inside: pile cards z1–20 < glass z30 < hovered
+   card z60, so the pile sits behind the glass but a hovered card pops in
+   front of it. */
 .hero {
   position: relative;
-  overflow: clip;
+  z-index: 1;
   display: flex;
   align-items: center;
   min-height: min(86vh, 900px);
@@ -23,7 +28,7 @@
 }
 .heroContainer {
   position: relative;
-  z-index: 1;
+  z-index: 30;
   /* the container spans full width but is mostly transparent — let hovers
      fall through to the collage cards behind; the glass re-enables itself */
   pointer-events: none;

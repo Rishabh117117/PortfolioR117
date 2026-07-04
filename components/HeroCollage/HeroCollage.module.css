@@ -9,17 +9,29 @@
 
 .collage {
   position: absolute;
-  inset: 0;
-  overflow: hidden; /* the box clips card bleed — a filled, edge-to-edge pile */
-  /* own stacking context: traps the cards' z-index (1–60) below the hero
-     glass (which sits at z-1 in the page-content context) */
-  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* extend BELOW the hero: the bottom-row cards bleed into this overhang so
+     their lower edge carries into the next section as you scroll */
+  bottom: -110px;
+  /* overflow:hidden clips left/right/top at the hero edge (edge-to-edge pile)
+     and the bottom at the overhang. Crucially it does NOT create a stacking
+     context (clip-path would) — so a hovered card's z resolves in the .hero
+     context and can rise above the glass (z30). */
+  overflow: hidden;
 }
 
 /* ---------- the pile ---------- */
+/* the card grid stays at HERO height (inset from the collage's bottom by the
+   overhang), so cx/cy % positions are unchanged; cards bleed past its bottom
+   edge into the collage overhang. */
 .wall {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 110px;
   --wm: 1; /* width multiplier — bumped on small screens */
 }
 
@@ -139,7 +151,10 @@
    so the right-hand cards stay legible + hoverable */
 .wash {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 110px; /* cover the hero, not the bottom bleed — keep bled cards crisp */
   pointer-events: none;
   background: linear-gradient(
     99deg,
@@ -152,10 +167,11 @@
 }
 /* ---------- responsive ---------- */
 @media (max-width: 767px) {
-  /* phones: same even spread, cards scaled up modestly; the pile is purely
+  /* phones: the portrait viewport is much taller relative to the cards, so
+     scale them up to keep the pile crowded with no white gaps; purely
      decorative here — inert to taps, no label/parting (touch has no hover) */
   .wall {
-    --wm: 1.9;
+    --wm: 2.8;
   }
   .card {
     pointer-events: none;
