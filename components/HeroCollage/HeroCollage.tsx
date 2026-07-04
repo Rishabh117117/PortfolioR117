@@ -97,6 +97,42 @@ export default function HeroCollage() {
     };
   }, []);
 
+  /* slight scroll parallax — the whole pile drifts up a fraction of the scroll
+     so it reads as a deeper layer behind the (normal-flow) glass copy. Moved as
+     ONE locked layer, never per-card, so the gapless tiling can't open; drift
+     is upward so the only reveal is at the very bottom, inside the fade-to-paper.
+     rAF-throttled, paused while hidden, skipped under reduced motion. */
+  useEffect(() => {
+    const wall = wallRef.current;
+    const box = wall?.parentElement; // .collage (the clip box, not transformed)
+    if (!wall || !box) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const FACTOR = 0.09;
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      if (document.hidden) return;
+      const rect = box.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return; // off-screen
+      const scrolled = Math.max(0, -rect.top); // px scrolled into/past the hero
+      const ty = -Math.min(scrolled, rect.height) * FACTOR;
+      wall.style.transform = `translate3d(0, ${ty.toFixed(1)}px, 0)`;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    tick();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+      wall.style.transform = "";
+    };
+  }, []);
+
   const cardsOf = (root: HTMLDivElement) =>
     Array.from(root.querySelectorAll<HTMLElement>("[data-k]"));
 

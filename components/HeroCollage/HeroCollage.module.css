@@ -21,6 +21,7 @@
   position: absolute;
   inset: 0;
   --wm: 1; /* width multiplier — bumped on small screens */
+  will-change: transform; /* scroll-parallax drift (see HeroCollage.tsx) */
 }
 
 .card {
