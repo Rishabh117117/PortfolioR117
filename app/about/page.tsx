@@ -113,7 +113,7 @@ export default function AboutPage() {
                 viewBox="0 0 1380 300"
                 preserveAspectRatio="xMidYMid meet"
                 role="img"
-                aria-label="Journey timeline, 2016 to now: A Levels, ISDI product design, YAAP internship, Think Design research, pivot one from objects to interfaces in 2021, YAAP art direction, Mindseye UX, freelance, pivot two — the move from Mumbai to New York in 2024 — then the Parsons systems era: Housing Works in Spring 2025, Healthy Materials in Fall 2025, Greener Hours and Follow in Spring 2026, and graduating with the MS in Fall 2026."
+                aria-label="Journey timeline, 2016 to now: A Levels, ISDI product design, YAAP internship, Think Design research, pivot one from objects to interfaces in 2021, YAAP art direction, Mindseye UX, freelance, pivot two — the move from Mumbai to New York in 2024, and starting the MS in Strategic Design and Management at Parsons in Fall 2024 — then the systems era: Housing Works in Spring 2025, Healthy Materials in Fall 2025, Greener Hours and Follow in Spring 2026, and graduating in Fall 2026."
               >
                 {/* PIVOT 1 · 2021 — objects → interfaces */}
                 <rect x="468.5" y="22" width="3" height="248" fill="var(--accent)" opacity=".85" />
@@ -191,6 +191,12 @@ export default function AboutPage() {
                 <circle cx="736" cy="150" r="6" fill="var(--ink)" />
                 <text x="736" y="214" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">Freelance</text>
                 <text x="736" y="230" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--soft)">product &amp; UX · ’23–24</text>
+
+                {/* MS · SDM begins · Fall 2024 (below, accent — the Parsons era opens) */}
+                <line x1="880" y1="150" x2="880" y2="196" stroke="var(--soft)" strokeDasharray="2 3" />
+                <circle cx="880" cy="150" r="6" fill="var(--accent)" />
+                <text x="880" y="214" textAnchor="middle" fontSize="13.5" fontWeight="700" fill="var(--ink)">MS SDM</text>
+                <text x="880" y="230" textAnchor="middle" fontSize="11" fontStyle="italic" fill="var(--accent)">begins · Fall ’24</text>
 
                 {/* Parsons systems era — the four graduate projects, dated by term.
                     Greener Hours + Follow share one Spring '26 point (above/below). */}
