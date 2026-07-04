@@ -13,11 +13,13 @@ import {
 import { F_DOC_ENTRIES } from "@/lib/followDocEntries";
 import { fSourceForEntry, type FChat, type FDoc } from "@/lib/followProduct";
 import { FOLLOW_MCP_TOOLS } from "@/lib/followMcp";
+import { buildFollowGraph } from "@/lib/followGraph";
 import FollowAskDock from "./FollowAskDock";
 import McpConsole from "./McpConsole";
 import AllItemsView from "./AllItemsView";
 import ConversationsView from "./ConversationsView";
 import FilesView from "./FilesView";
+import GraphView from "./GraphView";
 import s from "./FollowSandbox.module.css";
 
 /**
@@ -34,7 +36,7 @@ import s from "./FollowSandbox.module.css";
  * only matters once someone opens the sandbox.
  */
 
-type View = "items" | "conversations" | "files" | "memory" | "directory" | "mcp";
+type View = "items" | "conversations" | "files" | "memory" | "graph" | "directory" | "mcp";
 
 const KIND_LABEL: Record<FEntry["kind"], string> = {
   decision: "decision",
@@ -77,12 +79,24 @@ export default function FollowSandbox() {
 
   const chatsReady = chats !== null;
   const docsReady = docs !== null;
-  const loadedChats = chats ?? [];
-  const loadedDocs = docs ?? [];
+  // memoized (not `chats ?? []` inline) so the [] fallback is a stable
+  // reference while loading — otherwise every render produces a new array
+  // identity, which would cascade into the useMemo/useCallback hooks below
+  // that depend on loadedChats/loadedDocs (openSource, graphNodeCount).
+  const loadedChats = useMemo(() => chats ?? [], [chats]);
+  const loadedDocs = useMemo(() => docs ?? [], [docs]);
 
   const topics = useMemo(() => fTopics(entries), [entries]);
   const directory = useMemo(() => fDirectory(entries), [entries]);
   const contestedCount = entries.filter((e) => e.contradicts).length / 2;
+
+  // rail badge only — GraphView builds its own graph for rendering; this is
+  // cheap (buildFollowGraph is pure array work, no sim) and keeps the count
+  // in sync with the view without lifting the sim itself up a level.
+  const graphNodeCount = useMemo(
+    () => (chatsReady && docsReady ? buildFollowGraph(entries, loadedChats, loadedDocs).nodes.length : 0),
+    [chatsReady, docsReady, entries, loadedChats, loadedDocs],
+  );
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -219,6 +233,17 @@ export default function FollowSandbox() {
                 >
                   <span>Facts</span>
                   <span className={s.viewCount}>{entries.length}</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className={`${s.viewBtn} ${view === "graph" ? s.viewOn : ""}`}
+                  aria-current={view === "graph" ? "true" : undefined}
+                  onClick={() => setView("graph")}
+                >
+                  <span>Graph</span>
+                  <span className={s.viewCount}>{chatsReady && docsReady ? graphNodeCount : "·"}</span>
                 </button>
               </li>
               <li>
@@ -430,6 +455,32 @@ export default function FollowSandbox() {
                   </article>
                 );
               })}
+            </>
+          )}
+
+          {view === "graph" && (
+            <>
+              <header className={s.mainHead}>
+                <h3 className={s.mainTitle}>Graph</h3>
+                <p className={s.mainBlurb}>
+                  The knowledge graph under this workspace — every fact wired to the thread or file it
+                  came from, contradictions in red. The shipped product renders this same graph from its
+                  live index.
+                </p>
+              </header>
+              {!chatsReady || !docsReady ? (
+                <p className={s.loadingSkeleton}>loading the workspace…</p>
+              ) : (
+                <GraphView
+                  entries={entries}
+                  chats={loadedChats}
+                  docs={loadedDocs}
+                  onOpenChat={openChat}
+                  onOpenDoc={openDoc}
+                  onOpenFactTopic={jumpToFacts}
+                  onOpenDirectory={() => setView("directory")}
+                />
+              )}
             </>
           )}
 

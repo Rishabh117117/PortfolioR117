@@ -217,6 +217,23 @@
   }
 }
 
+/* Discreet "open full-screen" link under the live product (demo is on-page). */
+.demoFoot {
+  margin-top: 14px;
+  text-align: right;
+  font-size: 11px;
+}
+.demoFoot a {
+  color: var(--soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+}
+.demoFoot a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* =========================================================================
    §2 Scale — giant stat + chart
    ========================================================================= */

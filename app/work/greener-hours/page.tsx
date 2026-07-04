@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces } from "next/font/google";
-import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import Link from "next/link";
 import {
   HERO,
   SCALE_GIANT,
@@ -241,6 +241,9 @@ export default function GreenerHoursPage() {
               Prof. Godelnik&apos;s <em>Design for a Warming World</em> — the project
               was developed roughly against that framework.
             </p>
+            <p className={`mono ${styles.demoFoot}`}>
+              <Link href="/work/greener-hours/prototype">open the prototype full-screen ↗</Link>
+            </p>
           </div>
         </section>
 
@@ -298,20 +301,6 @@ export default function GreenerHoursPage() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* ============ §11 DEMO CALLOUT (honest) ============ */}
-        <section className="section">
-          <div className="container">
-            <DemoCallout
-              name="Greener Hours"
-              status="WORKING"
-              title="The three surfaces above are live — on one simulation."
-              body="Tab through them: pause the scheduler's clock and the chat's carbon indicator freezes with it; submit a flexible job and the dashboard's flex strip picks it up. The chat runs on a real model API through a server-side proxy, grounded in the sim state it sits on. Greener Hours itself remains a speculative open standard — the full argument lives in the presentation deck, linked above."
-              buttonLabel="Open the prototype full-screen"
-              href="/work/greener-hours/prototype"
-            />
           </div>
         </section>
 

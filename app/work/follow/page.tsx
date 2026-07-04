@@ -478,7 +478,9 @@ export default function FollowPage() {
             first. Open a <strong>conversation</strong> to see how an answer
             actually happened — the assistant thinks, checks the team&apos;s
             index, then answers. Open a <strong>file</strong> — the PRD, the
-            usability notes, the analytics export. Then interrogate the memory
+            usability notes, the analytics export. Spin the <strong>Graph</strong> to
+            see the whole memory as one structure — every fact wired to its source,
+            contradictions in red. Then interrogate the memory
             yourself: <strong>Ask Follow</strong> answers by running
             Follow&apos;s real tools live, thinking and tool calls on screen
             as it works, and the <strong>MCP console</strong> shows the same

@@ -4,7 +4,7 @@ import Timeline from "./Timeline";
 import MaterialDeck from "@/components/MaterialDeck/MaterialDeck";
 import MaterialRail from "./MaterialRail";
 import PackagesApp from "./PackagesApp";
-import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
 import { HM_ROOT_STYLE } from "./theme";
@@ -496,16 +496,9 @@ export default function HealthyMaterialsPage() {
           </div>
 
           <div className={styles.wrapWide}>
-            <div className={styles.appCallout}>
-              <DemoCallout
-                name="Healthy Materials Packages"
-                status="WORKING"
-                title="The packages tool above is live."
-                body="Real interactions on illustrative data: per-line swaps recompute cost, carbon, and health totals; the cost-pressure lens simulates a value-engineering pass; the spec sheet exports to CSV; and the assistant answers from your configured package through a real model API behind a server-side proxy — no key ever reaches the browser."
-                buttonLabel="Open the prototype full-screen"
-                href="/work/healthy-materials/prototype"
-              />
-            </div>
+            <p className={`mono ${styles.demoFoot}`}>
+              <Link href="/work/healthy-materials/prototype">open the prototype full-screen ↗</Link>
+            </p>
           </div>
         </section>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import WorkshopDeck from "@/components/WorkshopDeck/WorkshopDeck";
 import BridgesGallery from "@/components/BridgesGallery/BridgesGallery";
-import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import Link from "next/link";
 import Motion from "./Motion";
 import AmbientField from "./AmbientField";
 import Timeline from "./Timeline";
@@ -613,16 +613,9 @@ export default function HousingWorksPage() {
         </div>
 
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <div className={styles.appCallout}>
-            <DemoCallout
-              name="Trustee Workshops"
-              status="WORKING"
-              title="The tool above is live."
-              body="Real interactions on illustrative stand-in data: the matcher scores skill fit, strategic fit, and trustee load in the open; sessions run through the full capture loop — transcript, auto-summary, badge, archive; and the assistant answers from the archive through a real model API behind a server-side proxy. Housing Works hasn't piloted the framework — this is the proposal, made operable."
-              buttonLabel="Open the prototype full-screen"
-              href="/work/housing-works/prototype"
-            />
-          </div>
+          <p className={`mono ${styles.demoFoot}`}>
+            <Link href="/work/housing-works/prototype">open the prototype full-screen ↗</Link>
+          </p>
         </div>
       </section>
 
