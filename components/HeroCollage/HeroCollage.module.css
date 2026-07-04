@@ -32,22 +32,20 @@
   transition:
     transform 0.5s cubic-bezier(0.22, 0.61, 0.25, 1),
     box-shadow 0.35s ease;
-  border-radius: 7px;
-  /* the physical-card edge: a thin white print border + a thrown-down shadow */
-  background: #fdfcf9;
-  padding: 6px;
+  border-radius: 6px;
+  overflow: hidden; /* image fills to the card edge — NO white border/matte */
+  background: var(--fill); /* placeholder tone while loading, never white */
+  /* a hairline dark edge + thrown-down shadow define one card lying on the
+     next — the separation is a shadow seam, not a white gap */
   box-shadow:
-    0 1px 2px rgba(26, 22, 18, 0.18),
-    0 14px 28px -12px rgba(26, 22, 18, 0.42);
+    0 0 0 1px rgba(22, 18, 14, 0.06),
+    0 2px 5px rgba(26, 22, 18, 0.2),
+    0 16px 30px -14px rgba(26, 22, 18, 0.46);
   will-change: transform;
 }
 .inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 3px;
-  background: var(--fill);
+  position: absolute;
+  inset: 0;
 }
 .img {
   object-fit: cover;
@@ -57,11 +55,12 @@
 
 /* the hovered card: straighten, lift, brighten, and jump above the pile */
 .card[data-hover] {
-  transform: translate(-50%, -50%) rotate(0deg) scale(1.07);
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.08);
   z-index: 60 !important;
   box-shadow:
-    0 2px 6px rgba(26, 22, 18, 0.2),
-    0 30px 60px -18px rgba(26, 22, 18, 0.5);
+    0 0 0 1px rgba(22, 18, 14, 0.06),
+    0 3px 8px rgba(26, 22, 18, 0.22),
+    0 34px 64px -18px rgba(26, 22, 18, 0.55);
 }
 .card[data-hover] .img {
   filter: saturate(1) contrast(1.03);
@@ -99,10 +98,11 @@
 
 /* ---------- responsive ---------- */
 @media (max-width: 767px) {
-  /* phones: same thrown pile, cards enlarged so the set still reads behind
-     the full-width glass (hover parting is disabled on touch by the JS) */
+  /* phones: same even 5×3 spread, cards scaled up modestly (smaller than the
+     first pass) so the set reads behind the full-width glass without any one
+     card dominating; hover parting is disabled on touch by the JS */
   .wall {
-    --wm: 2.7;
+    --wm: 2;
   }
   .card {
     padding: 4px;

@@ -28,23 +28,32 @@ type Card = {
   priority?: boolean;
 };
 
-/* throw order = array order = z-index (later lands on top) */
+/* Even spread across the whole box — a jittered 5×3 zigzag, renders +
+   punchy-colour cards distributed across columns (never clumped), portraits
+   and landscapes alternated so the rows knit vertically. Sizes reduced from
+   the first pass. throw order = array order = z-index (renders/colour land
+   last, on top). mobile widths scale by --wm (see the CSS). */
 const CARDS: Card[] = [
-  { k: "flyerTable", src: "/images/home-hero/flyer-table.jpg", cx: 5, cy: 22, w: 16, rot: -7, ar: "3 / 4", sizes: "16vw" },
-  { k: "hmlJars", src: "/images/home-hero/hml-jars.jpg", cx: 19, cy: 10, w: 15, rot: 4, ar: "3 / 4", sizes: "(max-width: 767px) 44vw, 15vw" },
-  { k: "vsgPersonas", src: "/images/home-hero/vsg-personas.jpg", cx: 36, cy: 8, w: 20, rot: -3, ar: "16 / 15", sizes: "20vw" },
-  { k: "hmlDrawers", src: "/images/home-hero/hml-drawers.jpg", cx: 9, cy: 56, w: 16, rot: 5, ar: "3 / 4", sizes: "16vw" },
-  { k: "vsgScreens", src: "/images/home-hero/vsg-screens.jpg", cx: 30, cy: 44, w: 23, rot: 2, ar: "13 / 10", sizes: "23vw" },
-  { k: "bloomFoam", src: "/images/home-hero/bloom-foam.jpg", cx: 28, cy: 82, w: 16, rot: -5, ar: "3 / 4", sizes: "16vw" },
-  { k: "yaapBlue", src: "/images/home-hero/yaap-blue.jpg", cx: 48, cy: 30, w: 19, rot: 6, ar: "14 / 10", sizes: "19vw" },
-  { k: "hwTag", src: "/images/home-hero/hw-tag.jpg", cx: 42, cy: 68, w: 17, rot: -4, ar: "3 / 4", sizes: "(max-width: 767px) 42vw, 17vw" },
-  { k: "workshopMatrix", src: "/images/home-hero/workshop-matrix.jpg", cx: 6, cy: 92, w: 14, rot: 6, ar: "3 / 4", sizes: "14vw" },
-  { k: "yaapYellow", src: "/images/home-hero/yaap-yellow.jpg", cx: 61, cy: 12, w: 21, rot: -5, ar: "16 / 9", sizes: "(max-width: 767px) 55vw, 21vw", priority: true },
-  { k: "lotusPair", src: "/images/home-hero/lotus-pair.jpg", cx: 82, cy: 16, w: 24, rot: 3, ar: "14 / 10", sizes: "(max-width: 767px) 55vw, 24vw", priority: true },
-  { k: "hwPresenting", src: "/images/home-hero/hw-presenting.jpg", cx: 65, cy: 50, w: 17, rot: 4, ar: "3 / 4", sizes: "(max-width: 767px) 44vw, 17vw" },
-  { k: "stun3q", src: "/images/home-hero/stun-3q.jpg", cx: 84, cy: 45, w: 23, rot: -6, ar: "4 / 3", sizes: "(max-width: 767px) 58vw, 23vw", priority: true },
-  { k: "lotusTop", src: "/images/home-hero/lotus-top.jpg", cx: 58, cy: 87, w: 21, rot: 5, ar: "13 / 10", sizes: "(max-width: 767px) 52vw, 21vw" },
-  { k: "stunSide", src: "/images/home-hero/stun-side.jpg", cx: 88, cy: 84, w: 22, rot: -3, ar: "4 / 3", sizes: "22vw" },
+  /* under-layer — neutral/busy cards land first. Rows are bricked (row 2's
+     columns sit under row 1's seams) and cards oversized to shingle with no
+     paper showing between them. */
+  { k: "flyerTable", src: "/images/home-hero/flyer-table.jpg", cx: 88, cy: 47, w: 24, rot: 4, ar: "3 / 4", sizes: "(max-width: 767px) 44vw, 24vw" },
+  { k: "hmlDrawers", src: "/images/home-hero/hml-drawers.jpg", cx: 92, cy: 85, w: 19, rot: 5, ar: "3 / 4", sizes: "(max-width: 767px) 35vw, 19vw" },
+  { k: "hmlJars", src: "/images/home-hero/hml-jars.jpg", cx: 9, cy: 15, w: 20, rot: -5, ar: "3 / 4", sizes: "(max-width: 767px) 36vw, 20vw" },
+  { k: "workshopMatrix", src: "/images/home-hero/workshop-matrix.jpg", cx: 8, cy: 85, w: 19, rot: 5, ar: "3 / 4", sizes: "(max-width: 767px) 35vw, 19vw" },
+  { k: "hwPresenting", src: "/images/home-hero/hw-presenting.jpg", cx: 68, cy: 45, w: 20, rot: -5, ar: "3 / 4", sizes: "(max-width: 767px) 38vw, 20vw" },
+  { k: "vsgScreens", src: "/images/home-hero/vsg-screens.jpg", cx: 50, cy: 80, w: 24, rot: 3, ar: "13 / 10", sizes: "(max-width: 767px) 46vw, 24vw" },
+  /* mid-layer — the colour cards */
+  { k: "vsgPersonas", src: "/images/home-hero/vsg-personas.jpg", cx: 28, cy: 45, w: 21, rot: -4, ar: "16 / 15", sizes: "(max-width: 767px) 40vw, 21vw" },
+  { k: "bloomFoam", src: "/images/home-hero/bloom-foam.jpg", cx: 27, cy: 85, w: 20, rot: -4, ar: "3 / 4", sizes: "(max-width: 767px) 38vw, 20vw" },
+  { k: "hwTag", src: "/images/home-hero/hw-tag.jpg", cx: 70, cy: 13, w: 18, rot: 5, ar: "3 / 4", sizes: "(max-width: 767px) 34vw, 18vw" },
+  { k: "yaapBlue", src: "/images/home-hero/yaap-blue.jpg", cx: 48, cy: 48, w: 25, rot: 3, ar: "14 / 10", sizes: "(max-width: 767px) 46vw, 25vw" },
+  { k: "yaapYellow", src: "/images/home-hero/yaap-yellow.jpg", cx: 27, cy: 13, w: 21, rot: 4, ar: "16 / 9", sizes: "(max-width: 767px) 40vw, 21vw", priority: true },
+  /* top-layer — the product renders land last */
+  { k: "lotusTop", src: "/images/home-hero/lotus-top.jpg", cx: 8, cy: 49, w: 21, rot: 4, ar: "13 / 10", sizes: "(max-width: 767px) 40vw, 21vw" },
+  { k: "lotusPair", src: "/images/home-hero/lotus-pair.jpg", cx: 49, cy: 16, w: 24, rot: -3, ar: "14 / 10", sizes: "(max-width: 767px) 46vw, 24vw", priority: true },
+  { k: "stunSide", src: "/images/home-hero/stun-side.jpg", cx: 72, cy: 83, w: 22, rot: -4, ar: "4 / 3", sizes: "(max-width: 767px) 42vw, 22vw" },
+  { k: "stun3q", src: "/images/home-hero/stun-3q.jpg", cx: 89, cy: 15, w: 22, rot: -5, ar: "4 / 3", sizes: "(max-width: 767px) 42vw, 22vw", priority: true },
 ];
 
 /* radial falloff for the part: closer cards slide further */
