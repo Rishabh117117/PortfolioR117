@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import DemoCallout from "@/components/DemoCallout/DemoCallout";
+import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import FollowReel from "./FollowReel";
 import CompareDiagram from "./CompareDiagram";
@@ -491,16 +491,9 @@ export default function FollowPage() {
         </div>
 
         <div className="container">
-          <div className={styles.appCallout}>
-            <DemoCallout
-              name="Follow"
-              status="WORKING"
-              title="The sandbox above is live."
-              body="This is the full dashboard replica: captured conversations with the MCP tool loop on the wire — thinking, tool calls, results — reading exactly like the shipped console; uploaded files rendered from their own markdown; and the fact index both produce, with per-entry provenance and three genuinely contested pairs Follow flags instead of resolving. All of it runs on a pre-loaded sample workspace; Ask Follow answers from that memory through a real model API. The MCP console goes further: a real tool-calling loop over Follow's actual MCP tool contracts — same names, schemas, and response shapes as the shipped headless server (12 tools over JSON-RPC), executed on the sandbox. Saving a conversation there still writes a real entry into every view above."
-              buttonLabel="Open the sandbox full-screen"
-              href="/work/follow/prototype"
-            />
-          </div>
+          <p className={`mono ${styles.sandboxFoot}`}>
+            <Link href="/work/follow/prototype">open the sandbox full-screen ↗</Link>
+          </p>
         </div>
       </section>
 

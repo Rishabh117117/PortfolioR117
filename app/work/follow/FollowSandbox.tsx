@@ -296,6 +296,23 @@ export default function FollowSandbox() {
                   first.
                 </p>
               </header>
+              <div className={s.premise}>
+                <p className={`mono ${s.premiseKicker}`}>the scenario</p>
+                <p className={s.premiseBody}>
+                  It&apos;s the end of week one on <strong>Aurora</strong>, a checkout-redesign
+                  team that just adopted Follow. Maya (design) works in Claude, Alex (PM) in
+                  ChatGPT, Sam (engineering) in Gemini — each with the Follow connector attached,
+                  so the week captured itself as they worked: 16 conversations, 7 uploaded files,
+                  and the {entries.length}-fact memory they produced. Three questions are still
+                  genuinely contested — Follow keeps both sides on the record instead of picking
+                  one.
+                </p>
+                <p className={s.premiseHint}>
+                  💬 conversations · 📄 files · ◆ facts · ⚡ contested — open any conversation to
+                  see the tool loop behind it, or take the <strong>MCP console</strong> and query
+                  this memory yourself.
+                </p>
+              </div>
               {!chatsReady || !docsReady ? (
                 <p className={s.loadingSkeleton}>loading the workspace…</p>
               ) : (

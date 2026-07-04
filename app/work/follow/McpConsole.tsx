@@ -24,6 +24,7 @@ import s from "./FollowSandbox.module.css";
 type WireItem =
   | { kind: "user"; text: string }
   | { kind: "assistant"; text: string }
+  | { kind: "thinking"; text: string }
   | { kind: "tool"; name: string; args: string; result: string; isError?: boolean }
   | { kind: "note"; text: string };
 
@@ -82,6 +83,7 @@ export default function McpConsole({
   function wireItemToBlock(it: WireItem): FBlock | null {
     if (it.kind === "user") return { t: "user", text: it.text };
     if (it.kind === "assistant") return { t: "assistant", text: it.text };
+    if (it.kind === "thinking") return { t: "thinking", text: it.text };
     if (it.kind === "tool") {
       let args: Record<string, unknown> = {};
       try {
@@ -163,6 +165,14 @@ export default function McpConsole({
             },
           ]);
           return;
+        }
+
+        // the model's reasoning for this round, when the provider returns it —
+        // rendered collapsed, the way a normal AI chat shows its thinking
+        if (typeof data?.thinking === "string" && data.thinking.trim()) {
+          const th: WireItem = { kind: "thinking", text: data.thinking.trim() };
+          wireLog = [...wireLog, th];
+          setItems((it) => [...it, th]);
         }
 
         if (Array.isArray(data?.toolCalls) && data.toolCalls.length > 0) {
@@ -259,9 +269,11 @@ export default function McpConsole({
       <div className={s.consoleThread} ref={scrollRef} aria-live="polite">
         {fresh && (
           <p className={s.consoleEmpty}>
-            Try one of the prompts below — the model will pick its tools, and you&apos;ll see the
-            JSON-RPC-shaped traffic in the open. Ask it to <em>save the conversation</em> and this
-            session appears in Conversations and Facts, under “You”.
+            You&apos;ve got the fourth seat on Aurora — Maya, Alex, and Sam&apos;s week is already
+            in the memory. Try one of the prompts below: the model thinks, picks its tools, and
+            you&apos;ll see the JSON-RPC-shaped traffic in the open. Ask it to{" "}
+            <em>save the conversation</em> and this session appears in Conversations and Facts,
+            under “You”.
           </p>
         )}
         {items.map((it, i) => {
@@ -284,6 +296,14 @@ export default function McpConsole({
               <div key={i} className={`${s.msg} ${s.msgErr}`}>
                 {it.text}
               </div>
+            );
+          }
+          if (it.kind === "thinking") {
+            return (
+              <details key={i} className={s.thinking}>
+                <summary className={s.thinkingSummary}>✳ thinking</summary>
+                <p className={s.thinkingBody}>{it.text}</p>
+              </details>
             );
           }
           return (

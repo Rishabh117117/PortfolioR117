@@ -1346,3 +1346,103 @@
     display: inline-block;
   }
 }
+
+/* --------- collapsed tool calls in captured transcripts ---------------- */
+/* one-line brief (⚙ name · key arg → result gist); expand for the full
+   args/result wire card */
+.toolDetails {
+  max-width: 96%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--paper) 55%, var(--card));
+  overflow: hidden;
+}
+.toolDetails:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+.toolDetailsErr {
+  border-color: color-mix(in srgb, #b3423a 55%, var(--line));
+}
+.toolSummary {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 10px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--soft);
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.toolSummary::-webkit-details-marker {
+  display: none;
+}
+.toolSummary::marker {
+  content: "";
+}
+.toolBriefArg {
+  flex: none;
+  max-width: 34%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ink);
+  opacity: 0.72;
+}
+.toolBriefRes {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toolMore {
+  flex: none;
+  transition: transform 0.15s ease;
+}
+.toolDetails[open] .toolMore {
+  transform: rotate(180deg);
+}
+.toolDetailsBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 10px 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .toolMore {
+    transition: none;
+  }
+}
+
+/* --------- the scenario premise (All-items landing) --------------------- */
+.premise {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-radius: var(--radius, 10px);
+  background: color-mix(in srgb, var(--accent-tint, #fbefe7) 55%, var(--card));
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.premiseKicker {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-deep, #9e340a);
+}
+.premiseBody {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.premiseHint {
+  margin: 2px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--soft);
+}

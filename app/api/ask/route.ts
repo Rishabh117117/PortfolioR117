@@ -152,8 +152,8 @@ const DEFAULT_MODELS = [
 ];
 
 type AskResult =
-  | { ok: true; text: string }
-  | { ok: true; toolCalls: { id: string; name: string; arguments: string }[] }
+  | { ok: true; text: string; thinking?: string }
+  | { ok: true; toolCalls: { id: string; name: string; arguments: string }[]; thinking?: string }
   | { ok: false; detail: string };
 
 async function askOpenRouter(
@@ -202,6 +202,14 @@ async function askOpenRouter(
   const data = await upstream.json();
   const msg = data?.choices?.[0]?.message;
 
+  // the model's reasoning, when the provider returns it (gpt-oss et al. over
+  // OpenRouter) — surfaced so the console can render it collapsed, the way a
+  // normal AI chat shows its thinking
+  const thinking =
+    typeof msg?.reasoning === "string" && msg.reasoning.trim()
+      ? msg.reasoning.trim().slice(0, 2000)
+      : undefined;
+
   // tool-call turn (MCP demo): hand the calls back for client-side execution
   const rawCalls = Array.isArray(msg?.tool_calls) ? msg.tool_calls : null;
   if (withTools && rawCalls && rawCalls.length > 0) {
@@ -213,7 +221,7 @@ async function askOpenRouter(
         arguments: String(c?.function?.arguments ?? "{}"),
       }))
       .filter((c: { name: string }) => MCP_TOOL_NAMES.has(c.name));
-    if (toolCalls.length > 0) return { ok: true, toolCalls };
+    if (toolCalls.length > 0) return { ok: true, toolCalls, thinking };
   }
 
   const content = msg?.content;
@@ -226,16 +234,20 @@ async function askOpenRouter(
     : typeof content === "string"
       ? content.trim()
       : "";
-  // some reasoning models return an empty content with the answer in reasoning
-  if (!text && typeof msg?.reasoning === "string") text = msg.reasoning.trim();
-  return { ok: true, text: text || "Hmm — nothing came back. Try that again?" };
+  // some reasoning models return an empty content with the answer in
+  // reasoning — in that case the reasoning IS the text, so don't also
+  // return it as thinking
+  if (!text && typeof msg?.reasoning === "string") {
+    return { ok: true, text: msg.reasoning.trim() || "Hmm — nothing came back. Try that again?" };
+  }
+  return { ok: true, text: text || "Hmm — nothing came back. Try that again?", thinking };
 }
 
 async function askAnthropic(
   key: string,
   system: string,
   turns: Turn[],
-): Promise<{ ok: true; text: string } | { ok: false; detail: string }> {
+): Promise<AskResult> {
   const upstream = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
@@ -367,9 +379,15 @@ export async function POST(req: NextRequest) {
       );
     }
     if ("toolCalls" in result) {
-      return NextResponse.json({ toolCalls: result.toolCalls });
+      return NextResponse.json({
+        toolCalls: result.toolCalls,
+        ...(result.thinking ? { thinking: result.thinking } : {}),
+      });
     }
-    return NextResponse.json({ text: result.text });
+    return NextResponse.json({
+      text: result.text,
+      ...(result.thinking ? { thinking: result.thinking } : {}),
+    });
   } catch (err) {
     // timeouts get their own status; everything else is a generic 502. The
     // cause goes to the server log only (client-visible detail leaked

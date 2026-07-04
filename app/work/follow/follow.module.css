@@ -615,6 +615,18 @@
   max-width: 1280px;
   margin-inline: auto;
 }
-.appCallout {
-  margin-top: var(--space-6);
+.sandboxFoot {
+  margin-top: 14px;
+  text-align: right;
+  font-size: 11px;
+}
+.sandboxFoot a {
+  color: var(--soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+}
+.sandboxFoot a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
