@@ -97,18 +97,21 @@ export default function HeroCollage() {
     };
   }, []);
 
-  /* slight scroll parallax — the whole pile drifts up a fraction of the scroll
-     so it reads as a deeper layer behind the (normal-flow) glass copy. Moved as
-     ONE locked layer, never per-card, so the gapless tiling can't open; drift
-     is upward so the only reveal is at the very bottom, inside the fade-to-paper.
+  /* depth parallax — each card drifts up on scroll by a rate set by its layer
+     (throw order = z-index): the back cards (low z) barely move, the front
+     cards (high z) move most, so the layers slide past and crunch into each
+     other. Sets --pary per card (composed into the card transform in CSS);
      rAF-throttled, paused while hidden, skipped under reduced motion. */
   useEffect(() => {
     const wall = wallRef.current;
-    const box = wall?.parentElement; // .collage (the clip box, not transformed)
+    const box = wall?.parentElement; // .collage (the clip box)
     if (!wall || !box) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const FACTOR = 0.09;
+    const els = Array.from(wall.querySelectorAll<HTMLElement>("[data-k]"));
+    const n = els.length;
+    // rate by depth: back (i=0) still-ish → front (i=n-1) fastest
+    const rate = (i: number) => 0.015 + (i / (n - 1)) * 0.14;
     let raf = 0;
     const tick = () => {
       raf = 0;
@@ -116,8 +119,9 @@ export default function HeroCollage() {
       const rect = box.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) return; // off-screen
       const scrolled = Math.max(0, -rect.top); // px scrolled into/past the hero
-      const ty = -Math.min(scrolled, rect.height) * FACTOR;
-      wall.style.transform = `translate3d(0, ${ty.toFixed(1)}px, 0)`;
+      for (let i = 0; i < n; i++) {
+        els[i].style.setProperty("--pary", `${(-scrolled * rate(i)).toFixed(1)}px`);
+      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(tick);
@@ -129,7 +133,7 @@ export default function HeroCollage() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
-      wall.style.transform = "";
+      els.forEach((el) => el.style.removeProperty("--pary"));
     };
   }, []);
 
@@ -239,10 +243,9 @@ export default function HeroCollage() {
         })}
       </div>
 
-      {/* paper washes — quiet under the glass, open over the pile, then a melt
-          into flat paper before the arc band (pointer-transparent) */}
+      {/* paper wash — keeps the copy legible over the pile on the left; open
+          over the rest (pointer-transparent so hovers reach the cards) */}
       <div className={styles.wash} />
-      <div className={styles.fade} />
     </div>
   );
 }

@@ -21,7 +21,6 @@
   position: absolute;
   inset: 0;
   --wm: 1; /* width multiplier — bumped on small screens */
-  will-change: transform; /* scroll-parallax drift (see HeroCollage.tsx) */
 }
 
 .card {
@@ -29,9 +28,10 @@
   display: block;
   width: calc(var(--w) * var(--wm) * 1vw);
   /* left/top (inline) mark the card CENTRE; -50%/-50% re-centres, then the
-     hover push (--px/--py) and the throw tilt (--rot) */
-  transform: translate(-50%, -50%) translate(var(--px, 0px), var(--py, 0px))
-    rotate(var(--rot, 0deg));
+     scroll-parallax drift (--pary, per-depth), the hover push (--px/--py),
+     and the throw tilt (--rot) */
+  transform: translate(-50%, -50%) translate(0px, var(--pary, 0px))
+    translate(var(--px, 0px), var(--py, 0px)) rotate(var(--rot, 0deg));
   transition:
     transform 0.5s cubic-bezier(0.22, 0.61, 0.25, 1),
     box-shadow 0.35s ease;
@@ -61,9 +61,11 @@
   filter: saturate(0.94) sepia(0.06) contrast(1.015);
 }
 
-/* the hovered card: straighten, lift, brighten, jump above the pile */
+/* the hovered card: straighten, lift, brighten, jump above the pile
+   (keeps its parallax drift so it doesn't jump on hover) */
 .card[data-hover] {
-  transform: translate(-50%, -50%) rotate(0deg) scale(1.08);
+  transform: translate(-50%, -50%) translate(0px, var(--pary, 0px))
+    rotate(0deg) scale(1.08);
   z-index: 60 !important;
   box-shadow:
     0 0 0 1px rgba(22, 18, 14, 0.06),
@@ -148,20 +150,6 @@
     rgba(244, 242, 236, 0.04) 100%
   );
 }
-/* settle under the nav + melt into flat paper before the arc band */
-.fade {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(244, 242, 236, 0.4) 0%,
-    rgba(244, 242, 236, 0) 13%,
-    rgba(244, 242, 236, 0) 80%,
-    var(--paper) 100%
-  );
-}
-
 /* ---------- responsive ---------- */
 @media (max-width: 767px) {
   /* phones: same even spread, cards scaled up modestly; the pile is purely
