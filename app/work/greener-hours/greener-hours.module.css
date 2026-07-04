@@ -84,13 +84,13 @@
   opacity: 0.85;
 }
 
-/* blue band (§ opportunity) — a clearer blue than the deep problem band */
+/* blue band (§ opportunity) — same deep navy as the other dark bands */
 .blue {
   position: relative;
   isolation: isolate;
-  background: var(--navy);
+  background: var(--navy-deep);
   color: var(--paper);
-  border-block: 1px solid var(--navy-deep);
+  border-block: 1px solid var(--navy);
 }
 .blue .kicker {
   color: var(--amber-soft);
