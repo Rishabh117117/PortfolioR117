@@ -1,17 +1,18 @@
 /* HeroCollage — Rishabh's cover set thrown across the hero like physical
-   cards: tilted, overlapping, no gaps, z = throw order. The hero copy floats
-   in front on a light glass card (page.module.css .heroCard). Hovering a card
-   parts the pile (JS sets --px/--py per neighbour; see HeroCollage.tsx).
-   Decorative: aria-hidden; the wall accepts hover but the washes above it are
-   pointer-transparent so hovers reach the cards. */
+   cards: tilted, overlapping, no gaps, even across the box, z = throw order.
+   The hero copy floats in front on a light glass card (page.module.css
+   .heroCard). Hovering a card parts the pile (JS sets --px/--py per
+   neighbour) and raises a small glass label naming the artifact + its
+   project; the whole card links there. Decorative: aria-hidden, cards are
+   tabIndex=-1, inert on touch. Washes above the pile are pointer-transparent
+   so hovers reach the cards. */
 
 .collage {
   position: absolute;
   inset: 0;
   overflow: hidden; /* the box clips card bleed — a filled, edge-to-edge pile */
   /* own stacking context: traps the cards' z-index (1–60) below the hero
-     glass (which sits at z-1 in the page-content context) — without this the
-     thrown cards' explicit z-index paints them OVER the copy panel */
+     glass (which sits at z-1 in the page-content context) */
   z-index: 0;
 }
 
@@ -24,6 +25,7 @@
 
 .card {
   position: absolute;
+  display: block;
   width: calc(var(--w) * var(--wm) * 1vw);
   /* left/top (inline) mark the card CENTRE; -50%/-50% re-centres, then the
      hover push (--px/--py) and the throw tilt (--rot) */
@@ -41,6 +43,11 @@
     0 0 0 1px rgba(22, 18, 14, 0.06),
     0 2px 5px rgba(26, 22, 18, 0.2),
     0 16px 30px -14px rgba(26, 22, 18, 0.46);
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   will-change: transform;
 }
 .inner {
@@ -49,11 +56,11 @@
 }
 .img {
   object-fit: cover;
-  /* one warm grade so fifteen sources read as one thrown set */
+  /* one warm grade so twenty sources read as one thrown set */
   filter: saturate(0.94) sepia(0.06) contrast(1.015);
 }
 
-/* the hovered card: straighten, lift, brighten, and jump above the pile */
+/* the hovered card: straighten, lift, brighten, jump above the pile */
 .card[data-hover] {
   transform: translate(-50%, -50%) rotate(0deg) scale(1.08);
   z-index: 60 !important;
@@ -64,6 +71,64 @@
 }
 .card[data-hover] .img {
   filter: saturate(1) contrast(1.03);
+}
+
+/* ---------- the glass label (appears only on the selected card) ---------- */
+.label {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  /* hug the content — a small chip at the bottom, not a full-width bar */
+  width: fit-content;
+  max-width: calc(100% - 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 8px;
+  border-radius: 5px;
+  /* dark frosted glass so it reads over any photo */
+  background: rgba(20, 17, 14, 0.6);
+  -webkit-backdrop-filter: blur(6px) saturate(1.2);
+  backdrop-filter: blur(6px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5);
+  /* hidden until the card is selected */
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 0.61, 0.25, 1);
+  pointer-events: none; /* purely visual; the whole card is the link */
+}
+.card[data-hover] .label {
+  opacity: 1;
+  transform: translateY(0);
+}
+.what {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: -0.005em;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+.arrow {
+  flex: 0 0 auto;
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.25, 1);
+}
+.card[data-hover] .arrow {
+  transform: translateX(2px);
 }
 
 /* ---------- washes ---------- */
@@ -98,13 +163,16 @@
 
 /* ---------- responsive ---------- */
 @media (max-width: 767px) {
-  /* phones: same even 5×3 spread, cards scaled up modestly (smaller than the
-     first pass) so the set reads behind the full-width glass without any one
-     card dominating; hover parting is disabled on touch by the JS */
+  /* phones: same even spread, cards scaled up modestly; the pile is purely
+     decorative here — inert to taps, no label/parting (touch has no hover) */
   .wall {
-    --wm: 2;
+    --wm: 1.9;
   }
   .card {
-    padding: 4px;
+    pointer-events: none;
+    cursor: default;
+  }
+  .label {
+    display: none;
   }
 }

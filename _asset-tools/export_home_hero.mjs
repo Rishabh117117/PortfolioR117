@@ -27,12 +27,19 @@ const FILES = [
   ["Screenshot 2026-07-03 223821.png", "vsg-personas.jpg"],
   ["untitled.34.jpg", "stun-side.jpg"],
   ["untitled.39.jpg", "stun-3q.jpg"],
+  // added 2026-07-04 (his +5)
+  ["20250221_154625.jpg", "hw-healthcare.jpg"],
+  ["20250224_153335.jpg", "hw-retail.jpg"],
+  ["20250507_124301.jpg", "thrift-denim.jpg"],
+  ["Screenshot 2026-07-04 002102.png", "yaap-match.jpg"],
+  ["Screenshot 2026-07-04 002133.png", "lotus-concepts.jpg"],
 ];
 
 mkdirSync(OUT, { recursive: true });
 
 for (const [src, out] of FILES) {
-  const img = sharp(path.join(SRC, src)).rotate(); // EXIF-aware
+  // failOn:none tolerates the slightly-corrupt 8160px denim JPEG
+  const img = sharp(path.join(SRC, src), { failOn: "none" }).rotate(); // EXIF-aware
   const meta = await img.metadata();
   await img
     .resize(1600, 1600, { fit: "inside", withoutEnlargement: true })
