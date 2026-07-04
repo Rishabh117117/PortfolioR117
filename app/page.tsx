@@ -4,6 +4,7 @@ import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import EarlierWorkDeck from "@/components/EarlierWorkDeck/EarlierWorkDeck";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
+import HeroCollage from "@/components/HeroCollage/HeroCollage";
 import { FollowThumb, GreenerHoursThumb } from "@/components/ProjectThumbs/ProjectThumbs";
 import { FLAGSHIPS } from "@/lib/projects";
 import styles from "./page.module.css";
@@ -52,36 +53,40 @@ export default function Home() {
 
       <div className={styles.pageContent}>
       {/* ================= HERO ================= */}
+      {/* pinboard of real work behind, copy on the flagship glass in front */}
       <section className={`section ${styles.hero}`}>
-        <div className="container">
-          <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer</p>
+        <HeroCollage />
+        <div className={`container ${styles.heroContainer}`}>
+          <div className={styles.heroCard}>
+            <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer</p>
 
-          {/* HERO COPY — interim wording; final line pending D-01 */}
-          <h1 className={styles.headline}>
-            I design <em>systems</em> that used to be objects.
-          </h1>
+            {/* HERO COPY — interim wording; final line pending D-01 */}
+            <h1 className={styles.headline}>
+              I design <em>systems</em> that used to be objects.
+            </h1>
 
-          <p className={styles.subhead}>
-            I started in industrial and product design, moved through UX, and
-            now build AI-native products end to end. The work below traces that
-            arc.
-          </p>
+            <p className={styles.subhead}>
+              I started in industrial and product design, moved through UX, and
+              now build AI-native products end to end. The work below traces that
+              arc.
+            </p>
 
-          <div className={styles.ctaRow}>
-            <a href="#work" className="btn primary">
-              View work ↓
-            </a>
-            <Link href="/about" className="btn ghost">
-              About &amp; CV
-            </Link>
+            <div className={styles.ctaRow}>
+              <a href="#work" className="btn primary">
+                View work ↓
+              </a>
+              <Link href="/about" className="btn ghost">
+                About &amp; CV
+              </Link>
+            </div>
+
+            {/* the intent line, above the fold — mirrors the About hero chip so
+                a recruiter never has to scroll to learn what he's looking for */}
+            <p className={styles.availability}>
+              <span className={styles.liveDot} aria-hidden="true" />
+              Open to Design Engineer &amp; Product roles — Brooklyn, NY
+            </p>
           </div>
-
-          {/* the intent line, above the fold — mirrors the About hero chip so
-              a recruiter never has to scroll to learn what he's looking for */}
-          <p className={styles.availability}>
-            <span className={styles.liveDot} aria-hidden="true" />
-            Open to Design Engineer &amp; Product roles — Brooklyn, NY
-          </p>
         </div>
       </section>
 

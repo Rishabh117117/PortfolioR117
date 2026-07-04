@@ -11,8 +11,46 @@
 }
 
 /* ---------- hero ---------- */
+/* the section is the collage's positioning box: HeroCollage fills it
+   absolutely (and gets clipped by it); the container floats above on z-1 */
 .hero {
-  padding-top: var(--space-8);
+  position: relative;
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  min-height: min(86vh, 900px);
+  min-height: min(86svh, 900px);
+}
+.heroContainer {
+  position: relative;
+  z-index: 1;
+}
+
+/* the hero copy sits on the flagship glass recipe (HW/HM .heroCard geometry),
+   tuned light so ink text + the shell buttons keep their contrast — the
+   collage plates blur through it */
+.heroCard {
+  width: fit-content;
+  max-width: min(100%, 680px);
+  padding: clamp(26px, 3.6vw, 46px) clamp(24px, 3.8vw, 50px);
+  background: color-mix(in srgb, var(--card) 64%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 24px 70px -24px rgba(26, 26, 26, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+@media (max-width: 767px) {
+  .hero {
+    min-height: min(80vh, 760px);
+    min-height: min(80svh, 760px);
+  }
+  .heroCard {
+    width: 100%;
+    padding: clamp(20px, 6vw, 30px) clamp(18px, 5vw, 28px);
+  }
 }
 .eyebrow {
   color: var(--gold); /* v1.1 — the shared mono-gold kicker convention */
