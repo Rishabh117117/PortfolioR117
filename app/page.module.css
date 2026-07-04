@@ -244,28 +244,27 @@
 /* mirrors the hero: the closing collage fills the section and the CTA copy
    sits on the same glass. Same stacking as the hero (pile z1–20 < glass z30 <
    hovered card z60) so a hovered card pops above the glass here too. */
+/* original content-driven height (no min-height): the in-flow copy sets the
+   section height; the collage + glass fill it absolutely behind/over. */
 .ctaSection {
   position: relative;
-  isolation: isolate; /* stacking context: decorative pile z1–20 sits below the glass z40 */
-  display: flex;
-  align-items: center;
-  min-height: min(70vh, 620px);
-  min-height: min(70svh, 620px);
+  isolation: isolate; /* stacking context: pile z1–20 < glass z40 < copy z50 */
   border-top: 1px solid var(--line);
 }
-/* full-width frosted glass over the closing pile — the cards read as a soft
-   blurred decorative background and the copy sits on the frost. It covers the
-   pile (z40 > cards) and takes the pointer, so the footer pile is purely
-   decorative (non-interactive). */
+/* full-width frosted glass over the closing pile — a LIGHT frost so the blurred
+   cards read through as a soft decorative background. Covers the pile (z40 >
+   cards) and takes the pointer, so the footer pile is purely decorative. */
 .ctaGlass {
   position: absolute;
   inset: 0;
   z-index: 40;
-  display: flex;
-  align-items: center;
-  background: color-mix(in srgb, var(--card) 66%, transparent);
+  background: color-mix(in srgb, var(--card) 35%, transparent);
   -webkit-backdrop-filter: blur(18px) saturate(1.1);
   backdrop-filter: blur(18px) saturate(1.1);
+}
+.ctaContent {
+  position: relative;
+  z-index: 50; /* the copy sits above the frosted glass */
 }
 .ctaBlock {
   display: flex;
@@ -277,9 +276,4 @@
   letter-spacing: -0.015em;
   line-height: 1.1;
   max-width: 18ch;
-}
-@media (max-width: 767px) {
-  .ctaSection {
-    min-height: min(64vh, 560px);
-  }
 }

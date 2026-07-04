@@ -168,18 +168,17 @@ export default function Home() {
           glass — so the page opens and closes on the one language */}
       <section className={`section ${styles.ctaSection}`}>
         <HeroCollage cards={FOOTER_CARDS} eager={false} bleed={false} />
-        <div className={styles.ctaGlass}>
-          <div className="container">
-            <div className={styles.ctaBlock}>
-              <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
-              <div className={styles.ctaRow}>
-                <Link href="/about" className="btn primary">
-                  About &amp; CV
-                </Link>
-                <Link href="/about#contact" scroll={false} className="btn ghost">
-                  Get in touch
-                </Link>
-              </div>
+        <div className={styles.ctaGlass} />
+        <div className={`container ${styles.ctaContent}`}>
+          <div className={styles.ctaBlock}>
+            <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
+            <div className={styles.ctaRow}>
+              <Link href="/about" className="btn primary">
+                About &amp; CV
+              </Link>
+              <Link href="/about#contact" scroll={false} className="btn ghost">
+                Get in touch
+              </Link>
             </div>
           </div>
         </div>
