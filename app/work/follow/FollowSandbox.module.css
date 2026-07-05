@@ -705,6 +705,15 @@
   flex-wrap: wrap;
 }
 
+/* mobile-app-shell elements — hidden entirely on desktop/tablet; the ≤719px
+   block below turns them on and positions them. Keeping the "off" state a
+   single rule here means desktop is provably untouched. */
+.mobileTabBar,
+.moreBackdrop,
+.moreSheet {
+  display: none;
+}
+
 /* ---------------- responsive ---------------- */
 @media (max-width: 1119px) {
   .body {
@@ -718,33 +727,261 @@
     border-top: 1px solid var(--line);
   }
 }
+/* =========================================================================
+   MOBILE APP SHELL (≤719px) — the sandbox stops being a shrunk-down desktop
+   and becomes a real mobile app: a fixed-height surface, a native header (no
+   browser chrome), one full-screen view at a time that scrolls internally,
+   Ask Follow as a full-screen tab, and a bottom tab bar (Items · Facts · Ask
+   · More) with a slide-up More sheet. All scoped to ≤719px — desktop/tablet
+   layouts above are untouched.
+   ========================================================================= */
 @media (max-width: 719px) {
-  .body {
+  .frame {
+    position: relative;
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: min(82vh, 720px);
+    height: min(82dvh, 720px); /* dvh where supported: no URL-bar jump */
+    min-height: 520px;
+    --mtab-h: 58px;
   }
-  .rail {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    overflow: visible;
+  .chrome {
+    display: none; /* drop the fake browser chrome for a native header */
   }
-  .viewList {
-    flex-direction: row;
-  }
-  .main {
-    overflow: visible;
-  }
-  .assist {
-    border-left: 0;
-    border-top: 1px solid var(--line);
-    height: 420px;
+
+  /* ---- header (the desktop topbar, restyled as an app title bar) ---- */
+  .topbar {
+    flex: 0 0 auto;
+    gap: 8px 10px;
+    padding: 11px 14px;
   }
   .workspace {
+    display: none; /* the view titles + More sheet carry workspace context */
+  }
+  .brandName {
+    font-size: 16px;
+  }
+
+  /* ---- content region — full-bleed, one view at a time ---- */
+  .body {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    display: block;
+    position: relative;
+    grid-template-columns: none;
+    grid-template-rows: none;
+  }
+  .rail {
+    display: none; /* replaced by the tab bar + More sheet */
+  }
+  .main {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 14px 14px 20px;
+  }
+
+  /* ---- Ask Follow: hidden until its tab is active, then full-screen ---- */
+  .assist {
     display: none;
   }
+  .assistMobileOpen {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    border: 0;
+    background: var(--card);
+  }
+
+  /* ---- honesty strip stays, slimmed to one line ---- */
+  .honesty {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+    font-size: 9px;
+  }
+  .honestyRight {
+    display: none;
+  }
+
   .topicTag {
     display: none;
+  }
+
+  /* ---- bottom tab bar ---- */
+  .mobileTabBar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+    border-top: 1px solid var(--line);
+    background: var(--card);
+    z-index: 7;
+  }
+  .mobileTab {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: var(--mtab-h);
+    padding: 7px 4px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--soft);
+    position: relative;
+    transition: color 0.15s ease;
+  }
+  .mobileTab svg {
+    width: 21px;
+    height: 21px;
+  }
+  .mobileTabLabel {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  .mobileTabOn {
+    color: var(--accent-deep);
+  }
+  .mobileTabDot {
+    position: absolute;
+    top: 7px;
+    left: calc(50% + 8px);
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+
+  /* ---- More sheet + backdrop ---- */
+  .moreBackdrop {
+    display: block;
+    position: absolute;
+    inset: 0 0 var(--mtab-h) 0; /* leaves the tab bar tappable */
+    background: color-mix(in srgb, var(--ink) 30%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 8;
+  }
+  .moreBackdropOn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .moreSheet {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--mtab-h);
+    max-height: 78%;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -14px 34px rgba(26, 26, 26, 0.16);
+    /* fully hide below the frame: its own height PLUS the tab-bar offset it
+       sits above (translateY % alone leaves a ~mtab-h peek of the grab
+       handle) */
+    transform: translateY(calc(100% + var(--mtab-h) + 4px));
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 9;
+    overflow: hidden;
+    padding: 8px 14px 16px;
+  }
+  .moreSheetOn {
+    transform: translateY(0);
+  }
+  .moreGrab {
+    width: 40px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--line);
+    margin: 2px auto 8px;
+    flex: 0 0 auto;
+  }
+  .moreTitle {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin: 0 2px 8px;
+  }
+  .moreScroll {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .moreRow {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    text-align: left;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .moreRowOn {
+    border-color: var(--accent-wash);
+    background: var(--accent-tint);
+    color: var(--accent-deep);
+  }
+  .moreRowIcon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    color: var(--soft);
+  }
+  .moreRowOn .moreRowIcon {
+    color: var(--accent-deep);
+  }
+  .moreRowIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .moreRowCount {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--soft);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 1px 8px;
+  }
+  .moreOverview {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+  }
+  .moreTeam,
+  .moreStats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .moreSheet,
+  .moreBackdrop {
+    transition: none;
   }
 }
 
@@ -1601,7 +1838,40 @@
   margin: 6px 0 0;
 }
 @media (max-width: 719px) {
+  /* fallback height if the graph is ever shown outside the mainGraph shell */
   .graphWrap {
     height: 420px;
+  }
+
+  /* Graph view hands the canvas most of the screen: the wrapper flexes to
+     fill the app-shell content area and the surrounding prose is trimmed. */
+  .mainGraph {
+    overflow: hidden;
+    padding-bottom: 12px;
+  }
+  .mainGraph .mainBlurb,
+  .mainGraph .graphBlurb {
+    display: none;
+  }
+  .mainGraph .graphWrap {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 240px;
+    /* full-screen canvas: drag rotates — nothing to scroll past in this view */
+    touch-action: none;
+  }
+  .mainGraph .graphLegend {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+    margin-top: 8px;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mainGraph .graphLegendItem {
+    flex: 0 0 auto;
+  }
+  .mainGraph .graphHint {
+    margin: 6px 0 0;
   }
 }

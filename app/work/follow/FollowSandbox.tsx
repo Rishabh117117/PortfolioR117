@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   F_WORKSPACE,
   F_HONESTY,
@@ -44,11 +44,99 @@ const KIND_LABEL: Record<FEntry["kind"], string> = {
   constraint: "constraint",
 };
 
+/* ---- mobile tab-bar / More-sheet icons (stroke = currentColor) ---- */
+const svgProps = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.7,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+const IconItems = () => (
+  <svg {...svgProps}>
+    <rect x="3.5" y="4.5" width="17" height="4" rx="1.3" />
+    <rect x="3.5" y="10" width="17" height="4" rx="1.3" />
+    <rect x="3.5" y="15.5" width="17" height="4" rx="1.3" />
+  </svg>
+);
+const IconFacts = () => (
+  <svg {...svgProps}>
+    <path d="M12 3l2.3 5.9L20 11l-5.7 2.1L12 19l-2.3-5.9L4 11l5.7-2.1z" />
+  </svg>
+);
+const IconAsk = () => (
+  <svg {...svgProps}>
+    <path d="M4 5.5h16v10H9.5L5.5 19v-3.5H4z" />
+  </svg>
+);
+const IconMore = () => (
+  <svg {...svgProps}>
+    <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+    <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+    <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+    <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+  </svg>
+);
+const IconConvo = () => (
+  <svg {...svgProps}>
+    <path d="M4 5h16v9H8l-4 3.5V14H4z" />
+  </svg>
+);
+const IconFile = () => (
+  <svg {...svgProps}>
+    <path d="M6 3h8l4 4v14H6z" />
+    <path d="M14 3v4h4" />
+  </svg>
+);
+const IconGraph = () => (
+  <svg {...svgProps}>
+    <circle cx="6" cy="17" r="2.3" />
+    <circle cx="18" cy="7" r="2.3" />
+    <circle cx="17" cy="18" r="2" />
+    <path d="M7.7 15.4l8.6-6.8M8.1 17.4l7 .4" />
+  </svg>
+);
+const IconPeople = () => (
+  <svg {...svgProps}>
+    <circle cx="9" cy="8" r="3" />
+    <path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" />
+    <path d="M16 5.2a3 3 0 010 5.6M17.5 20c0-2.4-1-4.2-2.6-5.2" />
+  </svg>
+);
+const IconConsole = () => (
+  <svg {...svgProps}>
+    <rect x="3.5" y="5" width="17" height="14" rx="2" />
+    <path d="M7 9.5l3 2.5-3 2.5M12.5 15h4" />
+  </svg>
+);
+
+/* the five secondary views behind the "More" tab (Items/Facts/Ask are the
+   other three bottom-bar destinations) */
+const MORE_VIEWS: { view: View; label: string; icon: () => React.ReactElement }[] = [
+  { view: "conversations", label: "Conversations", icon: IconConvo },
+  { view: "files", label: "Files", icon: IconFile },
+  { view: "graph", label: "Graph", icon: IconGraph },
+  { view: "directory", label: "Who knows what", icon: IconPeople },
+  { view: "mcp", label: "MCP console", icon: IconConsole },
+];
+
 export default function FollowSandbox() {
   const [view, setView] = useState<View>("items");
   const [query, setQuery] = useState("");
   const [topicFilter, setTopicFilter] = useState<string | null>(null);
   const [contestedOnly, setContestedOnly] = useState(false);
+
+  // mobile app shell only (≤719px): the bottom tab bar swaps between the main
+  // views, a full-screen "Ask" overlay, and a slide-up "More" sheet. On
+  // desktop these never flip true (the controls that set them are hidden), so
+  // the 3-region layout is untouched.
+  const [askOpen, setAskOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreSheetRef = useRef<HTMLDivElement>(null);
+  const moreBtnRef = useRef<HTMLButtonElement>(null);
+  const prevMoreOpen = useRef(false);
 
   // the memory is mutable: MCP console saves + doc-fact entries both write
   // into this array. Doc entries are small + eager (no doc bodies), so they
@@ -116,21 +204,67 @@ export default function FollowSandbox() {
     });
   }, [entries, query, topicFilter, contestedOnly]);
 
+  // any in-view navigation (open source →, jump to facts, cross-links) also
+  // dismisses the mobile overlays so the target view is actually visible.
+  const goView = useCallback((v: View) => {
+    setView(v);
+    setAskOpen(false);
+    setMoreOpen(false);
+  }, []);
+
   const jumpToFacts = useCallback((topic: string) => {
-    setView("memory");
+    goView("memory");
     setTopicFilter(topic);
     setContestedOnly(false);
     setQuery("");
-  }, []);
+  }, [goView]);
 
   const openChat = useCallback((id: string) => {
     setSelectedChatId(id);
-    setView("conversations");
-  }, []);
+    goView("conversations");
+  }, [goView]);
 
   const openDoc = useCallback((id: string) => {
     setSelectedDocId(id);
-    setView("files");
+    goView("files");
+  }, [goView]);
+
+  // Esc closes whichever mobile overlay is open (the tab bar is the primary
+  // affordance; this is the keyboard escape hatch).
+  useEffect(() => {
+    if (!moreOpen && !askOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMoreOpen(false);
+        setAskOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [moreOpen, askOpen]);
+
+  // More sheet a11y: while closed it's only translated off-screen, so its
+  // rows would otherwise stay in the tab order (a reverse focus trap). Toggle
+  // `inert` imperatively (matches ArchiveReader's pattern — works regardless
+  // of the installed React typings) and hand focus into/out of the sheet.
+  useEffect(() => {
+    const sheet = moreSheetRef.current;
+    if (sheet) sheet.toggleAttribute("inert", !moreOpen);
+    if (moreOpen) {
+      sheet?.querySelector<HTMLElement>("button")?.focus();
+    } else if (prevMoreOpen.current) {
+      moreBtnRef.current?.focus();
+    }
+    prevMoreOpen.current = moreOpen;
+  }, [moreOpen]);
+
+  // deep-link: /work/follow/prototype#graph (etc.) opens straight to a view.
+  useEffect(() => {
+    const raw = window.location.hash.replace(/^#/, "");
+    const alias: Record<string, View> = { facts: "memory" };
+    const v = (alias[raw] ?? raw) as View;
+    const valid: View[] = ["items", "conversations", "files", "memory", "graph", "directory", "mcp"];
+    if (valid.includes(v)) setView(v);
   }, []);
 
   const openSource = useCallback(
@@ -176,7 +310,7 @@ export default function FollowSandbox() {
             aria-pressed={contestedOnly}
             onClick={() => {
               setContestedOnly((v) => !v);
-              setView("memory");
+              goView("memory");
             }}
             title="Show only entries where teammates' AIs disagree"
           >
@@ -309,7 +443,10 @@ export default function FollowSandbox() {
         </aside>
 
         {/* ---------------- main ---------------- */}
-        <section className={s.main} aria-label="Follow sandbox">
+        <section
+          className={`${s.main} ${view === "graph" ? s.mainGraph : ""}`}
+          aria-label="Follow sandbox"
+        >
           {view === "items" && (
             <>
               <header className={s.mainHead}>
@@ -547,14 +684,164 @@ export default function FollowSandbox() {
           </div>
         </section>
 
-        {/* ---------------- Ask Follow dock ---------------- */}
-        <FollowAskDock entries={entries} addEntry={addEntry} docs={loadedDocs} />
+        {/* ---------------- Ask Follow dock ----------------
+            desktop: the 3rd column. mobile: hidden until the Ask tab flips
+            askOpen, then a full-screen overlay (s.assistMobileOpen). */}
+        <FollowAskDock
+          entries={entries}
+          addEntry={addEntry}
+          docs={loadedDocs}
+          className={askOpen ? s.assistMobileOpen : undefined}
+        />
       </div>
 
       <div className={s.honesty}>
         <span>{F_HONESTY}</span>
         <span className={s.honestyRight}>answers run on a live model API via a server-side proxy</span>
       </div>
+
+      {/* ================= mobile app shell (≤719px only) =================
+          A native-app bottom tab bar + slide-up "More" sheet. Both are
+          display:none above 719px, so desktop is completely unaffected. */}
+      {(() => {
+        const moreViewActive = !askOpen && MORE_VIEWS.some((m) => m.view === view);
+        const tab = (active: boolean) => `${s.mobileTab} ${active ? s.mobileTabOn : ""}`;
+        return (
+          <>
+            <nav className={s.mobileTabBar} aria-label="Sandbox tabs">
+              <button
+                type="button"
+                className={tab(!askOpen && !moreOpen && view === "items")}
+                aria-current={!askOpen && !moreOpen && view === "items" ? "page" : undefined}
+                onClick={() => goView("items")}
+              >
+                <IconItems />
+                <span className={s.mobileTabLabel}>Items</span>
+              </button>
+              <button
+                type="button"
+                className={tab(!askOpen && !moreOpen && view === "memory")}
+                aria-current={!askOpen && !moreOpen && view === "memory" ? "page" : undefined}
+                onClick={() => goView("memory")}
+              >
+                <IconFacts />
+                <span className={s.mobileTabLabel}>Facts</span>
+              </button>
+              <button
+                type="button"
+                className={tab(askOpen)}
+                aria-current={askOpen ? "page" : undefined}
+                onClick={() => {
+                  setAskOpen((o) => !o);
+                  setMoreOpen(false);
+                }}
+              >
+                <IconAsk />
+                <span className={s.mobileTabLabel}>Ask</span>
+              </button>
+              <button
+                ref={moreBtnRef}
+                type="button"
+                className={tab(moreOpen || moreViewActive)}
+                aria-expanded={moreOpen}
+                aria-haspopup="dialog"
+                onClick={() => {
+                  setMoreOpen((o) => !o);
+                  setAskOpen(false);
+                }}
+              >
+                <IconMore />
+                {moreViewActive && !moreOpen && <span className={s.mobileTabDot} aria-hidden="true" />}
+                <span className={s.mobileTabLabel}>More</span>
+              </button>
+            </nav>
+
+            <div
+              className={`${s.moreBackdrop} ${moreOpen ? s.moreBackdropOn : ""}`}
+              onClick={() => setMoreOpen(false)}
+              aria-hidden="true"
+            />
+            <div
+              ref={moreSheetRef}
+              className={`${s.moreSheet} ${moreOpen ? s.moreSheetOn : ""}`}
+              role="dialog"
+              aria-label="More views"
+              aria-hidden={!moreOpen}
+            >
+              <span className={s.moreGrab} aria-hidden="true" />
+              <p className={s.moreTitle}>Views</p>
+              <div className={s.moreScroll}>
+                {MORE_VIEWS.map((m) => {
+                  const Icon = m.icon;
+                  const count =
+                    m.view === "conversations"
+                      ? chatsReady
+                        ? loadedChats.length
+                        : null
+                      : m.view === "files"
+                        ? docsReady
+                          ? loadedDocs.length
+                          : null
+                        : m.view === "graph"
+                          ? chatsReady && docsReady
+                            ? graphNodeCount
+                            : null
+                          : m.view === "directory"
+                            ? directory.length
+                            : FOLLOW_MCP_TOOLS.length;
+                  return (
+                    <button
+                      key={m.view}
+                      type="button"
+                      className={`${s.moreRow} ${view === m.view ? s.moreRowOn : ""}`}
+                      onClick={() => goView(m.view)}
+                    >
+                      <span className={s.moreRowIcon}>
+                        <Icon />
+                      </span>
+                      {m.label}
+                      <span className={s.moreRowCount}>{count ?? "·"}</span>
+                    </button>
+                  );
+                })}
+
+                <div className={s.moreOverview}>
+                  <div className={s.moreTeam}>
+                    <p className={s.railLabel}>the team</p>
+                    {directory.map((d) => (
+                      <div key={d.member.id} className={s.teamRow}>
+                        <span className={`${s.avatar} ${s.avatarSm} ${s[`tool${d.member.tool}`]}`} aria-hidden="true">
+                          {d.member.name[0]}
+                        </span>
+                        <span className={s.teamWho}>
+                          <span className={s.teamName}>{d.member.name}</span>
+                          <span className={s.teamTool}>{d.member.tool}</span>
+                        </span>
+                        <span className={s.teamCount}>{d.entryCount}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className={s.moreStats}>
+                    <p className={s.railLabel}>this workspace</p>
+                    <div className={s.statRow}>
+                      <span className={s.statName}>Facts</span>
+                      <span className={s.statVal}>{entries.length}</span>
+                    </div>
+                    <div className={s.statRow}>
+                      <span className={s.statName}>Topics</span>
+                      <span className={s.statVal}>{topics.length}</span>
+                    </div>
+                    <div className={s.statRow}>
+                      <span className={s.statName}>Contested</span>
+                      <span className={`${s.statVal} ${s.statHot}`}>{contestedCount}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      })()}
     </div>
   );
 }

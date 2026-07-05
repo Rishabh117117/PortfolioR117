@@ -65,10 +65,12 @@ export default function FollowAskDock({
   entries,
   addEntry,
   docs,
+  className,
 }: {
   entries: FEntry[];
   addEntry: (e: FEntry) => void;
   docs: FDoc[];
+  className?: string;
 }) {
   const [items, setItems] = useState<DockItem[]>([]);
   const [input, setInput] = useState("");
@@ -188,7 +190,7 @@ export default function FollowAskDock({
   const showChips = items.length === 0 && !loading;
 
   return (
-    <aside className={s.assist} aria-label="Ask Follow">
+    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Ask Follow">
       <header className={s.assistHead}>
         <span className={s.assistTitle}>
           <span className={`${s.assistDot} ${offline ? s.assistDotOff : ""}`} aria-hidden="true" />
