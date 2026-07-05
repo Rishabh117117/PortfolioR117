@@ -984,6 +984,15 @@
   flex-wrap: wrap;
 }
 
+/* ---------------- mobile app-shell (base: hidden on desktop/tablet) ---------------- */
+/* single source-of-truth "off" state, so desktop is provably untouched */
+.mobileTabBar,
+.moreBackdrop,
+.moreSheet,
+.progBtn {
+  display: none;
+}
+
 /* ---------------- responsive ---------------- */
 @media (max-width: 1119px) {
   .body {
@@ -1000,25 +1009,74 @@
     display: none;
   }
 }
+
+/* ≤719px: the browser-framed web app becomes a native mobile app —
+   app header + full-bleed view stage + bottom tab bar + slide-up Program sheet */
 @media (max-width: 719px) {
-  .body {
+  .frame {
+    position: relative;
     display: flex;
     flex-direction: column;
+    height: min(84vh, 720px);
+    height: min(84svh, 720px); /* stable viewport height — no jump as the URL bar shows/hides */
+    min-height: 520px;
+    --mtab-h: 58px;
+  }
+  .chrome {
+    display: none;
+  }
+  .topbar {
+    flex: 0 0 auto;
+    gap: 8px 10px;
+    padding: 11px 14px;
+  }
+  .brandName {
+    font-size: 15px;
+  }
+  .formula,
+  .budgetChip,
+  .project {
+    display: none;
+  }
+  .progBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--accent-deep);
+    background: var(--accent-tint);
+    border: 1px solid var(--accent-wash);
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .progBtn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* body → a single full-bleed view stage */
+  .body {
+    flex: 1 1 auto;
+    min-height: 0;
     height: auto;
+    display: block;
+    position: relative;
   }
   .rail {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    overflow: visible;
-  }
-  .viewList {
-    flex-direction: row;
-  }
-  .viewBtn {
-    padding: 8px 10px;
+    display: none;
   }
   .main {
-    overflow: visible;
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 14px 14px 18px;
   }
   .match {
     grid-template-columns: 1fr;
@@ -1028,15 +1086,144 @@
     grid-template-columns: 1fr;
     gap: 2px;
   }
+
+  /* Ask: hidden until its tab, then full-screen over the stage */
   .assist {
-    border-left: 0;
+    display: none;
+  }
+  .assistMobileOpen {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    border: 0;
+    height: auto;
+    background: var(--card);
+  }
+
+  /* honesty → a thin disclaimer strip above the tab bar */
+  .honesty {
+    flex: 0 0 auto;
+    justify-content: center;
+    padding: 6px 12px;
+  }
+  .honestyRight {
+    display: none;
+  }
+
+  /* bottom tab bar (sits in the frame's flex flow, pinned to its base) */
+  .mobileTabBar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
     border-top: 1px solid var(--line);
-    height: 420px;
+    background: var(--card);
+    z-index: 7;
   }
-  .project {
+  .mobileTab {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: var(--mtab-h);
+    padding: 7px 4px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--soft);
+    transition: color 0.15s ease;
+  }
+  .mobileTab svg {
+    width: 21px;
+    height: 21px;
+  }
+  .mobileTabLabel {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  .mobileTabOn {
+    color: var(--accent-deep);
+  }
+
+  /* Program sheet + backdrop */
+  .moreBackdrop {
+    display: block;
+    position: absolute;
+    inset: 0 0 var(--mtab-h) 0; /* leaves the tab bar tappable underneath */
+    background: color-mix(in srgb, var(--ink) 30%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 8;
+  }
+  .moreBackdropOn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .moreSheet {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--mtab-h);
+    max-height: 78%;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -14px 34px rgba(26, 26, 26, 0.16);
+    /* closed: clears its own height PLUS the tab-bar it floats above */
+    transform: translateY(calc(100% + var(--mtab-h) + 4px));
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 9;
+    overflow: hidden;
+    padding: 8px 16px 18px;
+  }
+  .moreSheetOn {
+    transform: translateY(0);
+  }
+  .moreGrab {
+    align-self: center;
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--line);
+    margin: 2px 0 8px;
+  }
+  .moreTitle {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin: 0 2px 10px;
+  }
+  .moreScroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  /* the overview blocks drop their top dividers inside the sheet */
+  .moreScroll .stats,
+  .moreScroll .bench {
+    border-top: 0;
+    padding-top: 0;
+  }
+  /* the sheet is already titled "Program" — drop the duplicate stat label */
+  .moreScroll .stats > .railLabel {
     display: none;
   }
-  .bench {
-    display: none;
+}
+
+@media (max-width: 719px) and (prefers-reduced-motion: reduce) {
+  .moreSheet,
+  .moreBackdrop {
+    transition: none;
   }
 }

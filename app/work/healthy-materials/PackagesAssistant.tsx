@@ -22,9 +22,11 @@ const GREETING: Msg = {
 export default function PackagesAssistant({
   context,
   scopeLabel,
+  className,
 }: {
   context: string;
   scopeLabel: string;
+  className?: string;
 }) {
   const [messages, setMessages] = useState<Msg[]>([GREETING]);
   const [input, setInput] = useState("");
@@ -83,7 +85,7 @@ export default function PackagesAssistant({
   const showChips = messages.length <= 2 && !loading;
 
   return (
-    <aside className={s.assist} aria-label="Package assistant">
+    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Package assistant">
       <header className={s.assistHead}>
         <span className={s.assistTitle}>
           <span className={`${s.assistDot} ${offline ? s.assistDotOff : ""}`} aria-hidden="true" />

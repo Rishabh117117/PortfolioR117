@@ -46,6 +46,63 @@ type Queued = {
 
 type RunPhase = "idle" | "transcript" | "summary" | "done";
 
+/* ---- mobile app-shell icons (≤719px bottom tab bar + Program button) ---- */
+const svgProps = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.6,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+};
+function IconMatch() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+function IconSessions() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <rect x="3.5" y="4.5" width="17" height="16" rx="2" />
+      <path d="M3.5 9h17M8 3v3M16 3v3" />
+    </svg>
+  );
+}
+function IconArchive() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <rect x="3.5" y="4.5" width="17" height="4" rx="1" />
+      <path d="M5 8.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5M10 12h4" />
+    </svg>
+  );
+}
+function IconAsk() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.5V6a1 1 0 0 1 1-1Z" />
+      <path d="M9 10h6M9 12.5h4" />
+    </svg>
+  );
+}
+function IconProgram() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 20V10M12 20V5M18 20v-8M3.5 20h17" />
+    </svg>
+  );
+}
+
 export default function WorkshopsApp() {
   const [view, setView] = useState<View>("match");
   const [selNeedId, setSelNeedId] = useState<string | null>(HW_NEEDS[0].id);
@@ -60,11 +117,70 @@ export default function WorkshopsApp() {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const reduceMotion = useRef(false);
 
+  // mobile app-shell (≤719px): a full-screen "Ask" overlay + a slide-up
+  // "Program" sheet. On desktop these never flip true — the controls that set
+  // them are CSS-hidden — so the 3-region layout is untouched.
+  const [askOpen, setAskOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreSheetRef = useRef<HTMLDivElement>(null);
+  const moreBtnRef = useRef<HTMLButtonElement>(null);
+  const prevMoreOpen = useRef(false);
+
   useEffect(() => {
     reduceMotion.current =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const t = timers.current;
     return () => t.forEach(clearTimeout);
+  }, []);
+
+  // one place to change the view — also dismisses the mobile overlays
+  const goView = (v: View) => {
+    setView(v);
+    setAskOpen(false);
+    setMoreOpen(false);
+  };
+
+  // esc closes either mobile overlay
+  useEffect(() => {
+    if (!moreOpen && !askOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMoreOpen(false);
+        setAskOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [moreOpen, askOpen]);
+
+  // Program sheet: inert + focus handoff while it slides (Follow's pattern —
+  // preventScroll stops the browser chasing the off-screen sheet)
+  useEffect(() => {
+    const sheet = moreSheetRef.current;
+    if (sheet) sheet.toggleAttribute("inert", !moreOpen);
+    if (moreOpen) {
+      (sheet?.querySelector<HTMLElement>("button, [href], input") ?? sheet)?.focus({
+        preventScroll: true,
+      });
+    } else if (prevMoreOpen.current) {
+      moreBtnRef.current?.focus({ preventScroll: true });
+    }
+    prevMoreOpen.current = moreOpen;
+  }, [moreOpen]);
+
+  // deep-link: /work/housing-works/prototype#sessions opens straight to a view
+  useEffect(() => {
+    const raw = window.location.hash.replace(/^#/, "");
+    if (raw === "ask") {
+      setAskOpen(true);
+      return;
+    }
+    if (raw === "program") {
+      setMoreOpen(true);
+      return;
+    }
+    const valid: View[] = ["match", "sessions", "archive"];
+    if (valid.includes(raw as View)) goView(raw as View);
   }, []);
 
   const openNeeds = useMemo(() => HW_NEEDS.filter((n) => !handled[n.id]), [handled]);
@@ -103,7 +219,7 @@ export default function WorkshopsApp() {
     setHandled((h) => ({ ...h, [needId]: true }));
     setExtraLoad((l) => ({ ...l, [trusteeId]: (l[trusteeId] || 0) + 1 }));
     setSelNeedId(null);
-    setView("sessions");
+    goView("sessions");
   }
 
   function startRun(item: Queued) {
@@ -152,7 +268,7 @@ export default function WorkshopsApp() {
     setQueue((q) => q.filter((x) => x.id !== item.id));
     setRun(null);
     setJustArchived(entry.id);
-    setView("archive");
+    goView("archive");
   }
 
   /* -------- archive filtering -------- */
@@ -181,6 +297,53 @@ export default function WorkshopsApp() {
   const avgRating = archive.length
     ? (archive.reduce((sum, a) => sum + a.rating, 0) / archive.length).toFixed(1)
     : "—";
+
+  // program stats + trustee bench — rendered in the desktop rail AND, on
+  // mobile, inside the slide-up Program sheet
+  const programOverview = (
+    <>
+      <div className={s.stats} aria-live="polite">
+        <p className={s.railLabel}>program · fy25</p>
+        <div className={s.statRow}>
+          <span className={s.statName}>Sessions run</span>
+          <span className={s.statVal}>{archive.length}</span>
+        </div>
+        <div className={s.statRow}>
+          <span className={s.statName}>Badges issued</span>
+          <span className={s.statVal}>{archive.length}</span>
+        </div>
+        <div className={s.statRow}>
+          <span className={s.statName}>Avg session rating</span>
+          <span className={s.statVal}>{avgRating}/5</span>
+        </div>
+        <div className={s.budget}>
+          <div className={s.statRow}>
+            <span className={s.statName}>Budget used</span>
+            <span className={s.statVal}>${budgetUsed}</span>
+          </div>
+          <div className={s.budgetBar}>
+            <span style={{ width: `${Math.min(100, (budgetUsed / HW_YEAR_BUDGET) * 100)}%` }} />
+          </div>
+          <p className={s.budgetNote}>of ${HW_YEAR_BUDGET}/yr · trustee time volunteered</p>
+        </div>
+      </div>
+
+      <div className={s.bench}>
+        <p className={s.railLabel}>trustee bench</p>
+        {HW_TRUSTEES.map((t) => {
+          const load = t.load + (extraLoad[t.id] || 0);
+          return (
+            <div key={t.id} className={s.benchRow}>
+              <span className={s.benchName}>{t.name}</span>
+              <span className={s.benchLoad} title="Sessions this quarter">
+                {load}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
 
   const VIEWS: { id: View; label: string; count: number }[] = [
     { id: "match", label: "Match a need", count: openNeeds.length },
@@ -212,6 +375,20 @@ export default function WorkshopsApp() {
         <span className={s.budgetChip} title="Program budget used (materials only — trustee time is volunteered)">
           ${budgetUsed} / ${HW_YEAR_BUDGET} yr
         </span>
+        <button
+          ref={moreBtnRef}
+          type="button"
+          className={s.progBtn}
+          aria-expanded={moreOpen}
+          aria-haspopup="dialog"
+          onClick={() => {
+            setMoreOpen((o) => !o);
+            setAskOpen(false);
+          }}
+        >
+          <IconProgram />
+          <span>Program</span>
+        </button>
       </div>
 
       <div className={s.body}>
@@ -226,7 +403,7 @@ export default function WorkshopsApp() {
                     type="button"
                     className={`${s.viewBtn} ${view === v.id ? s.viewOn : ""}`}
                     aria-current={view === v.id ? "true" : undefined}
-                    onClick={() => setView(v.id)}
+                    onClick={() => goView(v.id)}
                   >
                     <span>{v.label}</span>
                     <span className={s.viewCount}>{v.count}</span>
@@ -236,46 +413,7 @@ export default function WorkshopsApp() {
             </ul>
           </nav>
 
-          <div className={s.stats} aria-live="polite">
-            <p className={s.railLabel}>program · fy25</p>
-            <div className={s.statRow}>
-              <span className={s.statName}>Sessions run</span>
-              <span className={s.statVal}>{archive.length}</span>
-            </div>
-            <div className={s.statRow}>
-              <span className={s.statName}>Badges issued</span>
-              <span className={s.statVal}>{archive.length}</span>
-            </div>
-            <div className={s.statRow}>
-              <span className={s.statName}>Avg session rating</span>
-              <span className={s.statVal}>{avgRating}/5</span>
-            </div>
-            <div className={s.budget}>
-              <div className={s.statRow}>
-                <span className={s.statName}>Budget used</span>
-                <span className={s.statVal}>${budgetUsed}</span>
-              </div>
-              <div className={s.budgetBar}>
-                <span style={{ width: `${Math.min(100, (budgetUsed / HW_YEAR_BUDGET) * 100)}%` }} />
-              </div>
-              <p className={s.budgetNote}>of ${HW_YEAR_BUDGET}/yr · trustee time volunteered</p>
-            </div>
-          </div>
-
-          <div className={s.bench}>
-            <p className={s.railLabel}>trustee bench</p>
-            {HW_TRUSTEES.map((t) => {
-              const load = t.load + (extraLoad[t.id] || 0);
-              return (
-                <div key={t.id} className={s.benchRow}>
-                  <span className={s.benchName}>{t.name}</span>
-                  <span className={s.benchLoad} title="Sessions this quarter">
-                    {load}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          {programOverview}
         </aside>
 
         {/* ---------------- main ---------------- */}
@@ -367,7 +505,7 @@ export default function WorkshopsApp() {
               {queue.length === 0 && (
                 <div className={s.emptyBox}>
                   <p className={s.empty}>Nothing scheduled yet.</p>
-                  <button type="button" className={s.linkBtn} onClick={() => setView("match")}>
+                  <button type="button" className={s.linkBtn} onClick={() => goView("match")}>
                     ← Match a need first
                   </button>
                 </div>
@@ -509,12 +647,73 @@ export default function WorkshopsApp() {
         </section>
 
         {/* ---------------- assistant dock ---------------- */}
-        <WorkshopsAssistant context={context} />
+        <WorkshopsAssistant context={context} className={askOpen ? s.assistMobileOpen : undefined} />
       </div>
 
       <div className={s.honesty}>
         <span>{HW_HONESTY}</span>
         <span className={s.honestyRight}>assistant runs on a live model API via a server-side proxy</span>
+      </div>
+
+      {/* ---------------- mobile app-shell: bottom tab bar + Program sheet ---------------- */}
+      <nav className={s.mobileTabBar} aria-label="Workshop views">
+        <button
+          type="button"
+          className={`${s.mobileTab} ${!askOpen && view === "match" ? s.mobileTabOn : ""}`}
+          aria-current={!askOpen && view === "match" ? "page" : undefined}
+          onClick={() => goView("match")}
+        >
+          <IconMatch />
+          <span className={s.mobileTabLabel}>Match</span>
+        </button>
+        <button
+          type="button"
+          className={`${s.mobileTab} ${!askOpen && view === "sessions" ? s.mobileTabOn : ""}`}
+          aria-current={!askOpen && view === "sessions" ? "page" : undefined}
+          onClick={() => goView("sessions")}
+        >
+          <IconSessions />
+          <span className={s.mobileTabLabel}>Sessions</span>
+        </button>
+        <button
+          type="button"
+          className={`${s.mobileTab} ${!askOpen && view === "archive" ? s.mobileTabOn : ""}`}
+          aria-current={!askOpen && view === "archive" ? "page" : undefined}
+          onClick={() => goView("archive")}
+        >
+          <IconArchive />
+          <span className={s.mobileTabLabel}>Archive</span>
+        </button>
+        <button
+          type="button"
+          className={`${s.mobileTab} ${askOpen ? s.mobileTabOn : ""}`}
+          aria-current={askOpen ? "page" : undefined}
+          onClick={() => {
+            setAskOpen((o) => !o);
+            setMoreOpen(false);
+          }}
+        >
+          <IconAsk />
+          <span className={s.mobileTabLabel}>Ask</span>
+        </button>
+      </nav>
+
+      <div
+        className={`${s.moreBackdrop} ${moreOpen ? s.moreBackdropOn : ""}`}
+        onClick={() => setMoreOpen(false)}
+        aria-hidden="true"
+      />
+      <div
+        ref={moreSheetRef}
+        className={`${s.moreSheet} ${moreOpen ? s.moreSheetOn : ""}`}
+        role="dialog"
+        aria-label="Program overview"
+        aria-hidden={!moreOpen}
+        tabIndex={-1}
+      >
+        <span className={s.moreGrab} aria-hidden="true" />
+        <p className={s.moreTitle}>Program</p>
+        <div className={s.moreScroll}>{programOverview}</div>
       </div>
     </div>
   );

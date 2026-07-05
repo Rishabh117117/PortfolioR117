@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   PKG_PROJECT,
   PKG_SCOPES,
@@ -32,6 +32,40 @@ const VOC_LABEL: Record<VocClass, string> = {
   low: "low VOC",
   none: "zero VOC",
 };
+
+/* ---- mobile app-shell icons (≤719px bottom tab bar) ---- */
+const svgProps = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.6,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+};
+function IconLines() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <path d="M8 6h12M8 12h12M8 18h12" />
+      <path d="M4 6h.01M4 12h.01M4 18h.01" />
+    </svg>
+  );
+}
+function IconSummary() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <path d="M6 20V10M12 20V5M18 20v-8" />
+      <path d="M3.5 20h17" />
+    </svg>
+  );
+}
+function IconAsk() {
+  return (
+    <svg {...svgProps} aria-hidden="true">
+      <path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.5V6a1 1 0 0 1 1-1Z" />
+      <path d="M9 10h6M9 12.5h4" />
+    </svg>
+  );
+}
 
 function OptionTile({
   kind,
@@ -154,6 +188,30 @@ export default function PackagesApp() {
   const [lens, setLens] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  // mobile app-shell (≤719px): a Lines/Summary view stage + a full-screen
+  // "Ask" overlay. On desktop these never change — the controls that set them
+  // are CSS-hidden — so the 3-region layout is untouched.
+  const [mView, setMView] = useState<"lines" | "summary">("lines");
+  const [askOpen, setAskOpen] = useState(false);
+
+  // esc closes the Ask overlay (the spec-sheet modal handles its own Esc)
+  useEffect(() => {
+    if (!askOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAskOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [askOpen]);
+
+  // deep-link: /work/healthy-materials/prototype#summary opens straight to a view
+  useEffect(() => {
+    const raw = window.location.hash.replace(/^#/, "");
+    if (raw === "ask") setAskOpen(true);
+    else if (raw === "summary") setMView("summary");
+    else if (raw === "sheet") setSheetOpen(true);
+  }, []);
+
   const scope = PKG_SCOPES.find((x) => x.id === scopeId) ?? PKG_SCOPES[0];
   const totals = useMemo(() => packageTotals(scope, active), [scope, active]);
   const context = useMemo(() => assistantContext(scope, active), [scope, active]);
@@ -205,7 +263,7 @@ export default function PackagesApp() {
         </div>
       </div>
 
-      <div className={s.body}>
+      <div className={s.body} data-mview={mView}>
         {/* ---------------- rail: scopes + live totals ---------------- */}
         <aside className={s.rail}>
           <nav aria-label="Package scopes">
@@ -230,6 +288,7 @@ export default function PackagesApp() {
           </nav>
 
           <div className={s.totals} aria-live="polite">
+            <p className={s.summaryScope}>{scope.label}</p>
             <p className={s.railLabel}>package vs BAU</p>
 
             <div className={s.stat}>
@@ -304,13 +363,54 @@ export default function PackagesApp() {
         </section>
 
         {/* ---------------- assistant dock ---------------- */}
-        <PackagesAssistant context={context} scopeLabel={scope.label} />
+        <PackagesAssistant
+          context={context}
+          scopeLabel={scope.label}
+          className={askOpen ? s.assistMobileOpen : undefined}
+        />
       </div>
 
       <div className={s.honesty}>
         <span>{PKG_HONESTY}</span>
         <span className={s.honestyRight}>assistant runs on a live model API via a server-side proxy</span>
       </div>
+
+      {/* ---------------- mobile app-shell: bottom tab bar ---------------- */}
+      <nav className={s.mobileTabBar} aria-label="Package views">
+        <button
+          type="button"
+          className={`${s.mobileTab} ${!askOpen && mView === "lines" ? s.mobileTabOn : ""}`}
+          aria-current={!askOpen && mView === "lines" ? "page" : undefined}
+          onClick={() => {
+            setMView("lines");
+            setAskOpen(false);
+          }}
+        >
+          <IconLines />
+          <span className={s.mobileTabLabel}>Lines</span>
+        </button>
+        <button
+          type="button"
+          className={`${s.mobileTab} ${!askOpen && mView === "summary" ? s.mobileTabOn : ""}`}
+          aria-current={!askOpen && mView === "summary" ? "page" : undefined}
+          onClick={() => {
+            setMView("summary");
+            setAskOpen(false);
+          }}
+        >
+          <IconSummary />
+          <span className={s.mobileTabLabel}>Summary</span>
+        </button>
+        <button
+          type="button"
+          className={`${s.mobileTab} ${askOpen ? s.mobileTabOn : ""}`}
+          aria-current={askOpen ? "page" : undefined}
+          onClick={() => setAskOpen((o) => !o)}
+        >
+          <IconAsk />
+          <span className={s.mobileTabLabel}>Ask</span>
+        </button>
+      </nav>
 
       {sheetOpen && <SpecSheetModal scope={scope} active={active} totals={totals} onClose={() => setSheetOpen(false)} />}
     </div>

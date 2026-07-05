@@ -224,6 +224,10 @@
   border-top: 1px solid var(--line);
   padding-top: 14px;
 }
+/* scope name shown atop the Summary tab on mobile (the scope strip is hidden there) */
+.summaryScope {
+  display: none;
+}
 .stat {
   margin-bottom: 14px;
 }
@@ -907,6 +911,11 @@
   background: var(--accent-deep);
 }
 
+/* ---------------- mobile app-shell (base: hidden on desktop/tablet) ---------------- */
+.mobileTabBar {
+  display: none;
+}
+
 /* ---------------- responsive ---------------- */
 @media (max-width: 1119px) {
   .body {
@@ -920,30 +929,84 @@
     border-top: 1px solid var(--line);
   }
 }
+
+/* ≤719px: the browser-framed configurator becomes a native mobile app —
+   app header + a Lines/Summary stage + bottom tab bar; Ask + the spec sheet
+   go full-screen */
 @media (max-width: 719px) {
-  .body {
+  .frame {
+    position: relative;
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: min(84vh, 720px);
+    height: min(84svh, 720px); /* stable viewport height — no jump as the URL bar shows/hides */
+    min-height: 520px;
+    --mtab-h: 58px;
   }
+  .chrome {
+    display: none;
+  }
+  .topbar {
+    flex: 0 0 auto;
+    gap: 8px 10px;
+    padding: 11px 14px;
+  }
+  .brandName {
+    font-size: 15px;
+  }
+  .project,
+  .egcBadge {
+    display: none;
+  }
+  .topActions {
+    margin-left: auto;
+    gap: 8px;
+  }
+  .exportBtn {
+    padding: 7px 11px;
+  }
+
+  /* body → a stage that swaps Lines / Summary; Ask overlays it */
+  .body {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Lines view: the scope strip (rail) on top, line list (main) below */
   .rail {
     border-right: 0;
     border-bottom: 1px solid var(--line);
     overflow: visible;
+    flex: 0 0 auto;
+    padding: 12px 12px 12px;
+    gap: 0;
   }
   .scopeList {
     flex-direction: row;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
     -webkit-overflow-scrolling: touch;
+    gap: 8px;
   }
   .scopeBtn {
-    min-width: 168px;
+    min-width: 160px;
     border-color: var(--line);
     background: var(--card);
   }
+  .scopeOn,
+  .scopeOn:hover {
+    border-color: var(--accent);
+  }
   .main {
-    overflow: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    flex: 1 1 auto;
+    min-height: 0;
   }
   .opts {
     grid-template-columns: 1fr;
@@ -951,15 +1014,108 @@
   .optArrow {
     display: none;
   }
+
+  /* --- view switching driven by data-mview on .body --- */
+  .body[data-mview="lines"] .totals {
+    display: none;
+  }
+  .body[data-mview="summary"] .rail nav {
+    display: none;
+  }
+  .body[data-mview="summary"] .rail {
+    flex: 1 1 auto;
+    min-height: 0;
+    border-bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 14px 14px 18px;
+  }
+  .body[data-mview="summary"] .totals {
+    border-top: 0;
+    padding-top: 0;
+  }
+  .body[data-mview="summary"] .summaryScope {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .body[data-mview="summary"] .main {
+    display: none;
+  }
+
+  /* Ask: hidden until its tab, then full-screen over the stage */
   .assist {
-    border-left: 0;
+    display: none;
+  }
+  .assistMobileOpen {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    border: 0;
+    background: var(--card);
+  }
+
+  /* honesty → a thin disclaimer strip above the tab bar */
+  .honesty {
+    flex: 0 0 auto;
+    justify-content: center;
+    padding: 6px 12px;
+  }
+  .honestyRight {
+    display: none;
+  }
+
+  /* bottom tab bar (sits in the frame's flex flow, pinned to its base) */
+  .mobileTabBar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
     border-top: 1px solid var(--line);
-    height: 420px;
+    background: var(--card);
+    z-index: 7;
   }
-  .project {
-    display: none;
+  .mobileTab {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: var(--mtab-h);
+    padding: 7px 4px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--soft);
+    transition: color 0.15s ease;
   }
-  .egcBadge {
-    display: none;
+  .mobileTab svg {
+    width: 21px;
+    height: 21px;
+  }
+  .mobileTabLabel {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  .mobileTabOn {
+    color: var(--accent-deep);
+  }
+
+  /* spec sheet → full-screen on mobile */
+  .sheetOverlay {
+    padding: 0;
+  }
+  .sheet {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 }

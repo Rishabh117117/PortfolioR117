@@ -18,7 +18,13 @@ const GREETING: Msg = {
   text: "Hi — I can see the whole program: the bench, the needs queue, and every archived session. Ask me who should teach something, or what a past session covered.",
 };
 
-export default function WorkshopsAssistant({ context }: { context: string }) {
+export default function WorkshopsAssistant({
+  context,
+  className,
+}: {
+  context: string;
+  className?: string;
+}) {
   const [messages, setMessages] = useState<Msg[]>([GREETING]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -76,7 +82,7 @@ export default function WorkshopsAssistant({ context }: { context: string }) {
   const showChips = messages.length <= 2 && !loading;
 
   return (
-    <aside className={s.assist} aria-label="Ask the archive">
+    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Ask the archive">
       <header className={s.assistHead}>
         <span className={s.assistTitle}>
           <span className={`${s.assistDot} ${offline ? s.assistDotOff : ""}`} aria-hidden="true" />
