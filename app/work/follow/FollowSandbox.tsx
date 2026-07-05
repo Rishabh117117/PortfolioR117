@@ -250,10 +250,14 @@ export default function FollowSandbox() {
   useEffect(() => {
     const sheet = moreSheetRef.current;
     if (sheet) sheet.toggleAttribute("inert", !moreOpen);
+    // preventScroll: the sheet is mid slide-up (off-screen) when this runs, so
+    // a plain focus() makes the browser scroll the page to chase it — the
+    // "tapping More scrolls the page" glitch. preventScroll keeps focus without
+    // the scroll-into-view.
     if (moreOpen) {
-      sheet?.querySelector<HTMLElement>("button")?.focus();
+      sheet?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
     } else if (prevMoreOpen.current) {
-      moreBtnRef.current?.focus();
+      moreBtnRef.current?.focus({ preventScroll: true });
     }
     prevMoreOpen.current = moreOpen;
   }, [moreOpen]);
