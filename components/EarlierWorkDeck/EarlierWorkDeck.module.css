@@ -1,9 +1,9 @@
 /* Earlier-work marquee — mirrors the Housing Works WorkshopDeck float: a strip
-   that auto-scrolls, pauses on hover/focus, and degrades to a manual horizontal
-   scroller under reduced motion. Full-bleed (viewport-wide) with NO edge fade —
-   cards enter and leave at the screen edges. Cards are portrait: a 3/4 crop of
-   the landscape cover (per-card focus via --crop), linking straight to each
-   archive project. */
+   that auto-scrolls (JS-driven via useDraggableMarquee), pauses on hover/focus,
+   can be grabbed/dragged or swiped, and degrades to a manual scroller under
+   reduced motion. Full-bleed (viewport-wide) with NO edge fade — cards enter and
+   leave at the screen edges. Cards are portrait: a 3/4 crop of the landscape
+   cover (per-card focus via --crop), linking straight to each archive project. */
 .deck {
   display: flex;
   flex-direction: column;
@@ -16,30 +16,31 @@
    clips overflow-x, so the 100vw never causes a scrollbar) */
 .strip {
   position: relative;
-  overflow: hidden;
+  /* a hidden-scrollbar scroll container: the marquee is JS-driven (see
+     useDraggableMarquee) so it can also be grabbed/dragged or swiped */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: auto; /* override global smooth-scroll so drags track 1:1 */
+  overscroll-behavior-x: contain; /* don't trigger browser back-swipe */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x; /* horizontal swipe moves the strip; page still scrolls */
+  cursor: grab;
+  scrollbar-width: none; /* Firefox */
   width: 100vw;
   margin-inline: calc(50% - 50vw);
+}
+.strip::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
+}
+.strip[data-dragging] {
+  cursor: grabbing;
+  user-select: none;
 }
 .track {
   display: flex;
   width: max-content;
   list-style: none;
   padding-block: var(--space-2);
-  animation: ewMarquee 60s linear infinite;
-}
-/* the set is tripled; shifting one full set (-100%/3) reproduces the frame
-   exactly, and the two extra sets keep ultrawide viewports covered */
-@keyframes ewMarquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(-100% / 3));
-  }
-}
-.strip:hover .track,
-.strip:focus-within .track {
-  animation-play-state: paused;
 }
 .cell {
   flex: 0 0 auto;
@@ -125,23 +126,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .strip {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    /* the manual scroller keeps the full-bleed width, so give the first/last
-       card the page gutter back */
-    padding-inline: var(--page-pad);
-    scroll-padding-inline: var(--page-pad);
-  }
-  .track {
-    animation: none;
-  }
-  .cell {
-    scroll-snap-align: start;
-  }
-  /* the duplicate sets only exist to seam the loop; with no animation they
-     would just repeat every project in the manual scroller — drop them */
+  /* no auto-drift (handled in useDraggableMarquee). As a plain manual scroller
+     the extra sets would just repeat every project — show one set and give the
+     first/last card the page gutter back. */
   .dup {
     display: none;
+  }
+  .strip {
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
   }
 }
