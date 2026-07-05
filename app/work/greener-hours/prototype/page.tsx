@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
+import { Fraunces } from "next/font/google";
 import Link from "next/link";
-import TierTabs from "../TierTabs";
+import GhApp from "../GhApp";
 import { GH_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
+
+// Page-scoped serif (matches the case-study page) so --font-serif resolves for
+// the product artifact on this standalone route too.
+const serif = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Greener Hours — live prototype",
@@ -12,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function GreenerHoursPrototypePage() {
   return (
-    <div style={GH_ROOT_STYLE} className={styles.page}>
+    <div style={GH_ROOT_STYLE} className={`${serif.variable} ${styles.page}`}>
       <header className={styles.head}>
         <div>
           <p className={`mono ${styles.kicker}`}>working prototype · one shared simulation</p>
@@ -23,7 +33,7 @@ export default function GreenerHoursPrototypePage() {
         </Link>
       </header>
       <div className={styles.mount}>
-        <TierTabs />
+        <GhApp />
       </div>
       <p className={`mono ${styles.foot}`}>
         one clock, one grid, one queue — pause the scheduler and the indicator freezes; submit a

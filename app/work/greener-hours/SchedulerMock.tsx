@@ -41,12 +41,7 @@ export default function SchedulerMock() {
   const W = 480, H = 96, STEP = W / 24, BASE = H - 12, MAXH = BASE - 6;
 
   return (
-    <div className={s.frame}>
-      <div className={s.chrome}>
-        <span className={s.dot} /><span className={s.dot} /><span className={s.dot} />
-        <span className={s.url}>↻ console.ai/scheduler</span>
-      </div>
-      <div className={s.schedApp}>
+    <div className={s.schedApp}>
         {/* left — clock + form */}
         <div>
           <div className={s.clock}>
@@ -127,6 +122,5 @@ export default function SchedulerMock() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

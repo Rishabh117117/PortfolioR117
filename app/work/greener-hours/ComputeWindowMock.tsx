@@ -90,15 +90,7 @@ export default function ComputeWindowMock() {
   const showChips = messages.length <= 1 && !loading;
 
   return (
-    <div className={s.frame}>
-      <div className={s.chrome}>
-        <span className={s.dot} />
-        <span className={s.dot} />
-        <span className={s.dot} />
-        <span className={s.url}>↻ chat.ai/conversation/8e2f4a</span>
-      </div>
-
-      <div className={s.body}>
+    <div className={s.body}>
         <aside className={s.side}>
           <div className={s.brand}>
             <span className={s.brandMark} />
@@ -198,6 +190,5 @@ export default function ComputeWindowMock() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

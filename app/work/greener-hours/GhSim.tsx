@@ -15,7 +15,7 @@ import {
  * Previously each tier mock kept its own copy of the 24h grid and its own
  * clock; now the indicator pill (T1), the scheduler (T2), and the dashboard
  * (T3) share a single clock, grid, and flexible-job queue — submit a job in
- * Tier 2 and Tier 3's flex strip moves. Mounted once by TierTabs, so state
+ * Tier 2 and Tier 3's flex strip moves. Mounted once per product surface, so state
  * survives tab switches.
  */
 

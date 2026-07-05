@@ -84,33 +84,37 @@ export type Tier = {
   n: string;
   role: string;
   name: string;
+  short: string; // one-word label for the compact mobile tab strip
   job: string;
-  thumbJob: string;
-  hero: boolean;
+  blurb: string; // short line under the tier label in the product rail
+  hero: boolean; // the featured surface in the compact case-study preview
 };
 export const TIERS: Tier[] = [
   {
     n: "01",
     role: "Legibility",
     name: "Compute Window Indicator",
+    short: "Indicator",
     job: "A small glyph that makes invisible energy costs visible — without pretending it changes user behavior.",
-    thumbJob: "A glyph in chat. Job: legibility.",
+    blurb: "A carbon glyph, live inside the chat.",
     hero: true,
   },
   {
     n: "02",
     role: "Behavior",
     name: "Flexible Compute Scheduler",
+    short: "Scheduler",
     job: "Set a deadline; the system routes the task to the cleanest grid window. The same UX pattern as EV charging.",
-    thumbJob: "Deadline-based routing. Job: one-click shift.",
+    blurb: "Set a deadline; it runs at the cleanest hour.",
     hero: false,
   },
   {
     n: "03",
     role: "Institutional",
     name: "Compute Footprint Dashboard",
+    short: "Dashboard",
     job: "Procurement language, mirroring AWS Cost Explorer. Surfaces total volume alongside timing — the anti-rebound layer.",
-    thumbJob: "Procurement view. Job: institutional decisions.",
+    blurb: "A procurement view of the whole footprint.",
     hero: false,
   },
 ];
@@ -136,6 +140,22 @@ export const TIER3_PRINCIPLES: Principle[] = [
   { code: "P2", kind: "load", name: "Sufficiency", insight: "Anti-rebound — efficiency cannot disguise rising volume." },
   { code: "P7", kind: "support", name: "Tech as both", insight: "Surfaces total volume alongside intensity." },
 ];
+
+// The full principle titles, verbatim from Prof. Godelnik's syllabus (Design for
+// a Warming World, SP26 course outline) — shown when hovering a P-code chip so
+// each chip reveals which of the ten principles it is.
+export const PRINCIPLE_TITLES: Record<string, string> = {
+  P1: "Understand where and how to maximize impact",
+  P2: "Prioritize sufficiency over efficiency (the power of less)",
+  P3: "Design with dark matter in mind",
+  P4: "Design H2+ by building on H2− strengths",
+  P5: "Design with culture, not against it",
+  P6: "Design for agency at all levels",
+  P7: "Treat technology as both a change enabler and a status quo amplifier",
+  P8: "Hack systems to expand action spaces",
+  P9: "Design for the movable middle, not for the planet",
+  P10: "Integrate technical and personal resilience",
+};
 export const CARBON_PILL = { value: "412", unit: "gCO₂eq/kWh", region: "us-east-1", confidence: "high confidence" };
 
 // ---- §7 How it works (three headers) --------------------------------------

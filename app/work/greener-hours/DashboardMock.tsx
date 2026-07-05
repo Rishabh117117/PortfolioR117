@@ -51,14 +51,7 @@ export default function DashboardMock() {
   const avg = GRID[hour] + (live ? jitter : 0);
 
   return (
-    <div className={s.frame}>
-      <div className={s.chrome}>
-        <span className={s.dot} />
-        <span className={s.dot} />
-        <span className={s.dot} />
-        <span className={s.url}>↻ console.ai/footprint/acmecorp</span>
-      </div>
-
+    <>
       <div className={s.orgBar}>
         <div className={s.orgLeft}>
           <span className={s.orgMark} />
@@ -177,6 +170,6 @@ export default function DashboardMock() {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }

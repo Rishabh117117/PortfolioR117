@@ -1,38 +1,8 @@
 /* §8 — the Tier-1 "Compute Window Indicator" chat mockup (deck slide 8, rebuilt
    in tokens). The one fully realised product surface. Tokens only. */
 
-.frame {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--card);
-  box-shadow:
-    0 1px 2px rgba(26, 26, 26, 0.04),
-    0 16px 40px rgba(26, 26, 26, 0.07);
-}
-
-.chrome {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-}
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--line);
-  flex: 0 0 auto;
-}
-.url {
-  margin-left: 12px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--soft);
-  letter-spacing: 0.02em;
-}
+/* The shared browser-window shell (frame/chrome) now lives in GhApp.module.css;
+   this file styles only the Tier-1 chat internals. */
 
 .body {
   display: grid;

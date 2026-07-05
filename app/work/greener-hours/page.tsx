@@ -28,7 +28,7 @@ import VisibilityFlow from "./VisibilityFlow";
 import ForceVisual from "./ForceVisual";
 import HeadersDiagram from "./HeadersDiagram";
 import AdoptionCurve from "./AdoptionCurve";
-import TierTabs from "./TierTabs";
+import GhApp from "./GhApp";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import { GH_ROOT_STYLE } from "./theme";
 import styles from "./greener-hours.module.css";
@@ -235,7 +235,7 @@ export default function GreenerHoursPage() {
             <h2 className={styles.title}>
               One indicator, one scheduler, <em>one dashboard.</em>
             </h2>
-            <TierTabs />
+            <GhApp compact />
             <p className={styles.source}>
               The P-codes on each surface map to the ten design principles from
               Prof. Godelnik&apos;s <em>Design for a Warming World</em> — the project
