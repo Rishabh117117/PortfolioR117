@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import Reveal from "@/components/Reveal/Reveal";
 import FollowReel from "./FollowReel";
 import CompareDiagram from "./CompareDiagram";
 import AmbientField from "./AmbientField";
@@ -23,6 +24,8 @@ export default function FollowPage() {
     <div style={FOLLOW_ROOT_STYLE} className={styles.page}>
       {/* page-wide soft background layer — every section floats over this */}
       <AmbientField />
+      {/* site-wide scroll-reveal: fades section content up as it enters view */}
+      <Reveal />
       <div className={styles.pageContent}>
       {/* ============ HERO ============ */}
       <header className={styles.hero}>
@@ -57,7 +60,7 @@ export default function FollowPage() {
 
       {/* ============ PROJECT TIMELINE (deck-style, at the start) ============ */}
       <section className="section">
-        <div className="container">
+        <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>Project timeline</h2>
           <p className="lede">
             Spring 2025 → May 2026 — field research, expert interviews, and the
@@ -282,7 +285,7 @@ export default function FollowPage() {
 
       {/* ============ THE GAP (white block): problem · today's structure · insights ============ */}
       <section className={`section ${styles.blockWhite}`}>
-        <div className="containerText">
+        <div className="containerText" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>The problem</h2>
           <p className="lede">
             Work isn’t written alone anymore. Almost every decision now passes
@@ -308,7 +311,7 @@ export default function FollowPage() {
           </aside>
         </div>
 
-        <div className="container">
+        <div className="container" data-reveal>
           <div className={styles.reelHead}>
             <p className={`mono ${styles.kicker}`}>The structural change · today</p>
             <h2 className={styles.reelTitle}>
@@ -322,7 +325,7 @@ export default function FollowPage() {
           </p>
         </div>
 
-        <div className="container">
+        <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>
             Insights &amp; areas of opportunity
           </h2>
@@ -375,7 +378,7 @@ export default function FollowPage() {
 
       {/* ============ HMW ============ */}
       <section className="section">
-        <div className="containerText">
+        <div className="containerText" data-reveal>
           <p className={styles.hmwEyebrow}>The opportunity</p>
           <h2 className={styles.hmw}>
             How might we give a team{" "}
@@ -387,7 +390,7 @@ export default function FollowPage() {
 
       {/* ============ FOLLOW CONCEPT — the response (with-Follow diagram) ============ */}
       <section className="section">
-        <div className="container">
+        <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The response</p>
           <h2 className={styles.revealName} aria-label="The response: Follow">
             Follow<span className={styles.dot}>.</span>
@@ -408,7 +411,7 @@ export default function FollowPage() {
 
       {/* ============ HOW IT WORKS — inline two-up: reel (~2/3) + write-up (~1/3) ============ */}
       <section className="section">
-        <div className="container">
+        <div className="container" data-reveal>
           <div className={styles.reelHead}>
             <p className={`mono ${styles.kicker}`}>How it works</p>
             <h2 className={styles.reelTitle}>
@@ -439,7 +442,7 @@ export default function FollowPage() {
       </section>
 
       <section className="section">
-        <div className="container">
+        <div className="container" data-reveal>
           <p className={styles.reelNote}>
             Illustrative animation of the live pipeline — three teammates and
             their AIs, five LLM roles, three tensors, five typed edges, and
@@ -450,7 +453,7 @@ export default function FollowPage() {
 
       {/* ============ THE SANDBOX (the demo promise, made real) ============ */}
       <section className="section">
-        <div className="container">
+        <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The sandbox</p>
           <h2 className={styles.reelTitle}>
             The shipped dashboard, replicated — <em>live</em>.
@@ -505,7 +508,7 @@ export default function FollowPage() {
           </div>
         </div>
 
-        <div className="container">
+        <div className="container" data-reveal>
           <p className={`mono ${styles.sandboxFoot}`}>
             <Link href="/work/follow/prototype">open the sandbox full-screen ↗</Link>
           </p>
@@ -514,7 +517,7 @@ export default function FollowPage() {
 
       {/* ============ WHAT IT ACCOMPLISHES (outcomes) ============ */}
       <section className="section">
-        <div className="container">
+        <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>What it accomplishes</h2>
           <p className="lede">
             What a team gets once its AI work shares one memory.

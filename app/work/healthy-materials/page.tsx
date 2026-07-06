@@ -6,6 +6,7 @@ import MaterialRail from "./MaterialRail";
 import PackagesApp from "./PackagesApp";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import Reveal from "@/components/Reveal/Reveal";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
 import { HM_ROOT_STYLE } from "./theme";
 import styles from "./healthy-materials.module.css";
@@ -49,6 +50,8 @@ export default function HealthyMaterialsPage() {
     <div style={HM_ROOT_STYLE} className={styles.page}>
       {/* page-wide soft background layer — light sections float over this */}
       <AmbientField />
+      {/* site-wide scroll-reveal: fades section content up as it enters view */}
+      <Reveal />
 
       <div className={styles.pageContent}>
         {/* ============ 1 — HERO (photo-overlay, Housing-Works treatment) ===== */}
@@ -86,7 +89,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 2 — THE FRAME + THE MATERIALS (paper) ============ */}
         <section className={styles.scene} data-ambient-dim>
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>the frame</p>
             <p className={styles.frameHook}>
               We have so many exciting materials. Why do they rarely make it past
@@ -156,7 +159,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 4 — THE JOURNEY (paper) → TIMELINE ============ */}
         <section className={styles.scene}>
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>the timeline</p>
             <p className={styles.lede}>Fall 2025, start to finish.</p>
             <Timeline />
@@ -228,7 +231,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 5 — INSIDE THE HML (teal) → FIELD-VISIT CAROUSEL ====== */}
         <section className={`${styles.teal} ${styles.field}`}>
-          <div className={styles.fieldHead}>
+          <div className={styles.fieldHead} data-reveal>
             <p className={`mono ${styles.kicker}`}>field visit</p>
             <h2 className={styles.fieldTitle}>Inside the Healthy Materials Lab</h2>
             <p className={styles.fieldIntro}>
@@ -242,7 +245,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 6 — FOUR THEMES (band) ============ */}
         <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>what&apos;s actually blocking adoption</p>
             <p className={styles.lede}>
               Four patterns came up again and again. The quotes are the evidence.
@@ -330,7 +333,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 7 — DECISIONS CASCADE → LEVERAGE POINTS (paper) ======= */}
         <section className={styles.scene} data-ambient-dim>
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>the turn</p>
             <p className={styles.lede}>
               Adoption doesn&apos;t scale through individual persuasion. Decisions
@@ -399,7 +402,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 8 — THREE INTERVENTIONS (band) ============ */}
         <section className={`${styles.scene} ${styles.band}`}>
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>from insight to intervention</p>
             <p className={styles.bridge}>
               Three concepts came out of this — each attacking a different point
@@ -474,7 +477,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 9 — MADE TANGIBLE (paper) → THE WORKING PROTOTYPE ===== */}
         <section className={styles.scene}>
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>the intervention, made tangible</p>
             <div className={styles.tangibleIntro}>
               <p className={styles.lede}>Healthy Materials Packages — a working slice.</p>
@@ -495,7 +498,7 @@ export default function HealthyMaterialsPage() {
             </div>
           </div>
 
-          <div className={styles.wrapWide}>
+          <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.demoFoot}`}>
               <Link href="/work/healthy-materials/prototype">open the prototype full-screen ↗</Link>
             </p>
@@ -504,7 +507,7 @@ export default function HealthyMaterialsPage() {
 
         {/* ============ 10 — CLOSE + REFLECTION (teal) ============ */}
         <section className={`${styles.teal} ${styles.close}`}>
-          <div className={styles.closeInner}>
+          <div className={styles.closeInner} data-reveal>
             <p className={styles.closeLine}>
               Healthy, low-carbon materials are here. The question is whether our
               processes will let them in.

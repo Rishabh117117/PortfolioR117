@@ -4,6 +4,7 @@ import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import EarlierWorkDeck from "@/components/EarlierWorkDeck/EarlierWorkDeck";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
+import Reveal from "@/components/Reveal/Reveal";
 import HeroCollage, { FOOTER_CARDS } from "@/components/HeroCollage/HeroCollage";
 import { FollowThumb, GreenerHoursThumb } from "@/components/ProjectThumbs/ProjectThumbs";
 import { FLAGSHIPS } from "@/lib/projects";
@@ -50,6 +51,9 @@ export default function Home() {
         restCool={0.65}
         dim={0.28}
       />
+      {/* site-wide scroll-reveal: fades section content up as it enters view
+          (hero stays instant — no fade on the pinboard collage) */}
+      <Reveal />
 
       <div className={styles.pageContent}>
       {/* ================= HERO ================= */}
@@ -93,7 +97,7 @@ export default function Home() {
       {/* ================= "THE ARC" — static placeholder ================= */}
       {/* SIGNATURE MOTION DEFERRED — static placeholder, see DESIGN.md §10 */}
       <section className={`section ${styles.arcSection}`} aria-label="The arc">
-        <div className="container" data-ambient-dim>
+        <div className="container" data-ambient-dim data-reveal>
           <p className={`eyebrow ${styles.arcEyebrow}`}>The arc</p>
           <DriftGroup>
             <ol className={styles.arc}>
@@ -122,7 +126,7 @@ export default function Home() {
 
       {/* ================= PROJECT GRID ================= */}
       <section id="work" className={`section ${styles.workSection}`}>
-        <div className="container" data-ambient-dim>
+        <div className="container" data-ambient-dim data-reveal>
           {/* the flagship grid sits on a narrower measure — four equal cards
               in a compact 2×2 (the featured banner treatment is retired) */}
           <div className={styles.workInner}>
@@ -152,7 +156,7 @@ export default function Home() {
 
       {/* ================= EARLIER WORK (real portfolio thumbnails) ================= */}
       <section className={`section ${styles.earlierSection}`}>
-        <div className="container" data-ambient-dim>
+        <div className="container" data-ambient-dim data-reveal>
           <div className={styles.sectionHead}>
             <h2 className={styles.h2}>Earlier work · 2019–23</h2>
             <Link href="/archive" className={`mono ${styles.seeAll}`}>
@@ -169,7 +173,7 @@ export default function Home() {
       <section className={`section ${styles.ctaSection}`}>
         <HeroCollage cards={FOOTER_CARDS} eager={false} bleed={false} behindGlass />
         <div className={styles.ctaGlass} />
-        <div className={`container ${styles.ctaContent}`}>
+        <div className={`container ${styles.ctaContent}`} data-reveal>
           <div className={styles.ctaBlock}>
             <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
             <div className={styles.ctaRow}>
