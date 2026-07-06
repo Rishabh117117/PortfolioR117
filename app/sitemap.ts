@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { FLAGSHIPS, ARCHIVE } from "@/lib/projects";
+import { FLAGSHIPS } from "@/lib/projects";
+import { ARCHIVE_PROJECTS } from "@/lib/archive";
 import { SITE_URL } from "@/lib/site";
 
 /* Generated from the same project data that drives routing, so a new
@@ -22,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     });
   }
-  for (const p of ARCHIVE) {
+  for (const p of ARCHIVE_PROJECTS) {
     entries.push({
       url: `${SITE_URL}/archive/${p.slug}`,
       changeFrequency: "yearly",
