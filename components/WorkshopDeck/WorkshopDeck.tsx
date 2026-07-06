@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { POSTER_DECK } from "@/lib/housingWorks";
 import { useDraggableMarquee } from "@/lib/useDraggableMarquee";
+import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./WorkshopDeck.module.css";
 
 const IMG = "/images/housing-works";
@@ -18,7 +19,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
   const cards = POSTER_DECK;
   const [expanded, setExpanded] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const stripRef = useDraggableMarquee<HTMLDivElement>({ sets: 2, durationSec: 52 });
 
   // The lightbox portals to <body> so its position:fixed / z-index:1000 escapes
@@ -26,16 +27,9 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
   // covers the sticky nav instead of rendering behind it.
   useEffect(() => setMounted(true), []);
 
-  // close the lightbox on Escape; move focus to the close button on open
-  useEffect(() => {
-    if (expanded === null) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setExpanded(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [expanded]);
+  // Escape-to-close, focus-trap, scroll-lock, focus-restore on open/close.
+  const close = useCallback(() => setExpanded(null), []);
+  useModalA11y(expanded !== null, close, dialogRef);
 
   const loop = [...cards, ...cards]; // 2 sets → seamless -50% marquee
   const expandedCard = expanded !== null ? cards[expanded] : null;
@@ -95,18 +89,18 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
         expandedCard &&
         createPortal(
           <div
+            ref={dialogRef}
             className={styles.lightbox}
           role="dialog"
           aria-modal="true"
           aria-label={`Poster: ${expandedCard.stat} ${expandedCard.statText}`}
-          onClick={() => setExpanded(null)}
+          onClick={close}
         >
           <button
-            ref={closeRef}
             type="button"
             className={styles.lbClose}
             aria-label="Close poster"
-            onClick={() => setExpanded(null)}
+            onClick={close}
           >
             ×
           </button>

@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { FIELD_DECK } from "@/lib/healthyMaterials";
 import { useDraggableMarquee } from "@/lib/useDraggableMarquee";
+import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./MaterialDeck.module.css";
 
 const IMG = "/images/healthy-materials";
@@ -17,18 +19,17 @@ const IMG = "/images/healthy-materials";
 export default function MaterialDeck() {
   const cards = FIELD_DECK;
   const [expanded, setExpanded] = useState<number | null>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const stripRef = useDraggableMarquee<HTMLDivElement>({ sets: 2, durationSec: 56 });
 
-  useEffect(() => {
-    if (expanded === null) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setExpanded(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [expanded]);
+  // The lightbox portals to <body> so its position:fixed / z-index:1000 escapes
+  // the page's .pageContent (z-index:1) stacking context and covers the sticky
+  // nav instead of rendering behind it — mirrors WorkshopDeck.
+  useEffect(() => setMounted(true), []);
+
+  const close = useCallback(() => setExpanded(null), []);
+  useModalA11y(expanded !== null, close, dialogRef);
 
   const loop = [...cards, ...cards]; // 2 sets → seamless -50% marquee
   const ex = expanded !== null ? cards[expanded] : null;
@@ -73,33 +74,36 @@ export default function MaterialDeck() {
 
       <p className={`mono ${styles.hint}`}>Drag or swipe · tap a photo to enlarge</p>
 
-      {/* lightbox — full photo detail */}
-      {ex && (
-        <div
-          className={styles.lightbox}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Photo: ${ex.caption}`}
-          onClick={() => setExpanded(null)}
-        >
-          <button
-            ref={closeRef}
-            type="button"
-            className={styles.lbClose}
-            aria-label="Close photo"
-            onClick={() => setExpanded(null)}
+      {/* lightbox — full photo detail (portaled to <body> to clear the nav) */}
+      {mounted &&
+        ex &&
+        createPortal(
+          <div
+            ref={dialogRef}
+            className={styles.lightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Photo: ${ex.caption}`}
+            onClick={close}
           >
-            ×
-          </button>
-          <figure className={styles.lbFig} onClick={(e) => e.stopPropagation()}>
-            <img className={styles.lbImg} src={`${IMG}/${ex.img}`} alt={`Field visit — ${ex.caption}.`} />
-            <figcaption className={styles.lbCap}>
-              <span className={styles.lbTitle}>{ex.caption}</span>
-              <span className={`mono ${styles.lbDetail}`}>{ex.detail}</span>
-            </figcaption>
-          </figure>
-        </div>
-      )}
+            <button
+              type="button"
+              className={styles.lbClose}
+              aria-label="Close photo"
+              onClick={close}
+            >
+              ×
+            </button>
+            <figure className={styles.lbFig} onClick={(e) => e.stopPropagation()}>
+              <img className={styles.lbImg} src={`${IMG}/${ex.img}`} alt={`Field visit — ${ex.caption}.`} />
+              <figcaption className={styles.lbCap}>
+                <span className={styles.lbTitle}>{ex.caption}</span>
+                <span className={`mono ${styles.lbDetail}`}>{ex.detail}</span>
+              </figcaption>
+            </figure>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

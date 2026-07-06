@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { ArchiveProject } from "@/lib/archive";
+import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./reader.module.css";
 
 export default function ArchiveReader({ project }: { project: ArchiveProject }) {
@@ -19,6 +20,7 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
   useEffect(() => setMounted(true), []);
   const slidesRef = useRef<HTMLDivElement>(null);
   const asideRef = useRef<HTMLElement>(null);
+  const lbRef = useRef<HTMLDivElement>(null);
 
   // collapsible "Contents" index. Docked in the left gutter on wide screens
   // (≥1680px, where it clears the slides); a slim pill you expand on narrower
@@ -190,6 +192,10 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
     };
   }, [lbIndex, close, step]);
 
+  // focus-trap + move-in/restore for the lightbox; the effect above keeps the
+  // body-scroll lock + Esc/arrow keys, so those are disabled here to avoid dupes.
+  useModalA11y(lbIndex !== null, close, lbRef, { lockScroll: false, handleEscape: false });
+
   const active = slides.find((s) => s.n === activeN) ?? slides[0];
   const lb = lbIndex === null ? null : slides[lbIndex];
 
@@ -308,6 +314,7 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
         lb &&
         createPortal(
         <div
+          ref={lbRef}
           className={styles.lb}
           role="dialog"
           aria-modal="true"

@@ -10,6 +10,7 @@ import {
   type PackageScope,
   type PackageTotals,
 } from "@/lib/hmPackages";
+import { useModalA11y } from "@/lib/useModalA11y";
 import s from "./PackagesApp.module.css";
 import { HM_ROOT_STYLE } from "./theme";
 
@@ -35,20 +36,12 @@ export default function SpecSheetModal({
 }) {
   const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setMounted(true), []);
-  useEffect(() => {
-    // the portal renders one frame after mount — focus once it exists
-    if (mounted) closeRef.current?.focus();
-  }, [mounted]);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  // Escape-to-close, focus-trap, body-scroll-lock, focus-restore (the portal
+  // renders one frame after mount, so gate the a11y wiring on `mounted`).
+  useModalA11y(mounted, onClose, dialogRef);
 
   const rows = scope.lines.map((l) => {
     const on = active[l.id] !== false;
@@ -136,6 +129,7 @@ export default function SpecSheetModal({
   return createPortal(
     <div className={s.sheetOverlay} style={HM_ROOT_STYLE} onClick={onClose}>
       <div
+        ref={dialogRef}
         className={s.sheet}
         role="dialog"
         aria-modal="true"
@@ -152,7 +146,7 @@ export default function SpecSheetModal({
               {PKG_PROJECT.meta} · {scope.areaNote} · {PKG_PROJECT.standard}
             </p>
           </div>
-          <button ref={closeRef} type="button" className={s.sheetClose} onClick={onClose} aria-label="Close spec sheet">
+          <button type="button" className={s.sheetClose} onClick={onClose} aria-label="Close spec sheet">
             ✕
           </button>
         </header>

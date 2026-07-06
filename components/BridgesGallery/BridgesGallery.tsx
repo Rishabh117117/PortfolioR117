@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { BRIDGES_STEPS } from "@/lib/housingWorks";
+import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./BridgesGallery.module.css";
 
 const IMG = "/images/housing-works";
@@ -14,17 +16,15 @@ const IMG = "/images/housing-works";
 export default function BridgesGallery() {
   const steps = BRIDGES_STEPS;
   const [expanded, setExpanded] = useState<number | null>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (expanded === null) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setExpanded(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [expanded]);
+  // portal the fixed z-1000 lightbox to <body> so it escapes the page's
+  // .pageContent (z-index:1) stacking context and covers the sticky nav.
+  useEffect(() => setMounted(true), []);
+
+  const close = useCallback(() => setExpanded(null), []);
+  useModalA11y(expanded !== null, close, dialogRef);
 
   const ex = expanded !== null ? steps[expanded] : null;
 
@@ -59,32 +59,35 @@ export default function BridgesGallery() {
         ))}
       </ol>
 
-      {ex && (
-        <div
-          className={styles.lightbox}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${ex.title}: ${ex.alt}`}
-          onClick={() => setExpanded(null)}
-        >
-          <button
-            ref={closeRef}
-            type="button"
-            className={styles.lbClose}
-            aria-label="Close image"
-            onClick={() => setExpanded(null)}
+      {mounted &&
+        ex &&
+        createPortal(
+          <div
+            ref={dialogRef}
+            className={styles.lightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${ex.title}: ${ex.alt}`}
+            onClick={close}
           >
-            ×
-          </button>
-          <figure className={styles.lbFig} onClick={(e) => e.stopPropagation()}>
-            <img className={styles.lbImg} src={`${IMG}/${ex.img}`} alt={ex.alt} />
-            <figcaption className={styles.lbCap}>
-              <span className={styles.lbTitle}>{ex.title}</span>
-              <span className={`mono ${styles.lbText}`}>{ex.text}</span>
-            </figcaption>
-          </figure>
-        </div>
-      )}
+            <button
+              type="button"
+              className={styles.lbClose}
+              aria-label="Close image"
+              onClick={close}
+            >
+              ×
+            </button>
+            <figure className={styles.lbFig} onClick={(e) => e.stopPropagation()}>
+              <img className={styles.lbImg} src={`${IMG}/${ex.img}`} alt={ex.alt} />
+              <figcaption className={styles.lbCap}>
+                <span className={styles.lbTitle}>{ex.title}</span>
+                <span className={`mono ${styles.lbText}`}>{ex.text}</span>
+              </figcaption>
+            </figure>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
+import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./about.module.css";
 
 /**
@@ -60,6 +61,7 @@ export default function AboutPhotos() {
   const [active, setActive] = useState<Shot | null>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
 
   const open = useCallback((shot: Shot, e: MouseEvent<HTMLButtonElement>) => {
     openerRef.current = e.currentTarget;
@@ -85,6 +87,15 @@ export default function AboutPhotos() {
       document.body.style.overflow = prevOverflow;
     };
   }, [active, close]);
+
+  // add just the Tab focus-trap; the effect above already locks scroll, handles
+  // Escape, and restores focus to the opener.
+  useModalA11y(active !== null, close, dialogRef, {
+    lockScroll: false,
+    handleEscape: false,
+    restoreFocus: false,
+    autoFocus: false,
+  });
 
   return (
     <>
@@ -128,7 +139,7 @@ export default function AboutPhotos() {
 
       {active !== null &&
         createPortal(
-          <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label={`${active.caption} — enlarged photo`} onClick={close}>
+          <div ref={dialogRef} className={styles.lightbox} role="dialog" aria-modal="true" aria-label={`${active.caption} — enlarged photo`} onClick={close}>
             <button ref={closeRef} type="button" className={styles.lightboxClose} onClick={close} aria-label="Close enlarged photo">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
                 <line x1="6" y1="6" x2="18" y2="18" />
