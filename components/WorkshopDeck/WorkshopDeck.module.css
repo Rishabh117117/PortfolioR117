@@ -1,7 +1,8 @@
 /* Moving poster strip (marquee). Cards carry a surface + soft shadow — a
    deliberate, contained exception to the page's borderless rule (the user asked
-   for a card view). The strip auto-scrolls, pauses on hover/focus, and degrades
-   to a manual horizontal scroller under reduced motion. */
+   for a card view). The strip auto-scrolls (JS-driven via useDraggableMarquee),
+   pauses on hover/focus, can be grabbed/dragged (mouse) or swiped (touch), and
+   degrades to a manual scroller under reduced motion. */
 .deck {
   display: flex;
   flex-direction: column;
@@ -11,7 +12,16 @@
 
 .strip {
   position: relative;
-  overflow: hidden;
+  /* a hidden-scrollbar scroll container: the marquee is JS-driven (see
+     useDraggableMarquee) so it can also be grabbed/dragged or swiped */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: auto; /* override global smooth-scroll so drags track 1:1 */
+  overscroll-behavior-x: contain; /* don't trigger browser back-swipe */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x; /* horizontal swipe moves the strip; page still scrolls */
+  cursor: grab;
+  scrollbar-width: none; /* Firefox */
   /* fade the edges so cards slide in/out softly */
   -webkit-mask-image: linear-gradient(
     90deg,
@@ -28,24 +38,18 @@
     transparent 100%
   );
 }
+.strip::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
+}
+.strip[data-dragging] {
+  cursor: grabbing;
+  user-select: none;
+}
 .track {
   display: flex;
   width: max-content;
   list-style: none;
   padding-block: var(--space-2);
-  animation: marquee 52s linear infinite;
-}
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.strip:hover .track,
-.strip:focus-within .track {
-  animation-play-state: paused;
 }
 .cell {
   flex: 0 0 auto;
@@ -139,18 +143,8 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .strip {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-  .track {
-    animation: none;
-  }
-  .cell {
-    scroll-snap-align: start;
-  }
-}
+/* Reduced motion is handled in useDraggableMarquee (no auto-drift); the strip
+   stays a manual scroller users can still swipe/drag. */
 
 /* ---- lightbox (tap a card to enlarge the full poster) ---- */
 .lightbox {

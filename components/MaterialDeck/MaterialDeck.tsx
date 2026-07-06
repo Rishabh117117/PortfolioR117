@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { FIELD_DECK } from "@/lib/healthyMaterials";
+import { useDraggableMarquee } from "@/lib/useDraggableMarquee";
 import styles from "./MaterialDeck.module.css";
 
 const IMG = "/images/healthy-materials";
@@ -17,6 +18,7 @@ export default function MaterialDeck() {
   const cards = FIELD_DECK;
   const [expanded, setExpanded] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const stripRef = useDraggableMarquee<HTMLDivElement>({ sets: 2, durationSec: 56 });
 
   useEffect(() => {
     if (expanded === null) return;
@@ -33,7 +35,7 @@ export default function MaterialDeck() {
 
   return (
     <div className={styles.deck}>
-      <div className={styles.strip}>
+      <div className={styles.strip} ref={stripRef}>
         <ul className={styles.track}>
           {loop.map((card, i) => {
             const realIndex = i % cards.length;
@@ -69,7 +71,7 @@ export default function MaterialDeck() {
         </ul>
       </div>
 
-      <p className={`mono ${styles.hint}`}>Hover to pause · tap a photo to enlarge</p>
+      <p className={`mono ${styles.hint}`}>Drag or swipe · tap a photo to enlarge</p>
 
       {/* lightbox — full photo detail */}
       {ex && (

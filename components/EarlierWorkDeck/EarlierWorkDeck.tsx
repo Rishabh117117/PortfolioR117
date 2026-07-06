@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ARCHIVE_PROJECTS } from "@/lib/archive";
+import { useDraggableMarquee } from "@/lib/useDraggableMarquee";
 import styles from "./EarlierWorkDeck.module.css";
 
 /**
@@ -32,9 +33,10 @@ const CROP: Record<string, string> = {
 export default function EarlierWorkDeck() {
   const cards = ARCHIVE_PROJECTS;
   const loop = [...cards, ...cards, ...cards];
+  const stripRef = useDraggableMarquee<HTMLDivElement>({ sets: 3, durationSec: 60 });
   return (
     <div className={styles.deck}>
-      <div className={styles.strip}>
+      <div className={styles.strip} ref={stripRef}>
         <ul className={styles.track}>
           {loop.map((p, i) => {
             const isDup = i >= cards.length;
@@ -86,7 +88,7 @@ export default function EarlierWorkDeck() {
           })}
         </ul>
       </div>
-      <p className={`mono ${styles.hint}`}>Hover to pause · open any project</p>
+      <p className={`mono ${styles.hint}`}>Drag or swipe · open any project</p>
     </div>
   );
 }

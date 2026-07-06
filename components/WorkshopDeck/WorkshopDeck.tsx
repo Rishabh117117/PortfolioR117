@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { POSTER_DECK } from "@/lib/housingWorks";
+import { useDraggableMarquee } from "@/lib/useDraggableMarquee";
 import styles from "./WorkshopDeck.module.css";
 
 const IMG = "/images/housing-works";
@@ -18,6 +19,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
   const [expanded, setExpanded] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const stripRef = useDraggableMarquee<HTMLDivElement>({ sets: 2, durationSec: 52 });
 
   // The lightbox portals to <body> so its position:fixed / z-index:1000 escapes
   // the page's stacking contexts (.pageContent z-1, .posterStudy isolation) and
@@ -40,7 +42,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
 
   return (
     <div className={styles.deck}>
-      <div className={styles.strip}>
+      <div className={styles.strip} ref={stripRef}>
         <ul className={styles.track}>
           {loop.map((card, i) => {
             const realIndex = i % cards.length;
@@ -85,7 +87,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
           tone === "onPhoto" ? ` ${styles.hintOnPhoto}` : ""
         }`}
       >
-        Hover to pause · tap a poster to enlarge
+        Drag or swipe · tap a poster to enlarge
       </p>
 
       {/* lightbox — full poster detail (portaled to <body> to clear the nav) */}
