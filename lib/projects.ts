@@ -45,7 +45,9 @@ export const FLAGSHIPS: Project[] = [
     slug: "healthy-materials",
     year: "Fall 2025",
     discipline: "Materials · Research",
-    accent: "#5C7A3A",
+    // sage darkened to clear AA (4.5:1) for the card's accent link/chip text —
+    // must match app/work/healthy-materials/theme.ts + app/icon.svg (DECISIONS.md).
+    accent: "#4F6B33",
     // §2 — the page badge; the card on /work + the home grid must match it.
     status: "GRADUATE RESEARCH · CONCEPT",
     tagline: "Healthier-material spec packages priced to survive value engineering.",
