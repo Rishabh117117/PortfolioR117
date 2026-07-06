@@ -426,7 +426,6 @@ export default function FollowPage() {
             </div>
 
             <aside className={styles.writeup}>
-              {/* TODO(copy): provisional — finalize in copy pass */}
               <p className={`mono ${styles.writeupKicker}`}>Not quite RAG</p>
               <p className={styles.writeupBody}>
                 RAG finds matching text. Follow finds the <em>source</em> — who

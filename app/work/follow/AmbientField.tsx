@@ -55,6 +55,12 @@ export default function AmbientField() {
     };
 
     const loop = () => {
+      // pause the work while the tab is hidden (matches the other ambient engines
+      // + the page-wide convention) — no per-frame style writes in the background
+      if (document.hidden) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
       t += 0.005;
       px += (tx - px) * 0.04;
       py += (ty - py) * 0.04;

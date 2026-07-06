@@ -167,6 +167,10 @@ export default function McpConsole({
           return;
         }
 
+        // any ok response means the backend recovered — clear offline now, not
+        // only on the final-answer branch (tool-call rounds `continue` past it)
+        setOffline(false);
+
         // the model's reasoning for this round, when the provider returns it —
         // rendered collapsed, the way a normal AI chat shows its thinking
         if (typeof data?.thinking === "string" && data.thinking.trim()) {
@@ -224,7 +228,6 @@ export default function McpConsole({
         wireLog = [...wireLog, { kind: "assistant", text: answerText }];
         setItems((it) => [...it, { kind: "assistant", text: answerText }]);
         apiMsgs.current = [...apiMsgs.current, { role: "assistant", content: data?.text || "" }];
-        setOffline(false);
         if (savedThisTurn) recordSavedChat(wireLog, savedThisTurn.args, savedThisTurn.resultText);
         return;
       }

@@ -133,6 +133,10 @@ export default function FollowAskDock({
           return;
         }
 
+        // any ok response means the backend recovered — clear offline now, not
+        // only on the final-answer branch (tool-call rounds `continue` past it)
+        setOffline(false);
+
         if (typeof data?.thinking === "string" && data.thinking.trim()) {
           setItems((it) => [...it, { kind: "thinking", text: data.thinking.trim() }]);
         }
@@ -168,7 +172,6 @@ export default function FollowAskDock({
           continue;
         }
 
-        setOffline(false);
         setItems((it) => [...it, { kind: "answer", text: data?.text || "(no response)" }]);
         apiMsgs.current = [...apiMsgs.current, { role: "assistant", content: data?.text || "" }];
         return;
