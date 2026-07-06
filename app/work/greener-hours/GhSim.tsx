@@ -138,7 +138,11 @@ export function GhSimProvider({ children }: { children: ReactNode }) {
           scheduled: sh,
           schedInt: intensity,
           immInt: GRID[hour],
-          status: "queued",
+          // when the cleanest window IS the current hour, the [hour] status
+          // effect has already run for this tick — so settle the job to
+          // "running" now (it completes on the next tick) instead of letting it
+          // sit "queued" until the clock wraps all the way back around.
+          status: sh === hour ? "running" : "queued",
         },
         ...js,
       ]);

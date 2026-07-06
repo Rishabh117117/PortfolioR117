@@ -30,7 +30,7 @@ const BY_MODEL: [string, number, string][] = [
 ];
 
 export default function DashboardMock() {
-  const { hour, jobs, flex } = useGhSim();
+  const { hour, jobs, flex, auto } = useGhSim();
   const [live, setLive] = useState(true);
   const [calls, setCalls] = useState(2_400_000);
   const [jitter, setJitter] = useState(0);
@@ -47,8 +47,10 @@ export default function DashboardMock() {
   }, [live]);
 
   const callsLabel = (calls / 1_000_000).toFixed(2) + "M";
-  // avg intensity tracks the SAME sim clock as the T1 pill (small live jitter)
-  const avg = GRID[hour] + (live ? jitter : 0);
+  // avg intensity tracks the SAME sim clock as the T1 pill. The small live
+  // jitter only applies while the shared sim is running — when the T2 scheduler
+  // is paused (auto=false) the pill freezes, so this must freeze to match it.
+  const avg = GRID[hour] + (live && auto ? jitter : 0);
 
   return (
     <>

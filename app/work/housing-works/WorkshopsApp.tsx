@@ -225,24 +225,33 @@ export default function WorkshopsApp() {
   function startRun(item: Queued) {
     const cap = HW_CAPTURES[item.needId];
     if (!cap) return;
+    // A previous run may still be playing (a second queued session keeps its Run
+    // button visible). Cancel its pending timers so they can't drive THIS run's
+    // state, and empty the handle list IN PLACE (the unmount cleanup captured
+    // this same array reference) so it also never grows unbounded.
+    timers.current.forEach(clearTimeout);
+    timers.current.length = 0;
     if (reduceMotion.current) {
       setRun({ id: item.id, phase: "done", turns: cap.transcript.length });
       return;
     }
     setRun({ id: item.id, phase: "transcript", turns: 1 });
+    // every updater is id-guarded so a stray timer from another run is a no-op
     cap.transcript.forEach((_, i) => {
       if (i === 0) return;
-      timers.current.push(setTimeout(() => setRun((r) => (r ? { ...r, turns: i + 1 } : r)), i * 750));
+      timers.current.push(
+        setTimeout(() => setRun((r) => (r && r.id === item.id ? { ...r, turns: i + 1 } : r)), i * 750),
+      );
     });
     timers.current.push(
       setTimeout(
-        () => setRun((r) => (r ? { ...r, phase: "summary" } : r)),
+        () => setRun((r) => (r && r.id === item.id ? { ...r, phase: "summary" } : r)),
         cap.transcript.length * 750 + 350,
       ),
     );
     timers.current.push(
       setTimeout(
-        () => setRun((r) => (r ? { ...r, phase: "done" } : r)),
+        () => setRun((r) => (r && r.id === item.id ? { ...r, phase: "done" } : r)),
         cap.transcript.length * 750 + 1250,
       ),
     );
@@ -268,6 +277,8 @@ export default function WorkshopsApp() {
     setQueue((q) => q.filter((x) => x.id !== item.id));
     setRun(null);
     setJustArchived(entry.id);
+    // clear the "just archived" emphasis after a beat so it doesn't stick forever
+    timers.current.push(setTimeout(() => setJustArchived(null), 2600));
     goView("archive");
   }
 
