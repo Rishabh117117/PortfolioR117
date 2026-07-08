@@ -16,6 +16,12 @@ export type FMember = {
   name: string;
   role: string;
   tool: FTool;
+  /* claude.md-style: a short, present-tense brief the index keeps current —
+     what they own, what they were up to this week, and a live tension if
+     one exists. Rendered in the directory view + folded into the assistant's
+     grounding context (followContext) so "what's Maya been up to?" answers
+     from this instead of a full entry dump. */
+  brief: string;
 };
 
 export type FKind = "decision" | "finding" | "constraint";
@@ -43,15 +49,43 @@ export const F_HONESTY =
   "Concept sandbox · pre-loaded sample workspace — the shipped Follow product captures real AI threads over MCP";
 
 export const F_MEMBERS: FMember[] = [
-  { id: "maya", name: "Maya", role: "Product designer", tool: "Claude" },
-  { id: "alex", name: "Alex", role: "Product manager", tool: "ChatGPT" },
-  { id: "sam", name: "Sam", role: "Engineer", tool: "Gemini" },
+  {
+    id: "maya",
+    name: "Maya",
+    role: "Product designer",
+    tool: "Claude",
+    brief:
+      "Owns checkout's UX surface — guest flow, accessibility, wallet placement, density. This week: pushed guest-default through on Baymard evidence, closed two WCAG blockers, and shipped the payment-sheet spec. Live tension: her guest-default call is contested by Alex's LTV read.",
+  },
+  {
+    id: "alex",
+    name: "Alex",
+    role: "Product manager",
+    tool: "ChatGPT",
+    brief:
+      "Owns the funnel, fee model, and compliance scoping. This week: found the real 41% leak at the shipping reveal and built Sprint 2 off all 31 facts. Live tension: his own Adyen savings estimate got corrected by Sam's real-volume model.",
+  },
+  {
+    id: "sam",
+    name: "Sam",
+    role: "Engineer",
+    tool: "Gemini",
+    brief:
+      "Owns payments integration and performance. This week: confirmed Stripe's SCA path needs no custom retry code and cut LCP ~0.8s by deferring the payments SDK. He's the one who corrected Alex's fee estimate — worth asking him first on payments.",
+  },
 ];
 
 /* the visitor — entries written through the MCP console's save_conversation
    land under this identity (it appears in the team/directory once it has
    at least one entry) */
-export const F_YOU: FMember = { id: "you", name: "You", role: "Visitor · MCP console", tool: "ChatGPT" };
+export const F_YOU: FMember = {
+  id: "you",
+  name: "You",
+  role: "Visitor · MCP console",
+  tool: "ChatGPT",
+  brief:
+    "Fourth seat on Aurora — joined this week. Nothing captured yet; anything you save from the MCP console lands here and joins the index like everyone else's threads.",
+};
 
 /* chronological order for "what changed" reasoning */
 export const F_WHEN_ORDER = ["Mon", "Tue", "Wed", "Thu", "today"] as const;
@@ -349,6 +383,11 @@ export function followContext(entries: FEntry[]): string {
           .join(", ")}; last active ${d.lastActive}`,
     )
     .join("\n");
+  // short per-person briefs (claude.md-style) so "what's X been up to?"
+  // answers directly instead of forcing a scan of every entry
+  const briefs = fDirectory(entries)
+    .map((d) => `- ${d.member.name}: ${d.member.brief}`)
+    .join("\n");
   const mem = orderForContext(entries)
     .map((e) => {
       const m = fMember(e.memberId);
@@ -364,6 +403,7 @@ export function followContext(entries: FEntry[]): string {
     `Also captured this week: 16 conversations · 7 files — every fact links back to its source.`,
     `Workspace: ${F_WORKSPACE.name} (${F_WORKSPACE.meta}). Days run Mon→today; "recent" = Thu/today.`,
     `Team directory:\n${dir}`,
+    `Team briefs (what each person's been up to):\n${briefs}`,
     `Team memory entries:\n${mem}`,
   ].join("\n\n");
 }

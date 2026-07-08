@@ -631,7 +631,7 @@ export default function FollowSandbox() {
                 <h3 className={s.mainTitle}>Who knows what</h3>
                 <p className={s.mainBlurb}>
                   The transactive-memory directory Follow maintains automatically — retrieval by
-                  knowing whom to ask.
+                  knowing whom to ask. Each person carries a short brief the index keeps up to date.
                 </p>
               </header>
               {directory.map((d) => (
@@ -648,6 +648,8 @@ export default function FollowSandbox() {
                     </div>
                     <span className={s.personCount}>{d.entryCount} entries</span>
                   </header>
+                  <p className={s.personBrief}>{d.member.brief}</p>
+                  <p className={s.briefNote}>maintained by the index · updated {d.lastActive}</p>
                   <div className={s.personTopics}>
                     {d.topics.map((t) => (
                       <button
@@ -684,7 +686,7 @@ export default function FollowSandbox() {
                 response shapes here.
               </p>
             </header>
-            <McpConsole entries={entries} addEntry={addEntry} docs={loadedDocs} addChat={addChat} />
+            <McpConsole entries={entries} addEntry={addEntry} docs={loadedDocs} chats={loadedChats} addChat={addChat} />
           </div>
         </section>
 

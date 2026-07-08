@@ -47,11 +47,13 @@ export default function McpConsole({
   entries,
   addEntry,
   docs,
+  chats,
   addChat,
 }: {
   entries: FEntry[];
   addEntry: (e: FEntry) => void;
   docs: FDoc[];
+  chats: FChat[];
   addChat: (c: FChat) => void;
 }) {
   const [items, setItems] = useState<WireItem[]>([]);
@@ -70,7 +72,10 @@ export default function McpConsole({
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [items, loading]);
 
-  // executor context that stays current WITHIN a multi-tool round
+  // executor context that stays current WITHIN a multi-tool round. `chats`
+  // is read fresh each call (not ref-mirrored like entries) since the
+  // console never writes to it directly — addChat only appends via the
+  // parent's own state, through recordSavedChat below.
   const execCtx = () => ({
     entries: entriesRef.current,
     addEntry: (e: FEntry) => {
@@ -78,6 +83,7 @@ export default function McpConsole({
       addEntry(e);
     },
     docs,
+    chats,
   });
 
   function wireItemToBlock(it: WireItem): FBlock | null {

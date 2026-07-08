@@ -13,7 +13,8 @@
    (lib/followSandbox.ts) instead of the production index — the portfolio
    demo is self-contained by design (D-02). Params the sandbox can't honor
    (Boundary[] governance overrides, structured query mode) are trimmed from
-   the schemas rather than silently ignored.
+   the schemas rather than silently ignored. This registers 6 of the real
+   server's 12 tools.
 
    Repo: https://github.com/Rishabh117117/workspace-platform
    ========================================================================= */
@@ -25,7 +26,7 @@ import {
   fTopics,
   type FEntry,
 } from "./followSandbox";
-import type { FDoc } from "./followProduct";
+import { fSourceForEntry, type FChat, type FDoc } from "./followProduct";
 
 /* ---- OpenAI/OpenRouter function-tool format (what /api/ask forwards) ---- */
 export type McpToolDef = {
@@ -175,6 +176,28 @@ export const FOLLOW_MCP_TOOLS: McpToolDef[] = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "retrieve",
+      description:
+        "Provenance-first retrieval, one level deeper than text matching: returns the source behind the facts that match — the originating conversation excerpt, who worked it out, when, and the facts it connects to. Use alongside query_index when you need the receipts, not just the summary.",
+      parameters: {
+        type: "object",
+        properties: {
+          query: {
+            type: "string",
+            description: "Natural language question — what to find the source for.",
+          },
+          limit: {
+            type: "number",
+            description: "Maximum sources to return (1-3). Default: 2",
+          },
+        },
+        required: ["query"],
+      },
+    },
+  },
 ];
 
 /* --------------------------- the executor ------------------------------ */
@@ -188,6 +211,10 @@ export type McpExecCtx = {
      keep working unchanged; when present, directory_query/get_activity fold
      file-ingestion signal in alongside the conversation-derived facts */
   docs?: FDoc[];
+  /* captured conversations — optional for the same reason; retrieve needs
+     these to resolve a chat-sourced fact back to the transcript blocks it
+     came from (fSourceForEntry covers doc sources without this) */
+  chats?: FChat[];
 };
 
 const STOP = new Set([
@@ -301,6 +328,7 @@ function execDirectoryQuery(args: Record<string, unknown>, ctx: McpExecCtx): Mcp
         userId: m.id,
         name: m.name,
         email: `${m.id}@aurora.team`,
+        brief: m.brief,
         totalFacts: own.length,
         totalFiles: 0,
         filesUploaded,
@@ -454,6 +482,95 @@ function execSaveConversation(args: Record<string, unknown>, ctx: McpExecCtx): M
   };
 }
 
+/* Plain-text blocks only (user/assistant turns) score for excerpt-picking —
+   thinking/tool blocks are process, not the words that produced the claim. */
+function textBlocks(chat: FChat): { text: string }[] {
+  return chat.blocks.filter(
+    (b): b is Extract<typeof b, { t: "user" | "assistant" }> => b.t === "user" || b.t === "assistant",
+  );
+}
+
+/* Pick the 1-2 lines (sentence-ish chunks) from a block of text that overlap
+   most with the claim's own tokens — the "near where the fact was produced"
+   excerpt, without a real span index to point at. */
+function bestLines(text: string, toks: string[], max: number): string[] {
+  const lines = text
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+  const scored = lines
+    .map((l) => {
+      const low = l.toLowerCase();
+      const hits = toks.filter((t) => low.includes(t)).length;
+      return { l, hits };
+    })
+    .filter((x) => x.hits > 0)
+    .sort((a, b) => b.hits - a.hits);
+  return scored.slice(0, max).map((x) => x.l);
+}
+
+/* ---- retrieve: one level deeper than query_index — the source behind the
+   fact, not just the fact. Mirrors query_index's matching/ranking, then
+   resolves each hit's provenance via fSourceForEntry (chat or doc) and pulls
+   the 1-2 lines closest to where the claim was actually produced. ---- */
+function execRetrieve(args: Record<string, unknown>, ctx: McpExecCtx): McpExecResult {
+  const query = String(args.query ?? "").trim();
+  const limit = Math.min(3, Math.max(1, Number(args.limit ?? 2) || 2));
+  if (!query) {
+    return { text: "Error: 'query' is required.", isError: true };
+  }
+  const toks = tokens(query);
+  const scored = ctx.entries
+    .map((e) => ({ e, hits: scoreEntry(e, toks) }))
+    .filter((x) => x.hits > 0)
+    .sort((a, b) => b.hits - a.hits)
+    .slice(0, limit);
+
+  if (scored.length === 0) {
+    return { text: `No sources found for "${query}". The index may not have relevant content yet.` };
+  }
+
+  const chats = ctx.chats ?? [];
+  const docs = ctx.docs ?? [];
+
+  const blocks = scored.map(({ e }) => {
+    const m = fMember(e.memberId);
+    const src = fSourceForEntry(e, chats, docs);
+
+    let sourceLine: string;
+    let quoted: string[] = [];
+    if (!src) {
+      sourceLine = "SOURCE: not yet loaded in this session (open the conversation or file view first).";
+    } else if (src.kind === "chat") {
+      quoted = bestLines(
+        textBlocks(src.chat)
+          .map((b) => b.text)
+          .join("\n"),
+        toks,
+        2,
+      );
+      sourceLine = `SOURCE: "${src.chat.title}" — ${m.name} · ${m.tool} · ${src.chat.when}`;
+    } else {
+      quoted = bestLines(src.doc.body, toks, 2);
+      sourceLine = `SOURCE: "${src.doc.title}" — uploaded by ${m.name} · ${src.doc.when}`;
+    }
+
+    const connected = ctx.entries
+      .filter((other) => other.id !== e.id && other.topic === e.topic)
+      .slice(0, 2)
+      .map((other) => `${other.id} (${fMember(other.memberId).name}, ${other.when})`);
+
+    let text = `${e.claim}\n(${m.name} · ${e.when})\n${sourceLine}`;
+    if (quoted.length > 0) {
+      text += `\n${quoted.map((q) => `  "${q}"`).join("\n")}`;
+    }
+    text += connected.length > 0 ? `\nConnected: ${connected.join(", ")}` : `\nConnected: nothing else on this topic yet`;
+    return text;
+  });
+
+  return { text: `Found ${blocks.length} source(s) for "${query}":\n\n${blocks.join("\n\n")}` };
+}
+
 export function runFollowTool(
   name: string,
   args: Record<string, unknown>,
@@ -470,8 +587,10 @@ export function runFollowTool(
       return execGetActivity(args, ctx);
     case "save_conversation":
       return execSaveConversation(args, ctx);
+    case "retrieve":
+      return execRetrieve(args, ctx);
     default:
-      return { text: `Unknown tool: ${name}. Available: query_index, directory_query, detect_contradictions, get_activity, save_conversation.`, isError: true };
+      return { text: `Unknown tool: ${name}. Available: query_index, directory_query, detect_contradictions, get_activity, save_conversation, retrieve.`, isError: true };
   }
 }
 
@@ -495,4 +614,5 @@ export const MCP_PROMPTS = [
   "Are there contradictions in guest checkout?",
   "What happened in the workspace today?",
   "What do we know about Stripe fees? Save this conversation after.",
+  "Retrieve the source behind the Stripe vs Adyen fee disagreement — who worked out each side, and where?",
 ];

@@ -51,9 +51,9 @@ export default function FollowPage() {
             AI made everyone faster. Follow makes teams <em>smarter</em>.
           </p>
           <p className={styles.heroSub}>
-            Follow is a shared, trackable memory layer that sits <em>between</em>{" "}
-            your team’s AI tools — so what one person works out with their AI, the
-            whole team can find, trust, and build on.
+            Follow sits <em>between</em> your team’s AI tools and turns every
+            chat into shared team knowledge — one index of what the team
+            knows, and a directory of who knows it.
           </p>
         </div>
       </header>
@@ -401,10 +401,10 @@ export default function FollowPage() {
           </p>
           <CompareDiagram variant="after" />
           <p className={styles.reelNote}>
-            It sits between your AI tools rather than inside any one of them, and
-            it’s queryable from any of them through MCP — the shared, scoped,
-            conflict-aware memory is the product. (Tools like Glean index your
-            documents; Follow indexes the <em>reasoning</em>.)
+            Every conversation feeds one shared index, queryable from any tool
+            over MCP. The outcome is simple: a live directory of what your
+            team knows and who knows it. (Glean indexes your documents; Follow
+            indexes the <em>reasoning</em>.)
           </p>
         </div>
       </section>

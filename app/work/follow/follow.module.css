@@ -322,10 +322,29 @@
   gap: 28px;
   margin-top: 24px;
 }
-@media (max-width: 760px) {
+/* mobile: native scroll-snap swipe row instead of a stacked single column —
+   bleeds to the viewport edge past the container's --page-pad, then
+   re-applies that same amount as the row's own padding so cards still line
+   up with the rest of the page's left/right rhythm. */
+@media (max-width: 759px) {
   .rcols {
-    grid-template-columns: 1fr;
+    display: flex;
+    grid-template-columns: none;
     gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-pad));
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .rcols::-webkit-scrollbar {
+    display: none;
+  }
+  .rcols > * {
+    flex: 0 0 min(82%, 330px);
+    scroll-snap-align: start;
   }
 }
 .rcol .rlabel {
@@ -391,9 +410,27 @@
   gap: 16px;
   margin-top: 30px;
 }
-@media (max-width: 760px) {
+/* mobile: native scroll-snap swipe row instead of a stacked single column —
+   see .rcols above for the bleed/re-pad convention. */
+@media (max-width: 759px) {
   .insights {
-    grid-template-columns: 1fr;
+    display: flex;
+    grid-template-columns: none;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-pad));
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .insights::-webkit-scrollbar {
+    display: none;
+  }
+  .insights > * {
+    flex: 0 0 min(82%, 330px);
+    scroll-snap-align: start;
   }
 }
 .ins {
@@ -543,9 +580,27 @@
   gap: 16px;
   margin-top: 24px;
 }
-@media (max-width: 760px) {
+/* mobile: native scroll-snap swipe row instead of a stacked single column —
+   see .rcols above for the bleed/re-pad convention. */
+@media (max-width: 759px) {
   .cards {
-    grid-template-columns: 1fr;
+    display: flex;
+    grid-template-columns: none;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-pad));
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .cards::-webkit-scrollbar {
+    display: none;
+  }
+  .cards > * {
+    flex: 0 0 min(82%, 330px);
+    scroll-snap-align: start;
   }
 }
 .card {
