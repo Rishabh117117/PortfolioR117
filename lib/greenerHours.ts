@@ -12,7 +12,6 @@ export const HERO = {
     "An open accountability standard for AI compute carbon disclosure — three implementation surfaces that turn invisible energy costs into legible procurement infrastructure.",
   meta: [
     { k: "Course", v: "Design for a Warming World" },
-    { k: "Instructor", v: "Prof. Raz Godelnik" },
     { k: "Program", v: "MS Strategic Design & Management · Parsons" },
     { k: "Term", v: "Spring 2026" },
   ],
@@ -141,7 +140,7 @@ export const TIER3_PRINCIPLES: Principle[] = [
   { code: "P7", kind: "support", name: "Tech as both", insight: "Surfaces total volume alongside intensity." },
 ];
 
-// The full principle titles, verbatim from Prof. Godelnik's syllabus (Design for
+// The full principle titles, verbatim from the course syllabus (Design for
 // a Warming World, SP26 course outline) — shown when hovering a P-code chip so
 // each chip reveals which of the ten principles it is.
 export const PRINCIPLE_TITLES: Record<string, string> = {
@@ -223,6 +222,6 @@ export const CLOSE = {
   meta: [
     { k: "Project", v: "Greener Hours · v0.1 final" },
     { k: "Author", v: "Rishabh Salian" },
-    { k: "Course", v: "Design for a Warming World · Prof. Raz Godelnik · SP26" },
+    { k: "Course", v: "Design for a Warming World · SP26" },
   ],
 };

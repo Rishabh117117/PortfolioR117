@@ -76,7 +76,7 @@ slides 2 "reframe-arc" and 12 "principle pyramid" remain not ported.
 ## Honesty
 Two honest axes, kept distinct:
 - **Project** (the standard itself) is still a speculative open-standard **course
-  project** — Design for a Warming World, Prof. Raz Godelnik, Spring 2026. The
+  project** — Design for a Warming World, Spring 2026. The
   hero badge + `lib/projects.ts` status + grid chip stay `COURSE PROJECT · CONCEPT`.
   The P-codes on the surfaces reference the course's ten design principles.
 - **Demo** (the on-page surfaces) is now a real interactive prototype, so the

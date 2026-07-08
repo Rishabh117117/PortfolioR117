@@ -241,8 +241,8 @@ export default function GreenerHoursPage() {
             <GhApp compact />
             <p className={styles.source}>
               The P-codes on each surface map to the ten design principles from
-              Prof. Godelnik&apos;s <em>Design for a Warming World</em> — the project
-              was developed roughly against that framework.
+              the <em>Design for a Warming World</em> course (SP26 syllabus) — the
+              project was developed roughly against that framework.
             </p>
             <p className={`mono ${styles.demoFoot}`}>
               <Link href="/work/greener-hours/prototype">open the prototype full-screen ↗</Link>
