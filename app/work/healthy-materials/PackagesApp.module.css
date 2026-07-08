@@ -146,6 +146,70 @@
   background: var(--accent-deep);
 }
 
+/* "Start from your spec" — the topbar entry point (works on every viewport;
+   the mobile-only variant atop the Lines tab is `.mobileIntakeBtn` below) */
+.intakeOpenBtn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-wash);
+  border-radius: 7px;
+  padding: 7px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.intakeOpenBtn:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+/* ---------------- process strip — subtle 4-step narration ---------------- */
+.process {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.processStep {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  color: var(--soft);
+}
+.processArrow {
+  color: var(--line);
+  font-size: 10px;
+  margin-right: 2px;
+}
+.processNo {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+.processLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+.processOn {
+  color: var(--accent-deep);
+}
+.processOn .processNo {
+  font-weight: 700;
+}
+
 /* ---------------- 3-region body ---------------- */
 .body {
   display: grid;
@@ -217,6 +281,16 @@
   font-size: 9.5px;
   color: var(--soft);
   line-height: 1.4;
+}
+
+/* the synthetic "Your spec" scope, pinned atop the rail when present —
+   a dashed border marks it as user-generated rather than a fixed scope */
+.scopeCustom {
+  border-style: dashed;
+  border-color: var(--accent-wash);
+}
+.scopeCustom.scopeOn {
+  border-style: solid;
 }
 
 /* totals card */
@@ -337,6 +411,169 @@
   color: var(--soft);
   margin: 0;
   line-height: 1.5;
+}
+
+/* mobile-only entry into the intake, shown atop the Lines tab content
+   (hidden on desktop/tablet — the topbar button covers those viewports) */
+.mobileIntakeBtn {
+  display: none;
+}
+
+/* post-match summary, shown above the lines once a spec has been matched */
+.matchBanner {
+  position: relative;
+  padding: 10px 34px 10px 12px;
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-wash);
+  border-radius: 8px;
+}
+.matchBannerHead {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--accent-deep);
+}
+.matchBannerSub {
+  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--soft);
+}
+.matchBannerDismiss {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  background: transparent;
+  color: var(--soft);
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.matchBannerDismiss:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--card) 60%, transparent);
+}
+
+/* ---------------- "Start from your spec" intake panel ---------------- */
+.intake {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 58ch;
+}
+.intakeTitle {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.intakeTitle:focus {
+  outline: none;
+}
+.intakeIntro {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0;
+}
+.intakeLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-top: 4px;
+}
+.intakeArea {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  resize: vertical;
+}
+.intakeArea:focus {
+  outline: 2px solid var(--accent-wash);
+  border-color: var(--accent);
+}
+.intakeActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.intakeGhost {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--soft);
+  background: transparent;
+  border: 1px dashed var(--line);
+  border-radius: 7px;
+  padding: 7px 11px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.intakeGhost:hover {
+  color: var(--accent-deep);
+  border-color: var(--accent);
+}
+.intakePrimary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.intakePrimary:hover:not(:disabled) {
+  background: var(--accent-deep);
+}
+.intakePrimary:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.intakeHonesty {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--soft);
+  line-height: 1.5;
+  margin: 0;
+}
+.intakeBanner {
+  padding: 10px 12px;
+  background: #f6ecdd;
+  border: 1px solid var(--clay-light, #c99a6a);
+  border-radius: 8px;
+}
+.intakeBannerHead {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--clay-deep, #8a5a2e);
+}
+.intakeBannerSub {
+  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--soft);
 }
 
 .line {
@@ -965,6 +1202,18 @@
   .exportBtn {
     padding: 7px 11px;
   }
+  /* the topbar's "Start from your spec" gives way to the dedicated button
+     atop the Lines tab (.mobileIntakeBtn) — keeps the condensed topbar from
+     competing with the cost-delta badge + Export for space */
+  .intakeOpenBtn {
+    display: none;
+  }
+  .process {
+    padding: 6px 12px;
+  }
+  .processLabel {
+    display: none; /* numbers + arrows only — the strip stays a hint, not a nav */
+  }
 
   /* body → a stage that swaps Lines / Summary; Ask overlays it */
   .body {
@@ -1008,11 +1257,30 @@
     flex: 1 1 auto;
     min-height: 0;
   }
+  .mobileIntakeBtn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--accent-deep);
+    background: var(--accent-tint);
+    border: 1px dashed var(--accent-wash);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
   .opts {
     grid-template-columns: 1fr;
   }
   .optArrow {
     display: none;
+  }
+  .intake {
+    max-width: 100%;
   }
 
   /* --- view switching driven by data-mview on .body --- */

@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   PKG_PROJECT,
   PKG_SCOPES,
   PKG_HONESTY,
   packageTotals,
   assistantContext,
+  matchSpecText,
+  SAMPLE_SPEC,
   fmtUSD,
   fmtCarbon,
   type PackageLine,
+  type PackageScope,
   type VocClass,
 } from "@/lib/hmPackages";
 import PackagesAssistant from "./PackagesAssistant";
@@ -21,10 +24,27 @@ import s from "./PackagesApp.module.css";
  * /prototype route). A browser-framed slice of the product: pick a scope,
  * accept or reject each healthy swap, watch cost / carbon / health totals
  * recompute, stress the package with the cost-pressure lens, export the spec
- * sheet, and ask the built-in assistant (live model via /api/ask).
+ * sheet, and ask the built-in assistant (live model via /api/ask). "Start
+ * from your spec" runs a pasted finish schedule through the same 20-line
+ * library via lib/hmPackages' keyword matcher, producing a synthetic
+ * "Your spec" scope that flows through every existing mechanism unchanged.
  *
  * All figures are illustrative — the honesty strip below the app says so.
  */
+
+const CUSTOM_SCOPE_ID = "custom";
+
+/** Which of the 4-step process the app is currently on, derived from state
+ * rather than tracked separately — the strip narrates the flow, it doesn't
+ * drive it. */
+type ProcessStep = 1 | 2 | 3 | 4;
+
+const PROCESS_STEPS: { n: ProcessStep; label: string }[] = [
+  { n: 1, label: "Add your spec" },
+  { n: 2, label: "Review the swaps" },
+  { n: 3, label: "Stress-test cost" },
+  { n: 4, label: "Export" },
+];
 
 const VOC_LABEL: Record<VocClass, string> = {
   high: "high VOC",
@@ -64,6 +84,113 @@ function IconAsk() {
       <path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 3.5V6a1 1 0 0 1 1-1Z" />
       <path d="M9 10h6M9 12.5h4" />
     </svg>
+  );
+}
+
+/** Compact mono strip narrating the full "spec in, healthier spec out"
+ * process — subtle by design, current step picked out in the accent. */
+function ProcessStrip({ current }: { current: ProcessStep }) {
+  return (
+    <ol className={s.process} aria-label="Process">
+      {PROCESS_STEPS.map((step, i) => (
+        <li key={step.n} className={`${s.processStep} ${step.n === current ? s.processOn : ""}`}>
+          {i > 0 && (
+            <span className={s.processArrow} aria-hidden="true">
+              →
+            </span>
+          )}
+          <span className={s.processNo}>{String(step.n).padStart(2, "0")}</span>
+          <span className={s.processLabel}>{step.label}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/**
+ * "Start from your spec" intake — a view, not a modal (Esc is deliberately
+ * not wired to close it; the parent's process strip and mobile Lines tab are
+ * the way in/out). Replaces the lines list in the main region while open.
+ * Focus moves to the heading on open, matching the app's other a11y
+ * conventions (useModalA11y's autoFocus behavior, applied manually here
+ * since this surface isn't a dialog).
+ */
+function SpecIntake({
+  onSubmit,
+}: {
+  /** Runs the match; returns the count of unmatched rows if the app should
+   * stay on intake (zero matches — nothing to route to), or null if it
+   * matched at least one line and the parent has switched to the lines view. */
+  onSubmit: (text: string) => { unmatchedRows: string[]; totalRows: number } | null;
+}) {
+  const [text, setText] = useState("");
+  const [zeroMatch, setZeroMatch] = useState<{ unmatchedRows: string[]; totalRows: number } | null>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
+
+  function submit() {
+    const stillHere = onSubmit(text);
+    // a non-null result means zero lines matched — the parent didn't switch
+    // scopes, so stay on intake and show why (the honest no-match path).
+    setZeroMatch(stillHere);
+  }
+
+  return (
+    <section className={s.intake} aria-label="Start from your spec">
+      <h3 className={s.intakeTitle} tabIndex={-1} ref={headingRef}>
+        Start from your spec
+      </h3>
+      <p className={s.intakeIntro}>
+        Paste your current finish schedule — one material per line. The
+        system matches each line against its library of tried-and-tested
+        healthier swaps.
+      </p>
+
+      <label className={s.intakeLabel} htmlFor="hm-spec-intake">
+        Your finish schedule
+      </label>
+      <textarea
+        id="hm-spec-intake"
+        className={s.intakeArea}
+        rows={8}
+        value={text}
+        onChange={(e) => {
+          setText(e.target.value);
+          setZeroMatch(null);
+        }}
+        placeholder={"Flooring: luxury vinyl plank, 6mil wear layer\nPaint: conventional interior acrylic\n…"}
+      />
+
+      <div className={s.intakeActions}>
+        <button
+          type="button"
+          className={s.intakeGhost}
+          onClick={() => {
+            setText(SAMPLE_SPEC);
+            setZeroMatch(null);
+          }}
+        >
+          Use a sample spec
+        </button>
+        <button type="button" className={s.intakePrimary} onClick={submit} disabled={!text.trim()}>
+          Match against the library ▸
+        </button>
+      </div>
+      <p className={s.intakeHonesty}>
+        Keyword matching over a 20-line illustrative library — a real system
+        would parse full spec documents.
+      </p>
+
+      {zeroMatch && (
+        <div className={s.intakeBanner} role="status">
+          <p className={s.intakeBannerHead}>0 of {zeroMatch.totalRows} lines have a tried-and-tested healthier swap</p>
+          <p className={s.intakeBannerSub}>No match yet: {zeroMatch.unmatchedRows.join(" · ")}</p>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -188,13 +315,24 @@ export default function PackagesApp() {
   const [lens, setLens] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  // "Start from your spec": a matched paste becomes a synthetic PackageScope
+  // that flows through every mechanism below (totals/lens/export/assistant)
+  // exactly like a PKG_SCOPES entry — resolveScope() is the only place that
+  // needs to know it isn't one.
+  const [customScope, setCustomScope] = useState<PackageScope | null>(null);
+  const [intakeOpen, setIntakeOpen] = useState(false);
+  const [matchBanner, setMatchBanner] = useState<{ matchedCount: number; unmatchedRows: string[]; totalRows: number } | null>(
+    null,
+  );
+
   // mobile app-shell (≤719px): a Lines/Summary view stage + a full-screen
   // "Ask" overlay. On desktop these never change — the controls that set them
   // are CSS-hidden — so the 3-region layout is untouched.
   const [mView, setMView] = useState<"lines" | "summary">("lines");
   const [askOpen, setAskOpen] = useState(false);
 
-  // esc closes the Ask overlay (the spec-sheet modal handles its own Esc)
+  // esc closes the Ask overlay (the spec-sheet modal handles its own Esc;
+  // the spec intake is a view, not a modal, so Esc deliberately doesn't touch it)
   useEffect(() => {
     if (!askOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -212,11 +350,28 @@ export default function PackagesApp() {
     else if (raw === "sheet") setSheetOpen(true);
   }, []);
 
-  const scope = PKG_SCOPES.find((x) => x.id === scopeId) ?? PKG_SCOPES[0];
+  /** Resolves a scope id to its scope object — PKG_SCOPES for the 4 built-in
+   * scopes, or the synthetic "Your spec" scope for CUSTOM_SCOPE_ID. Every
+   * consumer below (totals, lens sort, <Line> rendering, export, assistant
+   * context) reads the resolved object, never PKG_SCOPES directly, so a
+   * custom scope needs zero special-casing past this one function. */
+  const resolveScope = (id: string): PackageScope => {
+    if (id === CUSTOM_SCOPE_ID && customScope) return customScope;
+    return PKG_SCOPES.find((x) => x.id === id) ?? PKG_SCOPES[0];
+  };
+
+  const scope = resolveScope(scopeId);
   const totals = useMemo(() => packageTotals(scope, active), [scope, active]);
   const context = useMemo(() => assistantContext(scope, active), [scope, active]);
 
   const setChoice = (id: string, on: boolean) => setActive((a) => ({ ...a, [id]: on }));
+
+  /** Scope-rail selection: switching away from "Your spec" clears the match
+   * banner (it only makes sense while that scope is showing). */
+  const pickScope = (id: string) => {
+    setScopeId(id);
+    if (id !== CUSTOM_SCOPE_ID) setMatchBanner(null);
+  };
 
   const lines = lens
     ? [...scope.lines].sort((a, b) => (a.ve === b.ve ? 0 : a.ve === "watch" ? -1 : 1))
@@ -225,6 +380,34 @@ export default function PackagesApp() {
   // bar widths share one denominator so BAU vs package read proportionally
   const costDen = Math.max(totals.bauCost, totals.pkgCost);
   const carbonDen = Math.max(totals.bauCarbon, totals.pkgCarbon);
+
+  /** Runs the matcher on pasted text. Returns a "stay on intake" summary when
+   * nothing matched; otherwise builds the "Your spec" scope, switches to it,
+   * closes the intake, and surfaces the match banner above the lines list. */
+  function handleSpecSubmit(text: string): { unmatchedRows: string[]; totalRows: number } | null {
+    const { matches, unmatched } = matchSpecText(text);
+    const totalRows = matches.length + unmatched.length;
+    if (matches.length === 0) {
+      return { unmatchedRows: unmatched, totalRows };
+    }
+    const next: PackageScope = {
+      id: CUSTOM_SCOPE_ID,
+      label: "Your spec",
+      areaNote: "matched from your input",
+      blurb: `${matches.length} of ${totalRows} pasted lines matched a tried-and-tested healthier swap from the library.`,
+      lines: matches.map((m) => m.line),
+    };
+    setCustomScope(next);
+    setScopeId(CUSTOM_SCOPE_ID);
+    setActive({});
+    setLens(false);
+    setIntakeOpen(false);
+    setMatchBanner({ matchedCount: matches.length, unmatchedRows: unmatched, totalRows });
+    return null;
+  }
+
+  // process strip: narrates the 4-step flow from wherever state currently is
+  const processStep: ProcessStep = intakeOpen ? 1 : sheetOpen ? 4 : lens ? 3 : 2;
 
   return (
     <div className={s.frame}>
@@ -250,6 +433,17 @@ export default function PackagesApp() {
         </div>
         <span className={s.egcBadge}>{PKG_PROJECT.standard}</span>
         <div className={s.topActions}>
+          <button
+            type="button"
+            className={s.intakeOpenBtn}
+            onClick={() => {
+              setIntakeOpen(true);
+              setMView("lines");
+              setAskOpen(false);
+            }}
+          >
+            ＋ Start from your spec
+          </button>
           <span
             className={`${s.topDelta} ${totals.costDeltaPct <= 3.5 ? s.topDeltaOk : s.topDeltaWarn}`}
             title="Package first cost vs business-as-usual"
@@ -263,19 +457,34 @@ export default function PackagesApp() {
         </div>
       </div>
 
+      <ProcessStrip current={processStep} />
+
       <div className={s.body} data-mview={mView}>
         {/* ---------------- rail: scopes + live totals ---------------- */}
         <aside className={s.rail}>
           <nav aria-label="Package scopes">
             <p className={s.railLabel}>scopes</p>
             <ul className={s.scopeList}>
+              {customScope && (
+                <li key={customScope.id}>
+                  <button
+                    type="button"
+                    className={`${s.scopeBtn} ${s.scopeCustom} ${scope.id === customScope.id ? s.scopeOn : ""}`}
+                    aria-current={scope.id === customScope.id ? "true" : undefined}
+                    onClick={() => pickScope(customScope.id)}
+                  >
+                    <span className={s.scopeName}>Your spec · {customScope.lines.length} lines</span>
+                    <span className={s.scopeMeta}>{customScope.areaNote}</span>
+                  </button>
+                </li>
+              )}
               {PKG_SCOPES.map((sc) => (
                 <li key={sc.id}>
                   <button
                     type="button"
                     className={`${s.scopeBtn} ${sc.id === scope.id ? s.scopeOn : ""}`}
                     aria-current={sc.id === scope.id ? "true" : undefined}
-                    onClick={() => setScopeId(sc.id)}
+                    onClick={() => pickScope(sc.id)}
                   >
                     <span className={s.scopeName}>{sc.label}</span>
                     <span className={s.scopeMeta}>
@@ -351,15 +560,43 @@ export default function PackagesApp() {
           </div>
         </aside>
 
-        {/* ---------------- main: the package lines ---------------- */}
-        <section className={s.main} aria-label={`${scope.label} package lines`}>
-          <header className={s.mainHead}>
-            <h3 className={s.mainTitle}>{scope.label}</h3>
-            <p className={s.mainBlurb}>{scope.blurb}</p>
-          </header>
-          {lines.map((line) => (
-            <Line key={line.id} line={line} on={active[line.id] !== false} lens={lens} setChoice={setChoice} />
-          ))}
+        {/* ---------------- main: intake OR the package lines ---------------- */}
+        <section className={s.main} aria-label={intakeOpen ? "Start from your spec" : `${scope.label} package lines`}>
+          {intakeOpen ? (
+            <SpecIntake onSubmit={handleSpecSubmit} />
+          ) : (
+            <>
+              {/* mobile-only entry point atop the Lines tab (the topbar button
+                  above works on every viewport; this is the extra affordance
+                  the task calls for specifically inside the Lines view) */}
+              <button type="button" className={s.mobileIntakeBtn} onClick={() => setIntakeOpen(true)}>
+                ＋ Start from your spec
+              </button>
+
+              <header className={s.mainHead}>
+                <h3 className={s.mainTitle}>{scope.label}</h3>
+                <p className={s.mainBlurb}>{scope.blurb}</p>
+              </header>
+
+              {matchBanner && (
+                <div className={s.matchBanner} role="status">
+                  <p className={s.matchBannerHead}>
+                    {matchBanner.matchedCount} of {matchBanner.totalRows} lines have a tried-and-tested healthier swap
+                  </p>
+                  {matchBanner.unmatchedRows.length > 0 && (
+                    <p className={s.matchBannerSub}>No match yet: {matchBanner.unmatchedRows.join(" · ")}</p>
+                  )}
+                  <button type="button" className={s.matchBannerDismiss} onClick={() => setMatchBanner(null)} aria-label="Dismiss">
+                    ✕
+                  </button>
+                </div>
+              )}
+
+              {lines.map((line) => (
+                <Line key={line.id} line={line} on={active[line.id] !== false} lens={lens} setChoice={setChoice} />
+              ))}
+            </>
+          )}
         </section>
 
         {/* ---------------- assistant dock ---------------- */}

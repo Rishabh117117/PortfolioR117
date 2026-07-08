@@ -748,3 +748,124 @@ export const PKG_ASSISTANT_PROMPTS = [
   "What if the flooring supplier slips?",
   "Where does the carbon saving come from?",
 ];
+
+/* =========================================================================
+   "Start from your spec" — matching a pasted conventional finish schedule
+   against the 20-line library (PackagesApp intake flow).
+
+   HONESTY: this is keyword matching over an illustrative 20-line library, not
+   real spec-document parsing — the app says so under the intake CTA. Every
+   PackageLine below is reachable via at least one distinctive phrase (its
+   bau.name, common trade synonyms, or a scope-qualifying phrase where the
+   category repeats — e.g. "Paint" appears on three scopes, so every paint
+   line's phrases are qualified enough — "interior acrylic", "corridor paint",
+   "bathroom paint" — that none of them is a substring of another paint
+   line's phrase; same treatment for the two Adhesives & sealants lines).
+   Order matters: tables are scanned in PKG_SCOPES order (unit → corridor →
+   lobby → bathroom), and the FIRST line whose table matches a given input
+   segment wins — verified (see the reachability self-test run during
+   development) that no line's own keyword is ever shadowed by an
+   earlier-scanned line.
+   ========================================================================= */
+
+/** All 20 PackageLines, flattened once in PKG_SCOPES order (the matcher's
+ * scan + tie-break order, and the order customScope lines fall back to). */
+export const ALL_PACKAGE_LINES: PackageLine[] = PKG_SCOPES.flatMap((s) => s.lines);
+
+/** Lowercase match phrases per PackageLine id. Built from bau.name + category
+ * + common trade synonyms/abbreviations. Three categories repeat across
+ * scopes (Paint on unit/corridor/bathroom; Adhesives & sealants on
+ * unit/lobby; wall-base-style PVC lines on corridor) — every phrase below is
+ * scope-qualified or otherwise line-distinctive on its own, specifically so
+ * no line's own keywords get shadowed by a same-category line scanned
+ * earlier (unit- lines are scanned first, so their table never uses a bare
+ * generic word another scope's line would also need). */
+const SPEC_KEYWORDS: Record<string, string[]> = {
+  // ---- unit renovation ----
+  "unit-floor": ["luxury vinyl plank", "lvt", "vinyl plank", "6x48 plank", "wear layer"],
+  "unit-paint": ["interior acrylic", "unit paint", "wall paint", "contractor grade paint", "latex paint", "eggshell"],
+  "unit-insul": ["spray foam", "closed-cell", "ccspf", "spray polyurethane", "insulation"],
+  "unit-case": ["particleboard", "kitchen casework", "cabinet box", "cabinet boxes", "melamine", "kitchen cabinet"],
+  "unit-counter": ["hpl laminate", "laminate countertop", "post-formed laminate", "countertop", "counter top"],
+  "unit-seal": ["construction adhesive", "solvent-based set", "unit adhesive", "unit sealant", "unit caulk", "multi-purpose adhesive"],
+
+  // ---- corridor ----
+  "cor-floor": ["vinyl composition tile", "vct", "corridor flooring", "corridor floor"],
+  "cor-guard": ["wall guard", "pvc sheet", "wall protection", "chair rail guard", "corner guard"],
+  "cor-paint": ["corridor paint", "corridor walls", "hallway paint", "corridor acrylic"],
+  "cor-base": ["vinyl cove base", "cove base", "wall base", "vinyl base", "corridor base"],
+
+  // ---- lobby ----
+  "lob-floor": ["carpet tile", "carpet squares", "pvc-backed carpet", "lobby carpet"],
+  "lob-wall": ["vinyl wallcovering", "wallcovering", "wall covering", "vinyl wall covering", "lobby feature wall"],
+  "lob-ceil": ["mineral-fiber", "act ceiling", "acoustic ceiling tile", "ceiling tile", "suspended ceiling", "2x2 lay-in"],
+  "lob-mill": ["millwork", "mail counter", "parcel counter", "lobby casework", "reception counter"],
+  "lob-seal": ["lobby adhesive", "lobby sealant", "lobby caulk", "lobby glue"],
+
+  // ---- bathroom ----
+  "bath-wall": ["mr gypsum", "moisture-resistant board", "tub surround", "wet wall", "wet-wall", "gypsum drywall"],
+  "bath-floor": ["porcelain tile", "bathroom floor tile", "bath floor tile", "floor tile"],
+  "bath-van": ["vanity", "bathroom vanity", "vanity cabinet"],
+  "bath-paint": ["bath-grade", "bathroom paint", "mildew-resistant paint", "bath paint"],
+  "bath-seal": ["waterproofing", "waterproof membrane", "liquid membrane", "bathroom caulk", "wet-room sealant", "bathroom glue"],
+};
+
+/** Resolve one input line's free text to a PackageLine via keyword match. */
+function matchOneLine(text: string): PackageLine | null {
+  const lower = text.toLowerCase();
+  for (const line of ALL_PACKAGE_LINES) {
+    const keywords = SPEC_KEYWORDS[line.id] ?? [];
+    if (keywords.some((kw) => lower.includes(kw))) return line;
+  }
+  return null;
+}
+
+export type SpecMatchResult = {
+  matches: { line: PackageLine; sourceText: string }[];
+  unmatched: string[];
+};
+
+/**
+ * Match a pasted finish schedule (one material per line, semicolons also
+ * accepted as separators) against the 20-line library. First matching line
+ * wins per input row; each PackageLine appears at most once in the result
+ * even if the input names it twice. Rows with no match are returned verbatim
+ * so the intake can show an honest "no match yet" list.
+ */
+export function matchSpecText(text: string): SpecMatchResult {
+  const rows = text
+    .split(/[\n;]+/)
+    .map((r) => r.trim())
+    .filter(Boolean);
+
+  const matches: { line: PackageLine; sourceText: string }[] = [];
+  const seen = new Set<string>();
+  const unmatched: string[] = [];
+
+  for (const row of rows) {
+    const line = matchOneLine(row);
+    if (line && !seen.has(line.id)) {
+      seen.add(line.id);
+      matches.push({ line, sourceText: row });
+    } else if (!line) {
+      unmatched.push(row);
+    }
+    // a row matching a line already captured is silently deduped (neither
+    // added again nor reported unmatched — it was recognized, just repeated)
+  }
+
+  return { matches, unmatched };
+}
+
+/** A realistic 8-line conventional finish schedule for the "Use a sample
+ * spec" ghost chip — each line matches a different PackageLine across
+ * scopes, plus one deliberately unmatchable line so the honest no-match
+ * path always shows in the demo. */
+export const SAMPLE_SPEC = `Flooring: luxury vinyl plank, 6mil wear layer, living/bedrooms
+Paint: conventional interior acrylic, walls + ceilings
+Insulation: closed-cell spray foam, demising walls
+Kitchen casework: particleboard boxes, melamine-faced
+Corridor flooring: vinyl composition tile (VCT), 12x12
+Wall protection: PVC sheet wall guard, corridor
+Bathroom vanity cabinet, standard finish
+Structural steel, W12 columns`;

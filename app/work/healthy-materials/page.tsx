@@ -243,22 +243,74 @@ export default function HealthyMaterialsPage() {
           <p className={`mono ${styles.fieldFoot}`}>{FIELD_FOOTNOTE}</p>
         </section>
 
-        {/* ============ 6 — FOUR THEMES (band) ============ */}
+        {/* ============ 6 — THE CONSTRUCTION JOURNEY (band) [§7 merged in; the
+            old 5-point leverage-cascade section is gone, folded into "the
+            turn" sub-blocks below] ============ */}
         <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
           <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>what&apos;s actually blocking adoption</p>
+            <p className={`mono ${styles.kicker}`}>where adoption breaks — and where it turns</p>
             <p className={styles.lede}>
-              Four patterns came up again and again. The quotes are the evidence.
+              The four blocking patterns and five leverage points from the
+              research, mapped onto the life of a project — before, during, and
+              after construction. The quotes are the evidence.
             </p>
 
-            <ul className={styles.themes}>
-              <li className={styles.theme}>
-                <span className={styles.themeNo}>Theme 1 · Policy, codes &amp; standards</span>
-                <p className={styles.themeSynth}>
-                  Without recognized codes or testing pathways, insurers won&apos;t
-                  insure, contractors won&apos;t install, and project managers
-                  won&apos;t specify — so teams default back to the familiar.
-                </p>
+            <ol className={styles.journey}>
+              <li className={styles.stage}>
+                <div className={styles.stageHead}>
+                  <span className={styles.stageNo}>Stage 01</span>
+                  <div>
+                    <h3 className={styles.stageTitle}>Before construction — design &amp; spec</h3>
+                    <p className={styles.stagePhase}>owner goals · RFPs · specification</p>
+                  </div>
+                </div>
+
+                <ul className={styles.frictionList}>
+                  <li className={styles.friction}>
+                    Owners don&apos;t ask. If healthy materials aren&apos;t in the
+                    RFP or the project goals, the team never gets permission — or
+                    pressure — to prioritize them.
+                  </li>
+                  <li className={styles.friction}>
+                    Nothing to spec against. Without recognized codes or testing
+                    pathways, insurers won&apos;t insure, approvers default to the
+                    familiar.
+                  </li>
+                  <li className={styles.friction}>
+                    PMs can&apos;t plan for the unfamiliar. Unknown details and
+                    lead times mean healthier options never make it into schedule
+                    or budget.
+                  </li>
+                </ul>
+
+                <div className={styles.turn}>
+                  <p className={styles.turnLabel}>the turn</p>
+                  <ol className={styles.leverage}>
+                    <li className={styles.lp}>
+                      <span className={styles.lpNum}>01</span>
+                      <p className={styles.lpBody}>
+                        <strong>Owner awareness &amp; priorities</strong> — healthy
+                        materials asked for early, in RFPs, standards, and goals.
+                      </p>
+                    </li>
+                    <li className={styles.lp}>
+                      <span className={styles.lpNum}>02</span>
+                      <p className={styles.lpBody}>
+                        <strong>Standard creation &amp; testing</strong> — shared
+                        tests and spec language make &quot;experimental&quot;
+                        materials normal options.
+                      </p>
+                    </li>
+                    <li className={styles.lp}>
+                      <span className={styles.lpNum}>03</span>
+                      <p className={styles.lpBody}>
+                        <strong>PM training &amp; planning</strong> — simple tools
+                        let PMs plan for healthy materials from the start.
+                      </p>
+                    </li>
+                  </ol>
+                </div>
+
                 <blockquote className={styles.quote}>
                   <p className={styles.quoteText}>
                     “In more novel systems like in the hemp area, there
@@ -271,14 +323,61 @@ export default function HealthyMaterialsPage() {
                 </blockquote>
               </li>
 
-              <li className={styles.theme}>
-                <span className={styles.themeNo}>Theme 2 · Cost &amp; market pressures</span>
-                <p className={styles.themeSynth}>
-                  On most projects, cost overrides almost everything. Low-bid
-                  procurement and contingency fear make unfamiliar materials read
-                  as financial risk — even when owners hold climate or health
-                  goals.
-                </p>
+              <li className={styles.stageArrow} aria-hidden="true">
+                <svg viewBox="0 0 22 22" fill="none">
+                  <path d="M11 2v18M4 13l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </li>
+
+              <li className={styles.stage}>
+                <div className={styles.stageHead}>
+                  <span className={styles.stageNo}>Stage 02</span>
+                  <div>
+                    <h3 className={styles.stageTitle}>During construction — procurement &amp; build</h3>
+                    <p className={styles.stagePhase}>bidding · procurement · substitution</p>
+                  </div>
+                </div>
+
+                <ul className={styles.frictionList}>
+                  <li className={styles.friction}>
+                    Cost overrides almost everything. Low-bid procurement and
+                    contingency fear make unfamiliar materials read as financial
+                    risk.
+                  </li>
+                  <li className={styles.friction}>
+                    Supply is thin and fragile. Often a single supplier and long
+                    lead times — when the timeline slips, teams revert to
+                    whatever is available.
+                  </li>
+                  <li className={styles.friction}>
+                    Contractors pick the final products. Substitution happens on
+                    the job site, after the spec has left the designer&apos;s
+                    hands.
+                  </li>
+                </ul>
+
+                <div className={styles.turn}>
+                  <p className={styles.turnLabel}>the turn</p>
+                  <ol className={styles.leverage} start={4}>
+                    <li className={styles.lp}>
+                      <span className={styles.lpNum}>04</span>
+                      <p className={styles.lpBody}>
+                        <strong>Contractor-controlled decisions</strong> —
+                        training and substitution guidance flip a common blocker
+                        into a key driver.
+                      </p>
+                    </li>
+                    <li className={styles.lp}>
+                      <span className={styles.lpNum}>05</span>
+                      <p className={styles.lpBody}>
+                        <strong>Supply transparency</strong> — quick, trusted
+                        information on available, tested products makes healthier
+                        picks feel less risky.
+                      </p>
+                    </li>
+                  </ol>
+                </div>
+
                 <blockquote className={styles.quote}>
                   <p className={styles.quoteText}>
                     “It&apos;s the cold truth of construction. They will never
@@ -290,32 +389,46 @@ export default function HealthyMaterialsPage() {
                 </blockquote>
               </li>
 
-              <li className={styles.theme}>
-                <span className={styles.themeNo}>Theme 3 · Process &amp; supply</span>
-                <p className={styles.themeSynth}>
-                  Supply chains for newer materials are thin and fragile — often a
-                  single supplier and long lead times. When a timeline slips, teams
-                  revert to whatever is readily available.
-                </p>
-                <blockquote className={styles.quote}>
-                  <p className={styles.quoteText}>
-                    “Smaller markets don&apos;t have backup suppliers, which means
-                    lead times stretch and cost goes up.”
-                  </p>
-                  <cite className={styles.quoteAttr}>
-                    Alison Mears, Director, Healthy Materials Lab
-                  </cite>
-                </blockquote>
+              <li className={styles.stageArrow} aria-hidden="true">
+                <svg viewBox="0 0 22 22" fill="none">
+                  <path d="M11 2v18M4 13l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </li>
 
-              <li className={styles.theme}>
-                <span className={styles.themeNo}>Theme 4 · Awareness &amp; education</span>
-                <p className={styles.themeSynth}>
-                  Many decision-makers simply don&apos;t know which healthy
-                  materials exist or how to use them. High-level intentions get
-                  lost between design, specification, procurement, and the job
-                  site.
-                </p>
+              <li className={styles.stage}>
+                <div className={styles.stageHead}>
+                  <span className={styles.stageNo}>Stage 03</span>
+                  <div>
+                    <h3 className={styles.stageTitle}>After construction — occupancy &amp; proof</h3>
+                    <p className={styles.stagePhase}>occupancy · outcomes · the next project</p>
+                  </div>
+                </div>
+
+                <ul className={styles.frictionList}>
+                  <li className={styles.friction}>
+                    Results stay invisible. Nobody measures what the healthier
+                    building did for the people inside it.
+                  </li>
+                  <li className={styles.friction}>
+                    No feedback loop. Without documented outcomes, the next
+                    project starts the argument from zero.
+                  </li>
+                  <li className={styles.friction}>
+                    &quot;Experimental&quot; never expires. Absent proof, healthy
+                    materials stay perpetually novel — and perpetually first to be
+                    cut.
+                  </li>
+                </ul>
+
+                <div className={styles.turn}>
+                  <p className={styles.turnLabel}>the turn</p>
+                  <p className={styles.turnClose}>
+                    Proof compounds awareness — every project that documents its
+                    materials and outcomes creates the market force that makes the
+                    next owner ask. The cascade loops back to the start.
+                  </p>
+                </div>
+
                 <blockquote className={styles.quote}>
                   <p className={styles.quoteText}>
                     “If I&apos;m not aware, I don&apos;t know to ask. If I&apos;m
@@ -326,75 +439,6 @@ export default function HealthyMaterialsPage() {
                     Alison Mears, Director, Healthy Materials Lab
                   </cite>
                 </blockquote>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* ============ 7 — DECISIONS CASCADE → LEVERAGE POINTS (paper) ======= */}
-        <section className={styles.scene} data-ambient-dim>
-          <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>the turn</p>
-            <p className={styles.lede}>
-              Adoption doesn&apos;t scale through individual persuasion. Decisions
-              are made in a cascading order — and that&apos;s where the leverage
-              points are.
-            </p>
-
-            <ol className={styles.leverage}>
-              <li className={styles.lp}>
-                <span className={styles.lpNum}>01</span>
-                <div className={styles.lpBodyWrap}>
-                  <h3 className={styles.lpName}>Owner awareness &amp; priorities</h3>
-                  <p className={styles.lpBody}>
-                    When owners ask for healthy materials early — in RFPs,
-                    standards, and goals — the whole team gets permission, and
-                    pressure, to prioritize them.
-                  </p>
-                </div>
-              </li>
-              <li className={styles.lp}>
-                <span className={styles.lpNum}>02</span>
-                <div className={styles.lpBodyWrap}>
-                  <h3 className={styles.lpName}>Standard creation &amp; testing</h3>
-                  <p className={styles.lpBody}>
-                    Shared tests, details, and spec language turn “experimental”
-                    materials into normal options approvers and insurers are
-                    comfortable with.
-                  </p>
-                </div>
-              </li>
-              <li className={styles.lp}>
-                <span className={styles.lpNum}>03</span>
-                <div className={styles.lpBodyWrap}>
-                  <h3 className={styles.lpName}>PM training &amp; planning</h3>
-                  <p className={styles.lpBody}>
-                    With simple tools, project managers can plan for healthy
-                    materials from the start and protect them from schedule, cost,
-                    and substitution pressure.
-                  </p>
-                </div>
-              </li>
-              <li className={styles.lp}>
-                <span className={styles.lpNum}>04</span>
-                <div className={styles.lpBodyWrap}>
-                  <h3 className={styles.lpName}>Contractor-controlled decisions</h3>
-                  <p className={styles.lpBody}>
-                    Contractors often choose the final products; training and
-                    substitution guidance can flip a common blocker into a key
-                    driver.
-                  </p>
-                </div>
-              </li>
-              <li className={styles.lp}>
-                <span className={styles.lpNum}>05</span>
-                <div className={styles.lpBodyWrap}>
-                  <h3 className={styles.lpName}>Supply transparency</h3>
-                  <p className={styles.lpBody}>
-                    Quick, trusted information on available, tested products makes
-                    healthy materials feel less risky and easier to pick.
-                  </p>
-                </div>
               </li>
             </ol>
           </div>
