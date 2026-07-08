@@ -583,6 +583,29 @@
   gap: var(--space-4);
   margin-top: var(--space-5);
 }
+/* mobile: horizontal swipe row (scroll-snap) instead of a vertical stack —
+   bleeds past the container's --page-pad, same recipe as the home flagship
+   grid / Follow / Greener Hours / Housing Works reels. */
+@media (max-width: 759px) {
+  .skills {
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-pad));
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .skills::-webkit-scrollbar {
+    display: none;
+  }
+  .skills > * {
+    flex: 0 0 min(84%, 340px);
+    scroll-snap-align: start;
+  }
+}
 @media (min-width: 760px) {
   .skills {
     grid-template-columns: repeat(3, 1fr);

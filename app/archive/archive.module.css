@@ -28,15 +28,19 @@
 }
 
 /* ---- project grid ---- */
+/* 2-up on mobile too (7 portrait image cards suit a compact grid better than
+   a single swiping column); tighter gap than the desktop 2/3-col rules since
+   each card is much narrower here. */
 .grid {
   list-style: none;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-5);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
 }
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
   }
 }
 @media (min-width: 1180px) {

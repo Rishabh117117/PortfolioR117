@@ -175,6 +175,27 @@
   color: var(--soft);
   line-height: 1;
 }
+/* cut-out era stickers — die-cut SVGs (components/ArcCutouts), slight
+   hand-placed tilt per item; they ride the DriftGroup depth like the words */
+.arcSticker {
+  display: block;
+  width: clamp(64px, 8vw, 92px);
+  margin-bottom: var(--space-2);
+}
+.arcSticker svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.tiltA {
+  transform: rotate(-4deg);
+}
+.tiltB {
+  transform: rotate(3deg);
+}
+.tiltC {
+  transform: rotate(-2.5deg);
+}
 
 @media (min-width: 768px) {
   .arc {
@@ -227,6 +248,31 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
+}
+/* mobile: horizontal swipe row (scroll-snap) instead of a vertical stack —
+   bleeds to the viewport edge past the container's --page-pad, then pads
+   back in so the snap points + peek land flush with the shell's own margin
+   (same recipe as the Follow/Greener Hours/Housing Works reels). */
+@media (max-width: 767px) {
+  .grid {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-pad));
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+  .grid > * {
+    flex: 0 0 86%;
+    scroll-snap-align: start;
+  }
 }
 @media (min-width: 768px) {
   .grid {

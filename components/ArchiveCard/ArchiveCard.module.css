@@ -86,3 +86,21 @@
   font-weight: 500;
   color: var(--accent);
 }
+
+/* the archive grid is 2-up as low as ~320px wide (ARCHIVE-2COL-1), narrower
+   than this card was designed for — trim the body padding + step down the
+   name/meta/cta sizes a touch so nothing wraps awkwardly at ~130–160px. */
+@media (max-width: 480px) {
+  .body {
+    padding: var(--space-3) var(--space-3) var(--space-4);
+  }
+  .name {
+    font-size: 15px;
+  }
+  .meta {
+    font-size: 11px;
+  }
+  .cta {
+    font-size: 11px;
+  }
+}

@@ -61,6 +61,59 @@
   gap: var(--space-3);
 }
 
+/* holds the status + demo chips together so they wrap as one unit when the
+   head row gets tight, instead of colliding with the name */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+/* working-demo tag — same shape/typography as the global `.chip` but a fixed
+   live-green (not the per-card --accent) so it reads identically on all four
+   cards regardless of project color. */
+.demoChip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: #166534;
+  background: #ecf6ee;
+  border: 1px solid #c6e3cc;
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+}
+.demoDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22a06b;
+  margin-right: 6px;
+  flex: 0 0 auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .demoDot {
+    animation: demoPulse 1.9s var(--e-snappy) infinite;
+  }
+}
+@keyframes demoPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
 .name {
   font-family: var(--font-display);
   font-weight: 600;

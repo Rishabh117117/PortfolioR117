@@ -7,6 +7,7 @@ import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import Reveal from "@/components/Reveal/Reveal";
 import HeroCollage, { FOOTER_CARDS } from "@/components/HeroCollage/HeroCollage";
 import { FollowThumb, GreenerHoursThumb } from "@/components/ProjectThumbs/ProjectThumbs";
+import { ObjectsCutout, InterfacesCutout, SystemsCutout } from "@/components/ArcCutouts";
 import { FLAGSHIPS } from "@/lib/projects";
 import styles from "./page.module.css";
 
@@ -102,6 +103,9 @@ export default function Home() {
           <DriftGroup>
             <ol className={styles.arc}>
               <li className={styles.arcItem} data-depth="-9">
+                <span className={`${styles.arcSticker} ${styles.tiltA}`} aria-hidden="true">
+                  <ObjectsCutout />
+                </span>
                 <span className={styles.arcWord}>OBJECTS</span>
                 <span className={`cap ${styles.arcCap}`}>Industrial design · 2019–22</span>
               </li>
@@ -109,6 +113,9 @@ export default function Home() {
                 →
               </li>
               <li className={styles.arcItem} data-depth="7">
+                <span className={`${styles.arcSticker} ${styles.tiltB}`} aria-hidden="true">
+                  <InterfacesCutout />
+                </span>
                 <span className={styles.arcWord}>INTERFACES</span>
                 <span className={`cap ${styles.arcCap}`}>Product & UX · 2021–24</span>
               </li>
@@ -116,6 +123,9 @@ export default function Home() {
                 →
               </li>
               <li className={styles.arcItem} data-depth="-12">
+                <span className={`${styles.arcSticker} ${styles.tiltC}`} aria-hidden="true">
+                  <SystemsCutout />
+                </span>
                 <span className={styles.arcWord}>SYSTEMS</span>
                 <span className={`cap ${styles.arcCap}`}>AI-powered systems · 2025–26</span>
               </li>
@@ -144,6 +154,7 @@ export default function Home() {
                   href={`/work/${p.slug}`}
                   accent={p.accent}
                   status={p.status}
+                  demo={p.demo}
                   tagline={p.tagline}
                   thumb={THUMBS[p.slug]?.thumb}
                   thumbNode={THUMBS[p.slug]?.node}

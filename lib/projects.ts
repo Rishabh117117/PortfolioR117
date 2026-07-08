@@ -1,5 +1,6 @@
 // Shared project metadata (§8 accent map). Single source of truth for the
-// home grid and the work index. Demo status tags are placeholders pending D-03.
+// home grid and the work index. `status` is framing-only copy; `demo` is the
+// separate working-demo axis (WORKING-DEMO-TAG-1), rendered as its own chip.
 
 export type Project = {
   name: string;
@@ -8,6 +9,8 @@ export type Project = {
   discipline: string;
   accent: string;
   status?: string;
+  /** Working-demo tag (separate axis from `status`, which is framing-only). */
+  demo?: boolean;
   /** One-line value prop for cards — what the project IS, no click needed. */
   tagline?: string;
   featured?: boolean;
@@ -24,8 +27,11 @@ export const FLAGSHIPS: Project[] = [
     // and live, so the old SIMULATED demo-status tag became a framing badge like
     // the other flagships; demo status (WORKING) lives on the page's DemoCallout.
     // (No `featured` flag: the home grid is an equal 2×2 per Rishabh 2026-07-02.)
+    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the WORKING DEMO
+    // claim moved to the `demo` flag, rendered as its own card chip.
     accent: "#C2410C",
-    status: "CAPSTONE · WORKING DEMO",
+    status: "CAPSTONE",
+    demo: true,
     tagline: "A shared, trackable memory layer between your team's AI tools.",
   },
   {
@@ -37,7 +43,11 @@ export const FLAGSHIPS: Project[] = [
     // GH-PAGE-1: bespoke narrative case study (deck-as-page retired). Honest
     // badge for a speculative open-standard course project; propagates to the
     // home grid + /work chips via ProjectCard.
-    status: "COURSE PROJECT · CONCEPT",
+    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the tier surfaces
+    // (Tier-1 chat/Tier-2 scheduler/Tier-3 dashboard) are live, so the demo
+    // claim now lives on the `demo` flag, rendered as its own card chip.
+    status: "COURSE PROJECT",
+    demo: true,
     tagline: "An open carbon-disclosure standard for AI compute — one indicator, three surfaces.",
   },
   {
@@ -49,19 +59,27 @@ export const FLAGSHIPS: Project[] = [
     // must match app/work/healthy-materials/theme.ts + app/icon.svg (DECISIONS.md).
     accent: "#4F6B33",
     // §2 — the page badge; the card on /work + the home grid must match it.
-    status: "GRADUATE RESEARCH · CONCEPT",
+    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the Packages
+    // configurator is live, so the demo claim now lives on the `demo` flag,
+    // rendered as its own card chip.
+    status: "GRADUATE RESEARCH",
+    demo: true,
     tagline: "Healthier-material spec packages priced to survive value engineering.",
   },
   {
     name: "Housing Works",
     slug: "housing-works",
     year: "Spring 2025",
-    discipline: "Service · AI",
+    discipline: "Service design",
     accent: "#C0263B",
     // HW-PROTO-1: framing badge like GH/HM (the old SIMULATED demo-status tag
     // became wrong once the Trustee Workshops prototype went WORKING — demo
     // status now lives on the page's DemoCallout, per the D-03 axes split).
-    status: "STUDIO PROJECT · CONCEPT",
+    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the Trustee
+    // Workshops app is live, so the demo claim now lives on the `demo` flag,
+    // rendered as its own card chip.
+    status: "STUDIO PROJECT",
+    demo: true,
     tagline: "Trustee-taught micro-workshops that keep learning in-house.",
   },
 ];

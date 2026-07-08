@@ -11,6 +11,8 @@ export type ProjectCardProps = {
   accent?: string;
   /** Optional demo status tag, e.g. "WORKING" / "SIMULATED". */
   status?: string;
+  /** Working-demo tag — renders a second, consistently-green "WORKING DEMO" chip. */
+  demo?: boolean;
   /** One-line value prop shown under the name (what the project IS). */
   tagline?: string;
   /** Larger card treatment (desktop) for the flagship. */
@@ -28,6 +30,7 @@ export default function ProjectCard({
   href,
   accent,
   status,
+  demo,
   tagline,
   featured = false,
   thumb,
@@ -67,7 +70,15 @@ export default function ProjectCard({
       <div className={styles.body}>
         <div className={styles.head}>
           <h3 className={styles.name}>{name}</h3>
-          {status && <span className="chip accent">{status}</span>}
+          <div className={styles.chips}>
+            {status && <span className="chip accent">{status}</span>}
+            {demo && (
+              <span className={styles.demoChip}>
+                <span className={styles.demoDot} aria-hidden="true" />
+                WORKING DEMO
+              </span>
+            )}
+          </div>
         </div>
         {tagline && <p className={styles.tagline}>{tagline}</p>}
         <p className={`mono ${styles.meta}`}>
