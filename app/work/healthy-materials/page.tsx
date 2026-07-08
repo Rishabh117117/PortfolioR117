@@ -76,7 +76,7 @@ export default function HealthyMaterialsPage() {
                 </span>
               </h1>
               <p className={styles.heroAuthors}>
-                Research capstone · Fall 2025 · Rishabh Salian &amp; Henry
+                Graduate capstone · Fall 2025 · Rishabh Salian &amp; Henry
                 Schroder
               </p>
             </div>
@@ -168,10 +168,10 @@ export default function HealthyMaterialsPage() {
             <div className={styles.clubbed}>
               <h3 className={`mono ${styles.kicker}`}>The research</h3>
               <p className="lede">
-                Mixed-methods, and honest about scope: a desk-research spine plus
-                four primary engagements — a materials-library field visit and
-                three practitioner interviews — read for where adoption stalls,
-                not to measure attitudes.
+                Mixed methods on a deliberately small scope: a desk-research
+                spine plus four primary engagements — a materials-library field
+                visit and three practitioner interviews — read for where
+                adoption stalls, not to measure attitudes.
               </p>
               <div className={styles.rcols}>
                 <div className={styles.rcol}>
@@ -301,7 +301,7 @@ export default function HealthyMaterialsPage() {
                 </ul>
 
                 <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn · areas of opportunity</p>
+                  <p className={styles.turnLabel}>the turn</p>
                   <ol className={styles.leverage}>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>01</span>
@@ -382,7 +382,7 @@ export default function HealthyMaterialsPage() {
                 </ul>
 
                 <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn · areas of opportunity</p>
+                  <p className={styles.turnLabel}>the turn</p>
                   <ol className={styles.leverage} start={4}>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>04</span>
@@ -453,7 +453,7 @@ export default function HealthyMaterialsPage() {
                 </ul>
 
                 <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn · areas of opportunity</p>
+                  <p className={styles.turnLabel}>the turn</p>
                   <p className={styles.turnClose}>
                     Proof compounds awareness — every project that documents its
                     materials and outcomes creates the market force that makes the
@@ -498,7 +498,7 @@ export default function HealthyMaterialsPage() {
                   Pre-assembled spec packages for common NYC interior scopes (unit
                   renovation, corridor, lobby, bathroom) that swap in vetted
                   healthier / lower-carbon materials, with a simple cost +
-                  maintenance + carbon comparison to “business-as-usual.” It
+                  maintenance + carbon comparison to “business as usual.” It
                   attacks cost fear at the earliest spec stage and keeps healthy
                   options as the default instead of being value-engineered out.
                 </p>
@@ -563,7 +563,7 @@ export default function HealthyMaterialsPage() {
                 carbon, and health totals recompute. Flip on the cost-pressure
                 lens to see which lines a value-engineering pass would attack —
                 and the defense each one carries. The built-in assistant answers
-                from the package you&apos;ve configured, over a real model API.
+                from the package you&apos;ve configured.
               </p>
             </div>
           </div>

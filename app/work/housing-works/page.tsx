@@ -175,7 +175,7 @@ export default function HousingWorksPage() {
               <span className={`mono ${styles.passNo}`}>04</span>
               <p className={styles.passBody}>
                 <strong>Gen Z directly.</strong> We ran an interactive poster
-                survey across campus (127 responses) and a “Bridges and
+                survey across campus (127 responses) and a “Bridges &amp;
                 Barriers” workshop, then clustered what we heard into a short set
                 of findings.
               </p>
@@ -292,7 +292,7 @@ export default function HousingWorksPage() {
       {/* ============ WORKSHOP 02 — BRIDGES AND BARRIERS ============ */}
       <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>Workshop 02 · Bridges and Barriers</p>
+          <p className={`mono ${styles.kicker}`}>Workshop 02 · Bridges &amp; Barriers</p>
           <h2 className={styles.wsHeading}>Mapping the bridges and the barriers.</h2>
 
           <div className={styles.bridgesText}>
@@ -306,10 +306,8 @@ export default function HousingWorksPage() {
             <p className={styles.body}>
               Every proposed fix went onto an effort-versus-engagement matrix, so
               the high-impact, low-effort moves rose to the top. Recognition kept
-              beating pay — as one participant put it, “It’s not even just about
-              the pay. It’s also about being acknowledged.” Unclear career paths
-              came up again and again, and even a TV in the break room landed as
-              an easy win.
+              beating pay. Unclear career paths came up again and again, and even
+              a TV in the break room landed as an easy win.
             </p>
             <p className={styles.body}>
               Those signals fed straight into our findings and proposals —
@@ -522,9 +520,9 @@ export default function HousingWorksPage() {
               </svg>
               <h3 className={styles.propName}>
                 <span className={styles.mineDot} aria-hidden="true" />
-                Trustee-Led Workshops
+                Trustee Workshops
               </h3>
-              <p className={`mono ${styles.propBy}`}>mine</p>
+              <p className={`mono ${styles.propBy}`}>me</p>
               <p className={styles.body}>
                 Acts on the plan’s commitment to offer training and development to
                 Board members and managers, and on its promise that it’s not just
@@ -549,7 +547,7 @@ export default function HousingWorksPage() {
             into a short, structured session: 45 minutes — a quick intro, a
             discussion, a hands-on sprint, and questions. Each session is
             recorded, summarized, and archived, so what’s taught stays with the
-            team.
+            team. Its share of the three-framework budget: $900 a year.
           </p>
 
           {/* convergence diagram: need × trustee × strategy → workshop (§6) */}
@@ -576,10 +574,10 @@ export default function HousingWorksPage() {
           </svg>
 
           <p className={styles.body}>
-            Below is a working slice of that system, as the People team would
-            use it: an open needs queue, a matcher that scores every trustee in
-            the open, the session itself — captured, summarized, and badged —
-            and an archive the built-in assistant answers from.
+            Below is the working version of that system, as the People team
+            would use it: an open needs queue, a matcher that scores every
+            trustee in the open, the session itself — captured, summarized, and
+            badged — and an archive the built-in assistant answers from.
           </p>
 
           {/* session timeline: 45 min split 5 / 15 / 15 / 10 (§6) */}
