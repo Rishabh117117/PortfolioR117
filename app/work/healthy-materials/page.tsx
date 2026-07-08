@@ -257,6 +257,16 @@ export default function HealthyMaterialsPage() {
 
             <ol className={styles.journey}>
               <li className={styles.stage}>
+                <div className={styles.jnode}>
+                  <span className={styles.jnodeIcon} aria-hidden="true">
+                    {/* drafting sheet + pencil — design & spec */}
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="5" y="4" width="12.5" height="17" rx="1.5" />
+                      <path d="M8 9.5h6.5M8 13h4.5" />
+                      <path d="M16.5 23.5 24 12l-2.6-1.7-7.5 11.5-.4 3z" fill="var(--card)" />
+                    </svg>
+                  </span>
+                </div>
                 <div className={styles.stageHead}>
                   <span className={styles.stageNo}>Stage 01</span>
                   <div>
@@ -265,6 +275,7 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </div>
 
+                <p className={styles.probLabel}>problems / insights</p>
                 <ul className={styles.frictionList}>
                   <li className={styles.friction}>
                     Owners don&apos;t ask. If healthy materials aren&apos;t in the
@@ -284,7 +295,7 @@ export default function HealthyMaterialsPage() {
                 </ul>
 
                 <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn</p>
+                  <p className={styles.turnLabel}>the turn · areas of opportunity</p>
                   <ol className={styles.leverage}>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>01</span>
@@ -323,13 +334,18 @@ export default function HealthyMaterialsPage() {
                 </blockquote>
               </li>
 
-              <li className={styles.stageArrow} aria-hidden="true">
-                <svg viewBox="0 0 22 22" fill="none">
-                  <path d="M11 2v18M4 13l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </li>
-
               <li className={styles.stage}>
+                <div className={styles.jnode}>
+                  <span className={styles.jnodeIcon} aria-hidden="true">
+                    {/* tower crane — procurement & build */}
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 24V7.5M4 24h10" />
+                      <path d="M4.5 7.5H24M9 3.5v4M9 12l6.5-4.5" />
+                      <path d="M21 7.5v6.5" />
+                      <rect x="19.4" y="14" width="3.2" height="3.2" />
+                    </svg>
+                  </span>
+                </div>
                 <div className={styles.stageHead}>
                   <span className={styles.stageNo}>Stage 02</span>
                   <div>
@@ -338,6 +354,7 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </div>
 
+                <p className={styles.probLabel}>problems / insights</p>
                 <ul className={styles.frictionList}>
                   <li className={styles.friction}>
                     Cost overrides almost everything. Low-bid procurement and
@@ -357,7 +374,7 @@ export default function HealthyMaterialsPage() {
                 </ul>
 
                 <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn</p>
+                  <p className={styles.turnLabel}>the turn · areas of opportunity</p>
                   <ol className={styles.leverage} start={4}>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>04</span>
@@ -389,13 +406,18 @@ export default function HealthyMaterialsPage() {
                 </blockquote>
               </li>
 
-              <li className={styles.stageArrow} aria-hidden="true">
-                <svg viewBox="0 0 22 22" fill="none">
-                  <path d="M11 2v18M4 13l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </li>
-
               <li className={styles.stage}>
+                <div className={styles.jnode}>
+                  <span className={styles.jnodeIcon} aria-hidden="true">
+                    {/* occupied building + proof check — occupancy & proof */}
+                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5.5 24V8.5L11 4.5l5.5 4V24" />
+                      <path d="M8.5 11.5h1.6M12 11.5h1.6M8.5 15.5h1.6M12 15.5h1.6M8.5 19.5h1.6" />
+                      <circle cx="20.5" cy="19" r="5.2" fill="var(--card)" />
+                      <path d="M18.3 19l1.6 1.6 2.9-3.1" />
+                    </svg>
+                  </span>
+                </div>
                 <div className={styles.stageHead}>
                   <span className={styles.stageNo}>Stage 03</span>
                   <div>
@@ -404,6 +426,7 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </div>
 
+                <p className={styles.probLabel}>problems / insights</p>
                 <ul className={styles.frictionList}>
                   <li className={styles.friction}>
                     Results stay invisible. Nobody measures what the healthier
@@ -421,7 +444,7 @@ export default function HealthyMaterialsPage() {
                 </ul>
 
                 <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn</p>
+                  <p className={styles.turnLabel}>the turn · areas of opportunity</p>
                   <p className={styles.turnClose}>
                     Proof compounds awareness — every project that documents its
                     materials and outcomes creates the market force that makes the
