@@ -397,8 +397,9 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
-/* timeline node — the stage's icon, sitting on the journey spine (the spine
-   line itself only draws at >=880px, where the three stages sit in a row) */
+/* timeline node — the stage's bare line-glyph (Housing-Works glyph language:
+   ink figure + one accent detail, no container). The connector only draws at
+   >=880px, where the three stages sit in a row. */
 .jnode {
   position: relative;
   display: flex;
@@ -406,19 +407,51 @@
 .jnodeIcon {
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, var(--card));
-  border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  display: block;
+  width: 66px;
+  height: 62px;
 }
 .jnodeIcon svg {
-  width: 27px;
-  height: 27px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* the glyph strokes — HW's .hw-line treatment, module-scoped */
+.jline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.jlineAcc {
+  stroke: var(--accent);
+}
+/* draw-on-scroll: dashes collapse when the journey list (its own [data-reveal]
+   target) earns .is-revealed from the shared Reveal observer. Gated behind
+   html.reveal-on so a no-JS load shows the figures instantly, like HW. */
+:global(html.reveal-on) .journey .jline {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.25s ease;
+}
+:global(html.reveal-on) .journey:global(.is-revealed) .jline {
+  stroke-dashoffset: 0;
+}
+/* the three glyphs draw in journey order */
+:global(html.reveal-on) .journey .stage:nth-child(2) .jline {
+  transition-delay: 0.22s;
+}
+:global(html.reveal-on) .journey .stage:nth-child(3) .jline {
+  transition-delay: 0.44s;
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(html.reveal-on) .journey .jline {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
 }
 .stageHead {
   display: flex;
@@ -1030,23 +1063,31 @@
   .jnode {
     margin-bottom: var(--space-2);
   }
-  /* the spine: a tinted line at icon-center height, bleeding across the grid
-     gap so the three segments read as one continuous journey line */
+  /* the route between stages: a dashed line from each glyph to the next,
+     ending in an arrowhead — direction, not just connection */
   .jnode::before {
     content: "";
     position: absolute;
-    top: 23px;
-    height: 2px;
-    left: 0;
-    right: calc(-1 * var(--space-7));
-    background: color-mix(in srgb, var(--accent) 26%, transparent);
+    top: 29px;
+    height: 0;
+    left: 80px;
+    right: calc(-1 * var(--space-7) + 22px);
+    border-top: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent);
   }
-  .stage:first-child .jnode::before {
-    left: 24px;
+  .jnode::after {
+    content: "";
+    position: absolute;
+    top: 25.5px;
+    right: calc(-1 * var(--space-7) + 18px);
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+    border-right: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+    transform: rotate(45deg);
   }
-  .stage:last-child .jnode::before {
-    right: auto;
-    width: 24px;
+  .stage:last-child .jnode::before,
+  .stage:last-child .jnode::after {
+    display: none;
   }
 }
 

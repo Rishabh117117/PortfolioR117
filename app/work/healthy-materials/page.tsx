@@ -255,15 +255,21 @@ export default function HealthyMaterialsPage() {
               after construction. The quotes are the evidence.
             </p>
 
-            <ol className={styles.journey}>
+            <ol className={styles.journey} data-reveal>
               <li className={styles.stage}>
                 <div className={styles.jnode}>
                   <span className={styles.jnodeIcon} aria-hidden="true">
-                    {/* drafting sheet + pencil — design & spec */}
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="5" y="4" width="12.5" height="17" rx="1.5" />
-                      <path d="M8 9.5h6.5M8 13h4.5" />
-                      <path d="M16.5 23.5 24 12l-2.6-1.7-7.5 11.5-.4 3z" fill="var(--card)" />
+                    {/* drafting sheet + pencil — design & spec (HW line-glyph
+                        language: ink figure, accent detail, draw-on-scroll) */}
+                    <svg viewBox="0 0 60 56">
+                      <rect className={styles.jline} pathLength="1" x="13" y="6" width="25" height="42" />
+                      <path className={styles.jline} pathLength="1" d="M18 15 L33 15" />
+                      <path className={styles.jline} pathLength="1" d="M18 22 L29 22" />
+                      <path className={styles.jline} pathLength="1" d="M18 29 L26 29" />
+                      <path className={`${styles.jline} ${styles.jlineAcc}`} pathLength="1" d="M33 47 L53 19" />
+                      <path className={`${styles.jline} ${styles.jlineAcc}`} pathLength="1" d="M37 50 L57 22" />
+                      <path className={`${styles.jline} ${styles.jlineAcc}`} pathLength="1" d="M53 19 L57 22" />
+                      <path className={`${styles.jline} ${styles.jlineAcc}`} pathLength="1" d="M30 52.5 L33 47 M30 52.5 L37 50" />
                     </svg>
                   </span>
                 </div>
@@ -338,11 +344,13 @@ export default function HealthyMaterialsPage() {
                 <div className={styles.jnode}>
                   <span className={styles.jnodeIcon} aria-hidden="true">
                     {/* tower crane — procurement & build */}
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 24V7.5M4 24h10" />
-                      <path d="M4.5 7.5H24M9 3.5v4M9 12l6.5-4.5" />
-                      <path d="M21 7.5v6.5" />
-                      <rect x="19.4" y="14" width="3.2" height="3.2" />
+                    <svg viewBox="0 0 60 56">
+                      <path className={styles.jline} pathLength="1" d="M10 50 L34 50" />
+                      <path className={styles.jline} pathLength="1" d="M22 50 L22 12" />
+                      <path className={styles.jline} pathLength="1" d="M8 12 L52 12" />
+                      <path className={styles.jline} pathLength="1" d="M22 20 L36 12" />
+                      <path className={styles.jline} pathLength="1" d="M46 12 L46 28" />
+                      <rect className={`${styles.jline} ${styles.jlineAcc}`} pathLength="1" x="42.5" y="28" width="7" height="7" />
                     </svg>
                   </span>
                 </div>
@@ -410,11 +418,12 @@ export default function HealthyMaterialsPage() {
                 <div className={styles.jnode}>
                   <span className={styles.jnodeIcon} aria-hidden="true">
                     {/* occupied building + proof check — occupancy & proof */}
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5.5 24V8.5L11 4.5l5.5 4V24" />
-                      <path d="M8.5 11.5h1.6M12 11.5h1.6M8.5 15.5h1.6M12 15.5h1.6M8.5 19.5h1.6" />
-                      <circle cx="20.5" cy="19" r="5.2" fill="var(--card)" />
-                      <path d="M18.3 19l1.6 1.6 2.9-3.1" />
+                    <svg viewBox="0 0 60 56">
+                      <path className={styles.jline} pathLength="1" d="M10 50 L44 50" />
+                      <path className={styles.jline} pathLength="1" d="M14 50 L14 10 L36 10 L36 50" />
+                      <path className={styles.jline} pathLength="1" d="M23 50 L23 42 L27 42 L27 50" />
+                      <path className={styles.jline} pathLength="1" d="M19 17 L23 17 M27 17 L31 17 M19 25 L23 25 M27 25 L31 25 M19 33 L23 33" />
+                      <path className={`${styles.jline} ${styles.jlineAcc}`} pathLength="1" d="M38 36 L45 43 L58 26" />
                     </svg>
                   </span>
                 </div>
