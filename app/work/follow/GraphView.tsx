@@ -477,7 +477,7 @@ export default function GraphView({
   return (
     <>
       <p className={s.graphBlurb}>
-        ◆ every fact wired to the thread or file it came from — drag the graph to look around.
+        ◆ the whole memory as one structure — drag the graph to look around.
       </p>
       <div
         ref={wrapRef}

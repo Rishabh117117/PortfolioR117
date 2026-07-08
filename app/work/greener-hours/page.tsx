@@ -51,7 +51,7 @@ const SLUG = "greener-hours";
 export const metadata: Metadata = {
   title: "Greener Hours",
   description:
-    "Greener Hours — an open accountability standard for AI compute carbon disclosure, with three implementation surfaces that turn invisible energy costs into legible procurement infrastructure. A Design-for-a-Warming-World case study.",
+    "Greener Hours — a proposed open standard that puts a carbon number on every AI API response, and three tools built on it: a chat indicator, a job scheduler, and a procurement dashboard. A Design-for-a-Warming-World course project.",
 };
 
 const FORCE_VARIANTS = ["regulatory", "procurement", "infrastructure"] as const;
@@ -241,8 +241,8 @@ export default function GreenerHoursPage() {
             <GhApp compact />
             <p className={styles.source}>
               The P-codes on each surface map to the ten design principles from
-              the <em>Design for a Warming World</em> course (SP26 syllabus) — the
-              project was developed roughly against that framework.
+              the <em>Design for a Warming World</em> course (SP26 syllabus) — I
+              built the project against that framework.
             </p>
             <p className={`mono ${styles.demoFoot}`}>
               <Link href="/work/greener-hours/prototype">open the prototype full-screen ↗</Link>
@@ -272,7 +272,7 @@ export default function GreenerHoursPage() {
         {/* ============ §9 SPECULATIVE KPIs ============ */}
         <section className={`section ${styles.band}`}>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 08 · If the wedge works</p>
+            <p className={styles.kicker}>§ 08 · If it works</p>
             <h2 className={styles.title}>
               When compute disclosure becomes <em>a normal procurement field.</em>
             </h2>

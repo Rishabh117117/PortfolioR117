@@ -194,7 +194,9 @@ function GhAppInner({ compact }: { compact: boolean }) {
         </div>
 
         <p className={s.honesty}>
-          Working prototype · one shared simulation · grid &amp; dashboard figures are illustrative
+          Concept prototype · illustrative data — one shared simulation; grid &amp;
+          dashboard figures are invented · chat runs on a live model API via a
+          server-side proxy
         </p>
       </div>
     </div>

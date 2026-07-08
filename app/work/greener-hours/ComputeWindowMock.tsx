@@ -58,7 +58,7 @@ export default function ComputeWindowMock() {
     setLoading(true);
     try {
       const best = findCleanest(simHour, 12);
-      const context = `Simulated live grid, region us-east-1: it is ${hh(simHour)}:00; current intensity ${intensity} gCO2e/kWh (${ind.label}). Cleanest hour in the next 12h: ${hh(best.hour)}:00 at ${best.intensity} gCO2e/kWh. Tier-2 flexible queue: ${jobs.length} job(s), ${jobs.filter((j) => j.status === "queued").length} queued. The user sees a Compute Window Indicator pill with exactly this state.`;
+      const context = `Simulated live grid, region us-east-1: it is ${hh(simHour)}:00; current intensity ${intensity} gCO2e/kWh (${ind.label}). Cleanest window in the next 12h: ${hh(best.hour)}:00 at ${best.intensity} gCO2e/kWh. Tier-2 flexible queue: ${jobs.length} job(s), ${jobs.filter((j) => j.status === "queued").length} queued. The user sees a Compute Window Indicator pill with exactly this state.`;
       const history = next
         .filter((m) => !m.error)
         .slice(1) // drop the canned greeting
@@ -113,7 +113,7 @@ export default function ComputeWindowMock() {
           <div className={s.topbar}>
             <div className={s.model}>
               <span className={s.modelLbl}>MODEL</span>
-              <span className={s.modelName}>Sonnet 4.6 ▾</span>
+              <span className={s.modelName}>Sonnet 4.7 ▾</span>
             </div>
             <div
               className={s.pill}

@@ -7,7 +7,7 @@ import styles from "./prototype.module.css";
 export const metadata: Metadata = {
   title: "Follow — product replica",
   description:
-    "The live Follow product replica: All items, Conversations, Files, and Facts on a pre-loaded team workspace — captured transcripts with the MCP tool loop on the wire, uploaded files, per-entry provenance, contested pairs flagged instead of resolved, a who-knows-what directory, and Ask Follow — a grounded model answering from the shared memory. Sample data.",
+    "The live Follow product replica on a pre-loaded team workspace: captured transcripts with the MCP tool loop on the wire, uploaded files, per-entry provenance, and contested pairs flagged instead of resolved. Ask Follow answers from the shared memory over a live model. Sample data.",
 };
 
 export default function FollowPrototypePage() {

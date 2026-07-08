@@ -13,7 +13,7 @@ export default function VisibilityFlow() {
       viewBox="0 0 1700 520"
       preserveAspectRatio="xMidYMid meet"
       role="img"
-      aria-label="The user queries the AI — everything past the line of visibility is dark matter: the AI surface, the data centre, the grid, and the fuel mix (renewable and fossil) that actually powers each request."
+      aria-label="The user queries the AI — everything past the line of visibility is dark matter: the AI surface, the data center, the grid, and the fuel mix (renewable and fossil) that actually powers each request."
       style={{ width: "100%", height: "auto", display: "block" }}
     >
       <defs>

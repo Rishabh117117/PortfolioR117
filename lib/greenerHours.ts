@@ -7,9 +7,9 @@
 
 // ---- Hero -----------------------------------------------------------------
 export const HERO = {
-  eyebrow: "A design specification",
+  eyebrow: "A proposed standard",
   lede:
-    "An open accountability standard for AI compute carbon disclosure — three implementation surfaces that turn invisible energy costs into legible procurement infrastructure.",
+    "Every AI API response carries a new number — how clean the power behind it was. Three tools show what that unlocks: a chat indicator, a job scheduler, and a procurement dashboard.",
   meta: [
     { k: "Course", v: "Design for a Warming World" },
     { k: "Program", v: "MS Strategic Design & Management · Parsons" },
@@ -104,7 +104,7 @@ export const TIERS: Tier[] = [
     name: "Flexible Compute Scheduler",
     short: "Scheduler",
     job: "Set a deadline; the system routes the task to the cleanest grid window. The same UX pattern as EV charging.",
-    blurb: "Set a deadline; it runs at the cleanest hour.",
+    blurb: "Set a deadline; it runs in the cleanest window.",
     hero: false,
   },
   {
@@ -125,7 +125,7 @@ export const SUBSTRATE = {
 // Per-tier principles (shown beside each tier's mockup in the tabbed product view)
 export type Principle = { code: string; kind: "anchor" | "load" | "support"; name: string; insight: string };
 export const TIER1_PRINCIPLES: Principle[] = [
-  { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "The indicator makes invisible energy costs legible — at the point of use." },
+  { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "Surfaces the dark matter — the energy cost — right at the point of use." },
   { code: "P5", kind: "load", name: "Culture", insight: "Procurement language (“g/kWh · region”), not climate framing." },
   { code: "P7", kind: "load", name: "Tech as both", insight: "Treats AI as both an energy sink and a disclosure surface." },
 ];
@@ -198,9 +198,9 @@ export const PRECEDENTS: Precedent[] = [
 // ---- §12 Honest trade-offs -------------------------------------------------
 export type Tradeoff = { no: string; title: string; body: string };
 export const TRADEOFFS: Tradeoff[] = [
-  { no: "01", title: "The structural tension", body: "The biggest lever for AI's footprint is supply-side — siting, PPAs, grid decarbonization. Greener Hours operates on a derivative lever: user-facing legibility pressuring the supply side. The bet is contestable; the HTTPS analog suggests the pattern works, but the timeline is uncertain." },
+  { no: "01", title: "The structural tension", body: "The biggest lever for AI's footprint is supply-side — siting, PPAs, grid decarbonization. Greener Hours operates on a derivative lever: user-facing visibility pressuring the supply side. The bet is contestable; the HTTPS analog suggests the pattern works, but the timeline is uncertain." },
   { no: "02", title: "Greenwashing capture risk", body: "Open standards get captured. Three guardrails: an open-source reference implementation, third-party verification of disclosure claims, and an anti-rebound layer that surfaces total consumption alongside efficiency. None is sufficient alone." },
-  { no: "03", title: "Visibility ≠ behavior change", body: "The sharpest midterm critique, addressed structurally: Tier 1 is not a behavior tool. Behavior change happens at Tier 2 (a one-click default) and Tier 3 (institutional decisions). Tier 1's job is legibility that creates supply-side pressure." },
+  { no: "03", title: "Visibility ≠ behavior change", body: "The sharpest critique I got at midterm — and the answer is structural, not defensive: Tier 1 is not a behavior tool. Behavior change happens at Tier 2 (a one-click default) and Tier 3 (institutional decisions). Tier 1's job is to make the cost visible, and visible costs create supply-side pressure." },
   { no: "04", title: "The sufficiency limit", body: "Greener Hours is a timing-and-disclosure intervention, not a sufficiency one. It does not advocate using less AI. Tier 3 makes absolute usage visible — but visibility is not advocacy." },
 ];
 
@@ -214,7 +214,7 @@ export const KPIS: Kpi[] = [
   { figure: "1", label: "Regulatory", sub: "EU AI Act or California SB 253 references the spec — the mandate moment." },
   { figure: "∞", label: "Cultural", sub: "“What's your compute-carbon disclosure?” becomes a normal sales question." },
 ];
-export const KPI_CAVEAT = "Directional, not predictive — what a working wedge could move, not measured outcomes.";
+export const KPI_CAVEAT = "Directional, not predictive — these are the moves I'd watch for, not measured outcomes.";
 
 // ---- §14 Close ------------------------------------------------------------
 export const CLOSE = {

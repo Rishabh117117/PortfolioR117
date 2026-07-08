@@ -48,7 +48,8 @@ export default function FollowPage() {
             Follow<span className={styles.dot}>.</span>
           </h1>
           <p className={styles.heroTitle}>
-            AI made everyone faster. Follow makes teams <em>smarter</em>.
+            The reasoning behind your team&rsquo;s work now lives in{" "}
+            <em>private</em> AI chats.
           </p>
           <p className={styles.heroSub}>
             Follow sits <em>between</em> your team’s AI tools and turns every
@@ -432,8 +433,7 @@ export default function FollowPage() {
                 worked it out, in which chat, and what it connects to.
               </p>
               <p className={styles.writeupBody}>
-                Less a search box, more a directory of what your team knows and
-                where it came from.
+                A directory of what your team knows and where it came from.
               </p>
             </aside>
           </div>
@@ -478,10 +478,10 @@ export default function FollowPage() {
           <p className={styles.body}>
             Start on <strong>All items</strong> and skim their week, newest
             first. Open a <strong>conversation</strong> to see how an answer
-            actually happened — the assistant thinks, checks the team&apos;s
+            actually happened: the assistant thinks, checks the team&apos;s
             index, then answers. Open a <strong>file</strong> — the PRD, the
             usability notes, the analytics export. Spin the <strong>Graph</strong> to
-            see the whole memory as one structure — every fact wired to its source,
+            see the whole memory as one structure, every fact wired to its source,
             contradictions in red. Then interrogate the memory
             yourself: <strong>Ask Follow</strong> answers by running
             Follow&apos;s real tools live, thinking and tool calls on screen
@@ -527,8 +527,7 @@ export default function FollowPage() {
               <h3>Shared AI memory</h3>
               <p>
                 One team memory across collaborators — and across whichever AI
-                tool each of them uses. Not a link you send; a layer you all
-                query.
+                tool each of them uses. Everyone queries the same layer.
               </p>
             </div>
             <div className={styles.card}>

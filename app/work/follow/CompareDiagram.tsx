@@ -28,7 +28,7 @@ const COPY: Record<Variant, { tag: string; sub: string; aria: string }> = {
   },
   after: {
     tag: "With Follow",
-    sub: "The Follow Index sits under every AI tool — each reads and writes the same memory, so the whole team shares it, with provenance and contradictions surfaced.",
+    sub: "The Follow Index sits under every AI tool — each reads and writes the same memory, so the whole team shares it, with provenance (who said what, where, when) and contradictions kept visible.",
     aria:
       "With Follow: the three AIs read and write a shared Follow Index — shared memory, provenance, contradiction detection and a directory — that sits between the AIs and the team, so the whole team shares one memory.",
   },
