@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GRID, tone, hh, useGhSim, type GhJob } from "./GhSim";
+import { GRID, tone, hh, findCleanest, useGhSim, type GhJob } from "./GhSim";
 import s from "./TierMocks.module.css";
 
 /**
@@ -37,6 +37,12 @@ export default function SchedulerMock() {
     setIdx((i) => i + 1);
   };
 
+  // mirrors submitJob's own routing exactly (same findCleanest(hour, deadlineWindow)
+  // call) so the preview never promises a window that submission wouldn't pick.
+  const rec = findCleanest(hour, deadline);
+  const recIsNow = rec.hour === hour;
+  const recSavePct = GRID[hour] > 0 ? Math.round(((GRID[hour] - rec.intensity) / GRID[hour]) * 100) : 0;
+
   const queued = jobs.filter((j) => j.status === "queued");
   const W = 480, H = 96, STEP = W / 24, BASE = H - 12, MAXH = BASE - 6;
 
@@ -67,7 +73,17 @@ export default function SchedulerMock() {
               <b>{deadline}h · by {hh((hour + deadline) % 24)}:00</b>
             </div>
             <input className={s.slider} type="range" min={2} max={24} value={deadline} onChange={(e) => setDeadline(parseInt(e.target.value))} aria-label="Deadline window (hours)" />
-            <button className={s.scheduleBtn} onClick={addJob} type="button">+ Schedule flexibly</button>
+            <div className={s.recRow}>
+              <span className={s.recLabel}>Recommended</span>
+              {recIsNow ? (
+                <span className={s.recText}>Now is the cleanest window in range</span>
+              ) : (
+                <span className={s.recText}>
+                  {hh(rec.hour)}:00 · {rec.intensity} g <b className={s.recSave}>↓{recSavePct}%</b> vs now
+                </span>
+              )}
+            </div>
+            <button className={s.scheduleBtn} onClick={addJob} type="button">Schedule into recommended window ▸</button>
           </div>
         </div>
 

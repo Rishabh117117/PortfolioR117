@@ -34,6 +34,19 @@ export function classify(i: number) {
   return { label: "High intensity", varc: "var(--amber)" };
 }
 
+/* T3 dashboard — green/mixed/fossil-heavy hour split, same thresholds as
+   classify() above (green <220, mixed 220–339, fossil-heavy >=340). Computed
+   once over the whole 24h GRID for the "hours on green power" KPI. */
+export function gridSplit() {
+  let green = 0, mixed = 0, fossil = 0;
+  for (const v of GRID) {
+    if (v < 220) green++;
+    else if (v < 340) mixed++;
+    else fossil++;
+  }
+  return { green, mixed, fossil };
+}
+
 /* chart-fill tone (T2 forecast bars): clean = forest, mixed/dirty = ambers */
 export function tone(i: number) {
   if (i < 220) return "var(--accent)";

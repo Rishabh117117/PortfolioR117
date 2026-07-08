@@ -113,6 +113,37 @@
   width: 100%;
   accent-color: var(--amber);
 }
+
+/* GH-REC-1 — recommended-window row: mirrors submitJob's own findCleanest()
+   call so the CTA is always "click to get exactly what's shown here". */
+.recRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: var(--accent-tint);
+}
+.recLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.recText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.recSave {
+  color: var(--accent);
+  font-weight: 600;
+}
 .scheduleBtn {
   margin-top: 14px;
   width: 100%;
@@ -262,25 +293,14 @@
   border: 1px solid var(--line);
   color: var(--ink-2);
 }
-.dtabs {
-  display: flex;
-  gap: 0;
+.dtitle {
+  padding: 14px 18px;
   border-bottom: 1px solid var(--line);
-  padding: 0 18px;
-  overflow-x: auto;
-}
-.dtab {
-  padding: 12px 16px;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--soft);
-  white-space: nowrap;
-}
-.dtab.on {
-  color: var(--amber);
-  border-bottom: 2px solid var(--amber);
+  color: var(--ink-2);
   font-weight: 600;
 }
 .kpiRow {
@@ -329,6 +349,27 @@
   font-family: var(--font-mono);
   color: var(--soft);
   margin-left: 3px;
+}
+
+/* HOURS ON GREEN POWER — 3-segment split bar, same tone family as the T2
+   forecast chart (tone() in GhSim.tsx): clean = accent, mixed = amber-soft,
+   fossil-heavy = amber. */
+.splitBar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+  background: var(--fill);
+}
+.splitGreen {
+  background: var(--accent);
+}
+.splitMixed {
+  background: var(--amber-soft);
+}
+.splitFossil {
+  background: var(--amber);
 }
 .kDelta {
   font-family: var(--font-mono);

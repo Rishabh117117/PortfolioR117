@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GRID, hh, useGhSim } from "./GhSim";
+import { GRID, hh, gridSplit, useGhSim } from "./GhSim";
 import "./diagrams.css";
 import s from "./TierMocks.module.css";
 
@@ -21,7 +21,6 @@ const DAYS: [number, number][] = [
 ];
 const BASE = 150, TOP = 12, MAXH = BASE - TOP, STEP = 39, X0 = 8;
 
-const TABS = ["Operational efficiency", "Supply chain", "Cost-of-compute", "Teams"];
 const BY_TEAM: [string, number, string][] = [
   ["R&D", 78, "782k"], ["Eng", 64, "621k"], ["Mktg", 44, "428k"], ["Ops", 28, "275k"],
 ];
@@ -51,6 +50,9 @@ export default function DashboardMock() {
   // jitter only applies while the shared sim is running — when the T2 scheduler
   // is paused (auto=false) the pill freezes, so this must freeze to match it.
   const avg = GRID[hour] + (live && auto ? jitter : 0);
+  // "hours on green power" — a straight tally over the 24h GRID using the same
+  // thresholds as the T1 indicator pill (classify() in GhSim.tsx).
+  const split = gridSplit();
 
   return (
     <>
@@ -74,11 +76,7 @@ export default function DashboardMock() {
         </div>
       </div>
 
-      <div className={s.dtabs}>
-        {TABS.map((t, i) => (
-          <span key={t} className={`${s.dtab} ${i === 0 ? s.on : ""}`}>{t}</span>
-        ))}
-      </div>
+      <div className={s.dtitle}>Operational efficiency</div>
 
       <div className={s.kpiRow}>
         <div className={s.kpiCard}>
@@ -92,9 +90,17 @@ export default function DashboardMock() {
           <div className={`${s.kDelta} ${s.down}`}>−24% vs Apr</div>
         </div>
         <div className={s.kpiCard}>
-          <div className={s.kLab}>PEAK INTENSITY</div>
-          <div className={s.kFig}>578<span className={s.u}>g/kWh</span></div>
-          <div className={`${s.kDelta} ${s.mut}`}>May 14 · 14:00 ET</div>
+          <div className={s.kLab}>HOURS ON GREEN POWER</div>
+          <div className={s.kFig}>{split.green}<span className={s.u}>of 24h</span></div>
+          <div className={s.splitBar}>
+            <span className={s.splitGreen} style={{ width: `${(split.green / 24) * 100}%` }} />
+            <span className={s.splitMixed} style={{ width: `${(split.mixed / 24) * 100}%` }} />
+            <span className={s.splitFossil} style={{ width: `${(split.fossil / 24) * 100}%` }} />
+          </div>
+          <div className={`${s.kDelta} ${s.mut}`}>
+            {split.green}h green · {split.mixed}h mixed · {split.fossil}h fossil-heavy
+          </div>
+          <div className={`${s.kDelta} ${s.mut}`}>May: 62% of compute-hours on green power · 38% not</div>
         </div>
         <div className={`${s.kpiCard} ${s.dark}`}>
           <div className={s.kLab}>EST. SCOPE 3 · MAY</div>

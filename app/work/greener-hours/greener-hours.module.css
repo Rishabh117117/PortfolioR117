@@ -172,7 +172,8 @@
 }
 @media (min-width: 768px) {
   .heroMeta {
-    grid-template-columns: repeat(4, auto);
+    /* GH-PRIVACY-1 — three meta items now (Instructor row removed) */
+    grid-template-columns: repeat(3, auto);
   }
 }
 .metaItem .k {
@@ -278,6 +279,29 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+/* SWIPE-MOBILE-1 — below the 760px grid breakpoint, scroll-snap swipe instead
+   of stacked rows. Bleed matches the container's own --page-pad so cards align
+   with the text edge; .page keeps overflow-x:clip so this never causes h-scroll. */
+@media (max-width: 759px) {
+  .buckets {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: stretch;
+    margin-inline: calc(var(--page-pad) * -1);
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .buckets::-webkit-scrollbar {
+    display: none;
+  }
+  .buckets > * {
+    flex: 0 0 min(82%, 330px);
+    scroll-snap-align: start;
+  }
+}
 .bucket .lbl {
   font-family: var(--font-mono);
   font-size: var(--fs-label);
@@ -364,6 +388,29 @@
 @media (min-width: 760px) {
   .cards3 {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* SWIPE-MOBILE-1 — used twice (precedents + forces); .force cards rely on
+   flex-column + margin-top:auto internally (see .ftake below), so this row
+   keeps align-items:stretch (flex default) to give every card equal height. */
+@media (max-width: 759px) {
+  .cards3 {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: stretch;
+    margin-inline: calc(var(--page-pad) * -1);
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .cards3::-webkit-scrollbar {
+    display: none;
+  }
+  .cards3 > * {
+    flex: 0 0 min(82%, 330px);
+    scroll-snap-align: start;
   }
 }
 .force {
@@ -546,6 +593,28 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+/* SWIPE-MOBILE-1 — 4 cards; align-items:stretch keeps the left accent border
+   running the full card height across the row. */
+@media (max-width: 759px) {
+  .tradeoffs {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: stretch;
+    margin-inline: calc(var(--page-pad) * -1);
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+  }
+  .tradeoffs::-webkit-scrollbar {
+    display: none;
+  }
+  .tradeoffs > * {
+    flex: 0 0 min(82%, 330px);
+    scroll-snap-align: start;
+  }
+}
 .tradeoff {
   border-left: 3px solid var(--amber);
   padding-left: var(--space-4);
@@ -577,6 +646,13 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
+}
+/* SWIPE-MOBILE-1 — 2-col compact tiles even on the smallest phones (was
+   1-col below the 560px breakpoint below); scoped tight so it can't fight it. */
+@media (max-width: 559px) {
+  .kpiGrid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 @media (min-width: 560px) {
   .kpiGrid {
@@ -650,6 +726,13 @@
   gap: var(--space-4);
   border-top: 1px solid var(--navy);
   padding-top: var(--space-5);
+}
+/* SWIPE-MOBILE-1 — 2-col compact stat tiles on mobile (was 1-col below the
+   700px breakpoint below); scoped tight so it can't fight it. */
+@media (max-width: 699px) {
+  .closeMeta {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 @media (min-width: 700px) {
   .closeMeta {
