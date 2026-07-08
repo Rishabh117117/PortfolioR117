@@ -32,7 +32,7 @@ import s from "./WorkshopsApp.module.css";
  * the matcher's footnote say so on-product.
  */
 
-type View = "match" | "sessions" | "archive";
+type View = "match" | "plan" | "sessions" | "archive";
 
 type Queued = {
   id: string;
@@ -44,7 +44,16 @@ type Queued = {
   template: HwTemplate;
 };
 
+type Draft = {
+  needId: string;
+  needLabel: string;
+  votes: number;
+  trusteeId: string;
+  trustee: string;
+};
+
 type RunPhase = "idle" | "transcript" | "summary" | "done";
+type PlanPhase = "drafting" | "ready";
 
 /* ---- mobile app-shell icons (≤719px bottom tab bar + Program button) ---- */
 const svgProps = {
@@ -103,6 +112,33 @@ function IconProgram() {
   );
 }
 
+/* quiet step-by-step strip for Match + Plan — a guided sequence, not a wizard */
+const STEP_LABELS = ["Pick a need", "Match a trustee", "Review the lesson plan", "Schedule"];
+function StepTrack({ current }: { current: number }) {
+  return (
+    <ol className={s.stepTrack} aria-label="Workflow progress">
+      {STEP_LABELS.map((label, i) => {
+        const n = i + 1;
+        return (
+          <li
+            key={label}
+            className={`${s.step} ${n === current ? s.stepOn : ""}`}
+            aria-current={n === current ? "step" : undefined}
+          >
+            <span className={s.stepNo}>{String(n).padStart(2, "0")}</span>
+            <span className={s.stepLabel}>{label}</span>
+            {n < STEP_LABELS.length && (
+              <span className={s.stepArrow} aria-hidden="true">
+                →
+              </span>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 export default function WorkshopsApp() {
   const [view, setView] = useState<View>("match");
   const [selNeedId, setSelNeedId] = useState<string | null>(HW_NEEDS[0].id);
@@ -110,6 +146,8 @@ export default function WorkshopsApp() {
   const [archive, setArchive] = useState<HwArchived[]>(HW_ARCHIVE_SEED);
   const [handled, setHandled] = useState<Record<string, boolean>>({});
   const [extraLoad, setExtraLoad] = useState<Record<string, number>>({});
+  const [draft, setDraft] = useState<Draft | null>(null);
+  const [planPhase, setPlanPhase] = useState<PlanPhase>("drafting");
   const [run, setRun] = useState<{ id: string; phase: RunPhase; turns: number } | null>(null);
   const [query, setQuery] = useState("");
   const [tagFilter, setTagFilter] = useState<string | null>(null);
@@ -199,6 +237,30 @@ export default function WorkshopsApp() {
       ),
     [archive, queue, openNeeds],
   );
+
+  // Match → "Draft lesson plan" lands here instead of scheduling straight away —
+  // the plan view (below) shows a short drafting beat, then the artifact itself.
+  function draftPlan(needId: string, needLabel: string, votes: number, trusteeId: string, trusteeName: string) {
+    setDraft({ needId, needLabel, votes, trusteeId, trustee: trusteeName });
+    goView("plan");
+  }
+
+  // drives the plan view's drafting beat — same clear-then-schedule convention as
+  // startRun's transcript timers, against the same shared timer list. Timers are
+  // cleared before scheduling the new one, so a superseded draft's timer can never
+  // fire after it (mirrors startRun's own guarantee, just without startRun's extra
+  // id-check, which exists there only because multiple runs can be mid-flight).
+  useEffect(() => {
+    timers.current.forEach(clearTimeout);
+    timers.current.length = 0;
+    if (!draft) return;
+    if (reduceMotion.current) {
+      setPlanPhase("ready");
+      return;
+    }
+    setPlanPhase("drafting");
+    timers.current.push(setTimeout(() => setPlanPhase("ready"), 700));
+  }, [draft]);
 
   function schedule(needId: string, trusteeId: string, trusteeName: string) {
     const need = HW_NEEDS.find((n) => n.id === needId);
@@ -432,6 +494,7 @@ export default function WorkshopsApp() {
           {/* ======== MATCH VIEW ======== */}
           {view === "match" && (
             <>
+              <StepTrack current={selNeed ? 2 : 1} />
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Open staff needs</h3>
                 <p className={s.mainBlurb}>
@@ -490,9 +553,11 @@ export default function WorkshopsApp() {
                       <button
                         type="button"
                         className={`${s.schedBtn} ${i === 0 ? s.schedBtnPrimary : ""}`}
-                        onClick={() => schedule(selNeed.id, m.trustee.id, m.trustee.name)}
+                        onClick={() =>
+                          draftPlan(selNeed.id, selNeed.label, selNeed.votes, m.trustee.id, m.trustee.name)
+                        }
                       >
-                        Schedule ▸
+                        Draft lesson plan ▸
                       </button>
                     </article>
                   ))}
@@ -500,6 +565,83 @@ export default function WorkshopsApp() {
                     The score is a real computation over illustrative data — not model output.
                   </p>
                 </div>
+              )}
+            </>
+          )}
+
+          {/* ======== PLAN VIEW ======== */}
+          {view === "plan" && draft && (
+            <>
+              <StepTrack current={3} />
+              <header className={s.mainHead}>
+                <h3 className={s.mainTitle}>Lesson plan</h3>
+                <p className={s.mainBlurb}>
+                  Before this goes on the calendar — a look at the session itself.
+                </p>
+              </header>
+
+              {planPhase === "drafting" ? (
+                <div className={s.planDrafting} aria-live="polite">
+                  <p className={s.typing}>
+                    Assembling the plan — template library + session archive…
+                  </p>
+                </div>
+              ) : (
+                (() => {
+                  const template = HW_TEMPLATES[draft.needId];
+                  if (!template) return null;
+                  return (
+                    <div className={s.planCard}>
+                      <header className={s.planHead}>
+                        <h4 className={s.planTitle}>{template.title}</h4>
+                        <p className={s.planLed}>
+                          Led by {draft.trustee} · for “{draft.needLabel.toLowerCase()}”
+                        </p>
+                      </header>
+                      <p className={s.sessionObj}>{template.objective}</p>
+                      <ol className={s.agenda}>
+                        {template.agenda.map((a) => (
+                          <li key={a.block}>
+                            <span className={s.agendaHead}>
+                              {a.block} · {a.minutes}′
+                            </span>
+                            <span className={s.agendaBody}>{a.content}</span>
+                          </li>
+                        ))}
+                      </ol>
+                      <div className={s.sessionTags}>
+                        <span className={s.chipCrim}>badge · {template.badge}</span>
+                        <span className={s.chipPlain}>kpi · {template.kpi}</span>
+                      </div>
+                      <p className={s.matchFoot}>
+                        Drafted from the workshop template library — illustrative content.
+                      </p>
+                      <div className={s.planActions}>
+                        <button
+                          type="button"
+                          className={s.linkBtn}
+                          onClick={() => {
+                            setDraft(null);
+                            goView("match");
+                          }}
+                        >
+                          ‹ Back to matches
+                        </button>
+                        <button
+                          type="button"
+                          className={`${s.schedBtn} ${s.schedBtnPrimary}`}
+                          onClick={() => {
+                            const d = draft;
+                            setDraft(null);
+                            schedule(d.needId, d.trusteeId, d.trustee);
+                          }}
+                        >
+                          Apply for schedule ▸
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })()
               )}
             </>
           )}
@@ -670,8 +812,8 @@ export default function WorkshopsApp() {
       <nav className={s.mobileTabBar} aria-label="Workshop views">
         <button
           type="button"
-          className={`${s.mobileTab} ${!askOpen && view === "match" ? s.mobileTabOn : ""}`}
-          aria-current={!askOpen && view === "match" ? "page" : undefined}
+          className={`${s.mobileTab} ${!askOpen && (view === "match" || view === "plan") ? s.mobileTabOn : ""}`}
+          aria-current={!askOpen && (view === "match" || view === "plan") ? "page" : undefined}
           onClick={() => goView("match")}
         >
           <IconMatch />

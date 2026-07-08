@@ -307,6 +307,45 @@
   cursor: pointer;
 }
 
+/* step track — a quiet mono strip above Match + Plan, reads as a guided
+   sequence rather than a shouty wizard progress bar */
+.stepTrack {
+  list-style: none;
+  margin: 0 0 2px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.stepNo {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--soft);
+}
+.stepLabel {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.stepArrow {
+  font-size: 10px;
+  color: var(--line);
+  margin-left: 7px;
+}
+.stepOn .stepNo,
+.stepOn .stepLabel {
+  color: var(--accent-deep);
+}
+
 /* needs grid */
 .needGrid {
   display: grid;
@@ -511,6 +550,51 @@
   font-size: 9.5px;
   color: var(--soft);
   margin: 2px 0 0;
+}
+
+/* plan view — the drafting beat, then the lesson-plan artifact itself */
+.planDrafting {
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  padding: 22px;
+  text-align: center;
+}
+.planCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.planHead {
+  margin-bottom: 5px;
+}
+.planTitle {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 3px;
+}
+.planLed {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--soft);
+  margin: 0;
+}
+.planActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px 12px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+.planActions .linkBtn {
+  margin-top: 0;
 }
 
 /* sessions */
