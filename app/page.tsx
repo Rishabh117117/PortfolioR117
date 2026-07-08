@@ -63,11 +63,13 @@ export default function Home() {
         <HeroCollage />
         <div className={`container ${styles.heroContainer}`}>
           <div className={styles.heroCard}>
-            <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer</p>
+            <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer &amp; builder</p>
 
-            {/* HERO COPY — interim wording; final line pending D-01 */}
+            {/* HERO COPY — D-01 resolved (COPY-A-1): the claim is design + build,
+                substantiated by the four WORKING DEMO chips in the grid below. */}
             <h1 className={styles.headline}>
-              I design <em>systems</em> that used to be objects.
+              I design AI products — and <em>build</em> them, so you can try
+              everything below.
             </h1>
 
             <p className={styles.subhead}>
@@ -127,7 +129,7 @@ export default function Home() {
                   <SystemsCutout />
                 </span>
                 <span className={styles.arcWord}>SYSTEMS</span>
-                <span className={`cap ${styles.arcCap}`}>AI-powered systems · 2025–26</span>
+                <span className={`cap ${styles.arcCap}`}>AI-native products · 2025–26</span>
               </li>
             </ol>
           </DriftGroup>
@@ -143,6 +145,10 @@ export default function Home() {
             <div className={styles.sectionHead}>
               <h2 className={styles.h2}>Selected work</h2>
             </div>
+            {/* top-of-funnel proof line — the chips claim it, this says it plainly */}
+            <p className={`cap ${styles.workNote}`}>
+              All four end in working software — open any card and try it.
+            </p>
 
             <div className={styles.grid}>
               {FLAGSHIPS.map((p) => (
@@ -186,7 +192,10 @@ export default function Home() {
         <div className={styles.ctaGlass} />
         <div className={`container ${styles.ctaContent}`} data-reveal>
           <div className={styles.ctaBlock}>
-            <h2 className={styles.ctaTitle}>Looking for a systems-minded designer?</h2>
+            <h2 className={styles.ctaTitle}>
+              I&rsquo;m graduating Fall 2026 and looking for Design Engineer &amp;
+              Product roles.
+            </h2>
             <div className={styles.ctaRow}>
               <Link href="/about" className="btn primary">
                 About &amp; CV

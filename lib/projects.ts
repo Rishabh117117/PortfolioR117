@@ -48,7 +48,7 @@ export const FLAGSHIPS: Project[] = [
     // claim now lives on the `demo` flag, rendered as its own card chip.
     status: "COURSE PROJECT",
     demo: true,
-    tagline: "An open carbon-disclosure standard for AI compute — one indicator, three surfaces.",
+    tagline: "An open standard that puts a carbon label on AI compute.",
   },
   {
     name: "Healthy Materials",

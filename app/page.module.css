@@ -232,6 +232,10 @@
   color: var(--soft);
   white-space: nowrap;
 }
+/* proof line under the "Selected work" head — pulls up toward its h2 */
+.workNote {
+  margin: calc(var(--space-5) * -1 + var(--space-2)) 0 var(--space-6);
+}
 
 /* anchor target of the nav "Work" link — land clear of the sticky nav when
    the page smooth-scrolls to it */
