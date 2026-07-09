@@ -48,23 +48,6 @@ export default function HousingWorksPage() {
         />
         <div className={styles.scrim} aria-hidden="true" />
         <div className={styles.heroInner}>
-          <svg
-            className={`${styles.ribbon} hw-autodraw hw-fig`}
-            viewBox="0 0 80 110"
-            aria-hidden="true"
-          >
-            <path
-              className="hw-line hw-crim"
-              pathLength="1"
-              d="M36 104 C 30 78, 14 60, 34 38 C 44 27, 60 32, 52 50"
-            />
-            <path
-              className="hw-line hw-crim"
-              pathLength="1"
-              d="M52 104 C 58 78, 74 60, 54 38 C 44 27, 28 32, 36 50"
-            />
-          </svg>
-
           <div className={styles.heroCard}>
             <p className={`mono ${styles.eyebrow}`}>
               External Engagement Studio · MS Strategic Design &amp; Management,
@@ -143,41 +126,99 @@ export default function HousingWorksPage() {
           <p className={styles.lede}>
             We worked in four passes, and listened before we proposed anything.
           </p>
-          <ol className={styles.passes}>
-            <li className={styles.pass}>
+          <ol className={styles.iconCardGrid}>
+            <li className={styles.iconCard}>
               <span className={`mono ${styles.passNo}`}>01</span>
+              <svg
+                className={`${styles.passGlyph} hw-draw hw-fig`}
+                viewBox="0 0 80 54"
+                role="img"
+                aria-label="Stacked documents."
+              >
+                <path className="hw-line" pathLength="1" d="M28 6 L60 6 L60 38 L28 38 Z" />
+                <path className="hw-line" pathLength="1" d="M20 14 L52 14 L52 46 L20 46 Z" />
+                <path
+                  className="hw-line"
+                  pathLength="1"
+                  d="M25 22 L47 22 M25 28 L47 28 M25 34 L41 34"
+                />
+                <circle className="hw-line hw-crim" pathLength="1" cx="52" cy="14" r="2.6" />
+              </svg>
+              <h3 className={styles.passTitle}>Their documents first.</h3>
               <p className={styles.passBody}>
-                <strong>Their documents first.</strong> We read Housing Works’
-                FY23–25 strategic plan, its FY23 financial audit, and its org
-                charts to understand the business and where pay actually sat.
-                Alongside that we ran a competitor analysis and a short
-                literature review on nonprofit hiring and retention.
+                We read Housing Works’ FY23–25 strategic plan, its FY23
+                financial audit, and its org charts to understand the
+                business and where pay actually sat. Alongside that we ran a
+                competitor analysis and a short literature review on
+                nonprofit hiring and retention.
               </p>
             </li>
-            <li className={styles.pass}>
+            <li className={styles.iconCard}>
               <span className={`mono ${styles.passNo}`}>02</span>
+              <svg
+                className={`${styles.passGlyph} hw-draw hw-fig`}
+                viewBox="0 0 80 54"
+                role="img"
+                aria-label="A storefront with an awning."
+              >
+                <path className="hw-line" pathLength="1" d="M14 22 L14 48 L66 48 L66 22" />
+                <path className="hw-line" pathLength="1" d="M10 22 L18 10 L62 10 L70 22 Z" />
+                <path
+                  className="hw-line"
+                  pathLength="1"
+                  d="M18 22 L18 10 M28 22 L26 10 M38 22 L38 10 M48 22 L50 10 M58 22 L58 10"
+                />
+                <path className="hw-line" pathLength="1" d="M32 48 L32 32 L48 32 L48 48" />
+                <circle className="hw-line hw-crim" pathLength="1" cx="44" cy="40" r="1.6" />
+              </svg>
+              <h3 className={styles.passTitle}>The sites.</h3>
               <p className={styles.passBody}>
-                <strong>The sites.</strong> We visited four Housing Works
-                locations — a thrift store, the cannabis dispensary, the Keith
-                Cylar health center, and the bookstore — to see the work
-                first-hand.
+                We visited four Housing Works locations — a thrift store, the
+                cannabis dispensary, the Keith Cylar health center, and the
+                bookstore — to see the work first-hand.
               </p>
             </li>
-            <li className={styles.pass}>
+            <li className={styles.iconCard}>
               <span className={`mono ${styles.passNo}`}>03</span>
+              <svg
+                className={`${styles.passGlyph} hw-draw hw-fig`}
+                viewBox="0 0 80 54"
+                role="img"
+                aria-label="Two heads in conversation."
+              >
+                <circle className="hw-line" pathLength="1" cx="20" cy="27" r="12" />
+                <circle className="hw-line" pathLength="1" cx="60" cy="27" r="12" />
+                <circle className="hw-line hw-crim" pathLength="1" cx="34" cy="27" r="1.4" />
+                <circle className="hw-line hw-crim" pathLength="1" cx="40" cy="27" r="1.4" />
+                <circle className="hw-line hw-crim" pathLength="1" cx="46" cy="27" r="1.4" />
+              </svg>
+              <h3 className={styles.passTitle}>The people.</h3>
               <p className={styles.passBody}>
-                <strong>The people.</strong> We interviewed staff across roles,
-                including a harm-reduction coordinator and the development team,
-                and sat in on calls with Housing Works.
+                We interviewed staff across roles, including a
+                harm-reduction coordinator and the development team, and sat
+                in on calls with Housing Works.
               </p>
             </li>
-            <li className={styles.pass}>
+            <li className={styles.iconCard}>
               <span className={`mono ${styles.passNo}`}>04</span>
+              <svg
+                className={`${styles.passGlyph} hw-draw hw-fig`}
+                viewBox="0 0 80 54"
+                role="img"
+                aria-label="A poster board with sticky notes."
+              >
+                <path className="hw-line" pathLength="1" d="M16 6 L64 6 L64 40 L16 40 Z" />
+                <path className="hw-line" pathLength="1" d="M40 40 L40 48 M28 48 L52 48" />
+                <path className="hw-line" pathLength="1" d="M16 6 L8 16 M64 6 L72 16" />
+                <path className="hw-line" pathLength="1" d="M23 14 L33 14 L33 22 L23 22 Z" />
+                <path className="hw-line" pathLength="1" d="M38 18 L48 18 L48 26 L38 26 Z" />
+                <path className="hw-line hw-crim" pathLength="1" d="M52 12 L60 12 L60 20 L52 20 Z" />
+              </svg>
+              <h3 className={styles.passTitle}>Gen Z directly.</h3>
               <p className={styles.passBody}>
-                <strong>Gen Z directly.</strong> We ran an interactive poster
-                survey across campus (127 responses) and a “Bridges &amp;
-                Barriers” workshop, then clustered what we heard into a short set
-                of findings.
+                We ran an interactive poster survey across campus (127
+                responses) and a “Bridges &amp; Barriers” workshop, then
+                clustered what we heard into a short set of findings.
               </p>
             </li>
           </ol>
@@ -346,7 +387,7 @@ export default function HousingWorksPage() {
           </p>
 
           <ul className={styles.findings}>
-            <li className={styles.finding}>
+            <li className={`${styles.finding} ${styles.iconCard}`}>
               <svg
                 className={`${styles.glyph} hw-draw hw-fig`}
                 viewBox="0 0 60 56"
@@ -372,7 +413,7 @@ export default function HousingWorksPage() {
               </div>
             </li>
 
-            <li className={styles.finding}>
+            <li className={`${styles.finding} ${styles.iconCard}`}>
               <svg
                 className={`${styles.glyph} hw-draw hw-fig`}
                 viewBox="0 0 60 56"
@@ -398,7 +439,7 @@ export default function HousingWorksPage() {
               </div>
             </li>
 
-            <li className={styles.finding}>
+            <li className={`${styles.finding} ${styles.iconCard}`}>
               <svg
                 className={`${styles.glyph} hw-draw hw-fig`}
                 viewBox="0 0 60 56"
@@ -427,7 +468,7 @@ export default function HousingWorksPage() {
               </div>
             </li>
 
-            <li className={styles.finding}>
+            <li className={`${styles.finding} ${styles.iconCard}`}>
               <svg
                 className={`${styles.glyph} hw-draw hw-fig`}
                 viewBox="0 0 60 56"
@@ -469,7 +510,7 @@ export default function HousingWorksPage() {
               own intervention graphics (Fig. 42–43): hybrid = home⇄office,
               badge = a passport credential, workshop = a trustee at the easel. */}
           <ul className={styles.proposed}>
-            <li className={styles.prop}>
+            <li className={`${styles.prop} ${styles.iconCard}`}>
               <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A home and an office linked both ways — hybrid work.">
                 <path className="hw-line" pathLength="1" d="M5 41 L75 41" />
                 <path className="hw-line" pathLength="1" d="M11 26 L22 17 L33 26" />
@@ -487,7 +528,7 @@ export default function HousingWorksPage() {
                 flexible workplace, applied consistently across roles.
               </p>
             </li>
-            <li className={styles.prop}>
+            <li className={`${styles.prop} ${styles.iconCard}`}>
               <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A passport credential carrying an earned skill badge.">
                 <path className="hw-line" pathLength="1" d="M25 8 L25 46 L53 46 L53 8 Z" />
                 <path className="hw-line" pathLength="1" d="M31 8 L31 46" />
@@ -504,7 +545,7 @@ export default function HousingWorksPage() {
                 stock.
               </p>
             </li>
-            <li className={`${styles.prop} ${styles.propMine}`}>
+            <li className={`${styles.prop} ${styles.propMine} ${styles.iconCard}`}>
               <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A trustee presenting at an easel to a small group — a workshop.">
                 <path className="hw-line" pathLength="1" d="M44 12 L44 34 L71 34 L71 12 Z" />
                 <path className="hw-line" pathLength="1" d="M49 19 L62 19 M49 25 L66 25" />
@@ -634,26 +675,6 @@ export default function HousingWorksPage() {
 
       {/* ============ PROJECT PAGER ============ */}
       <ProjectPager slug="housing-works" />
-
-      {/* ============ SCENE 11 — FOOTER RIBBON ============ */}
-      <div className={styles.footerRibbon}>
-        <svg
-          className={`${styles.ribbonFoot} hw-draw hw-fig`}
-          viewBox="0 0 80 110"
-          aria-hidden="true"
-        >
-          <path
-            className="hw-line hw-crim"
-            pathLength="1"
-            d="M36 104 C 30 78, 14 60, 34 38 C 44 27, 60 32, 52 50"
-          />
-          <path
-            className="hw-line hw-crim"
-            pathLength="1"
-            d="M52 104 C 58 78, 74 60, 54 38 C 44 27, 28 32, 36 50"
-          />
-        </svg>
-      </div>
       </div>
     </div>
   );

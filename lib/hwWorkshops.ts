@@ -41,7 +41,7 @@ export type HwTemplate = {
 };
 
 export type HwTurn = { speaker: string; line: string };
-export type HwCapture = { transcript: HwTurn[]; summary: string; tags: string[] };
+export type HwCapture = { transcript: HwTurn[]; summary: string; insight: string; tags: string[] };
 
 export type HwArchived = {
   id: string;
@@ -54,6 +54,9 @@ export type HwArchived = {
   summary: string;
   tags: string[];
   badge: string;
+  duration: string; // e.g. "45 min"
+  insight: string; // the one-sentence takeaway, shown highlighted when expanded
+  transcript?: HwTurn[]; // absent only for legacy/defensive entries
 };
 
 export const HW_PROJECT = {
@@ -269,6 +272,8 @@ export const HW_CAPTURES: Record<string, HwCapture> = {
     ],
     summary:
       "Maria led store leads through a hands-on merchandising clinic, diagnosing the Gramercy floor and teaching a three-rule approach: anchor each display with one hero piece, vary height, and use negative space. Teams restyled a section live and left with a shared checklist for consistent standards.",
+    insight:
+      "One hero piece with room to breathe outsells a table packed edge to edge.",
     tags: ["merchandising", "retail", "sell-through", "store-ops", "training"],
   },
   promotion: {
@@ -281,6 +286,8 @@ export const HW_CAPTURES: Record<string, HwCapture> = {
     ],
     summary:
       "Renée coached new retail hires through their options, mapping the ladder from associate to store lead and the skills each rung requires. Each participant left with a one-page next-role plan naming two concrete skills to build this quarter, turning a vague path into clear, reachable steps.",
+    insight:
+      "A vague future becomes a plan the moment someone names two skills and a timeframe.",
     tags: ["career-clarity", "retention", "coaching", "promotion", "retail"],
   },
   digital: {
@@ -293,6 +300,8 @@ export const HW_CAPTURES: Record<string, HwCapture> = {
     ],
     summary:
       "David walked store staff through running an Instagram drop event, breaking down the hook, hero item, timing, and call to action. Pairs built a real drop post for next week's standout donation, captions included, and left able to plan a simple campaign that turns followers into foot traffic.",
+    insight:
+      "A hook plus real urgency turns a drop post into foot traffic — a nice photo alone won't.",
     tags: ["social-media", "instagram", "drop-event", "retail-revenue", "digital-skills"],
   },
   intake: {
@@ -305,6 +314,8 @@ export const HW_CAPTURES: Record<string, HwCapture> = {
     ],
     summary:
       "Maria worked the ops team through their weekend intake jam, splitting the sort into a two-bin door triage — floor-ready versus needs-processing — plus a ten-gap restock trigger. The team left with a one-store pilot plan for Saturday and a shared definition of 'floor-ready' to keep it honest.",
+    insight:
+      "Sorting once at the door beats sorting twice at the table, every Saturday.",
     tags: ["intake", "store-ops", "process", "time-to-floor", "pilot"],
   },
   storytelling: {
@@ -317,6 +328,8 @@ export const HW_CAPTURES: Record<string, HwCapture> = {
     ],
     summary:
       "Marcus turned the mission into a tool every frontline person can hold: a 20-second, two-sentence story of where the money goes. The group surfaced the questions shoppers actually ask, drafted personal versions, and rehearsed them aloud — replacing vague answers with confident, honest ones.",
+    insight:
+      "Two honest sentences beat a vague answer every time a shopper asks where the money goes.",
     tags: ["mission", "storytelling", "frontline", "engagement", "training"],
   },
   budgets: {
@@ -329,6 +342,8 @@ export const HW_CAPTURES: Record<string, HwCapture> = {
     ],
     summary:
       "Renée demystified a store P&L line by line for new leads — where money comes in, where it quietly leaks. Each lead picked one number on their own sheet to move this quarter, most landing on shrink, and left knowing how to flag budget issues upward without the jargon.",
+    insight:
+      "Watching one leaking line for a quarter teaches more than trying to read the whole P&L at once.",
     tags: ["finance", "p-and-l", "store-leads", "shrink", "management"],
   },
 };
@@ -348,6 +363,16 @@ export const HW_ARCHIVE_SEED: HwArchived[] = [
       "Marcus rebuilt the standard donor-tour talk track into a two-minute arc — one client story, one number, one ask — and had development staff deliver it back live. The room agreed to retire the fact-sheet script.",
     tags: ["storytelling", "donors", "mission", "development"],
     badge: "Mission Voice",
+    duration: "45 min",
+    insight:
+      "One client story lands harder than four fact bullets — donors remember people, not statistics.",
+    transcript: [
+      { speaker: "Marcus", line: "Your donor tour script has four fact bullets before it has one story. Why?" },
+      { speaker: "Naomi", line: "Because facts feel safe — I'm worried I'll forget a number if I don't read it." },
+      { speaker: "Marcus", line: "Numbers matter, but pick one. Lead with a person, land on that single number." },
+      { speaker: "Chris", line: "So: one story, one number, one ask — in that order, every time?" },
+      { speaker: "Marcus", line: "Every time. Now stand up and give me the two-minute version, live." },
+    ],
   },
   {
     id: "seed-photo",
@@ -361,6 +386,15 @@ export const HW_ARCHIVE_SEED: HwArchived[] = [
       "David taught floor staff to shoot donated pieces on a store phone — window light, one clean backdrop, no editing apps — and post same-day. Three stores started a shared photo corner the following week.",
     tags: ["social-media", "photography", "retail", "digital-skills"],
     badge: "Social Drop Producer",
+    duration: "45 min",
+    insight: "Good window light and a same-day post beat a filtered photo a week late.",
+    transcript: [
+      { speaker: "David", line: "Find me the best light in this store, right now, without leaving the room." },
+      { speaker: "Wendy", line: "By the front window — but there's a mannequin in the way." },
+      { speaker: "David", line: "Move the mannequin. One clean backdrop beats a busy one every time." },
+      { speaker: "Theo", line: "What about editing apps? Everyone uses filters." },
+      { speaker: "David", line: "Skip them. Real light and same-day posting beat a filtered photo a week late." },
+    ],
   },
   {
     id: "seed-interview",
@@ -374,6 +408,16 @@ export const HW_ARCHIVE_SEED: HwArchived[] = [
       "Renée coached store managers on structured interviewing: three signal questions, consistent scoring, and how to sell a mission job honestly against private-sector pay. Panels now share one rubric.",
     tags: ["hiring", "management", "retention", "coaching"],
     badge: "People Manager I",
+    duration: "45 min",
+    insight:
+      "Three consistent, story-based questions on one shared rubric beat gut-feeling interviews.",
+    transcript: [
+      { speaker: "Renée", line: "Tell me the last interview question you asked that actually told you something." },
+      { speaker: "Grace", line: "Honestly? I mostly ask if they're a team player. Everyone says yes." },
+      { speaker: "Renée", line: "Right — so ask for a story instead: 'Tell me about a time you disagreed with a manager.'" },
+      { speaker: "Felix", line: "And we all score it the same way, so it's not just gut feeling?" },
+      { speaker: "Renée", line: "Exactly — same three questions, same rubric, every panel. Consistency is what makes it fair." },
+    ],
   },
   {
     id: "seed-displays",
@@ -387,6 +431,15 @@ export const HW_ARCHIVE_SEED: HwArchived[] = [
       "The pilot clinic that started the program: Maria's hero-piece / height / negative-space rules, applied live to the Gramercy front table. Sell-through on restyled sections was tracked for four weeks after.",
     tags: ["merchandising", "pilot", "retail", "sell-through"],
     badge: "Visual Merchandising I",
+    duration: "45 min",
+    insight: "The whole pilot rode on one rule: raise one hero piece and give it room to breathe.",
+    transcript: [
+      { speaker: "Maria", line: "This is the first time we're trying this, so bear with me — what do you see on this table?" },
+      { speaker: "Dana", line: "Just stuff. A lot of stuff, all the same height." },
+      { speaker: "Maria", line: "That's the tell. Pick one piece, raise it, and give everything else room to breathe." },
+      { speaker: "Yusuf", line: "We restyled it — can we track whether it actually sells better?" },
+      { speaker: "Maria", line: "Four weeks, same table. If sell-through moves, this becomes the whole program." },
+    ],
   },
 ];
 

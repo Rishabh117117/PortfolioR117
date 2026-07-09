@@ -438,72 +438,74 @@
 }
 
 /* =========================================================================
-   Scene 1 + footer ribbon line-draw
+   Shared icon-card treatment (Scenes 4/7/8) — sketch glyph on top · bold
+   title · body. One hairline-bordered paper-card format ties "How we
+   worked", "What we found", and "What we proposed" together — derived from
+   the proposal cards' open type hierarchy and spacing scale (below).
    ========================================================================= */
-.ribbon {
-  width: clamp(40px, 7vw, 60px);
-  height: auto;
-  margin-bottom: var(--space-5);
-  overflow: visible;
-}
-.footerRibbon {
+.iconCard {
+  position: relative;
   display: flex;
-  justify-content: center;
-  padding-block: clamp(48px, 9vw, 96px) clamp(32px, 6vw, 56px);
+  flex-direction: column;
+  padding: clamp(22px, 3.2vw, 30px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
-.ribbonFoot {
-  width: clamp(44px, 8vw, 64px);
-  height: auto;
-  overflow: visible;
+.iconCardGrid {
+  list-style: none;
+  margin-top: var(--space-7);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
 }
 
 /* =========================================================================
-   Scene 4 — how we worked (four passes)
+   Scene 4 — how we worked (four passes, now icon cards)
    ========================================================================= */
-.passes {
-  list-style: none;
-  margin-top: var(--space-7);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-.pass {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-4);
-  align-items: start;
-}
 .passNo {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-5);
   font-size: var(--fs-cap);
   letter-spacing: 0.08em;
   color: var(--accent);
-  padding-top: 4px;
+}
+.passGlyph {
+  width: clamp(52px, 7vw, 64px);
+  height: auto;
+  overflow: visible;
+}
+.passTitle {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 2.6vw, 21px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 .passBody {
+  margin-top: var(--space-2);
   font-size: 17px;
   line-height: 1.62;
   color: var(--ink-2);
 }
-.passBody strong {
-  color: var(--ink);
-  font-weight: 600;
-}
 
 /* =========================================================================
-   Scene 7 — findings (line-glyph + text), open on the page
+   Scene 7 — findings (line-glyph + text), now icon cards
    ========================================================================= */
 .findings {
   list-style: none;
   margin-top: var(--space-7);
   display: flex;
   flex-direction: column;
-  gap: var(--space-7);
+  gap: var(--space-5);
 }
 .finding {
-  display: grid;
-  grid-template-columns: 60px 1fr;
-  gap: var(--space-5);
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 .glyph {
   width: 60px;
@@ -536,14 +538,14 @@
 }
 
 /* =========================================================================
-   Scene 8 — what we proposed (open list, mine foregrounded by type only)
+   Scene 8 — what we proposed (icon cards, mine foregrounded by type only)
    ========================================================================= */
 .proposed {
   list-style: none;
   margin-top: var(--space-7);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 .prop {
   display: flex;
@@ -653,6 +655,9 @@
    Responsive
    ========================================================================= */
 @media (min-width: 768px) {
+  .iconCardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .proposed {
     flex-direction: row;
     gap: var(--space-6);

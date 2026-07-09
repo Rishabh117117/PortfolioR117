@@ -112,6 +112,13 @@ function IconProgram() {
   );
 }
 
+/* deterministic bar heights for the archive's illustrative-recording waveform —
+   fixed (not Math.random) so server and client render identically */
+const HW_WAVEFORM = [
+  6, 10, 16, 9, 20, 13, 7, 22, 15, 11, 18, 8, 14, 21, 10, 6, 17, 12, 19, 9, 15, 23, 11, 7, 16, 20,
+  13, 8, 18, 10, 14, 22, 9, 17, 12, 19, 7, 15, 21, 11,
+];
+
 /* quiet step-by-step strip for Match + Plan — a guided sequence, not a wizard */
 const STEP_LABELS = ["Pick a need", "Match a trustee", "Review the lesson plan", "Schedule"];
 function StepTrack({ current }: { current: number }) {
@@ -141,7 +148,7 @@ function StepTrack({ current }: { current: number }) {
 
 export default function WorkshopsApp() {
   const [view, setView] = useState<View>("match");
-  const [selNeedId, setSelNeedId] = useState<string | null>(HW_NEEDS[0].id);
+  const [selNeedId, setSelNeedId] = useState<string | null>(null);
   const [queue, setQueue] = useState<Queued[]>([]);
   const [archive, setArchive] = useState<HwArchived[]>(HW_ARCHIVE_SEED);
   const [handled, setHandled] = useState<Record<string, boolean>>({});
@@ -152,6 +159,7 @@ export default function WorkshopsApp() {
   const [query, setQuery] = useState("");
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const [justArchived, setJustArchived] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const reduceMotion = useRef(false);
 
@@ -334,6 +342,9 @@ export default function WorkshopsApp() {
       summary: cap.summary,
       tags: cap.tags,
       badge: item.template.badge,
+      duration: "45 min",
+      insight: cap.insight,
+      transcript: cap.transcript,
     };
     setArchive((a) => [entry, ...a]);
     setQueue((q) => q.filter((x) => x.id !== item.id));
@@ -770,31 +781,96 @@ export default function WorkshopsApp() {
                 ))}
               </div>
               {shownArchive.length === 0 && <p className={s.empty}>No sessions match that search.</p>}
-              {shownArchive.map((a) => (
-                <article key={a.id} className={`${s.entry} ${justArchived === a.id ? s.entryNew : ""}`}>
-                  <header className={s.entryHead}>
-                    <div>
-                      <h4 className={s.entryTitle}>{a.title}</h4>
-                      <p className={s.entryMeta}>
-                        {a.trustee} · {a.when} · for: {a.needLabel.toLowerCase()}
-                      </p>
+              {shownArchive.map((a) => {
+                const isOpen = openId === a.id;
+                return (
+                  <article key={a.id} className={`${s.entry} ${justArchived === a.id ? s.entryNew : ""}`}>
+                    <button
+                      type="button"
+                      className={s.entryToggle}
+                      aria-expanded={isOpen}
+                      aria-controls={`hw-entry-body-${a.id}`}
+                      onClick={() => setOpenId((cur) => (cur === a.id ? null : a.id))}
+                    >
+                      <header className={s.entryHead}>
+                        <div>
+                          <h4 className={s.entryTitle}>{a.title}</h4>
+                          <p className={s.entryMeta}>
+                            {a.trustee} · {a.when} · for: {a.needLabel.toLowerCase()}
+                          </p>
+                        </div>
+                        <div className={s.entryNums}>
+                          <span>{a.attendees} attended</span>
+                          <span className={s.rating}>★ {a.rating.toFixed(1)}</span>
+                        </div>
+                      </header>
+                      <svg
+                        className={`${s.entryChevron} ${isOpen ? s.entryChevronOn : ""}`}
+                        viewBox="0 0 16 16"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M4 6 L8 10 L12 6"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+
+                    <p className={s.entrySummary}>{a.summary}</p>
+                    <div className={s.tagRow}>
+                      {a.tags.map((t) => (
+                        <span key={t} className={s.tag}>
+                          #{t}
+                        </span>
+                      ))}
+                      <span className={s.chipPlain}>🏅 {a.badge}</span>
                     </div>
-                    <div className={s.entryNums}>
-                      <span>{a.attendees} attended</span>
-                      <span className={s.rating}>★ {a.rating.toFixed(1)}</span>
-                    </div>
-                  </header>
-                  <p className={s.entrySummary}>{a.summary}</p>
-                  <div className={s.tagRow}>
-                    {a.tags.map((t) => (
-                      <span key={t} className={s.tag}>
-                        #{t}
-                      </span>
-                    ))}
-                    <span className={s.chipPlain}>🏅 {a.badge}</span>
-                  </div>
-                </article>
-              ))}
+
+                    {isOpen && (
+                      <div id={`hw-entry-body-${a.id}`} className={s.entryExpand}>
+                        {a.transcript && a.transcript.length > 0 && (
+                          <>
+                            <div className={s.recording}>
+                              <div className={s.recordingRow}>
+                                <span className={s.playGlyph} aria-hidden="true">
+                                  ▶
+                                </span>
+                                <svg className={s.waveform} viewBox="0 0 160 28" aria-hidden="true">
+                                  {HW_WAVEFORM.map((h, i) => (
+                                    <rect key={i} x={i * 4} y={(28 - h) / 2} width="2" height={h} rx="1" />
+                                  ))}
+                                </svg>
+                                <span className={s.recordingDuration}>{a.duration}</span>
+                              </div>
+                              <p className={`mono ${s.recordingLabel}`}>
+                                illustrative recording · stand-in — no audio
+                              </p>
+                            </div>
+
+                            <ul className={s.transcript}>
+                              {a.transcript.map((t, i) => (
+                                <li key={i}>
+                                  <span className={s.speaker}>{t.speaker}</span>
+                                  <span className={s.line}>{t.line}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
+
+                        <div>
+                          <p className={s.captureLabel}>insight</p>
+                          <p className={s.summary}>{a.insight}</p>
+                        </div>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </>
           )}
         </section>
