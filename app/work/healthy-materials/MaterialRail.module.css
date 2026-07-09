@@ -1,6 +1,10 @@
 /* Compact material cards with a scroll-parallax stagger. On a paper section,
-   so the page ambient shows behind. Base layout already reads as a stagger
-   (so reduced-motion users get the same dynamic feel); the JS adds drift. */
+   so the page ambient shows behind. Below 768px the cards become a
+   horizontal swipe row instead (site-established recipe, see the max-width
+   block below) and the DriftGroup transform is cancelled — a vertical
+   drift would fight the x-axis scroll-snap. At >=768px the base layout
+   already reads as a stagger (so reduced-motion users get the same dynamic
+   feel); the JS adds drift on top of that. */
 .rail {
   display: grid;
   grid-template-columns: 1fr;
@@ -54,6 +58,32 @@
   letter-spacing: 0.02em;
   color: var(--soft);
   margin-top: -4px;
+}
+
+/* mobile: cards become a horizontal swipe row instead of stacking (mirrors
+   the concept-card / journey-stage swipe rows elsewhere on this page — see
+   .concepts / .journey in healthy-materials.module.css). DriftGroup sets its
+   drift as an inline style each frame, so cancelling it here takes
+   !important; the >=768px block below is untouched, so the grid + its
+   static/JS stagger keep working exactly as before. */
+@media (max-width: 767px) {
+  .rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .card {
+    flex: 0 0 auto;
+    width: 72vw;
+    max-width: 340px;
+    scroll-snap-align: start;
+    transform: none !important;
+  }
 }
 
 @media (min-width: 768px) {

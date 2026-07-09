@@ -103,10 +103,8 @@ export default function HealthyMaterialsPage() {
             <p className={styles.body}>
               Buildings and construction are responsible for around 37% of global
               energy-related CO₂ emissions.<sup className={styles.fnref}>1</sup>{" "}
-              Affordable housing is where healthier, lower-carbon materials could
-              do the most good — and where cost pressure makes them hardest to
-              keep. I spent a semester with the Healthy Materials Lab at Parsons,
-              a research and education center that promotes healthier building
+              I spent a semester with the Healthy Materials Lab at Parsons, a
+              research and education center that promotes healthier building
               materials through its materials library, partnerships, and training.
             </p>
             <p className={styles.body}>
@@ -250,9 +248,11 @@ export default function HealthyMaterialsPage() {
           <div className={styles.wrapWide} data-reveal>
             <p className={`mono ${styles.kicker}`}>where adoption breaks — and where it turns</p>
             <p className={styles.lede}>
-              The four blocking patterns and five leverage points from the
-              research, mapped onto the life of a project — before, during, and
-              after construction. The quotes are the evidence.
+              We mapped everything we learned onto the life of a project —
+              before, during, and after construction. That journey map became
+              the framework: it shows exactly where healthy materials fall
+              out, and where the process could turn. The quotes are the
+              evidence.
             </p>
 
             <ol className={styles.journey} data-reveal>
@@ -483,6 +483,14 @@ export default function HealthyMaterialsPage() {
             <p className={styles.bridge}>
               Three concepts came out of this — each attacking a different point
               where healthy materials fall out.
+            </p>
+            <p className={styles.body}>
+              Walk through NYC rentals and the interiors repeat — the same
+              floors, paints, cabinets. Which told us these units already run
+              on de-facto packages; nobody chose them for health. That&apos;s
+              where Healthy Materials Packages came from — and affordable
+              housing is where they&apos;d matter most: the cost pressure is
+              highest and the same scopes repeat at scale.
             </p>
 
             <ul className={styles.concepts}>

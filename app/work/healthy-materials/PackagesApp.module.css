@@ -549,6 +549,23 @@
   opacity: 0.45;
   cursor: default;
 }
+/* subordinate to the two buttons above — a plain mono link, not a button */
+.intakeSkip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--soft);
+  background: transparent;
+  border: 0;
+  padding: 7px 2px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+.intakeSkip:hover {
+  color: var(--accent-deep);
+}
 .intakeHonesty {
   font-family: var(--font-mono);
   font-size: 10px;

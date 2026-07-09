@@ -109,26 +109,32 @@ function ProcessStrip({ current }: { current: ProcessStep }) {
 
 /**
  * "Start from your spec" intake — a view, not a modal (Esc is deliberately
- * not wired to close it; the parent's process strip and mobile Lines tab are
- * the way in/out). Replaces the lines list in the main region while open.
- * Focus moves to the heading on open, matching the app's other a11y
- * conventions (useModalA11y's autoFocus behavior, applied manually here
- * since this surface isn't a dialog).
+ * not wired to close it; the parent's process strip, the mobile Lines tab,
+ * and the intake's own skip link are the way in/out). Replaces the lines
+ * list in the main region while open — including on mount, since the app
+ * now opens here by default. Focus moves to the heading on open, matching
+ * the app's other a11y conventions (useModalA11y's autoFocus behavior,
+ * applied manually here since this surface isn't a dialog); scroll is left
+ * alone so mounting on page load can't yank the viewport down to the app.
  */
 function SpecIntake({
   onSubmit,
+  onSkip,
 }: {
   /** Runs the match; returns the count of unmatched rows if the app should
    * stay on intake (zero matches — nothing to route to), or null if it
    * matched at least one line and the parent has switched to the lines view. */
   onSubmit: (text: string) => { unmatchedRows: string[]; totalRows: number } | null;
+  /** Closes the intake without submitting anything — the escape hatch to the
+   * pre-built packages for anyone who doesn't want to paste a spec. */
+  onSkip: () => void;
 }) {
   const [text, setText] = useState("");
   const [zeroMatch, setZeroMatch] = useState<{ unmatchedRows: string[]; totalRows: number } | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
   }, []);
 
   function submit() {
@@ -177,6 +183,9 @@ function SpecIntake({
         </button>
         <button type="button" className={s.intakePrimary} onClick={submit} disabled={!text.trim()}>
           Match against the library ▸
+        </button>
+        <button type="button" className={s.intakeSkip} onClick={onSkip}>
+          or skip to a pre-built package ▸
         </button>
       </div>
       <p className={s.intakeHonesty}>
@@ -320,7 +329,9 @@ export default function PackagesApp() {
   // exactly like a PKG_SCOPES entry — resolveScope() is the only place that
   // needs to know it isn't one.
   const [customScope, setCustomScope] = useState<PackageScope | null>(null);
-  const [intakeOpen, setIntakeOpen] = useState(false);
+  // starts true: the app opens on "Add your spec" (the intake) rather than a
+  // pre-selected package — the intake's own skip link is the way past it.
+  const [intakeOpen, setIntakeOpen] = useState(true);
   const [matchBanner, setMatchBanner] = useState<{ matchedCount: number; unmatchedRows: string[]; totalRows: number } | null>(
     null,
   );
@@ -563,7 +574,7 @@ export default function PackagesApp() {
         {/* ---------------- main: intake OR the package lines ---------------- */}
         <section className={s.main} aria-label={intakeOpen ? "Start from your spec" : `${scope.label} package lines`}>
           {intakeOpen ? (
-            <SpecIntake onSubmit={handleSpecSubmit} />
+            <SpecIntake onSubmit={handleSpecSubmit} onSkip={() => setIntakeOpen(false)} />
           ) : (
             <>
               {/* mobile-only entry point atop the Lines tab (the topbar button
