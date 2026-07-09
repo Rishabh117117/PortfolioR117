@@ -125,7 +125,7 @@ export const SUBSTRATE = {
 // Per-tier principles (shown beside each tier's mockup in the tabbed product view)
 export type Principle = { code: string; kind: "anchor" | "load" | "support"; name: string; insight: string };
 export const TIER1_PRINCIPLES: Principle[] = [
-  { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "Surfaces the dark matter — the energy cost — right at the point of use." },
+  { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "The energy cost of AI is classic dark matter — real, structural, invisible at the interface. The indicator surfaces it right where the request happens, so the cost and the action share one screen." },
   { code: "P5", kind: "load", name: "Culture", insight: "Procurement language (“g/kWh · region”), not climate framing." },
   { code: "P7", kind: "load", name: "Tech as both", insight: "Treats AI as both an energy sink and a disclosure surface." },
 ];

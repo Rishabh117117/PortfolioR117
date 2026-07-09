@@ -27,6 +27,20 @@ export const GRID = Array.from({ length: 24 }, (_, h) => {
   return Math.max(140, Math.round(base + peak + noise));
 });
 
+/* day-2 curve — same generator, shifted phase + slightly different floor, so a
+   48h forecast (T2) actually has a tomorrow worth scheduling into. Days
+   alternate A/B/A/B as the sim clock runs past midnight. */
+export const GRID2 = Array.from({ length: 24 }, (_, h) => {
+  const base = 306;
+  const peak = Math.sin(((h - 10.5) / 24) * Math.PI * 2) * 128;
+  const noise = ((h * 13) % 9) - 4;
+  return Math.max(140, Math.round(base + peak + noise));
+});
+
+/* grid intensity at an ABSOLUTE sim-hour (t = day*24 + hour, monotonic) */
+export const gridAt = (t: number) =>
+  (Math.floor(t / 24) % 2 === 0 ? GRID : GRID2)[((t % 24) + 24) % 24];
+
 /* indicator-pill classification (T1 topbar + status strip) */
 export function classify(i: number) {
   if (i < 220) return { label: "Low intensity", varc: "var(--navy-soft)" };
@@ -54,26 +68,34 @@ export function tone(i: number) {
   return "var(--amber)";
 }
 
-export function findCleanest(start: number, win: number) {
-  let best = start;
-  let bestI = GRID[start];
+/* cleanest window in [startT, startT + win) — ABSOLUTE sim-hours, so the scan
+   reaches into tomorrow instead of wrapping around the same day. `hour` is the
+   wall-clock display value of the winning slot. */
+export function findCleanest(startT: number, win: number) {
+  let best = startT;
+  let bestI = gridAt(startT);
   for (let i = 0; i < win; i++) {
-    const h = (start + i) % 24;
-    if (GRID[h] < bestI) {
-      bestI = GRID[h];
-      best = h;
+    const t = startT + i;
+    if (gridAt(t) < bestI) {
+      bestI = gridAt(t);
+      best = t;
     }
   }
-  return { hour: best, intensity: bestI };
+  return { t: best, hour: ((best % 24) + 24) % 24, intensity: bestI };
 }
+
+/* whole days between two absolute sim-hours (0 = same day, 1 = tomorrow…) */
+export const relDay = (t: number, nowT: number) =>
+  Math.floor(t / 24) - Math.floor(nowT / 24);
 
 export const hh = (i: number) => String(i).padStart(2, "0");
 
 export type GhJob = {
   id: number;
   name: string;
+  /* all three are ABSOLUTE sim-hours (day*24 + hour) */
   submitted: number;
-  deadlineH: number;
+  deadlineT: number;
   scheduled: number;
   schedInt: number;
   immInt: number;
@@ -84,24 +106,31 @@ export type GhJob = {
 const KWH_PER_JOB = 2;
 
 type GhSim = {
+  /* absolute sim-time in hours (monotonic — never wraps) */
+  simT: number;
+  /* wall-clock hour derived from simT, for display */
   hour: number;
   advanceHour: () => void;
   auto: boolean;
   setAuto: (b: boolean) => void;
   jobs: GhJob[];
-  submitJob: (name: string, deadlineWindow: number) => void;
+  /* deadlineT is ABSOLUTE; targetT (absolute) = the user picked their own
+     window off the forecast instead of taking the recommendation */
+  submitJob: (name: string, deadlineT: number, targetT?: number) => void;
   flex: { count: number; queued: number; complete: number; avgSavePct: number; gramsAvoided: number };
 };
 
 const SimCtx = createContext<GhSim | null>(null);
 
 const SEED_JOBS: GhJob[] = [
-  { id: 1, name: "Batch transcription · 412 audio files", submitted: 13, deadlineH: 21, scheduled: 17, schedInt: 168, immInt: 342, status: "queued" },
-  { id: 2, name: "Overnight feedback summary", submitted: 12, deadlineH: 20, scheduled: 16, schedInt: 194, immInt: 360, status: "queued" },
+  { id: 1, name: "Batch transcription · 412 audio files", submitted: 13, deadlineT: 21, scheduled: 17, schedInt: 168, immInt: 342, status: "queued" },
+  { id: 2, name: "Overnight feedback summary", submitted: 12, deadlineT: 20, scheduled: 16, schedInt: 194, immInt: 360, status: "queued" },
 ];
 
 export function GhSimProvider({ children }: { children: ReactNode }) {
-  const [hour, setHour] = useState(14);
+  // absolute sim-time; the demo opens at 14:00 on day 0
+  const [simT, setSimT] = useState(14);
+  const hour = ((simT % 24) + 24) % 24;
   // the sim clock runs by default (the T1 pill cycles like it used to);
   // the T2 Pause button stops the whole product's clock — one clock, one truth
   const [auto, setAuto] = useState(true);
@@ -122,7 +151,7 @@ export function GhSimProvider({ children }: { children: ReactNode }) {
     const t = setInterval(() => {
       // pause the world while the tab is hidden (page-wide convention)
       if (typeof document !== "undefined" && document.hidden) return;
-      setHour((h) => (h + 1) % 24);
+      setSimT((v) => v + 1);
     }, 8000);
     return () => clearInterval(t);
   }, [auto]);
@@ -130,38 +159,40 @@ export function GhSimProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setJobs((js) =>
       js.map((j) => {
-        if (j.status === "queued" && hour === j.scheduled) return { ...j, status: "running" };
-        if (j.status === "running" && hour === (j.scheduled + 1) % 24) return { ...j, status: "complete" };
+        if (j.status === "queued" && simT >= j.scheduled) return { ...j, status: "running" };
+        if (j.status === "running" && simT >= j.scheduled + 1) return { ...j, status: "complete" };
         return j;
       }),
     );
-  }, [hour]);
+  }, [simT]);
 
-  const advanceHour = useCallback(() => setHour((h) => (h + 1) % 24), []);
+  const advanceHour = useCallback(() => setSimT((v) => v + 1), []);
 
   const submitJob = useCallback(
-    (name: string, deadlineWindow: number) => {
-      const { hour: sh, intensity } = findCleanest(hour, deadlineWindow);
+    (name: string, deadlineT: number, targetT?: number) => {
+      const sched =
+        targetT != null
+          ? { t: targetT, intensity: gridAt(targetT) }
+          : findCleanest(simT, Math.max(1, deadlineT - simT));
       setJobs((js) => [
         {
           id: nextId,
           name,
-          submitted: hour,
-          deadlineH: (hour + deadlineWindow) % 24,
-          scheduled: sh,
-          schedInt: intensity,
-          immInt: GRID[hour],
-          // when the cleanest window IS the current hour, the [hour] status
-          // effect has already run for this tick — so settle the job to
-          // "running" now (it completes on the next tick) instead of letting it
-          // sit "queued" until the clock wraps all the way back around.
-          status: sh === hour ? "running" : "queued",
+          submitted: simT,
+          deadlineT,
+          scheduled: sched.t,
+          schedInt: sched.intensity,
+          immInt: gridAt(simT),
+          // when the chosen window IS the current hour, the [simT] status
+          // effect has already run for this tick — settle the job to "running"
+          // now (it completes on the next tick).
+          status: sched.t <= simT ? "running" : "queued",
         },
         ...js,
       ]);
       setNextId((n) => n + 1);
     },
-    [hour, nextId],
+    [simT, nextId],
   );
 
   const flex = useMemo(() => {
@@ -180,8 +211,8 @@ export function GhSimProvider({ children }: { children: ReactNode }) {
   }, [jobs]);
 
   const value = useMemo(
-    () => ({ hour, advanceHour, auto, setAuto, jobs, submitJob, flex }),
-    [hour, advanceHour, auto, jobs, submitJob, flex],
+    () => ({ simT, hour, advanceHour, auto, setAuto, jobs, submitJob, flex }),
+    [simT, hour, advanceHour, auto, jobs, submitJob, flex],
   );
 
   return <SimCtx.Provider value={value}>{children}</SimCtx.Provider>;

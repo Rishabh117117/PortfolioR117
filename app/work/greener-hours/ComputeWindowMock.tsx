@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { GRID, classify, findCleanest, hh, useGhSim } from "./GhSim";
+import { classify, findCleanest, gridAt, hh, useGhSim } from "./GhSim";
 import s from "./ComputeWindowMock.module.css";
 
 /**
@@ -29,7 +29,7 @@ const CHIPS = [
 type Msg = { role: "user" | "assistant"; text: string; hour: number; error?: boolean };
 
 export default function ComputeWindowMock() {
-  const { hour: simHour, jobs } = useGhSim();
+  const { simT, hour: simHour, jobs } = useGhSim();
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "assistant",
@@ -45,7 +45,7 @@ export default function ComputeWindowMock() {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, loading]);
 
-  const intensity = GRID[simHour];
+  const intensity = gridAt(simT);
   const ind = classify(intensity);
 
   async function send(preset?: string) {
@@ -57,7 +57,7 @@ export default function ComputeWindowMock() {
     setMessages(next);
     setLoading(true);
     try {
-      const best = findCleanest(simHour, 12);
+      const best = findCleanest(simT, 12);
       const context = `Simulated live grid, region us-east-1: it is ${hh(simHour)}:00; current intensity ${intensity} gCO2e/kWh (${ind.label}). Cleanest window in the next 12h: ${hh(best.hour)}:00 at ${best.intensity} gCO2e/kWh. Tier-2 flexible queue: ${jobs.length} job(s), ${jobs.filter((j) => j.status === "queued").length} queued. The user sees a Compute Window Indicator pill with exactly this state.`;
       const history = next
         .filter((m) => !m.error)

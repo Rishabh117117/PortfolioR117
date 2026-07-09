@@ -16,26 +16,87 @@
     grid-template-columns: 1fr 1.5fr;
   }
 }
-.clock {
-  background: var(--ink);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 14px;
+/* GH-T2-2 — deadline pickers (real day + time, replaces the hours slider) */
+.pickerRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
 }
-.clockTop {
+.pickSel {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 7px 8px;
+  accent-color: var(--amber);
+}
+.pickWarn {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--amber);
+}
+.pickHint {
+  margin-top: 10px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--soft);
+}
+.scheduleBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* GH-T2-2 — the demo clock, demoted: a quiet strip under the form (was a big
+   dark panel on top). It fast-forwards the day; Pause still freezes the whole
+   product (T1 pill + T3), so keep both controls reachable. */
+.demoClock {
+  margin-top: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: var(--card);
+}
+.demoClockTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.demoClockLbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--soft);
+}
+.demoClockTime {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--ink);
+}
+.demoClockRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
-.clockLbl {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--amber-soft);
+.demoClockNote {
+  font-size: 11px;
+  color: var(--soft);
 }
-.autoBtn {
+.demoClockBtns {
+  display: inline-flex;
+  gap: 6px;
+}
+.autoBtnLight,
+.advBtnLight {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.05em;
@@ -43,44 +104,15 @@
   font-weight: 600;
   padding: 4px 9px;
   border-radius: 3px;
-  border: 1px solid var(--amber-soft);
-  background: transparent;
-  color: var(--amber-soft);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-2);
   cursor: pointer;
 }
-.autoBtn.on {
+.autoBtnLight.onLight {
   background: var(--amber);
   border-color: var(--amber);
   color: var(--paper);
-}
-.clockBig {
-  font-family: var(--font-serif);
-  font-size: 2.4rem;
-  line-height: 1;
-  color: var(--paper);
-}
-.clockBig .c {
-  color: var(--amber-soft);
-}
-.clockMeta {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--amber-soft);
-  margin-top: 6px;
-}
-.advBtn {
-  margin-top: 12px;
-  width: 100%;
-  background: transparent;
-  color: var(--paper);
-  border: 1px solid color-mix(in srgb, var(--paper) 28%, transparent);
-  border-radius: 3px;
-  padding: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
 }
 .form {
   background: var(--paper);
@@ -391,6 +423,101 @@
 }
 .chartBlock {
   padding: 0 18px 14px;
+}
+
+/* GH-T3-2 — green-window use block: period toggle + full-width split bar +
+   used-vs-potential rows. Same tone family as the split bar above. */
+.perBtns {
+  display: inline-flex;
+  gap: 4px;
+}
+.perBtn {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--soft);
+  cursor: pointer;
+}
+.perBtn.perOn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+.gwHead {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+.gwHead b {
+  font-family: var(--font-serif);
+  font-size: 1.35em;
+  color: var(--ink);
+  font-weight: 600;
+}
+.gwBar {
+  height: 10px;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+.gwLive {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  margin-top: 8px;
+}
+.vsBlock {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+.vsRow {
+  display: grid;
+  grid-template-columns: 130px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.vsLbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+.vsTrack {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--fill);
+  overflow: hidden;
+  display: block;
+}
+.vsFill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.vsFill.vsPot {
+  background: color-mix(in srgb, var(--accent) 34%, var(--fill));
+  border: 1px dashed var(--accent);
+  box-sizing: border-box;
+}
+.vsVal {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink);
+  text-align: right;
+}
+@media (max-width: 560px) {
+  .vsRow {
+    grid-template-columns: 96px 1fr 36px;
+  }
 }
 .chartHead {
   display: flex;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GRID, hh, gridSplit, useGhSim } from "./GhSim";
+import { gridAt, hh, gridSplit, useGhSim } from "./GhSim";
 import "./diagrams.css";
 import s from "./TierMocks.module.css";
 
@@ -21,6 +21,16 @@ const DAYS: [number, number][] = [
 ];
 const BASE = 150, TOP = 12, MAXH = BASE - TOP, STEP = 39, X0 = 8;
 
+// GH-T3-2 — green-window use per period: [green%, mixed%, fossil%, potential%].
+// Illustrative + deterministic; "potential" = if every deferrable job shifted
+// to a green window (system-inferred). The improving day > week > month trend
+// is the story: adoption of the scheduler is pulling the share up.
+const GREEN_USE: Record<"day" | "week" | "month", { green: number; mixed: number; fossil: number; potential: number; requests: string }> = {
+  day: { green: 46, mixed: 36, fossil: 18, potential: 71, requests: "84k" },
+  week: { green: 42, mixed: 38, fossil: 20, potential: 68, requests: "590k" },
+  month: { green: 38, mixed: 41, fossil: 21, potential: 64, requests: "2.4M" },
+};
+
 const BY_TEAM: [string, number, string][] = [
   ["R&D", 78, "782k"], ["Eng", 64, "621k"], ["Mktg", 44, "428k"], ["Ops", 28, "275k"],
 ];
@@ -29,10 +39,13 @@ const BY_MODEL: [string, number, string][] = [
 ];
 
 export default function DashboardMock() {
-  const { hour, jobs, flex, auto } = useGhSim();
+  const { simT, hour, jobs, flex, auto } = useGhSim();
   const [live, setLive] = useState(true);
   const [calls, setCalls] = useState(2_400_000);
   const [jitter, setJitter] = useState(0);
+  // GH-T3-2 — green-window use, switchable period (illustrative datasets;
+  // the jobs line underneath is the live Tier-2 queue)
+  const [period, setPeriod] = useState<"day" | "week" | "month">("day");
 
   useEffect(() => {
     if (!live) return;
@@ -49,7 +62,7 @@ export default function DashboardMock() {
   // avg intensity tracks the SAME sim clock as the T1 pill. The small live
   // jitter only applies while the shared sim is running — when the T2 scheduler
   // is paused (auto=false) the pill freezes, so this must freeze to match it.
-  const avg = GRID[hour] + (live && auto ? jitter : 0);
+  const avg = gridAt(simT) + (live && auto ? jitter : 0);
   // "hours on green power" — a straight tally over the 24h GRID using the same
   // thresholds as the T1 indicator pill (classify() in GhSim.tsx).
   const split = gridSplit();
@@ -153,6 +166,65 @@ export default function DashboardMock() {
         <div className={s.antirebound}>
           <b>Anti-rebound view:</b> intensity is falling, but volume is rising — both
           surfaced so efficiency cannot disguise growth.
+        </div>
+      </div>
+
+      {/* GH-T3-2 — how much of the load actually ran while the grid was green,
+          switchable day/week/month, plus used-vs-potential (system-inferred) */}
+      <div className={s.chartBlock}>
+        <div className={s.chartHead}>
+          <span className={s.chartTitle}>GREEN WINDOW USE · {period.toUpperCase()}</span>
+          <span className={s.perBtns} role="group" aria-label="Green window use period">
+            {(["day", "week", "month"] as const).map((p) => (
+              <button
+                key={p}
+                type="button"
+                className={`${s.perBtn} ${period === p ? s.perOn : ""}`}
+                aria-pressed={period === p}
+                onClick={() => setPeriod(p)}
+              >
+                {p === "day" ? "Daily" : p === "week" ? "Weekly" : "Monthly"}
+              </button>
+            ))}
+          </span>
+        </div>
+        <div className={s.gwHead}>
+          <b>{GREEN_USE[period].green}%</b> of {GREEN_USE[period].requests} requests ran while
+          the grid was green
+        </div>
+        <div className={`${s.splitBar} ${s.gwBar}`}>
+          <span className={s.splitGreen} style={{ width: `${GREEN_USE[period].green}%` }} />
+          <span className={s.splitMixed} style={{ width: `${GREEN_USE[period].mixed}%` }} />
+          <span className={s.splitFossil} style={{ width: `${GREEN_USE[period].fossil}%` }} />
+        </div>
+        <div className={`${s.kDelta} ${s.mut}`}>
+          {GREEN_USE[period].green}% green · {GREEN_USE[period].mixed}% mixed ·{" "}
+          {GREEN_USE[period].fossil}% fossil-heavy
+        </div>
+        <div className={s.gwLive}>
+          {flex.count > 0
+            ? `${flex.count} flexible job${flex.count === 1 ? "" : "s"} routed to green windows · ${flex.complete} complete (sim)`
+            : "no flexible jobs yet — the Tier-2 scheduler feeds this number"}
+        </div>
+        <div className={s.vsBlock}>
+          <div className={s.vsRow}>
+            <span className={s.vsLbl}>ran in green windows</span>
+            <span className={s.vsTrack}>
+              <span className={s.vsFill} style={{ width: `${GREEN_USE[period].green}%` }} />
+            </span>
+            <span className={s.vsVal}>{GREEN_USE[period].green}%</span>
+          </div>
+          <div className={s.vsRow}>
+            <span className={s.vsLbl}>potential</span>
+            <span className={s.vsTrack}>
+              <span className={`${s.vsFill} ${s.vsPot}`} style={{ width: `${GREEN_USE[period].potential}%` }} />
+            </span>
+            <span className={s.vsVal}>{GREEN_USE[period].potential}%</span>
+          </div>
+          <div className={`${s.kDelta} ${s.mut}`}>
+            potential = every deferrable job shifted to a green window, inferred by the
+            system <i>(sim · illustrative)</i>
+          </div>
         </div>
       </div>
 
