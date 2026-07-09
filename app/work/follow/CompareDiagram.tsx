@@ -16,21 +16,20 @@ type Variant = "before" | "after";
 
 const COLS = [140, 320, 500];
 const TEAM = ["Maya", "Alex", "Sam"];
-const SUB = ["₁", "₂", "₃"];
-const PILLARS = "shared memory · provenance · contradiction · directory";
+const PILLARS = "one memory · sources kept · disagreements flagged · who knows what";
 
 const COPY: Record<Variant, { tag: string; sub: string; aria: string }> = {
   before: {
     tag: "Before Follow",
     sub: "Each teammate works with their own AI in a private thread; the only place it all meets is a meeting — which forgets what it doesn’t know.",
     aria:
-      "Before Follow: a shared web feeds three teammates' private AIs with no shared memory; each teammate then brings work to a meeting at the bottom, which forgets.",
+      "Before Follow: a shared web feeds each teammate’s own AI in a private thread, with no shared memory between them; each teammate then brings work to a meeting at the bottom, which forgets.",
   },
   after: {
     tag: "With Follow",
     sub: "The Follow Index sits under every AI tool — each reads and writes the same memory, so the whole team shares it, with provenance (who said what, where, when) and contradictions kept visible.",
     aria:
-      "With Follow: the three AIs read and write a shared Follow Index — shared memory, provenance, contradiction detection and a directory — that sits between the AIs and the team, so the whole team shares one memory.",
+      "With Follow: each teammate’s own AI reads and writes a shared Follow Index — one memory, sources kept, disagreements flagged, and who knows what — that sits between the AIs and the team, so the whole team shares one memory.",
   },
 };
 
@@ -60,12 +59,23 @@ export default function CompareDiagram({ variant }: { variant: Variant }) {
           <line className="hair" x1="320" y1="54" x2="320" y2="96" />
           <line className="hair" x1="340" y1="52" x2="488" y2="96" />
 
-          {/* AI row (shared markup; styled per variant) */}
+          {/* AI row (shared markup; styled per variant) — plain "AI" plus a
+              tiny possessive sub-label per column, read together as "each
+              person's own AI" without AI₁/₂/₃ subscripts. Both labels sit
+              INSIDE the circle (not above/below it): the web hairline above
+              the middle column runs straight down its centre-line, and the
+              before/after connector below runs straight down every
+              column's centre-line, so an above/below label would sit on
+              top of those strokes. Inside the r=28 circle there's no
+              artwork at all, so nothing collides. */}
           {COLS.map((x, i) => (
             <g key={"ai" + x}>
               <circle className="ai" cx={x} cy="124" r="28" />
-              <text className="t-ai" x={x} y="129" textAnchor="middle">
-                AI{SUB[i]}
+              <text className="t-ai" x={x} y="120" textAnchor="middle">
+                AI
+              </text>
+              <text className="t-aisub" x={x} y="137" textAnchor="middle">
+                {TEAM[i]}’s
               </text>
             </g>
           ))}

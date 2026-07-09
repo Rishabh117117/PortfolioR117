@@ -34,15 +34,15 @@ import "./FollowReel.css";
 type Beat = { s: string; t: string };
 
 const BEATS: Beat[] = [
-  { s: "01 · INGEST", t: "three teammates, three AIs" },
-  { s: "02 · REPORTER", t: "data becomes nodes" },
-  { s: "03 · ANALYST", t: "five typed edges" },
-  { s: "04 · EDITOR", t: "weighted by confidence" },
-  { s: "05 · 3 TENSORS", t: "content · causal · context" },
-  { s: "06 · ARCHIVIST", t: "versions kept beneath, never overwritten" },
-  { s: "07 · THE INDEX", t: "this graph is the shared memory" },
-  { s: "MCP →", t: "any AI tool can ask" },
-  { s: "← MCP", t: "answered, with provenance" },
+  { s: "01 · INGEST", t: "three teammates, three different AI tools" },
+  { s: "02 · REPORTER", t: "turns each chat into facts" },
+  { s: "03 · ANALYST", t: "links related facts — five kinds of links" },
+  { s: "04 · EDITOR", t: "scores how much to trust each link" },
+  { s: "05 · 3 TENSORS", t: "stored three ways: what it says · what led to it · who said it" },
+  { s: "06 · ARCHIVIST", t: "old versions kept underneath, never overwritten" },
+  { s: "07 · THE INDEX", t: "this graph is the team’s shared memory" },
+  { s: "MCP →", t: "any AI tool can ask it questions" },
+  { s: "← MCP", t: "and gets answers with sources attached" },
 ];
 
 // loop cadence — interval per beat, then the hold on the final frame before the

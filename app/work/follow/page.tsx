@@ -6,6 +6,7 @@ import FollowReel from "./FollowReel";
 import CompareDiagram from "./CompareDiagram";
 import AmbientField from "./AmbientField";
 import FollowSandbox from "./FollowSandbox";
+import TermTip from "./TermTip";
 import { FOLLOW_ROOT_STYLE } from "./theme";
 import styles from "./follow.module.css";
 
@@ -48,13 +49,12 @@ export default function FollowPage() {
             Follow<span className={styles.dot}>.</span>
           </h1>
           <p className={styles.heroTitle}>
-            The reasoning behind your team&rsquo;s work now lives in{" "}
-            <em>private</em> AI chats.
+            A shared memory for your team’s <em>AI chats</em>.
           </p>
           <p className={styles.heroSub}>
-            Follow sits <em>between</em> your team’s AI tools and turns every
-            chat into shared team knowledge — one index of what the team
-            knows, and a directory of who knows it.
+            Follow sits between the AI tools your team already uses and
+            turns every chat into shared knowledge: one index of what the
+            team knows, and a directory of who knows it.
           </p>
         </div>
       </header>
@@ -288,28 +288,33 @@ export default function FollowPage() {
       <section className={`section ${styles.blockWhite}`}>
         <div className="containerText" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>The problem</h2>
+          <p className={styles.probState}>
+            The reasoning behind your team’s work now lives in private AI
+            chats.
+          </p>
           <p className="lede">
             Work isn’t written alone anymore. Almost every decision now passes
             through someone’s AI chat — the constraints, the rejected options,
             the reasoning — and then stays locked in that one private thread.
           </p>
           <p className={styles.body}>
-            Teams already run as a transactive memory system with each other:
-            everyone keeps a rough map of who knows what. But they don’t have
-            that with their AI tools. The context that actually shaped the work
-            scatters across separate chats and disappears. Across five concept
-            tests, most people volunteered the same feeling before seeing
-            anything — that their AI-assisted work didn’t quite feel like theirs.
-          </p>
-          <aside className={styles.defNote}>
-            <p className={styles.defTerm}>Transactive memory system</p>
-            <p className={styles.defBody}>
+            Teams already run as a{" "}
+            <TermTip
+              term="transactive memory system"
+              source="Coined by Daniel Wegner, 1985."
+            >
               A group’s shared memory: instead of everyone knowing everything,
               members specialize and quietly keep a directory of{" "}
-              <em>who knows what</em> — so the team retrieves knowledge by knowing
-              whom to ask. Coined by Daniel Wegner, 1985.
-            </p>
-          </aside>
+              <em>who knows what</em> — so the team retrieves knowledge by
+              knowing whom to ask.
+            </TermTip>{" "}
+            with each other: everyone keeps a rough map of who knows what.
+            But they don’t have that with their AI tools. The context that
+            actually shaped the work scatters across separate chats and
+            disappears. Across five concept tests, most people volunteered
+            the same feeling before seeing anything — that their AI-assisted
+            work didn’t quite feel like theirs.
+          </p>
         </div>
 
         <div className="container" data-reveal>

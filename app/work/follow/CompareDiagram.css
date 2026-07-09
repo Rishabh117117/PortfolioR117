@@ -99,6 +99,13 @@
   font-weight: 600;
   font-family: var(--font-mono);
 }
+.cdHolder .t-aisub {
+  fill: var(--accent-deep);
+  font-size: 9px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  opacity: 0.75;
+}
 
 /* connectors */
 .cdHolder .conn {
@@ -262,6 +269,9 @@
   .cdHolder .t-web,
   .cdHolder .t-ai {
     font-size: 16px;
+  }
+  .cdHolder .t-aisub {
+    font-size: 12px;
   }
   .cdHolder .t-mem,
   .cdHolder .t-memA {
