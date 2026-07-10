@@ -7,6 +7,7 @@ import PackagesApp from "./PackagesApp";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
+import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
 import { HM_ROOT_STYLE } from "./theme";
 import styles from "./healthy-materials.module.css";
@@ -90,7 +91,7 @@ export default function HealthyMaterialsPage() {
         {/* ============ 2 — THE FRAME + THE MATERIALS (paper) ============ */}
         <section className={styles.scene} data-ambient-dim>
           <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>the frame</p>
+            <SectionHeader n={1}>the frame</SectionHeader>
             <p className={styles.frameHook}>
               We have so many exciting materials. Why do they rarely make it past
               the exhibition wall?
@@ -158,13 +159,13 @@ export default function HealthyMaterialsPage() {
         {/* ============ 4 — THE JOURNEY (paper) → TIMELINE ============ */}
         <section className={styles.scene}>
           <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>the timeline</p>
+            <SectionHeader n={2}>the timeline</SectionHeader>
             <p className={styles.lede}>Fall 2025, start to finish.</p>
             <Timeline />
 
             {/* the research — clubbed under the timeline (Follow pattern) */}
             <div className={styles.clubbed}>
-              <h3 className={`mono ${styles.kicker}`}>The research</h3>
+              <SectionHeader as="h3">The research</SectionHeader>
               <p className="lede">
                 Mixed methods on a deliberately small scope: a desk-research
                 spine plus four primary engagements — a materials-library field
@@ -230,7 +231,7 @@ export default function HealthyMaterialsPage() {
         {/* ============ 5 — INSIDE THE HML (teal) → FIELD-VISIT CAROUSEL ====== */}
         <section className={`${styles.teal} ${styles.field}`}>
           <div className={styles.fieldHead} data-reveal>
-            <p className={`mono ${styles.kicker}`}>field visit</p>
+            <SectionHeader n={3}>field visit</SectionHeader>
             <h2 className={styles.fieldTitle}>Inside the Healthy Materials Lab</h2>
             <p className={styles.fieldIntro}>
               A library you pull open drawer by drawer — every material catalogued,
@@ -246,7 +247,7 @@ export default function HealthyMaterialsPage() {
             turn" sub-blocks below] ============ */}
         <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
           <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>where adoption breaks — and where it turns</p>
+            <SectionHeader n={4}>where adoption breaks — and where it turns</SectionHeader>
             <p className={styles.lede}>
               We mapped everything we learned onto the life of a project —
               before, during, and after construction. That journey map became
@@ -479,7 +480,7 @@ export default function HealthyMaterialsPage() {
         {/* ============ 8 — THREE INTERVENTIONS (band) ============ */}
         <section className={`${styles.scene} ${styles.band}`}>
           <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>from insight to intervention</p>
+            <SectionHeader n={5}>from insight to intervention</SectionHeader>
             <p className={styles.bridge}>
               Three concepts came out of this — each attacking a different point
               where healthy materials fall out.
@@ -562,7 +563,7 @@ export default function HealthyMaterialsPage() {
         {/* ============ 9 — MADE TANGIBLE (paper) → THE WORKING PROTOTYPE ===== */}
         <section className={styles.scene}>
           <div className={styles.wrapWide} data-reveal>
-            <p className={`mono ${styles.kicker}`}>the intervention, made tangible</p>
+            <SectionHeader n={6}>the intervention, made tangible</SectionHeader>
             <div className={styles.tangibleIntro}>
               <p className={styles.lede}>Healthy Materials Packages — a working slice.</p>
               <p className={styles.body}>

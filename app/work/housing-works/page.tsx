@@ -7,6 +7,7 @@ import AmbientField from "./AmbientField";
 import Timeline from "./Timeline";
 import WorkshopsApp from "./WorkshopsApp";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import { HW_ROOT_STYLE } from "./theme";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
@@ -73,7 +74,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 2 — THE BRIEF ============ */}
       <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>The brief</p>
+          <SectionHeader n={1}>The brief</SectionHeader>
           <p className={styles.lede}>
             Housing Works funds HIV and homelessness services through a chain of
             thrift stores and a bookstore. It can’t pay what companies pay, and
@@ -92,7 +93,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 2b — THE SEMESTER (project timeline) ============ */}
       <section className={styles.scene}>
         <div className={`${styles.wrap} hw-reveal`} data-ambient-dim>
-          <p className={`mono ${styles.kicker}`}>The semester</p>
+          <SectionHeader n={2}>The semester</SectionHeader>
           <p className={styles.lede}>
             Fifteen weeks — from meeting the partner to handing over the
             strategy.
@@ -122,7 +123,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 4 — HOW WE WORKED ============ */}
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>How we worked</p>
+          <SectionHeader n={3}>How we worked</SectionHeader>
           <p className={styles.lede}>
             We worked in four passes, and listened before we proposed anything.
           </p>
@@ -228,7 +229,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 4a — SITE VISITS (bento photo grid) ============ */}
       <section className={styles.gridScene}>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>From the site visits</p>
+          <SectionHeader n={4}>From the site visits</SectionHeader>
           <div className={styles.sitesGrid}>
             <img className={`${styles.sitePhoto} ${styles.sBig}`} src={`${IMG}/site-1.jpg`} alt="Inside a Housing Works thrift store." loading="lazy" width="1200" height="900" />
             <img className={styles.sitePhoto} src={`${IMG}/site-2.jpg`} alt="Shoes and accessories on the retail floor." loading="lazy" width="1200" height="900" />
@@ -333,7 +334,7 @@ export default function HousingWorksPage() {
       {/* ============ WORKSHOP 02 — BRIDGES AND BARRIERS ============ */}
       <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>Workshop 02 · Bridges &amp; Barriers</p>
+          <SectionHeader n={5}>Workshop 02 · Bridges &amp; Barriers</SectionHeader>
           <h2 className={styles.wsHeading}>Mapping the bridges and the barriers.</h2>
 
           <div className={styles.bridgesText}>
@@ -379,7 +380,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 7 — WHAT WE FOUND (four findings + glyphs) ====== */}
       <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>What we found</p>
+          <SectionHeader n={6}>What we found</SectionHeader>
           <p className={styles.lede}>
             Four patterns came up again and again — and each one echoed something
             Housing Works had already named in its People plan. None of them were
@@ -499,7 +500,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 8 — WHAT WE PROPOSED ============ */}
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>What we proposed</p>
+          <SectionHeader n={7}>What we proposed</SectionHeader>
           <p className={styles.lede}>
             We gave Housing Works three low-cost frameworks it could adopt
             without new headcount. Each answered one of our findings — and each
@@ -581,7 +582,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 9 — MY FRAMEWORK → HARNESS ============ */}
       <section className={styles.scene} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>My framework — trustee-led workshops</p>
+          <SectionHeader n={8}>My framework — trustee-led workshops</SectionHeader>
           <p className={styles.body}>
             The system matches a staff development need against a trustee’s
             skills and Housing Works’ strategic priorities, then turns the match
@@ -661,7 +662,7 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 10 — LIMITATIONS (quiet close) ============ */}
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
-          <p className={`mono ${styles.kicker}`}>Limitations</p>
+          <SectionHeader n={9}>Limitations</SectionHeader>
           <p className={styles.body}>
             A few honest caveats. Our survey leaned toward design students, the
             workshop was a single session, and these are proposals — Housing

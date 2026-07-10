@@ -68,9 +68,8 @@
   background: var(--navy-deep);
   color: var(--paper);
   border-block: 1px solid var(--navy);
-}
-.navy .kicker {
-  color: var(--amber-soft);
+  /* the shared SectionHeader eyebrow reads this (amber, legible on navy) */
+  --sh-color: var(--amber-soft);
 }
 .navy .title {
   color: var(--paper);
@@ -91,9 +90,7 @@
   background: var(--navy-deep);
   color: var(--paper);
   border-block: 1px solid var(--navy);
-}
-.blue .kicker {
-  color: var(--amber-soft);
+  --sh-color: var(--amber-soft);
 }
 .blue .title {
   color: var(--paper);

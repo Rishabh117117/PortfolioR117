@@ -23,8 +23,9 @@
   z-index: 1;
 }
 
-/* signature gradient rule above every section kicker */
-.kicker::before,
+/* signature gradient rule above the poster-study sub-labels. The numbered
+   section eyebrows now use the shared <SectionHeader> (no bar) to match the
+   other three flagships; the bar stays as the poster study's own flourish. */
 .subKicker::before,
 .wsHeroKicker::before {
   content: "";

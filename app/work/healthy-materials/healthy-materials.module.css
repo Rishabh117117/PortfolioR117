@@ -78,9 +78,8 @@
   background: var(--teal);
   color: var(--paper);
   isolation: isolate;
-}
-.teal .kicker {
-  color: var(--sage-light);
+  /* the shared SectionHeader eyebrow reads this (sage, legible on teal) */
+  --sh-color: var(--sage-light);
 }
 
 /* =========================================================================

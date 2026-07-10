@@ -1,0 +1,26 @@
+/* =========================================================================
+   SectionHeader — the shared numbered section eyebrow.
+
+   The Greener Hours "§ 01 · The problem" convention, standardized across all
+   four flagship case studies (Follow / Greener Hours / Healthy Materials /
+   Housing Works). Matches GH's original .kicker exactly: mono, uppercase,
+   per-project accent.
+
+   Color comes from --sh-color and falls back to the page's --accent, so a
+   dark band switches the eyebrow to a legible tint by setting ONE custom
+   property on the <section> (e.g. .navy { --sh-color: var(--amber-soft) }).
+   Custom properties cascade through CSS-module boundaries; hashed class names
+   do not — which is why this is a variable, not a descendant selector.
+   ========================================================================= */
+.head {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sh-color, var(--accent));
+  margin-bottom: var(--space-3);
+}
+.center {
+  text-align: center;
+}

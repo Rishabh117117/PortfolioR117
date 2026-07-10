@@ -31,6 +31,7 @@ import AdoptionCurve from "./AdoptionCurve";
 import GhApp from "./GhApp";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
+import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import { GH_ROOT_STYLE } from "./theme";
 import styles from "./greener-hours.module.css";
 
@@ -100,7 +101,7 @@ export default function GreenerHoursPage() {
         {/* ============ §2 THE SCALE (problem — one dark band with §3) ============ */}
         <section className={`section ${styles.navy}`}>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 01 · The problem · the scale</p>
+            <SectionHeader n={1}>The problem · the scale</SectionHeader>
             <div className={styles.scaleGrid}>
               <div>
                 <div className={styles.giant}>
@@ -118,7 +119,7 @@ export default function GreenerHoursPage() {
         {/* ============ §3 THE INVISIBILITY (dark) ============ */}
         <section className={`section ${styles.navy}`}>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 02 · The invisibility</p>
+            <SectionHeader n={2}>The invisibility</SectionHeader>
             <h2 className={styles.title}>
               {VIS_HEADLINE_A}
               <br />
@@ -147,7 +148,7 @@ export default function GreenerHoursPage() {
         {/* ============ §4 THE REFRAME + PRECEDENT (light, centered) ============ */}
         <section className="section" data-ambient-dim>
           <div className="container" data-reveal>
-            <p className={`${styles.kicker} ${styles.center}`}>§ 03 · The reframe</p>
+            <SectionHeader n={3} center>The reframe</SectionHeader>
             <p className={styles.reframeStatement}>
               {INSIGHT.lead}{" "}
               <span className={styles.turn}>{INSIGHT.turn}</span>
@@ -187,7 +188,7 @@ export default function GreenerHoursPage() {
         {/* ============ §5 THE OPPORTUNITY (forces) — blue band ============ */}
         <section className={`section ${styles.blue}`}>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 04 · The opportunity · three forces</p>
+            <SectionHeader n={4}>The opportunity · three forces</SectionHeader>
             <h2 className={styles.title}>
               Why now, <em>not five years ago.</em>
             </h2>
@@ -211,7 +212,7 @@ export default function GreenerHoursPage() {
         {/* ============ §6 THE STANDARD (the product) ============ */}
         <section className="section" data-ambient-dim>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 05 · The product · the standard</p>
+            <SectionHeader n={5}>The product · the standard</SectionHeader>
             <h2 className={styles.title}>
               One standard. <em>Three surfaces.</em>
             </h2>
@@ -234,7 +235,7 @@ export default function GreenerHoursPage() {
         {/* ============ §7 THE THREE SURFACES (tabbed) ============ */}
         <section className="section">
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 06 · The three surfaces</p>
+            <SectionHeader n={6}>The three surfaces</SectionHeader>
             <h2 className={styles.title}>
               One indicator, one scheduler, <em>one dashboard.</em>
             </h2>
@@ -253,7 +254,7 @@ export default function GreenerHoursPage() {
         {/* ============ §8 HONEST TRADE-OFFS ============ */}
         <section className="section" data-ambient-dim>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 07 · Named, not hidden</p>
+            <SectionHeader n={7}>Named, not hidden</SectionHeader>
             <h2 className={styles.title}>
               What this project <em>cannot pretend.</em>
             </h2>
@@ -272,7 +273,7 @@ export default function GreenerHoursPage() {
         {/* ============ §9 SPECULATIVE KPIs ============ */}
         <section className={`section ${styles.band}`}>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 08 · If it works</p>
+            <SectionHeader n={8}>If it works</SectionHeader>
             <h2 className={styles.title}>
               When compute disclosure becomes <em>a normal procurement field.</em>
             </h2>
@@ -292,7 +293,7 @@ export default function GreenerHoursPage() {
         {/* ============ §10 CLOSE (dark) ============ */}
         <section className={`section ${styles.navy}`}>
           <div className="container" data-reveal>
-            <p className={styles.kicker}>§ 09 · Close</p>
+            <SectionHeader n={9}>Close</SectionHeader>
             <h2 className={styles.closeLine}>
               Make the invisible legible, and <em>the providers move.</em>
             </h2>
