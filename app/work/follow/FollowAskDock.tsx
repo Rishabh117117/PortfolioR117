@@ -193,7 +193,7 @@ export default function FollowAskDock({
   const showChips = items.length === 0 && !loading;
 
   return (
-    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Ask Follow">
+    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Ask Follow" data-tour="ask">
       <header className={s.assistHead}>
         <span className={s.assistTitle}>
           <span className={`${s.assistDot} ${offline ? s.assistDotOff : ""}`} aria-hidden="true" />

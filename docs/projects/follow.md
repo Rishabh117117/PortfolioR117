@@ -274,3 +274,30 @@ gate; the code is written to pass `next/core-web-vitals`.)
    sandbox route when built, and (if it's a real working demo) revisit the badge.
 3. **Longitudinal pilot** — the timeline footnote frames the move "from modeled to
    measured"; that study is future work, not part of this page.
+
+---
+
+## 9. FOLLOW-SYS-1 addendum (2026-07-10) — the reel + "With Follow" diagram became one interactive picture
+
+Everything in §§1–8 that describes the **pipeline reel** and the framed
+**"With Follow" CompareDiagram variant** is superseded:
+
+- `FollowReel.tsx/.css` are **deleted**. The "How it works" section and the
+  technical pipeline framing (LLM roles / tensors / typed edges) are gone from
+  the page — the plain-language story lives in the new diagram's hover
+  captions instead.
+- `CompareDiagram` is **before-only** now (no `variant` prop); the response
+  section renders the new **`FollowSystem.tsx/.css`** — a borderless
+  interactive system diagram (person·tool glass chips, write/read packet
+  wires, glass "The Follow index." slab, 4 hover/tap/focus stations + an
+  aria-live caption dock with sandbox-canon examples).
+- New **"What it does"** section after the response: RAG-vs-Follow compare
+  strip + six feature tiles (absorbed the old "Not quite RAG" aside and the
+  post-sandbox "What it accomplishes" section, both removed).
+- The sandbox how-to paragraph became **`DemoTour.tsx`** — a five-stop
+  onboarding tour; each "show me ↓" dispatches `follow:goto` (handled in
+  `FollowSandbox`) and scrolls to `#follow-sandbox`.
+
+Page order now: hero → timeline + research → problem block (before diagram
+kept) → insights → HMW → **Follow reveal + FollowSystem** → **What it does**
+→ sandbox (story card → tour → app) → pager.

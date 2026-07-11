@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
-import FollowReel from "./FollowReel";
 import CompareDiagram from "./CompareDiagram";
+import FollowSystem from "./FollowSystem";
+import DemoTour from "./DemoTour";
 import AmbientField from "./AmbientField";
 import FollowSandbox from "./FollowSandbox";
 import TermTip from "./TermTip";
@@ -13,7 +14,7 @@ import styles from "./follow.module.css";
 export const metadata: Metadata = {
   title: "Follow",
   description:
-    "Follow — a shared, trackable memory layer that sits between a team’s AI tools. The capstone: the pipeline, the research, and the two pivots to a team-memory layer.",
+    "Follow — a shared, trackable memory layer that sits between a team’s AI tools. The capstone: the research, the two pivots, the system in one interactive picture, and a live sandbox of the shipped product.",
 };
 
 // §4.1 — the Follow accent lives in ./theme.ts (shared with the /prototype
@@ -324,7 +325,7 @@ export default function FollowPage() {
               Same team. Same tools. The reasoning <em>scatters</em>.
             </h2>
           </div>
-          <CompareDiagram variant="before" />
+          <CompareDiagram />
           <p className={styles.reelNote}>
             From the capstone deck — three teammates, three AIs, each working in a
             private thread the others can’t see.
@@ -394,7 +395,7 @@ export default function FollowPage() {
         </div>
       </section>
 
-      {/* ============ FOLLOW CONCEPT — the response (with-Follow diagram) ============ */}
+      {/* ============ FOLLOW CONCEPT — the response (the system, in one picture) ============ */}
       <section className="section">
         <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The response</p>
@@ -403,55 +404,98 @@ export default function FollowPage() {
           </h2>
           <p className={styles.revealLine}>
             A shared memory layer that lives <em>between</em> your AI tools — not
-            inside any one of them.
+            inside any one of them. This is the whole system:
           </p>
-          <CompareDiagram variant="after" />
-          <p className={styles.reelNote}>
-            Every conversation feeds one shared index, queryable from any tool
-            over MCP. The outcome is simple: a live directory of what your
-            team knows and who knows it. (Glean indexes your documents; Follow
-            indexes the <em>reasoning</em>.)
-          </p>
+          <FollowSystem />
         </div>
       </section>
 
-      {/* ============ HOW IT WORKS — inline two-up: reel (~2/3) + write-up (~1/3) ============ */}
+      {/* ============ WHAT IT DOES — not-RAG + the product behaviors ============ */}
       <section className="section">
         <div className="container" data-reveal>
-          <div className={styles.reelHead}>
-            <p className={`mono ${styles.kicker}`}>How it works</p>
-            <h2 className={styles.reelTitle}>
-              From conversation to <em>queryable</em> memory.
-            </h2>
-            {/* NOTE: the old "Scroll to play…" line is REMOVED — it no longer scrolls. */}
-          </div>
+          <h2 className={`mono ${styles.kicker}`}>What it does</h2>
+          <p className="lede">
+            Not another search box over your chats — a memory with receipts.
+            Six things fall out of that.
+          </p>
 
-          <div className={styles.howGrid}>
-            <div className={styles.reelWrap}>
-              <FollowReel />
+          <div className={styles.rag}>
+            <div className={styles.ragCard}>
+              <p className={`mono ${styles.ragTag}`}>typical RAG</p>
+              <p className={styles.ragClaim}>Finds text that matches.</p>
+              <p className={styles.ragSub}>
+                You get back a similar-sounding paragraph — no owner, no date,
+                no idea whether the team still believes it.
+              </p>
             </div>
-
-            <aside className={styles.writeup}>
-              <p className={`mono ${styles.writeupKicker}`}>Not quite RAG</p>
-              <p className={styles.writeupBody}>
-                RAG finds matching text. Follow finds the <em>source</em> — who
-                worked it out, in which chat, and what it connects to.
+            <div className={`${styles.ragCard} ${styles.ragF}`}>
+              <p className={`mono ${styles.ragTag}`}>Follow</p>
+              <p className={styles.ragClaim}>Finds the source.</p>
+              <p className={styles.ragSub}>
+                Who worked it out, in which chat, when — what it connects to,
+                and whether anyone disagrees.
               </p>
-              <p className={styles.writeupBody}>
-                A directory of what your team knows and where it came from.
-              </p>
-            </aside>
+            </div>
+            <span className={styles.ragVs} aria-hidden="true">
+              vs
+            </span>
           </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container" data-reveal>
-          <p className={styles.reelNote}>
-            Illustrative animation of the live pipeline — three teammates and
-            their AIs, five LLM roles, three tensors, five typed edges, and
-            supersession chains that are never overwritten.
+          <p className={`mono ${styles.ragNote}`}>
+            Glean indexes your documents. Follow indexes the reasoning that
+            produced them.
           </p>
+
+          <div className={styles.cards}>
+            <div className={styles.card}>
+              <span className={styles.no}>01</span>
+              <h3>Works across tools</h3>
+              <p>
+                Maya’s Claude, Alex’s ChatGPT, Sam’s Gemini — every teammate’s
+                AI reads and writes the same memory, over MCP.
+              </p>
+            </div>
+            <div className={styles.card}>
+              <span className={styles.no}>02</span>
+              <h3>Answers with receipts</h3>
+              <p>
+                Every fact carries who said it, in which chat, and when — so
+                answers come back attributed, and you can check them.
+              </p>
+            </div>
+            <div className={styles.card}>
+              <span className={styles.no}>03</span>
+              <h3>Disagreements stay visible</h3>
+              <p>
+                When two teammates’ AIs conclude different things, Follow flags
+                the conflict and keeps both sides on the record.
+              </p>
+            </div>
+            <div className={styles.card}>
+              <span className={styles.no}>04</span>
+              <h3>A live who-knows-what</h3>
+              <p>
+                The directory of what your team knows and who knows it —
+                maintained by the work itself, not by anyone filling in
+                profiles.
+              </p>
+            </div>
+            <div className={styles.card}>
+              <span className={styles.no}>05</span>
+              <h3>Memory that stays current</h3>
+              <p>
+                New decisions retire the old ones they replace — and the old
+                version stays in the trail, so nothing silently vanishes.
+              </p>
+            </div>
+            <div className={styles.card}>
+              <span className={styles.no}>06</span>
+              <h3>Files join the memory</h3>
+              <p>
+                Upload the PRD, the research notes, the analytics export —
+                Follow reads them into the same shared memory.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -480,19 +524,7 @@ export default function FollowPage() {
               keeps both sides on the record instead of picking a winner.
             </p>
           </div>
-          <p className={styles.body}>
-            Start on <strong>All items</strong> and skim their week, newest
-            first. Open a <strong>conversation</strong> to see how an answer
-            actually happened: the assistant thinks, checks the team&apos;s
-            index, then answers. Open a <strong>file</strong> — the PRD, the
-            usability notes, the analytics export. Spin the <strong>Graph</strong> to
-            see the whole memory as one structure, every fact wired to its source,
-            contradictions in red. Then interrogate the memory
-            yourself: <strong>Ask Follow</strong> answers by running
-            Follow&apos;s real tools live, thinking and tool calls on screen
-            as it works, and the <strong>MCP console</strong> shows the same
-            loop with the raw wire exposed.
-          </p>
+          <DemoTour />
           <p className={`mono ${styles.techLine}`}>
             live model · Follow&apos;s actual MCP tool contracts (
             <a
@@ -506,7 +538,7 @@ export default function FollowPage() {
           </p>
         </div>
 
-        <div className={styles.appBleed}>
+        <div className={styles.appBleed} id="follow-sandbox">
           <div className={styles.appBleedInner}>
             <FollowSandbox />
           </div>
@@ -516,44 +548,6 @@ export default function FollowPage() {
           <p className={`mono ${styles.sandboxFoot}`}>
             <Link href="/work/follow/prototype">open the sandbox full-screen ↗</Link>
           </p>
-        </div>
-      </section>
-
-      {/* ============ WHAT IT ACCOMPLISHES (outcomes) ============ */}
-      <section className="section">
-        <div className="container" data-reveal>
-          <h2 className={`mono ${styles.kicker}`}>What it accomplishes</h2>
-          <p className="lede">
-            What a team gets once its AI work shares one memory.
-          </p>
-          <div className={styles.cards}>
-            <div className={styles.card}>
-              <span className={styles.no}>01</span>
-              <h3>Shared AI memory</h3>
-              <p>
-                One team memory across collaborators — and across whichever AI
-                tool each of them uses. Everyone queries the same layer.
-              </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>02</span>
-              <h3>Per-paragraph provenance</h3>
-              <p>
-                Every fact carries who said it, in which chat, and when. Answers
-                come back attributed, so you can see and trust where they came
-                from.
-              </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>03</span>
-              <h3>Contradiction detection</h3>
-              <p>
-                When two teammates’ AIs disagree, Follow surfaces the conflict
-                instead of silently picking one — the contested points stay
-                visible.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 

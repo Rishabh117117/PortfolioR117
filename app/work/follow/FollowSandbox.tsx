@@ -271,6 +271,26 @@ export default function FollowSandbox() {
     if (valid.includes(v)) setView(v);
   }, []);
 
+  // the page's demo tour (DemoTour) points the sandbox at a stop by
+  // dispatching follow:goto. "ask" only means something in the ≤719px app
+  // shell (desktop keeps the Ask dock on screen); the rest are plain views.
+  useEffect(() => {
+    const onGoto = (e: Event) => {
+      const d = String((e as CustomEvent).detail ?? "");
+      if (d === "ask") {
+        if (window.matchMedia("(max-width: 719px)").matches) {
+          setMoreOpen(false);
+          setAskOpen(true);
+        }
+        return;
+      }
+      const valid: View[] = ["items", "conversations", "files", "memory", "graph", "directory", "mcp"];
+      if (valid.includes(d as View)) goView(d as View);
+    };
+    window.addEventListener("follow:goto", onGoto);
+    return () => window.removeEventListener("follow:goto", onGoto);
+  }, [goView]);
+
   const openSource = useCallback(
     (e: FEntry) => {
       const src = fSourceForEntry(e, loadedChats, loadedDocs);
@@ -450,6 +470,7 @@ export default function FollowSandbox() {
         <section
           className={`${s.main} ${view === "graph" ? s.mainGraph : ""}`}
           aria-label="Follow sandbox"
+          data-tour="main"
         >
           {view === "items" && (
             <>
