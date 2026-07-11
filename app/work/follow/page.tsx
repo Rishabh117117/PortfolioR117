@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
-import CompareDiagram from "./CompareDiagram";
+import BeforeSystem from "./BeforeSystem";
 import FollowSystem from "./FollowSystem";
 import DemoTour from "./DemoTour";
 import AmbientField from "./AmbientField";
@@ -325,10 +325,10 @@ export default function FollowPage() {
               Same team. Same tools. The reasoning <em>scatters</em>.
             </h2>
           </div>
-          <CompareDiagram />
+          <BeforeSystem />
           <p className={styles.reelNote}>
-            From the capstone deck — three teammates, three AIs, each working in a
-            private thread the others can’t see.
+            Adapted from the capstone deck — three teammates, three AIs, each
+            working in a private thread the others can’t see.
           </p>
         </div>
 
@@ -539,7 +539,10 @@ export default function FollowPage() {
         </div>
 
         <div className={styles.appBleed} id="follow-sandbox">
-          <div className={styles.appBleedInner}>
+          {/* the tour overlay portals in here — dim/ring/coach card are all
+              absolutely positioned within this stage, so the tour lives (and
+              scrolls) with the sandbox instead of riding the viewport */}
+          <div className={styles.appBleedInner} id="follow-sandbox-stage">
             <FollowSandbox />
           </div>
         </div>

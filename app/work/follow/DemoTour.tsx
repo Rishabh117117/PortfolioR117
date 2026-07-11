@@ -6,29 +6,24 @@ import styles from "./follow.module.css";
 
 /**
  * The sandbox walkthrough — five numbered stops, product-onboarding style,
- * run as a SPOTLIGHT tour: a stop dims the whole page behind four fixed
- * panels and cuts a live window around the relevant sandbox region
- * (`[data-tour="main"]` — the active view — or `[data-tour="ask"]`, the Ask
- * dock), ringed in accent with a flash pulse each time it lands, plus a
- * coach card pinned bottom-center (stop text · skip/back · next). The hole
- * is real (four panels, not a box-shadow cutout), so the sandbox stays
- * fully interactive while spotlighted; a rAF loop re-measures the target
- * every frame, so the spotlight tracks scrolling, resizes, and view swaps.
- * Esc or a click on the dim ends the tour. The overlay portals to
- * document.body (the site's lightbox convention).
+ * run as a SPOTLIGHT tour that lives INSIDE the sandbox: the overlay (four
+ * dim panels around a live hole, accent ring with a landing flash, coach
+ * card) portals into `#follow-sandbox-stage` and is absolutely positioned
+ * within it, so the whole tour scrolls WITH the sandbox — scroll away and
+ * it stays behind in the demo instead of riding the viewport. The coach
+ * card is sticky-bottomed: pinned to the viewport bottom while the sandbox
+ * is on screen, anchored to the sandbox's bottom edge once you scroll past.
  *
- * Entry points:
- *  · AUTO — the first time the sandbox scrolls substantially into view
- *    (IntersectionObserver, once per mount), the tour opens itself at stop
- *    1 with "skip tour" up front — the way a product onboards a new
- *    customer. No scroll-jack, no focus steal.
- *  · MANUAL — every tour card is clickable edge to edge (the "show me ↓"
- *    label's hit area is stretched over the card) and jumps straight to
- *    that stop.
+ * The hole is real (four panels, not a box-shadow cutout), so the
+ * spotlighted region stays fully interactive; a rAF loop re-measures the
+ * target (stage-relative) every frame, covering view swaps and resizes.
+ * Esc, the dim, ✕, skip, or ANY click into the sandbox itself ends the
+ * tour (capture-phase listener; clicks on the overlay's own controls are
+ * excluded via [data-tour-overlay]).
  *
- * View switching rides the existing follow:goto event (FollowSandbox
- * listens); "ask" only opens the Ask overlay in the ≤719px app shell, where
- * the spotlight falls back to the whole sandbox frame.
+ * Entry points: AUTO once per mount when the sandbox scrolls ~35% into
+ * view (no scroll-jack, no focus steal, "skip tour" up front), or any tour
+ * card — clickable edge to edge — which jumps straight to that stop.
  */
 
 const STOPS: { view: string; target: "main" | "ask"; title: string; line: string }[] = [
@@ -66,6 +61,8 @@ const STOPS: { view: string; target: "main" | "ask"; title: string; line: string
 
 type Box = { top: number; left: number; width: number; height: number };
 
+const stageEl = () => document.getElementById("follow-sandbox-stage");
+
 export default function DemoTour() {
   const [stop, setStop] = useState<number | null>(null);
   const [box, setBox] = useState<Box | null>(null);
@@ -75,23 +72,26 @@ export default function DemoTour() {
   const focusCardRef = useRef(true); // manual starts hand focus to the card; auto doesn't steal it
 
   const measure = useCallback((i: number) => {
+    const stage = stageEl();
+    if (!stage) return;
     const mobile = window.matchMedia("(max-width: 719px)").matches;
-    const sel =
+    const t =
       STOPS[i].target === "ask" && mobile
-        ? "#follow-sandbox" // the dock is a full-screen overlay down here
-        : `[data-tour="${STOPS[i].target}"]`;
-    const r = document.querySelector(sel)?.getBoundingClientRect();
-    if (r && r.width > 0) {
-      setBox((prev) =>
-        prev &&
-        Math.abs(prev.top - r.top) < 0.5 &&
-        Math.abs(prev.left - r.left) < 0.5 &&
-        Math.abs(prev.width - r.width) < 0.5 &&
-        Math.abs(prev.height - r.height) < 0.5
-          ? prev
-          : { top: r.top, left: r.left, width: r.width, height: r.height },
-      );
-    }
+        ? stage // the dock is a full-screen overlay down here — ring the whole app
+        : document.querySelector(`[data-tour="${STOPS[i].target}"]`);
+    const tr = t?.getBoundingClientRect();
+    if (!tr || tr.width === 0) return;
+    const sr = stage.getBoundingClientRect();
+    const r = { top: tr.top - sr.top, left: tr.left - sr.left, width: tr.width, height: tr.height };
+    setBox((prev) =>
+      prev &&
+      Math.abs(prev.top - r.top) < 0.5 &&
+      Math.abs(prev.left - r.left) < 0.5 &&
+      Math.abs(prev.width - r.width) < 0.5 &&
+      Math.abs(prev.height - r.height) < 0.5
+        ? prev
+        : r,
+    );
   }, []);
 
   const goto = useCallback(
@@ -100,8 +100,7 @@ export default function DemoTour() {
       window.dispatchEvent(new CustomEvent("follow:goto", { detail: STOPS[i].view }));
       setStop(i);
       // one synchronous measurement so the spotlight is placed on the very
-      // first paint (the target is the view CONTAINER, which doesn't move
-      // when the view inside it swaps) — the rAF loop keeps it fresh after
+      // first paint — the rAF loop keeps it fresh after
       measure(i);
       if (opts?.scroll !== false) {
         const el = document.getElementById("follow-sandbox");
@@ -149,8 +148,9 @@ export default function DemoTour() {
     return () => io.disconnect();
   }, [goto]);
 
-  // track the target every frame while the tour runs — content swaps,
-  // scrolling, and resizes all covered by one loop (parked with the tab)
+  // track the target every frame while the tour runs — view swaps and
+  // resizes covered by one loop (parked with the tab); scrolling needs no
+  // tracking at all now, the overlay is anchored in the stage
   useEffect(() => {
     if (stop === null) return;
     let raf = 0;
@@ -172,16 +172,17 @@ export default function DemoTour() {
     return () => window.removeEventListener("keydown", onKey);
   }, [stop, end]);
 
-  // clicking INSIDE the spotlighted component hands control over: the tour
+  // clicking INSIDE the spotlighted sandbox hands control over: the tour
   // gets out of the way and the click lands normally (capture phase, no
-  // preventDefault — "click" only, so touch scrolls inside the hole don't
-  // dismiss it). The coach card and dim panels live on document.body, so
-  // they never match; the dims keep their own click-to-end.
+  // preventDefault — "click" only, so touch scrolls don't dismiss). The
+  // overlay's own controls are excluded; the dims keep their click-to-end.
   useEffect(() => {
     if (stop === null) return;
     const onDocClick = (e: MouseEvent) => {
       const t = e.target as Element | null;
-      if (t?.closest?.("#follow-sandbox")) end();
+      if (!t?.closest) return;
+      if (t.closest("[data-tour-overlay]")) return;
+      if (t.closest("#follow-sandbox")) end();
     };
     document.addEventListener("click", onDocClick, true);
     return () => document.removeEventListener("click", onDocClick, true);
@@ -194,6 +195,7 @@ export default function DemoTour() {
   }, [open]);
 
   const s = stop !== null ? STOPS[stop] : null;
+  const stage = s && box ? stageEl() : null;
 
   return (
     <div className={styles.tour}>
@@ -222,9 +224,9 @@ export default function DemoTour() {
         ))}
       </ol>
 
-      {s && box
+      {s && box && stage
         ? createPortal(
-            <div className={styles.spot}>
+            <div className={styles.spot} data-tour-overlay="">
               {/* four dim panels — the hole between them is empty, so the
                   spotlighted region stays fully interactive */}
               <div
@@ -258,50 +260,54 @@ export default function DemoTour() {
                   height: box.height + 8,
                 }}
               />
-              <div
-                ref={cardRef}
-                className={styles.spotCard}
-                role="dialog"
-                aria-label={`Tour stop ${stop! + 1} of ${STOPS.length}: ${s.title}`}
-                aria-live="polite"
-                tabIndex={-1}
-              >
-                <button type="button" className={styles.spotSkip} onClick={end} aria-label="End the tour">
-                  ✕
-                </button>
-                <p className={`mono ${styles.spotNo}`}>
-                  stop {stop! + 1} / {STOPS.length}
-                </p>
-                <h3 className={styles.spotTitle}>{s.title}</h3>
-                <p className={styles.spotLine}>{s.line}</p>
-                <div className={styles.spotBtns}>
-                  {stop === 0 ? (
-                    <button type="button" className={`mono ${styles.spotGhost}`} onClick={end}>
-                      skip tour
-                    </button>
-                  ) : (
+              {/* sticky dock: the card rides the viewport bottom while the
+                  sandbox is on screen, then stays at the sandbox's edge */}
+              <div className={styles.spotDockWrap}>
+                <div
+                  ref={cardRef}
+                  className={styles.spotCard}
+                  role="dialog"
+                  aria-label={`Tour stop ${stop! + 1} of ${STOPS.length}: ${s.title}`}
+                  aria-live="polite"
+                  tabIndex={-1}
+                >
+                  <button type="button" className={styles.spotSkip} onClick={end} aria-label="End the tour">
+                    ✕
+                  </button>
+                  <p className={`mono ${styles.spotNo}`}>
+                    stop {stop! + 1} / {STOPS.length}
+                  </p>
+                  <h3 className={styles.spotTitle}>{s.title}</h3>
+                  <p className={styles.spotLine}>{s.line}</p>
+                  <div className={styles.spotBtns}>
+                    {stop === 0 ? (
+                      <button type="button" className={`mono ${styles.spotGhost}`} onClick={end}>
+                        skip tour
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className={`mono ${styles.spotGhost}`}
+                        onClick={() => goto(stop! - 1)}
+                      >
+                        ← back
+                      </button>
+                    )}
                     <button
                       type="button"
-                      className={`mono ${styles.spotGhost}`}
-                      onClick={() => goto(stop! - 1)}
+                      className={`mono ${styles.spotNext}`}
+                      onClick={() => (stop! >= STOPS.length - 1 ? end() : goto(stop! + 1))}
                     >
-                      ← back
+                      {stop! >= STOPS.length - 1 ? "finish ✓" : "next →"}
                     </button>
-                  )}
-                  <button
-                    type="button"
-                    className={`mono ${styles.spotNext}`}
-                    onClick={() => (stop! >= STOPS.length - 1 ? end() : goto(stop! + 1))}
-                  >
-                    {stop! >= STOPS.length - 1 ? "finish ✓" : "next →"}
-                  </button>
+                  </div>
+                  <p className={`mono ${styles.spotHint}`}>
+                    or just click in — the tour gets out of the way
+                  </p>
                 </div>
-                <p className={`mono ${styles.spotHint}`}>
-                  or just click in — the tour gets out of the way
-                </p>
               </div>
             </div>,
-            document.body,
+            stage,
           )
         : null}
     </div>

@@ -1188,6 +1188,112 @@
   }
 }
 
+/* =========================================================================
+   The BEFORE variant (BeforeSystem) — same language, grey and broken.
+   Slate wires, packets that evaporate mid-wire, a static "no shared memory"
+   pill, and a navy meeting slab that rhymes with the Follow-index slab.
+   ========================================================================= */
+.fsysBefore {
+  --fsys-slate: #64748b;
+}
+.fsysBefore .fsysTeam {
+  cursor: default;
+}
+.fsysBefore .fsysLine {
+  stroke: color-mix(in srgb, var(--fsys-slate) 55%, transparent);
+}
+.fsysPktLost {
+  fill: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fsysPktLost {
+    animation: fsysLost 2.6s linear calc(var(--i) * 0.85s) infinite;
+  }
+}
+/* falls like the response diagram's write packets — but never arrives */
+@keyframes fsysLost {
+  0% {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateY(62px);
+    opacity: 0.85;
+  }
+  74%,
+  100% {
+    transform: translateY(94px);
+    opacity: 0;
+  }
+}
+.fsysPillNo {
+  left: 50%;
+  top: 46px;
+  color: var(--fsys-slate);
+  cursor: default;
+}
+.fsysPillNo .fsysPillArrow {
+  color: var(--fsys-slate);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fsysPillNo {
+    animation: fsysBob 6.4s ease-in-out -2.2s infinite;
+  }
+}
+.fsysMeet {
+  display: block;
+  width: 100%;
+  padding: 20px 26px 18px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  background: linear-gradient(180deg, #12283f, #0a1f33);
+  box-shadow:
+    var(--shadow-rest),
+    0 14px 40px rgba(10, 31, 51, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.fsysMeetTag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.fsysMeetName {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.6vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fff;
+}
+.fsysMeetDot {
+  color: var(--fsys-slate);
+}
+.fsysMeetPillars {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.66);
+}
+.fsysSub {
+  margin: 18px auto 0;
+  max-width: 56ch;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
 /* ---- idle float — the "flowing in space" motion (never under reduce) ---- */
 @media (prefers-reduced-motion: no-preference) {
   .fsysPair {
@@ -1233,6 +1339,12 @@
   }
   .fsysLayerBtn {
     padding: 16px 14px 14px;
+  }
+  .fsysMeet {
+    padding: 16px 14px 14px;
+  }
+  .fsysMeetPillars {
+    font-size: 10px;
   }
   .fsysPeek {
     top: 9px;
