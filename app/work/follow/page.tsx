@@ -421,6 +421,12 @@ export default function FollowPage() {
 
           <div className={styles.rag}>
             <div className={styles.ragCard}>
+              {/* a magnifier over text lines — retrieval searches wording */}
+              <svg className={styles.ragIcon} viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4.5 5h10.5M4.5 9h12M4.5 13h6.5" />
+                <circle cx="15.5" cy="15.5" r="3.8" />
+                <path d="M18.2 18.2L21 21" />
+              </svg>
               <p className={`mono ${styles.ragTag}`}>typical RAG</p>
               <p className={styles.ragClaim}>Finds text that matches.</p>
               <p className={styles.ragSub}>
@@ -429,6 +435,15 @@ export default function FollowPage() {
               </p>
             </div>
             <div className={`${styles.ragCard} ${styles.ragF}`}>
+              {/* the same magnifier — over a graph instead of wording */}
+              <svg className={styles.ragIcon} viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="5.5" cy="7" r="2" />
+                <circle cx="12" cy="5" r="2" />
+                <circle cx="7.5" cy="13" r="2" />
+                <path d="M7.4 6.4l2.7-.9M6 8.9l1 2.2M9.2 12.1l2.5-5.2" />
+                <circle cx="15.5" cy="15.5" r="3.8" />
+                <path d="M18.2 18.2L21 21" />
+              </svg>
               <p className={`mono ${styles.ragTag}`}>Follow</p>
               <p className={styles.ragClaim}>Finds the source.</p>
               <p className={styles.ragSub}>
@@ -489,10 +504,10 @@ export default function FollowPage() {
             </div>
             <div className={styles.card}>
               <span className={styles.no}>06</span>
-              <h3>Files join the memory</h3>
+              <h3>Documents join the memory</h3>
               <p>
-                Upload the PRD, the research notes, the analytics export —
-                Follow reads them into the same shared memory.
+                Uploads or live docs — Follow follows the artifact: its facts
+                land in the same shared memory and version up as it changes.
               </p>
             </div>
           </div>

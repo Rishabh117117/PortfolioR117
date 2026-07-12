@@ -59,22 +59,62 @@
    slab WRAPPER — its inner button must not dim on top of it, or the two
    opacities multiply) */
 .fsysHas .fsysTeam,
+.fsysHas .fsysDocs,
 .fsysHas .fsysPill,
 .fsysHas .fsysLayer {
   opacity: 0.42;
 }
 .fsys[data-active="team"] .fsysTeam,
+.fsys[data-active="docs"] .fsysDocs,
 .fsys[data-active="capture"] .fsysPillCap,
 .fsys[data-active="layer"] .fsysLayer,
 .fsys[data-active="recall"] .fsysPillRec {
   opacity: 1;
 }
 
-/* ---- row 1 · the team + the tools they already use (one station) ---- */
+/* ---- row 1 · the sources: three person·tool pairs + the team's docs ----
+   Four equal columns so each source sits over its own wire lane
+   (12.5 / 37.5 / 62.5 / 87.5%); the team button spans the three chat
+   columns with its own inner grid, the docs button takes the fourth. */
+.fsysRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
 .fsysTeam {
+  grid-column: 1 / 4;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
+}
+/* the docs chip sits a notch lower — a source, not a teammate */
+.fsysDocs {
+  grid-column: 4;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 14px;
+}
+.fsysAvDoc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--gold);
+  flex: none;
+}
+.fsysAvDoc i {
+  display: block;
+  width: 12px;
+  height: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.9);
+}
+.fsysAvDoc i + i {
+  width: 8px;
 }
 .fsysPair {
   justify-self: center;
@@ -160,9 +200,19 @@
   stroke: color-mix(in srgb, var(--fsys-blue) 48%, transparent);
 }
 
+/* the documents lane — gold-tinted wire, write-only square packets */
+.fsysLineDoc {
+  stroke: color-mix(in srgb, var(--gold) 52%, transparent);
+}
+.fsys[data-active="docs"] .fsysLineDoc {
+  stroke: color-mix(in srgb, var(--gold) 85%, transparent);
+}
+
 /* packets ride the wires; the lane offset (±5px) lives in the keyframes so
    the down and up traffic never overlap. Hidden entirely under reduced
-   motion (no animation → opacity stays 0), like the old diagram's packets. */
+   motion (no animation → opacity stays 0), like the old diagram's packets.
+   Chat messages are DOTS; documents are SQUARES — the same shape grammar
+   the inside-view graph uses. */
 .fsysPkt {
   opacity: 0;
 }
@@ -172,6 +222,9 @@
 .fsysPktUp {
   fill: var(--fsys-blue);
 }
+.fsysPktDoc {
+  fill: var(--accent);
+}
 @media (prefers-reduced-motion: no-preference) {
   .fsysPktDown {
     animation: fsysDown 2.1s linear calc(var(--i) * 0.7s) infinite;
@@ -179,11 +232,34 @@
   .fsysPktUp {
     animation: fsysUp 2.1s linear calc(var(--i) * 0.7s + 0.35s) infinite;
   }
+  .fsysPktDoc {
+    animation: fsysDocDown 2.6s linear calc(var(--i) * 1.3s + 0.5s) infinite;
+  }
 }
-/* focusing a flow silences the opposite direction's traffic */
+/* focusing a flow silences the traffic that isn't its story */
 .fsys[data-active="capture"] .fsysPktUp,
-.fsys[data-active="recall"] .fsysPktDown {
+.fsys[data-active="capture"] .fsysPktDoc,
+.fsys[data-active="recall"] .fsysPktDown,
+.fsys[data-active="recall"] .fsysPktDoc,
+.fsys[data-active="docs"] .fsysPktDown,
+.fsys[data-active="docs"] .fsysPktUp {
   visibility: hidden;
+}
+@keyframes fsysDocDown {
+  0% {
+    transform: translate(-3.6px, 0);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.95;
+  }
+  82% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(-3.6px, 138px);
+    opacity: 0;
+  }
 }
 @keyframes fsysDown {
   0% {
@@ -242,11 +318,11 @@
   translate: -50% 0;
 }
 .fsysPillCap {
-  left: 32%;
+  left: 37.5%;
   top: 20px;
 }
 .fsysPillRec {
-  left: 68%;
+  left: 62.5%;
   top: 74px;
 }
 .fsysPillArrow {
@@ -412,8 +488,9 @@
 .fsysGV2,
 .fsysGPulse,
 .fsysGRing,
+.fsysGSync,
+.fsysGPktDoc,
 .fsysGPktIn1,
-.fsysGPktIn2,
 .fsysGPktOut {
   transform-box: fill-box;
   transform-origin: center;
@@ -445,8 +522,19 @@
   stroke-width: 1.6;
   opacity: 0;
 }
-.fsysGPktIn1,
-.fsysGPktIn2 {
+.fsysGPktIn1 {
+  fill: #e8703a;
+  opacity: 0;
+}
+/* the live doc's sync pulse + the square packet it sends to fact v2 */
+.fsysGSync {
+  fill: none;
+  stroke: #d9c39a;
+  stroke-width: 1.6;
+  stroke-dasharray: 3 3;
+  opacity: 0;
+}
+.fsysGPktDoc {
   fill: #e8703a;
   opacity: 0;
 }
@@ -617,8 +705,11 @@
   .fsysOpen .fsysGPu2 {
     animation: fsysGPulse 16s linear 0.25s infinite;
   }
-  .fsysOpen .fsysGPktIn2 {
-    animation: fsysGPktIn2 16s linear infinite;
+  .fsysOpen .fsysGSync {
+    animation: fsysGSync 16s linear infinite;
+  }
+  .fsysOpen .fsysGPktDoc {
+    animation: fsysGPktDoc 16s linear infinite;
   }
   .fsysOpen .fsysGV2 {
     opacity: 0;
@@ -814,37 +905,54 @@
     transform: scale(1.4);
   }
 }
-/* beat D · 40–58% — versioning: spec v2 lands, supersedes v1, v1 ghosts */
-@keyframes fsysGPktIn2 {
+/* beat D · 40–66% — the live doc re-syncs: its square packet rides to
+   fact v2, which supersedes v1; v1 ghosts (kept) */
+@keyframes fsysGSync {
   0%,
   40% {
-    transform: translateY(0);
     opacity: 0;
+    transform: scale(0.7);
   }
-  41% {
-    opacity: 1;
-  }
-  44.5% {
-    transform: translateY(334px);
-    opacity: 1;
+  42.5% {
+    opacity: 0.9;
+    transform: scale(1);
   }
   46%,
   100% {
-    transform: translateY(334px);
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+@keyframes fsysGPktDoc {
+  0%,
+  45% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  46.5% {
+    opacity: 1;
+  }
+  51.5% {
+    transform: translate(178px, 14px);
+    opacity: 1;
+  }
+  53%,
+  100% {
+    transform: translate(178px, 14px);
     opacity: 0;
   }
 }
 @keyframes fsysGV2 {
   0%,
-  44.5% {
+  51.5% {
     opacity: 0;
     transform: scale(0);
   }
-  46.5% {
+  53.5% {
     opacity: 1;
     transform: scale(1.25);
   }
-  48% {
+  55% {
     transform: scale(1);
   }
   88% {
@@ -859,10 +967,10 @@
 }
 @keyframes fsysGLblV2 {
   0%,
-  46% {
+  53% {
     opacity: 0;
   }
-  48.5% {
+  55.5% {
     opacity: 1;
   }
   88% {
@@ -875,11 +983,11 @@
 }
 @keyframes fsysGE3 {
   0%,
-  47% {
+  55% {
     stroke-dashoffset: 1;
     opacity: 1;
   }
-  51% {
+  59% {
     stroke-dashoffset: 0;
   }
   88% {
@@ -894,14 +1002,14 @@
 }
 @keyframes fsysGSupA {
   0%,
-  50% {
+  58% {
     stroke-dashoffset: 1;
     opacity: 0;
   }
-  51.5% {
+  59.5% {
     opacity: 0.85;
   }
-  55% {
+  63% {
     stroke-dashoffset: 0;
   }
   88% {
@@ -916,10 +1024,10 @@
 }
 @keyframes fsysGSupTipA {
   0%,
-  54% {
+  62% {
     opacity: 0;
   }
-  56% {
+  64% {
     opacity: 0.85;
   }
   88% {
@@ -932,10 +1040,10 @@
 }
 @keyframes fsysGV1 {
   0%,
-  52% {
+  60% {
     fill-opacity: 0.95;
   }
-  58% {
+  66% {
     fill-opacity: 0.22;
   }
   88% {
@@ -948,10 +1056,10 @@
 }
 @keyframes fsysGV1Ring {
   0%,
-  52% {
+  60% {
     opacity: 0;
   }
-  58% {
+  66% {
     opacity: 1;
   }
   88% {
@@ -964,10 +1072,10 @@
 }
 @keyframes fsysGLblV1 {
   0%,
-  52% {
+  60% {
     opacity: 0.62;
   }
-  58% {
+  66% {
     opacity: 0.34;
   }
   88% {
@@ -978,18 +1086,18 @@
     opacity: 0.62;
   }
 }
-/* beat E · 63–72% — a query pulls it back out, source attached */
+/* beat E · 68–77% — a query pulls it back out, source attached */
 @keyframes fsysGRing {
   0%,
-  63% {
+  68% {
     opacity: 0;
     transform: scale(0.5);
   }
-  65% {
+  70% {
     opacity: 0.9;
     transform: scale(1);
   }
-  68.5%,
+  73.5%,
   100% {
     opacity: 0;
     transform: scale(2.1);
@@ -997,18 +1105,18 @@
 }
 @keyframes fsysGPktOut {
   0%,
-  64% {
+  69% {
     transform: translateY(0);
     opacity: 0;
   }
-  65.5% {
+  70.5% {
     opacity: 1;
   }
-  71% {
+  76% {
     transform: translateY(-224px);
     opacity: 1;
   }
-  72.5%,
+  77.5%,
   100% {
     transform: translateY(-224px);
     opacity: 0;
@@ -1070,42 +1178,42 @@
   42% {
     opacity: 1;
   }
-  58% {
+  64% {
     opacity: 1;
   }
-  60%,
+  66%,
   100% {
     opacity: 0;
   }
 }
 @keyframes fsysGCap5 {
   0%,
-  62% {
+  67.5% {
     opacity: 0;
   }
-  64% {
+  69.5% {
     opacity: 1;
   }
-  74% {
+  78% {
     opacity: 1;
   }
-  76%,
+  80%,
   100% {
     opacity: 0;
   }
 }
 @keyframes fsysGCap6 {
   0%,
-  79% {
+  82% {
     opacity: 0;
   }
-  81% {
+  84% {
     opacity: 1;
   }
-  93% {
+  94% {
     opacity: 1;
   }
-  96%,
+  97%,
   100% {
     opacity: 0;
   }
@@ -1205,9 +1313,18 @@
 .fsysPktLost {
   fill: var(--accent);
 }
+.fsysPktLostSq {
+  fill: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
 @media (prefers-reduced-motion: no-preference) {
   .fsysPktLost {
     animation: fsysLost 2.6s linear calc(var(--i) * 0.85s) infinite;
+  }
+  .fsysPktLostSq {
+    animation: fsysLostSq 2.9s linear calc(var(--i) * 0.85s) infinite;
   }
 }
 /* falls like the response diagram's write packets — but never arrives */
@@ -1226,6 +1343,24 @@
   74%,
   100% {
     transform: translateY(94px);
+    opacity: 0;
+  }
+}
+@keyframes fsysLostSq {
+  0% {
+    transform: translate(-3.6px, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate(-3.6px, 66px);
+    opacity: 0.85;
+  }
+  74%,
+  100% {
+    transform: translate(-3.6px, 98px);
     opacity: 0;
   }
 }
@@ -1319,13 +1454,28 @@
 /* ---- narrow screens ---- */
 @media (max-width: 620px) {
   .fsysPair {
-    gap: 7px;
-    padding: 7px 10px;
+    gap: 5px;
+    padding: 6px 8px;
   }
   .fsysAv {
     width: 24px;
     height: 24px;
     font-size: 11px;
+  }
+  .fsysAvDoc {
+    width: 22px;
+    height: 22px;
+  }
+  .fsysAvDoc i {
+    width: 10px;
+  }
+  /* the sub-line doesn't survive a quarter-width column — the chip reads
+     "Team docs", the station caption carries the rest */
+  .fsysDocsSub {
+    display: none;
+  }
+  .fsysDocs {
+    margin-top: 10px;
   }
   .fsysName {
     font-size: 12.5px;

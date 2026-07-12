@@ -604,6 +604,23 @@
   background: var(--accent-tint);
   border-color: color-mix(in srgb, var(--accent) 26%, var(--line));
 }
+/* portfolio-style line glyphs (the sandbox icon recipe: currentColor
+   stroke, 1.7, round) — same magnifier on both cards, different subject:
+   RAG searches text lines, Follow searches a graph node */
+.ragIcon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--soft);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  margin-bottom: 10px;
+}
+.ragF .ragIcon {
+  stroke: var(--accent);
+}
 .ragTag {
   font-size: 10.5px;
   letter-spacing: 0.12em;
@@ -806,64 +823,54 @@
   text-transform: uppercase;
   color: var(--accent-deep);
 }
+/* one-liner stop pills — number · title · ↓; they wrap instead of scrolling */
 .tourRail {
   list-style: none;
   padding: 0;
   margin: 12px 0 0;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-}
-@media (max-width: 999px) {
-  .tourRail {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    margin-inline: calc(-1 * var(--page-pad));
-    padding-inline: var(--page-pad);
-    scroll-padding-inline: var(--page-pad);
-  }
-  .tourRail::-webkit-scrollbar {
-    display: none;
-  }
-  .tourRail > * {
-    flex: 0 0 min(64%, 250px);
-    scroll-snap-align: start;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .tourStop {
-  /* the whole card is the hit area — .tourGo's ::after stretches over it */
-  position: relative;
+  display: contents;
+}
+.tourGo {
+  appearance: none;
+  border: 0;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  padding: 14px 16px;
-  border-radius: var(--radius);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font: inherit;
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   box-shadow: var(--shadow-rest);
 }
 @media (hover: hover) {
-  .tourStop {
+  .tourGo {
     transition:
       transform var(--t-fast) var(--e-snappy),
       box-shadow var(--t-fast) var(--e-snappy);
   }
-  .tourStop:hover {
+  .tourGo:hover {
     box-shadow: var(--shadow-lift);
   }
-  .tourStop:hover .tourGo {
+  .tourGo:hover .tourTitle {
     color: var(--accent);
-    border-color: var(--accent);
   }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .tourStop:hover {
+  .tourGo:hover {
     transform: translateY(-2px);
   }
+}
+.tourGo:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .tourNo {
   font-size: 10.5px;
@@ -871,58 +878,15 @@
   color: var(--accent);
 }
 .tourTitle {
-  /* h3 under the section's h2, kept in body-face like .ins h3 */
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: 13.5px;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin-top: 6px;
 }
-.tourLine {
-  margin-top: 6px;
-  font-size: 12.5px;
-  line-height: 1.5;
+.tourArrow {
+  font-size: 11px;
   color: var(--soft);
-  flex-grow: 1;
-}
-.tourGo {
-  margin-top: 10px;
-  align-self: flex-start;
-  appearance: none;
-  border: 0;
-  background: none;
-  padding: 2px 0;
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  color: var(--accent-deep);
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-  cursor: pointer;
-}
-.tourGo:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-/* stretch the button's hit area over the whole card (li is position:relative) */
-.tourGo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius);
-}
-.tourGo:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-/* where :has is available, the focus ring wraps the card the click covers */
-@supports selector(:has(*)) {
-  .tourGo:focus-visible {
-    outline: none;
-  }
-  .tourStop:has(.tourGo:focus-visible) {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
 }
 
 /* ---- the spotlight (portaled INTO the sandbox stage) ----

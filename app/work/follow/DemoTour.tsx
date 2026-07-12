@@ -202,23 +202,24 @@ export default function DemoTour() {
       <p className={`mono ${styles.tourKicker}`}>
         new here? the tour — five stops, two minutes
       </p>
+      {/* one-liner stop buttons — the spotlight does the explaining; each
+          stop's full line lives in the coach card once it's running */}
       <ol className={styles.tourRail}>
         {STOPS.map((st, i) => (
           <li key={st.view} className={styles.tourStop}>
-            <span className={`mono ${styles.tourNo}`}>
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <h3 className={styles.tourTitle}>{st.title}</h3>
-            <p className={styles.tourLine}>{st.line}</p>
-            {/* the visible label; its hit area is stretched over the whole
-                card (::after inset 0), so the card is clickable edge to edge */}
             <button
               type="button"
-              className={`mono ${styles.tourGo}`}
+              className={styles.tourGo}
               aria-label={`Show me — stop ${i + 1} of ${STOPS.length}: ${st.title}`}
               onClick={() => start(i)}
             >
-              show me ↓
+              <span className={`mono ${styles.tourNo}`}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className={styles.tourTitle}>{st.title}</span>
+              <span className={styles.tourArrow} aria-hidden="true">
+                ↓
+              </span>
             </button>
           </li>
         ))}
