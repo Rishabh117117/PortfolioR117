@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
         <p className={`mono ${styles.meta}`}>
-          Rishabh Salian · portfolio · {year} · built in the open
+          Rishabh Salian · portfolio · {year}
         </p>
 
         <ul className={styles.links}>

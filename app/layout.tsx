@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s · Rishabh Salian",
   },
   description:
-    "Portfolio of Rishabh Salian: industrial design to UX to AI-native products, with four live, working demos. MS Strategic Design & Management, Parsons. Brooklyn, NY.",
+    "Portfolio of Rishabh Salian: industrial design to UX to AI-native products, with four interactive, working prototypes. MS Strategic Design & Management, Parsons. Brooklyn, NY.",
   openGraph: {
     type: "website",
     siteName: "Rishabh Salian · Portfolio",
