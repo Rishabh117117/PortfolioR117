@@ -68,6 +68,9 @@ export default function HousingWorksPage() {
               narrowed to one question: how can Housing Works attract and keep
               younger staff when it can’t match private-sector pay?
             </p>
+            <p className="mono">
+              <a href="#demo">Skip to the live demo ↓</a>
+            </p>
           </div>
         </div>
       </header>
@@ -642,7 +645,7 @@ export default function HousingWorksPage() {
           </p>
         </div>
 
-        <div className={styles.appBleed}>
+        <div className={styles.appBleed} id="demo">
           {/* the stage: the guided walkthrough's spotlight overlay portals in
               here and stays absolute within it (see HwDemoTour) */}
           <div className={styles.appBleedInner} id="hw-sandbox-stage">

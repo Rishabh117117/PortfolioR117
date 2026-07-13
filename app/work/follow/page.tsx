@@ -57,6 +57,9 @@ export default function FollowPage() {
             turns every chat into shared knowledge: one index of what the
             team knows, and a directory of who knows it.
           </p>
+          <p className="mono">
+            <a href="#demo">Skip to the live demo ↓</a>
+          </p>
         </div>
       </header>
 
@@ -516,7 +519,7 @@ export default function FollowPage() {
       </section>
 
       {/* ============ THE SANDBOX (the demo promise, made real) ============ */}
-      <section className="section">
+      <section className="section" id="demo">
         <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The sandbox</p>
           <h2 className={styles.reelTitle}>
@@ -567,6 +570,43 @@ export default function FollowPage() {
           <p className={`mono ${styles.sandboxFoot}`}>
             <Link href="/work/follow/prototype">open the sandbox full-screen ↗</Link>
           </p>
+        </div>
+      </section>
+
+      {/* ============ UNDER THE HOOD (the real system behind the sandbox) ============ */}
+      {/* ownership claim: confirmed by RS before merge */}
+      <section className="section">
+        <div className="containerText" data-reveal>
+          <h2 className={`mono ${styles.kicker}`}>Under the hood</h2>
+          <p className="lede">
+            The sandbox above runs the shipped system — not a mockup.
+            What&rsquo;s behind it:
+          </p>
+          <div className={styles.rlist}>
+            <div className={styles.r}>
+              <strong>Stack</strong> — TypeScript MCP server (Hono, JSON-RPC at
+              /mcp), Next.js sandbox client, deployed on Railway.
+            </div>
+            <div className={styles.r}>
+              <strong>Pipeline</strong> — five LLM roles (Reporter, Analyst,
+              Editor, Archivist, Profiler; the Editor currently flag-gated)
+              turn raw AI conversations into a versioned index: typed edges,
+              provenance on every fact, supersession instead of overwrites.
+            </div>
+            <div className={styles.r}>
+              <strong>Testing</strong> — ≈2,100 automated tests across the
+              pipeline, tool contracts, and clients.
+            </div>
+            <div className={styles.r}>
+              <strong>Ownership</strong> — the architecture, data model, tool
+              contracts, and evaluation are mine; implementation is AI-assisted
+              with Claude Code, with every change reviewed and tested.
+            </div>
+            <div className={styles.r}>
+              <strong>Limits</strong> — beta scope; capture quality tracks MCP
+              client support.
+            </div>
+          </div>
         </div>
       </section>
 

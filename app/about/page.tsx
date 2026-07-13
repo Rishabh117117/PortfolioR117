@@ -54,7 +54,8 @@ export default function AboutPage() {
               <p className={styles.heroLede}>
                 I started in industrial and product design and spent several
                 years in UX. Now I ship not just the design but the working
-                software, by directing AI coding agents like Claude Code.
+                software — designed and built with Next.js, React, and
+                TypeScript, using AI-assisted development for speed.
                 I&rsquo;m completing an MS in Strategic Design &amp; Management
                 at Parsons, where most of my current work lives. I care about
                 clear thinking, honest craft, and building things that actually
@@ -64,7 +65,7 @@ export default function AboutPage() {
                 <span className={styles.metaItem}>Brooklyn, NY</span>
                 <span className={`${styles.metaItem} ${styles.metaItemLive}`}>
                   <span className={styles.liveDot} aria-hidden="true" />
-                  Open to Design Engineer &amp; Product roles
+                  Internships now · full-time 2027
                 </span>
               </div>
             </div>
@@ -261,7 +262,8 @@ export default function AboutPage() {
                   <p className={styles.wDesc}>
                     MS, Strategic Design &amp; Management · the systems era.
                     Client work, graduate research, and Follow: designed and
-                    shipped end to end by directing AI coding agents.
+                    shipped end to end — Next.js, TypeScript, and AI-assisted
+                    development.
                   </p>
                   <div className={styles.wCtas}>
                     <Link className={styles.wLink} href="/work/follow">
@@ -442,8 +444,9 @@ export default function AboutPage() {
               Let&rsquo;s build something that <em>runs</em>.
             </p>
             <p className={styles.contactSub}>
-              Brooklyn, NY · open to Design Engineer and Product roles at
-              AI-native teams, and to conversations about Follow.
+              Brooklyn, NY — open to fall internships and, from early 2027,
+              Design Engineer and Product roles at AI-native teams — and to
+              conversations about Follow.
             </p>
             <div className={styles.ctaRow}>
               <a className="btn primary" href={`mailto:${SOCIALS.email}`}>

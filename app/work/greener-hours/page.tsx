@@ -78,6 +78,9 @@ export default function GreenerHoursPage() {
             Hours<span className={styles.dot}>.</span>
           </h1>
           <p className={styles.heroLede}>{HERO.lede}</p>
+          <p className="mono">
+            <a href="#demo">Skip to the live demo ↓</a>
+          </p>
           <div className={styles.heroFoot}>
             <div className={styles.heroMeta}>
               {HERO.meta.map((m) => (
@@ -233,7 +236,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §7 THE THREE SURFACES (tabbed) ============ */}
-        <section className="section">
+        <section className="section" id="demo">
           <div className="container" data-reveal>
             <SectionHeader n={6}>The three surfaces</SectionHeader>
             <h2 className={styles.title}>

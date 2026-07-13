@@ -80,6 +80,9 @@ export default function HealthyMaterialsPage() {
                 Graduate capstone · Fall 2025 · Rishabh Salian &amp; Henry
                 Schroder
               </p>
+              <p className="mono">
+                <a href="#demo">Skip to the live demo ↓</a>
+              </p>
             </div>
             <div className={styles.scrollCue} aria-hidden="true">
               <span>scroll</span>
@@ -561,7 +564,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 9 — MADE TANGIBLE (paper) → THE WORKING PROTOTYPE ===== */}
-        <section className={styles.scene}>
+        <section className={styles.scene} id="demo">
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={6}>the intervention, made tangible</SectionHeader>
             <div className={styles.tangibleIntro}>
