@@ -5,7 +5,7 @@ import { HM_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 export const metadata: Metadata = {
-  title: "Healthy Materials Packages — live prototype",
+  title: "Healthy Materials Packages · live prototype",
   description:
     "The working slice of Healthy Materials Packages: scope-based healthy-material spec packages for NYC affordable housing, with live cost / carbon / health totals, a value-engineering stress lens, spec-sheet export, and a grounded AI assistant. Illustrative data.",
 };

@@ -67,7 +67,7 @@ export default function EarlierWorkDeck() {
                       src={
                         p.slides.find((s) => s.role === "cover")?.src ?? p.thumb
                       }
-                      alt={`${p.name} — cover slide`}
+                      alt={`${p.name} cover slide`}
                       width={1600}
                       height={900}
                       sizes="600px"

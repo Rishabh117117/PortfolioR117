@@ -102,7 +102,7 @@ export default function AboutPhotos() {
       <DriftGroup className={styles.cluster}>
         <div className={styles.mainSlot} data-depth="7">
           <figure className={`${styles.frame} ${styles.frameMain}`}>
-            <button type="button" className={styles.zoomBtn} onClick={(e) => open(MAIN, e)} aria-label={`Enlarge photo — ${MAIN.caption}`}>
+            <button type="button" className={styles.zoomBtn} onClick={(e) => open(MAIN, e)} aria-label={`Enlarge photo: ${MAIN.caption}`}>
               <img className={styles.photo} src={MAIN.src} alt={MAIN.alt} width={MAIN.w} height={MAIN.h} loading="eager" decoding="async" />
               <span className={styles.zoomHint} aria-hidden="true">
                 <ZoomGlyph />
@@ -114,7 +114,7 @@ export default function AboutPhotos() {
 
         <div className={`${styles.smSlot} ${styles.smA}`} data-depth="-16">
           <figure className={`${styles.frame} ${styles.frameSm} ${styles.rotA}`}>
-            <button type="button" className={styles.zoomBtn} onClick={(e) => open(STUDIO, e)} aria-label={`Enlarge photo — ${STUDIO.caption}`}>
+            <button type="button" className={styles.zoomBtn} onClick={(e) => open(STUDIO, e)} aria-label={`Enlarge photo: ${STUDIO.caption}`}>
               <img className={styles.photo} src={STUDIO.src} alt={STUDIO.alt} width={STUDIO.w} height={STUDIO.h} loading="lazy" decoding="async" />
               <span className={styles.zoomHint} aria-hidden="true">
                 <ZoomGlyph />
@@ -126,7 +126,7 @@ export default function AboutPhotos() {
 
         <div className={`${styles.smSlot} ${styles.smB}`} data-depth="12">
           <figure className={`${styles.frame} ${styles.frameSm} ${styles.rotB}`}>
-            <button type="button" className={styles.zoomBtn} onClick={(e) => open(MUMBAI, e)} aria-label={`Enlarge photo — ${MUMBAI.caption}`}>
+            <button type="button" className={styles.zoomBtn} onClick={(e) => open(MUMBAI, e)} aria-label={`Enlarge photo: ${MUMBAI.caption}`}>
               <img className={styles.photo} src={MUMBAI.src} alt={MUMBAI.alt} width={MUMBAI.w} height={MUMBAI.h} loading="lazy" decoding="async" />
               <span className={styles.zoomHint} aria-hidden="true">
                 <ZoomGlyph />
@@ -139,7 +139,7 @@ export default function AboutPhotos() {
 
       {active !== null &&
         createPortal(
-          <div ref={dialogRef} className={styles.lightbox} role="dialog" aria-modal="true" aria-label={`${active.caption} — enlarged photo`} onClick={close}>
+          <div ref={dialogRef} className={styles.lightbox} role="dialog" aria-modal="true" aria-label={`${active.caption}, enlarged photo`} onClick={close}>
             <button ref={closeRef} type="button" className={styles.lightboxClose} onClick={close} aria-label="Close enlarged photo">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
                 <line x1="6" y1="6" x2="18" y2="18" />

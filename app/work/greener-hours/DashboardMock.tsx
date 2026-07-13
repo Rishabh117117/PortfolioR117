@@ -133,7 +133,7 @@ export default function DashboardMock() {
             intensity · ~{flex.gramsAvoided} g CO₂eq avoided <i>(sim)</i>
           </span>
         ) : (
-          <span className={s.flexVals}>no flexible jobs in the queue — submit one on the Tier-2 scheduler</span>
+          <span className={s.flexVals}>no flexible jobs in the queue; submit one on the Tier-2 scheduler</span>
         )}
       </div>
 
@@ -164,8 +164,8 @@ export default function DashboardMock() {
           <text className="ghf-mono ghd-soft" x="952" y="163" textAnchor="end" fontSize="8">may 31</text>
         </svg>
         <div className={s.antirebound}>
-          <b>Anti-rebound view:</b> intensity is falling, but volume is rising — both
-          surfaced so efficiency cannot disguise growth.
+          <b>Anti-rebound view:</b> intensity is falling, but volume is rising. Both
+          are surfaced so efficiency cannot disguise growth.
         </div>
       </div>
 
@@ -204,7 +204,7 @@ export default function DashboardMock() {
         <div className={s.gwLive}>
           {flex.count > 0
             ? `${flex.count} flexible job${flex.count === 1 ? "" : "s"} routed to green windows · ${flex.complete} complete (sim)`
-            : "no flexible jobs yet — the Tier-2 scheduler feeds this number"}
+            : "no flexible jobs yet; the Tier-2 scheduler feeds this number"}
         </div>
         <div className={s.vsBlock}>
           <div className={s.vsRow}>

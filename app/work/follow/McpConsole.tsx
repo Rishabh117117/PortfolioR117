@@ -166,7 +166,7 @@ export default function McpConsole({
               kind: "note",
               text:
                 r.status === 503
-                  ? "The tool-loop backend isn't configured in this environment — the tools themselves still run: browse Facts, or read the schemas below."
+                  ? "The tool-loop backend isn't configured in this environment; the tools themselves still run. Browse Facts, or read the schemas below."
                   : data?.error || "The model service returned an error.",
             },
           ]);
@@ -239,11 +239,11 @@ export default function McpConsole({
       }
       setItems((it) => [
         ...it,
-        { kind: "note", text: `(stopped after ${MAX_ROUNDS} tool rounds — ask a follow-up to continue)` },
+        { kind: "note", text: `(stopped after ${MAX_ROUNDS} tool rounds; ask a follow-up to continue)` },
       ]);
       if (savedThisTurn) recordSavedChat(wireLog, savedThisTurn.args, savedThisTurn.resultText);
     } catch {
-      setItems((it) => [...it, { kind: "note", text: "(connection error — the console couldn't reach the API.)" }]);
+      setItems((it) => [...it, { kind: "note", text: "(connection error: the console couldn't reach the API.)" }]);
     } finally {
       setLoading(false);
     }
@@ -278,7 +278,7 @@ export default function McpConsole({
       <div className={s.consoleThread} ref={scrollRef} aria-live="polite">
         {fresh && (
           <p className={s.consoleEmpty}>
-            You&apos;ve got the fourth seat on Aurora — Maya, Alex, and Sam&apos;s week is already
+            You&apos;ve got the fourth seat on Aurora; Maya, Alex, and Sam&apos;s week is already
             in the memory. Try one of the prompts below: the model thinks, picks its tools, and
             you&apos;ll see the JSON-RPC-shaped traffic in the open. Ask it to{" "}
             <em>save the conversation</em> and this session appears in Conversations and Facts,
@@ -327,7 +327,7 @@ export default function McpConsole({
             </div>
           );
         })}
-        {loading && <div className={s.typing}>Model is working — watching for tool calls…</div>}
+        {loading && <div className={s.typing}>Model is working, watching for tool calls…</div>}
         {fresh && (
           <div className={s.chips}>
             {MCP_PROMPTS.map((p) => (
@@ -350,7 +350,7 @@ export default function McpConsole({
           className={s.assistInput}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={offline ? "Backend offline — tools still browsable above" : "Ask — the model will pick its tools…"}
+          placeholder={offline ? "Backend offline; tools still browsable above" : "Ask, and the model will pick its tools…"}
           aria-label="Ask the MCP console"
           disabled={loading}
         />

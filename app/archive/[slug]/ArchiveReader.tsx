@@ -296,7 +296,7 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
                 <Image
                   className={styles.slideImg}
                   src={s.src}
-                  alt={`${project.name} — ${s.label}`}
+                  alt={`${project.name} · ${s.label}`}
                   width={s.w}
                   height={s.h}
                   sizes="(min-width: 1024px) 1140px, 100vw"
@@ -361,7 +361,7 @@ export default function ArchiveReader({ project }: { project: ArchiveProject }) 
             <img
               className={`${styles.lbImg} ${zoomed ? styles.lbImgZoomed : ""}`}
               src={lb.zoom}
-              alt={`${project.name} — ${lb.label} (full detail)`}
+              alt={`${project.name} · ${lb.label} (full detail)`}
               onClick={(e) => {
                 e.stopPropagation();
                 setZoomed((z) => !z);

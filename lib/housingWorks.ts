@@ -15,6 +15,7 @@ export type PosterCard = {
   statText: string;
   question: string;
   response: string;
+  insight: string; // what this poster's answers actually told us — shown on the card
 };
 
 export const POSTER_DECK: PosterCard[] = [
@@ -27,6 +28,8 @@ export const POSTER_DECK: PosterCard[] = [
       "What challenges do you face working with older generations, like Gen X?",
     response:
       "Dealing with Gen X’s commitment to tradition instead of ways that are different — and arguably healthier.",
+    insight:
+      "The friction is about ways of working, not willingness to work.",
   },
   {
     id: "volunteer",
@@ -35,6 +38,8 @@ export const POSTER_DECK: PosterCard[] = [
     statText: "volunteer for meaning",
     question: "What core values drive you to volunteer, and where?",
     response: "The organizations have the same values as mine: help others.",
+    insight:
+      "Values fit decides where people give their time. The mission itself recruits.",
   },
   {
     id: "workforce",
@@ -43,6 +48,8 @@ export const POSTER_DECK: PosterCard[] = [
     statText: "of the workforce will be Gen Z by 2030",
     question: "What core values drive your decisions when choosing where to work?",
     response: "Work-life balance — space to grow without trading your health or peace.",
+    insight:
+      "Balance and room to grow came up before pay ever did.",
   },
   {
     id: "participate",
@@ -51,6 +58,8 @@ export const POSTER_DECK: PosterCard[] = [
     statText: "U.S. employees actively participate in workplace activities",
     question: "What makes you proactively engage in workplace activities?",
     response: "I should be able to relate to it — and it should involve something fun.",
+    insight:
+      "Engagement follows relatability: make it theirs, and make it fun.",
   },
   {
     id: "salary",
@@ -59,6 +68,8 @@ export const POSTER_DECK: PosterCard[] = [
     statText: "average nonprofit vs for-profit salary",
     question: "Which type of organization would you choose to work for, and why?",
     response: "Non-profit, because they create stronger communities.",
+    insight:
+      "Many choose the nonprofit anyway, for community. Pay isn't the whole story.",
   },
   {
     id: "hybrid",
@@ -67,6 +78,8 @@ export const POSTER_DECK: PosterCard[] = [
     statText: "of Gen Z prefer hybrid (vs 16% remote · 12% in-person)",
     question: "How do you prefer to work — online, in person, or a mix?",
     response: "Hybrid work for life: no micromanagement = freedom to work.",
+    insight:
+      "The loud 72% settled into 52 hybrid, 23 remote, 6 in person once people wrote down what they really wanted.",
   },
 ];
 
@@ -86,7 +99,7 @@ export const BRIDGES_STEPS: BridgeStep[] = [
   {
     img: "bridges-room.jpg",
     title: "Six students, sixty minutes",
-    text: "A diverse Gen Z group — architecture, design, economics, drama; none from the nonprofit world.",
+    text: "A diverse Gen Z group: architecture, design, economics, drama; none from the nonprofit world.",
     alt: "The workshop in session.",
     fit: "cover",
   },

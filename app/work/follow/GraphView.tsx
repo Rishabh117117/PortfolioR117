@@ -477,7 +477,7 @@ export default function GraphView({
   return (
     <>
       <p className={s.graphBlurb}>
-        ◆ the whole memory as one structure — drag the graph to look around.
+        ◆ the whole memory as one structure. Drag the graph to look around.
       </p>
       <div
         ref={wrapRef}

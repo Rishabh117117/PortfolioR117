@@ -17,7 +17,7 @@ const RECENT = [
   "Q3 product strategy",
   "Draft email · supplier",
   "Calendar conflict",
-  "SQL — quarterly forecast",
+  "SQL · quarterly forecast",
 ];
 
 const CHIPS = [
@@ -33,7 +33,7 @@ export default function ComputeWindowMock() {
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "assistant",
-      text: "Hi — this chat is wired to a live model API through a server-side proxy, and it can see the carbon state in the indicator above. Ask me anything.",
+      text: "Hi, this chat is wired to a live model API through a server-side proxy, and it can see the carbon state in the indicator above. Ask me anything.",
       hour: 14,
     },
   ]);
@@ -80,7 +80,7 @@ export default function ComputeWindowMock() {
     } catch {
       setMessages((m) => [
         ...m,
-        { role: "assistant", text: "(connection error — the demo couldn't reach the API.)", hour, error: true },
+        { role: "assistant", text: "(connection error: the demo couldn't reach the API.)", hour, error: true },
       ]);
     } finally {
       setLoading(false);
@@ -118,7 +118,7 @@ export default function ComputeWindowMock() {
             <div
               className={s.pill}
               style={{ borderColor: ind.varc }}
-              title="Compute Window Indicator — live"
+              title="Compute Window Indicator · live"
             >
               <span className={s.pillDot} style={{ background: ind.varc }} />
               <span className={s.pillText} style={{ color: ind.varc }}>

@@ -28,7 +28,7 @@ export default function FactsFooter({
             type="button"
             className={s.factChip}
             onClick={() => onJump(f.topic)}
-            title={`Open in Facts — topic: ${f.topic}`}
+            title={`Open in Facts · topic: ${f.topic}`}
           >
             {f.contradicts && <span className={s.factChipZap}>⚡ </span>}
             {f.claim.length > 78 ? `${f.claim.slice(0, 78)}…` : f.claim}

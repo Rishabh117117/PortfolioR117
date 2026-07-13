@@ -9,7 +9,7 @@ import styles from "./about.module.css";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Industrial and product design, then UX, now AI-native products built end to end — the journey, the work, and what I work with.",
+    "Industrial and product design, then UX, now AI-native products built end to end: the journey, the work, and what I work with.",
 };
 
 /**
@@ -53,7 +53,7 @@ export default function AboutPage() {
               </h1>
               <p className={styles.heroLede}>
                 I started in industrial and product design and spent several
-                years in UX — now I ship not just the design but the working
+                years in UX. Now I ship not just the design but the working
                 software, by directing AI coding agents like Claude Code.
                 I&rsquo;m completing an MS in Strategic Design &amp; Management
                 at Parsons, where most of my current work lives. I care about
@@ -113,7 +113,7 @@ export default function AboutPage() {
                 viewBox="0 0 1380 300"
                 preserveAspectRatio="xMidYMid meet"
                 role="img"
-                aria-label="Journey timeline, 2016 to now: A Levels, ISDI product design, YAAP internship, Think Design research, pivot one from objects to interfaces in 2021, YAAP art direction, Mindseye UX, freelance, pivot two — the move from Mumbai to New York in 2024, and starting the MS in Strategic Design and Management at Parsons in Fall 2024 — then the systems era: Housing Works in Spring 2025, Healthy Materials in Fall 2025, Greener Hours and Follow in Spring 2026, and graduating in Fall 2026."
+                aria-label="Journey timeline, 2016 to now: A Levels, ISDI product design, YAAP internship, Think Design research, pivot one from objects to interfaces in 2021, YAAP art direction, Mindseye UX, freelance, pivot two (the move from Mumbai to New York in 2024), and starting the MS in Strategic Design and Management at Parsons in Fall 2024. Then the systems era: Housing Works in Spring 2025, Healthy Materials in Fall 2025, Greener Hours and Follow in Spring 2026, and graduating in Fall 2026."
               >
                 {/* PIVOT 1 · 2021 — objects → interfaces */}
                 <rect x="468.5" y="22" width="3" height="248" fill="var(--accent)" opacity=".85" />
@@ -233,8 +233,8 @@ export default function AboutPage() {
             </div>
 
             <p className={styles.tlFoot}>
-              <strong>The two pivots are the arc.</strong> 2021 — trained on
-              objects, moved into interfaces. 2024 — moved to New York, and from
+              <strong>The two pivots are the arc.</strong> 2021: trained on
+              objects, moved into interfaces. 2024: moved to New York, and from
               designing interfaces to building the systems underneath them.
             </p>
           </div>
@@ -259,7 +259,7 @@ export default function AboutPage() {
                     <span className={styles.org}>· The New School, NYC</span>
                   </p>
                   <p className={styles.wDesc}>
-                    MS, Strategic Design &amp; Management — the systems era.
+                    MS, Strategic Design &amp; Management · the systems era.
                     Client work, graduate research, and Follow: designed and
                     shipped end to end by directing AI coding agents.
                   </p>
@@ -289,7 +289,7 @@ export default function AboutPage() {
                   </p>
                   <p className={styles.wDesc}>
                     Research, personas, flows, wireframes, and UI for websites
-                    and apps — working with clients and developers through to
+                    and apps, working with clients and developers through to
                     launch.
                   </p>
                   <div className={styles.wCtas}>
@@ -308,7 +308,7 @@ export default function AboutPage() {
                     <span className={styles.org}>· UX Designer</span>
                   </p>
                   <p className={styles.wDesc}>
-                    Led UX research and design for websites and apps — guiding
+                    Led UX research and design for websites and apps, guiding
                     UI designers and staying with each project through
                     development and launch.
                   </p>
@@ -328,7 +328,7 @@ export default function AboutPage() {
                     <span className={styles.org}>· Junior Art Director</span>
                   </p>
                   <p className={styles.wDesc}>
-                    Social and brand creative for a range of businesses — and
+                    Social and brand creative for a range of businesses, and
                     the agency&rsquo;s own Instagram presence.
                   </p>
                   <div className={styles.wCtas}>
@@ -442,7 +442,7 @@ export default function AboutPage() {
               Let&rsquo;s build something that <em>runs</em>.
             </p>
             <p className={styles.contactSub}>
-              Brooklyn, NY — open to Design Engineer and Product roles at
+              Brooklyn, NY · open to Design Engineer and Product roles at
               AI-native teams, and to conversations about Follow.
             </p>
             <div className={styles.ctaRow}>

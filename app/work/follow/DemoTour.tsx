@@ -11,8 +11,9 @@ import styles from "./follow.module.css";
  * card) portals into `#follow-sandbox-stage` and is absolutely positioned
  * within it, so the whole tour scrolls WITH the sandbox — scroll away and
  * it stays behind in the demo instead of riding the viewport. The coach
- * card is sticky-bottomed: pinned to the viewport bottom while the sandbox
- * is on screen, anchored to the sandbox's bottom edge once you scroll past.
+ * card is PINNED to one spot — bottom-center of the stage — and never
+ * moves; measure() clamps the spotlight hole above the card's band so the
+ * message and the spotlight can never overlap.
  *
  * The hole is real (four panels, not a box-shadow cutout), so the
  * spotlighted region stays fully interactive; a rAF loop re-measures the
@@ -43,13 +44,13 @@ const STOPS: { view: string; target: "main" | "ask"; title: string; line: string
     view: "graph",
     target: "main",
     title: "Spin the graph",
-    line: "The whole memory as one structure — every fact wired to its source, contested points in red.",
+    line: "The whole memory as one structure: every fact wired to its source, contested points in red.",
   },
   {
     view: "ask",
     target: "ask",
     title: "Ask Follow yourself",
-    line: "Type a question — it runs Follow’s real tools live, thinking and tool calls on screen.",
+    line: "Type a question and it runs Follow’s real tools live, thinking and tool calls on screen.",
   },
   {
     view: "mcp",
@@ -83,6 +84,14 @@ export default function DemoTour() {
     if (!tr || tr.width === 0) return;
     const sr = stage.getBoundingClientRect();
     const r = { top: tr.top - sr.top, left: tr.left - sr.left, width: tr.width, height: tr.height };
+    // the coach card owns a fixed band at the stage's bottom — clamp the
+    // hole so the spotlight never runs under the message (first paint has
+    // no card yet; the rAF loop applies the clamp a frame later)
+    const cr = cardRef.current?.getBoundingClientRect();
+    if (cr) {
+      const bandTop = cr.top - sr.top - 10;
+      if (r.top + r.height > bandTop) r.height = Math.max(40, bandTop - r.top);
+    }
     setBox((prev) =>
       prev &&
       Math.abs(prev.top - r.top) < 0.5 &&
@@ -200,7 +209,7 @@ export default function DemoTour() {
   return (
     <div className={styles.tour}>
       <p className={`mono ${styles.tourKicker}`}>
-        new here? the tour — five stops, two minutes
+        new here? the tour: five stops, two minutes
       </p>
       {/* one-liner stop buttons — the spotlight does the explaining; each
           stop's full line lives in the coach card once it's running */}
@@ -210,7 +219,7 @@ export default function DemoTour() {
             <button
               type="button"
               className={styles.tourGo}
-              aria-label={`Show me — stop ${i + 1} of ${STOPS.length}: ${st.title}`}
+              aria-label={`Show me stop ${i + 1} of ${STOPS.length}: ${st.title}`}
               onClick={() => start(i)}
             >
               <span className={`mono ${styles.tourNo}`}>
@@ -261,8 +270,8 @@ export default function DemoTour() {
                   height: box.height + 8,
                 }}
               />
-              {/* sticky dock: the card rides the viewport bottom while the
-                  sandbox is on screen, then stays at the sandbox's edge */}
+              {/* fixed dock: the card sits at one spot — the stage's
+                  bottom-center — for the whole tour */}
               <div className={styles.spotDockWrap}>
                 <div
                   ref={cardRef}
@@ -303,7 +312,7 @@ export default function DemoTour() {
                     </button>
                   </div>
                   <p className={`mono ${styles.spotHint}`}>
-                    or just click in — the tour gets out of the way
+                    or just click in, the tour gets out of the way
                   </p>
                 </div>
               </div>

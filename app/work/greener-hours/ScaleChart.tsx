@@ -21,7 +21,7 @@ export default function ScaleChart() {
       viewBox="0 0 700 460"
       preserveAspectRatio="xMidYMid meet"
       role="img"
-      aria-label="Global data-center electricity demand, terawatt-hours, 2018 to 2030: 200, 240, 290, 415 (2024, actual), then projected ~580, ~760 and 945 by 2030 — more than double 2024."
+      aria-label="Global data-center electricity demand, terawatt-hours, 2018 to 2030: 200, 240, 290, 415 (2024, actual), then projected ~580, ~760 and 945 by 2030, more than double 2024."
       style={{ width: "100%", height: "auto", display: "block" }}
     >
       {/* axes */}

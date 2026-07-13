@@ -31,21 +31,21 @@ import { SITE_URL, SOCIALS } from "@/lib/site";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Rishabh Salian — Portfolio",
-    template: "%s — Rishabh Salian",
+    default: "Rishabh Salian · Portfolio",
+    template: "%s · Rishabh Salian",
   },
   description:
-    "Portfolio of Rishabh Salian — industrial design to UX to AI-native products, with four live, working demos. MS Strategic Design & Management, Parsons. Brooklyn, NY.",
+    "Portfolio of Rishabh Salian: industrial design to UX to AI-native products, with four live, working demos. MS Strategic Design & Management, Parsons. Brooklyn, NY.",
   openGraph: {
     type: "website",
-    siteName: "Rishabh Salian — Portfolio",
+    siteName: "Rishabh Salian · Portfolio",
     locale: "en_US",
     images: [
       {
         url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Rishabh Salian — designer & AI-native product builder",
+        alt: "Rishabh Salian · designer & AI-native product builder",
       },
     ],
   },

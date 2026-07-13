@@ -30,7 +30,7 @@ type ApiMsg =
 const MAX_ROUNDS = 4;
 
 const GREETING =
-  "Ask about Aurora's week — what's contested, who to talk to, what changed. I check the team's index before answering, and you'll see every step.";
+  "Ask about Aurora's week: what's contested, who to talk to, what changed. I check the team's index before answering, and you'll see every step.";
 
 /* the shipped product humanizes tool names in the step rows */
 const STEP_NAME: Record<string, string> = {
@@ -125,7 +125,7 @@ export default function FollowAskDock({
               kind: "answer",
               text:
                 r.status === 503
-                  ? "The answer backend isn't configured in this environment — the memory, files, and directory still work."
+                  ? "The answer backend isn't configured in this environment; the memory, files, and directory still work."
                   : data?.error || "(Follow couldn't reach the model.)",
               error: true,
             },
@@ -178,12 +178,12 @@ export default function FollowAskDock({
       }
       setItems((it) => [
         ...it,
-        { kind: "answer", text: "(that took more tool rounds than I get here — ask a follow-up to continue)", error: true },
+        { kind: "answer", text: "(that took more tool rounds than I get here; ask a follow-up to continue)", error: true },
       ]);
     } catch {
       setItems((it) => [
         ...it,
-        { kind: "answer", text: "(connection error — Follow couldn't reach the API.)", error: true },
+        { kind: "answer", text: "(connection error: Follow couldn't reach the API.)", error: true },
       ]);
     } finally {
       setLoading(false);

@@ -18,7 +18,7 @@ export default function Error({
           That wasn&rsquo;t supposed to happen.
         </h1>
         <p style={{ color: "var(--soft)", maxWidth: "46ch", marginInline: "auto" }}>
-          The rest of the portfolio is fine — you can retry this page or head
+          The rest of the portfolio is fine; you can retry this page or head
           back to the work.
         </p>
         <div

@@ -16,7 +16,7 @@ type Msg = { role: "user" | "assistant"; text: string; error?: boolean };
 
 const GREETING: Msg = {
   role: "assistant",
-  text: "Hi — I can see the package you've configured. Ask why a swap holds, what value engineering would cut, or where the carbon saving comes from.",
+  text: "Hi, I can see the package you've configured. Ask why a swap holds, what value engineering would cut, or where the carbon saving comes from.",
 };
 
 export default function PackagesAssistant({
@@ -63,7 +63,7 @@ export default function PackagesAssistant({
             role: "assistant",
             text:
               r.status === 503
-                ? "The assistant backend isn't configured in this environment — everything else in the prototype still works."
+                ? "The assistant backend isn't configured in this environment; everything else in the prototype still works."
                 : data?.error || "(the assistant couldn't reach the model.)",
             error: true,
           },
@@ -75,7 +75,7 @@ export default function PackagesAssistant({
     } catch {
       setMessages((m) => [
         ...m,
-        { role: "assistant", text: "(connection error — the assistant couldn't reach the API.)", error: true },
+        { role: "assistant", text: "(connection error: the assistant couldn't reach the API.)", error: true },
       ]);
     } finally {
       setLoading(false);

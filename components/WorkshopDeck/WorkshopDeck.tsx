@@ -54,7 +54,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
                     <img
                       className={styles.cardImg}
                       src={`${IMG}/${card.img}`}
-                      alt={`Campus poster: ${card.stat} — ${card.statText}.`}
+                      alt={`Campus poster: ${card.stat} ${card.statText}.`}
                       loading="lazy"
                       width="825"
                       height="1100"
@@ -68,6 +68,10 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
                       {card.statText}
                     </span>
                     <span className={styles.cardResp}>“{card.response}”</span>
+                    <span className={styles.cardIns}>
+                      <span className={`mono ${styles.cardInsLabel}`}>insight</span>
+                      {card.insight}
+                    </span>
                   </span>
                 </button>
               </li>
@@ -108,7 +112,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
             <img
               className={styles.lbImg}
               src={`${IMG}/${expandedCard.img}`}
-              alt={`Campus poster: ${expandedCard.stat} — ${expandedCard.statText}.`}
+              alt={`Campus poster: ${expandedCard.stat} ${expandedCard.statText}.`}
               width="825"
               height="1100"
             />
@@ -117,6 +121,7 @@ export default function WorkshopDeck({ tone }: { tone?: "onPhoto" }) {
                 {expandedCard.stat} {expandedCard.statText}
               </span>
               <span className={`mono ${styles.lbQ}`}>{expandedCard.question}</span>
+              <span className={styles.lbIns}>{expandedCard.insight}</span>
             </figcaption>
           </figure>
         </div>,

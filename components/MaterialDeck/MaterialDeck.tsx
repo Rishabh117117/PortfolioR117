@@ -54,7 +54,7 @@ export default function MaterialDeck() {
                     <img
                       className={styles.cardImg}
                       src={`${IMG}/${card.img}`}
-                      alt={`Field visit — ${card.caption}.`}
+                      alt={`Field visit: ${card.caption}.`}
                       loading="lazy"
                       width="1200"
                       height="1600"
@@ -95,7 +95,7 @@ export default function MaterialDeck() {
               ×
             </button>
             <figure className={styles.lbFig} onClick={(e) => e.stopPropagation()}>
-              <img className={styles.lbImg} src={`${IMG}/${ex.img}`} alt={`Field visit — ${ex.caption}.`} />
+              <img className={styles.lbImg} src={`${IMG}/${ex.img}`} alt={`Field visit: ${ex.caption}.`} />
               <figcaption className={styles.lbCap}>
                 <span className={styles.lbTitle}>{ex.caption}</span>
                 <span className={`mono ${styles.lbDetail}`}>{ex.detail}</span>

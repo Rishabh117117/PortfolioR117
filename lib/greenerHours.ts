@@ -9,7 +9,7 @@
 export const HERO = {
   eyebrow: "A proposed standard",
   lede:
-    "Every AI API response carries a new number — how clean the power behind it was. Three tools show what that unlocks: a chat indicator, a job scheduler, and a procurement dashboard.",
+    "Every AI API response carries a new number: how clean the power behind it was. Three tools show what that unlocks: a chat indicator, a job scheduler, and a procurement dashboard.",
   meta: [
     { k: "Course", v: "Design for a Warming World" },
     { k: "Program", v: "MS Strategic Design & Management · Parsons" },
@@ -32,7 +32,7 @@ export const SCALE_BARS: ScaleBar[] = [
 export const SCALE_GIANT = "945";
 export const SCALE_UNIT = "TWh";
 export const SCALE_LEDE =
-  "Projected global data-center electricity demand by 2030 — more than double 2024's 415 TWh, with AI identified by the IEA as the lead driver.";
+  "Projected global data-center electricity demand by 2030, more than double 2024's 415 TWh, with AI identified by the IEA as the lead driver.";
 export const SCALE_SOURCE =
   "IEA, Energy and AI (April 2025); Shehabi et al., 2024 U.S. Data Center Energy Usage Report, LBNL (Dec 2024).";
 
@@ -94,7 +94,7 @@ export const TIERS: Tier[] = [
     role: "Legibility",
     name: "Compute Window Indicator",
     short: "Indicator",
-    job: "A small glyph that makes invisible energy costs visible — without pretending it changes user behavior.",
+    job: "A small glyph that makes invisible energy costs visible, without pretending it changes user behavior.",
     blurb: "A carbon glyph, live inside the chat.",
     hero: true,
   },
@@ -112,7 +112,7 @@ export const TIERS: Tier[] = [
     role: "Institutional",
     name: "Compute Footprint Dashboard",
     short: "Dashboard",
-    job: "Procurement language, mirroring AWS Cost Explorer. Surfaces total volume alongside timing — the anti-rebound layer.",
+    job: "Procurement language, mirroring AWS Cost Explorer. Surfaces total volume alongside timing: the anti-rebound layer.",
     blurb: "A procurement view of the whole footprint.",
     hero: false,
   },
@@ -125,18 +125,18 @@ export const SUBSTRATE = {
 // Per-tier principles (shown beside each tier's mockup in the tabbed product view)
 export type Principle = { code: string; kind: "anchor" | "load" | "support"; name: string; insight: string };
 export const TIER1_PRINCIPLES: Principle[] = [
-  { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "The energy cost of AI is classic dark matter — real, structural, invisible at the interface. The indicator surfaces it right where the request happens, so the cost and the action share one screen." },
+  { code: "P3", kind: "anchor", name: "Anchor · Dark matter", insight: "The energy cost of AI is classic dark matter: real, structural, invisible at the interface. The indicator surfaces it right where the request happens, so the cost and the action share one screen." },
   { code: "P5", kind: "load", name: "Culture", insight: "Procurement language (“g/kWh · region”), not climate framing." },
   { code: "P7", kind: "load", name: "Tech as both", insight: "Treats AI as both an energy sink and a disclosure surface." },
 ];
 export const TIER2_PRINCIPLES: Principle[] = [
-  { code: "P4", kind: "load", name: "H2+ on H2−", insight: "Borrows EV-charging UX — set a deadline, the system optimizes timing." },
+  { code: "P4", kind: "load", name: "H2+ on H2−", insight: "Borrows EV-charging UX: set a deadline, the system optimizes timing." },
   { code: "P8", kind: "load", name: "Hack", insight: "Adds a scheduling layer over existing batch infrastructure." },
   { code: "P6", kind: "support", name: "Agency", insight: "Returns timing control to dev teams without climate framing." },
 ];
 export const TIER3_PRINCIPLES: Principle[] = [
-  { code: "P9", kind: "anchor", name: "Movable middle", insight: "Targets enterprise procurement teams — not end users." },
-  { code: "P2", kind: "load", name: "Sufficiency", insight: "Anti-rebound — efficiency cannot disguise rising volume." },
+  { code: "P9", kind: "anchor", name: "Movable middle", insight: "Targets enterprise procurement teams, not end users." },
+  { code: "P2", kind: "load", name: "Sufficiency", insight: "Anti-rebound: efficiency cannot disguise rising volume." },
   { code: "P7", kind: "support", name: "Tech as both", insight: "Surfaces total volume alongside intensity." },
 ];
 
@@ -187,21 +187,21 @@ export const HTTPS = {
 // ---- §11 Validation (precedents) ------------------------------------------
 export type Precedent = { name: string; kind: string; note: string };
 export const PRECEDENTS: Precedent[] = [
-  { name: "EU energy labels", kind: "Regulatory disclosure", note: "The A–G grade reshaped manufacturer behavior more than consumer behavior — appliances were re-engineered to climb the visible scale." },
-  { name: "FDA nutrition labels", kind: "Mandatory disclosure", note: "Barely moved consumers; drove reformulation — trans fats, sodium, sugar — because makers competed on what was visible." },
+  { name: "EU energy labels", kind: "Regulatory disclosure", note: "The A–G grade reshaped manufacturer behavior more than consumer behavior; appliances were re-engineered to climb the visible scale." },
+  { name: "FDA nutrition labels", kind: "Mandatory disclosure", note: "Barely moved consumers; drove reformulation (trans fats, sodium, sugar) because makers competed on what was visible." },
   { name: "Cloud carbon dashboards", kind: "Already happened", note: "AWS, Azure, GCP shipped per-service carbon in 2021–22 on procurement demand. The pattern works; the AI-specific extension is what's missing." },
-  { name: "OpenTelemetry", kind: "Standards-driven", note: "An open backend standard spawned a whole UI ecosystem — Datadog, Grafana, Honeycomb. None exist without the substrate." },
-  { name: "Software Bill of Materials", kind: "In progress", note: "Federal procurement drives software supply-chain disclosure. Procurement as the adoption mechanism — the same shape as Greener Hours." },
+  { name: "OpenTelemetry", kind: "Standards-driven", note: "An open backend standard spawned a whole UI ecosystem: Datadog, Grafana, Honeycomb. None exist without the substrate." },
+  { name: "Software Bill of Materials", kind: "In progress", note: "Federal procurement drives software supply-chain disclosure. Procurement as the adoption mechanism, the same shape as Greener Hours." },
   { name: "Green Software Foundation SCI", kind: "Adjacent, incomplete", note: "The Software Carbon Intensity spec (ISO/IEC 21031) exists as methodology. Productization and the AI-specific extension do not." },
 ];
 
 // ---- §12 Honest trade-offs -------------------------------------------------
 export type Tradeoff = { no: string; title: string; body: string };
 export const TRADEOFFS: Tradeoff[] = [
-  { no: "01", title: "The structural tension", body: "The biggest lever for AI's footprint is supply-side — siting, PPAs, grid decarbonization. Greener Hours operates on a derivative lever: user-facing visibility pressuring the supply side. The bet is contestable; the HTTPS analog suggests the pattern works, but the timeline is uncertain." },
+  { no: "01", title: "The structural tension", body: "The biggest lever for AI's footprint is supply-side: siting, PPAs, grid decarbonization. Greener Hours operates on a derivative lever: user-facing visibility pressuring the supply side. The bet is contestable; the HTTPS analog suggests the pattern works, but the timeline is uncertain." },
   { no: "02", title: "Greenwashing capture risk", body: "Open standards get captured. Three guardrails: an open-source reference implementation, third-party verification of disclosure claims, and an anti-rebound layer that surfaces total consumption alongside efficiency. None is sufficient alone." },
-  { no: "03", title: "Visibility ≠ behavior change", body: "The sharpest critique I got at midterm — and the answer is structural, not defensive: Tier 1 is not a behavior tool. Behavior change happens at Tier 2 (a one-click default) and Tier 3 (institutional decisions). Tier 1's job is to make the cost visible, and visible costs create supply-side pressure." },
-  { no: "04", title: "The sufficiency limit", body: "Greener Hours is a timing-and-disclosure intervention, not a sufficiency one. It does not advocate using less AI. Tier 3 makes absolute usage visible — but visibility is not advocacy." },
+  { no: "03", title: "Visibility ≠ behavior change", body: "The sharpest critique I got at midterm, and the answer is structural, not defensive: Tier 1 is not a behavior tool. Behavior change happens at Tier 2 (a one-click default) and Tier 3 (institutional decisions). Tier 1's job is to make the cost visible, and visible costs create supply-side pressure." },
+  { no: "04", title: "The sufficiency limit", body: "Greener Hours is a timing-and-disclosure intervention, not a sufficiency one. It does not advocate using less AI. Tier 3 makes absolute usage visible, but visibility is not advocacy." },
 ];
 
 // ---- §13 Speculative KPIs --------------------------------------------------
@@ -211,10 +211,10 @@ export const KPIS: Kpi[] = [
   { figure: "60%", label: "Coverage", sub: "of enterprise AI API calls return standardized carbon data by default." },
   { figure: "40%", label: "Behavior · Tier 2", sub: "of deferrable batch tasks shift to cleaner grid windows." },
   { figure: "5+", label: "Institutional · Tier 3", sub: "Fortune 100 buyers name the spec in AI RFPs." },
-  { figure: "1", label: "Regulatory", sub: "EU AI Act or California SB 253 references the spec — the mandate moment." },
+  { figure: "1", label: "Regulatory", sub: "EU AI Act or California SB 253 references the spec: the mandate moment." },
   { figure: "∞", label: "Cultural", sub: "“What's your compute-carbon disclosure?” becomes a normal sales question." },
 ];
-export const KPI_CAVEAT = "Directional, not predictive — these are the moves I'd watch for, not measured outcomes.";
+export const KPI_CAVEAT = "Directional, not predictive: these are the moves I'd watch for, not measured outcomes.";
 
 // ---- §14 Close ------------------------------------------------------------
 export const CLOSE = {

@@ -66,7 +66,7 @@ export const HW_PROJECT = {
 };
 
 export const HW_HONESTY =
-  "Concept prototype · illustrative data — trustees, needs, and sessions are invented stand-ins for private Housing Works data";
+  "Concept prototype · illustrative data · trustees, needs, and sessions are invented stand-ins for private Housing Works data";
 
 export const HW_PRIORITIES = [
   "Retail revenue",

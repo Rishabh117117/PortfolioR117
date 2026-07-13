@@ -26,7 +26,7 @@ export default function BeforeSystem() {
     <figure
       className="fsys fsysBefore"
       role="img"
-      aria-label="Before Follow: Maya with Claude, Alex with ChatGPT, Sam with Gemini, and the team's documents — the same sources. Each chat's and each doc's context evaporates between them — no shared memory — and the only place anything meets is the meeting, which forgets what it doesn’t know."
+      aria-label="Before Follow: Maya with Claude, Alex with ChatGPT, Sam with Gemini, and the team's documents, the same sources. Each chat's and each doc's context evaporates between them, with no shared memory, and the only place anything meets is the meeting, which forgets what it doesn’t know."
     >
       <div className="fsysStage">
         <div className="fsysRow">
@@ -102,7 +102,7 @@ export default function BeforeSystem() {
       <figcaption className="fsysSub">
         Each teammate works with their own AI in a private thread, the team’s
         docs sit off to the side, and the only place it all meets is a
-        meeting — which forgets what it doesn’t know.
+        meeting, which forgets what it doesn’t know.
       </figcaption>
     </figure>
   );

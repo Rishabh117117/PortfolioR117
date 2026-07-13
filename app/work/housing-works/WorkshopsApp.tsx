@@ -229,6 +229,24 @@ export default function WorkshopsApp() {
     if (valid.includes(raw as View)) goView(raw as View);
   }, []);
 
+  // the page's guided walkthrough drives the app from outside: plain views
+  // via goView; "ask" opens the mobile Ask overlay (the desktop dock is
+  // always on screen)
+  useEffect(() => {
+    const onGoto = (e: Event) => {
+      const v = (e as CustomEvent).detail as string;
+      if (v === "ask") {
+        if (window.matchMedia("(max-width: 719px)").matches) setAskOpen(true);
+        return;
+      }
+      const valid: View[] = ["match", "sessions", "archive"];
+      if (valid.includes(v as View)) goView(v as View);
+    };
+    window.addEventListener("hw:goto", onGoto);
+    return () => window.removeEventListener("hw:goto", onGoto);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const openNeeds = useMemo(() => HW_NEEDS.filter((n) => !handled[n.id]), [handled]);
   const selNeed: HwNeed | null = openNeeds.find((n) => n.id === selNeedId) ?? null;
   const matches = useMemo(
@@ -456,7 +474,7 @@ export default function WorkshopsApp() {
           <span className={s.projectMeta}>{HW_PROJECT.meta}</span>
         </div>
         <span className={s.formula}>need × trustee × strategy → workshop</span>
-        <span className={s.budgetChip} title="Program budget used (materials only — trustee time is volunteered)">
+        <span className={s.budgetChip} title="Program budget used (materials only; trustee time is volunteered)">
           ${budgetUsed} / ${HW_YEAR_BUDGET} yr
         </span>
         <button
@@ -501,7 +519,7 @@ export default function WorkshopsApp() {
         </aside>
 
         {/* ---------------- main ---------------- */}
-        <section className={s.main} aria-label="Workshop tool">
+        <section className={s.main} aria-label="Workshop tool" data-tour="main">
           {/* ======== MATCH VIEW ======== */}
           {view === "match" && (
             <>
@@ -509,7 +527,7 @@ export default function WorkshopsApp() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Open staff needs</h3>
                 <p className={s.mainBlurb}>
-                  From the quarterly pulse survey — pick one to see the matcher work in the open.
+                  From the quarterly pulse survey. Pick one to see the matcher work in the open.
                 </p>
               </header>
               <div className={s.needGrid}>
@@ -573,7 +591,7 @@ export default function WorkshopsApp() {
                     </article>
                   ))}
                   <p className={s.matchFoot}>
-                    The score is a real computation over illustrative data — not model output.
+                    The score is a real computation over illustrative data, not model output.
                   </p>
                 </div>
               )}
@@ -587,14 +605,14 @@ export default function WorkshopsApp() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Lesson plan</h3>
                 <p className={s.mainBlurb}>
-                  Before this goes on the calendar — a look at the session itself.
+                  Before this goes on the calendar, a look at the session itself.
                 </p>
               </header>
 
               {planPhase === "drafting" ? (
                 <div className={s.planDrafting} aria-live="polite">
                   <p className={s.typing}>
-                    Assembling the plan — template library + session archive…
+                    Assembling the plan: template library + session archive…
                   </p>
                 </div>
               ) : (
@@ -625,7 +643,7 @@ export default function WorkshopsApp() {
                         <span className={s.chipPlain}>kpi · {template.kpi}</span>
                       </div>
                       <p className={s.matchFoot}>
-                        Drafted from the workshop template library — illustrative content.
+                        Drafted from the workshop template library · illustrative content.
                       </p>
                       <div className={s.planActions}>
                         <button
@@ -755,7 +773,7 @@ export default function WorkshopsApp() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Session archive</h3>
                 <p className={s.mainBlurb}>
-                  What&apos;s taught stays with the team — every session recorded, summarized, searchable.
+                  What&apos;s taught stays with the team: every session recorded, summarized, searchable.
                 </p>
               </header>
               <div className={s.searchRow}>
@@ -847,7 +865,7 @@ export default function WorkshopsApp() {
                                 <span className={s.recordingDuration}>{a.duration}</span>
                               </div>
                               <p className={`mono ${s.recordingLabel}`}>
-                                illustrative recording · stand-in — no audio
+                                illustrative recording · stand-in · no audio
                               </p>
                             </div>
 

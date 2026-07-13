@@ -15,7 +15,7 @@ type Msg = { role: "user" | "assistant"; text: string; error?: boolean };
 
 const GREETING: Msg = {
   role: "assistant",
-  text: "Hi — I can see the whole program: the bench, the needs queue, and every archived session. Ask me who should teach something, or what a past session covered.",
+  text: "Hi, I can see the whole program: the bench, the needs queue, and every archived session. Ask me who should teach something, or what a past session covered.",
 };
 
 export default function WorkshopsAssistant({
@@ -60,7 +60,7 @@ export default function WorkshopsAssistant({
             role: "assistant",
             text:
               r.status === 503
-                ? "The assistant backend isn't configured in this environment — the matcher, sessions, and archive all still work."
+                ? "The assistant backend isn't configured in this environment; the matcher, sessions, and archive all still work."
                 : data?.error || "(the assistant couldn't reach the model.)",
             error: true,
           },
@@ -72,7 +72,7 @@ export default function WorkshopsAssistant({
     } catch {
       setMessages((m) => [
         ...m,
-        { role: "assistant", text: "(connection error — the assistant couldn't reach the API.)", error: true },
+        { role: "assistant", text: "(connection error: the assistant couldn't reach the API.)", error: true },
       ]);
     } finally {
       setLoading(false);
@@ -82,7 +82,7 @@ export default function WorkshopsAssistant({
   const showChips = messages.length <= 2 && !loading;
 
   return (
-    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Ask the archive">
+    <aside className={`${s.assist} ${className ?? ""}`} aria-label="Ask the archive" data-tour="ask">
       <header className={s.assistHead}>
         <span className={s.assistTitle}>
           <span className={`${s.assistDot} ${offline ? s.assistDotOff : ""}`} aria-hidden="true" />

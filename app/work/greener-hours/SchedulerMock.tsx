@@ -108,7 +108,7 @@ export default function SchedulerMock() {
               </select>
             </div>
             {!valid && (
-              <div className={s.pickWarn}>that time has passed — pick a later hour</div>
+              <div className={s.pickWarn}>that time has passed; pick a later hour</div>
             )}
             <div className={s.recRow}>
               <span className={s.recLabel}>Recommended</span>
@@ -127,7 +127,7 @@ export default function SchedulerMock() {
               Schedule into recommended window ▸
             </button>
             <div className={s.pickHint}>
-              …or tap a bar on the forecast to pick your own window — the system
+              …or tap a bar on the forecast to pick your own window; the system
               still checks it against your deadline.
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function SchedulerMock() {
                     onClick={pickable ? () => pickWindow(t) : undefined}
                   >
                     <title>
-                      {(relDay(t, simT) === 0 ? "today" : "tomorrow") + ` ${hh(t % 24)}:00 · ${v} g` + (pickable ? " — tap to schedule" : "")}
+                      {(relDay(t, simT) === 0 ? "today" : "tomorrow") + ` ${hh(t % 24)}:00 · ${v} g` + (pickable ? " · tap to schedule" : "")}
                     </title>
                   </rect>
                 );
@@ -228,7 +228,7 @@ export default function SchedulerMock() {
               <span>cleanest-window routing</span>
             </div>
             <div className={s.queueList}>
-              {jobs.length === 0 && <div className={s.jobEmpty}>No jobs — submit one.</div>}
+              {jobs.length === 0 && <div className={s.jobEmpty}>No jobs yet. Submit one.</div>}
               {jobs.map((j) => {
                 const save = Math.round(((j.immInt - j.schedInt) / j.immInt) * 100);
                 const st = STATUS[j.status];

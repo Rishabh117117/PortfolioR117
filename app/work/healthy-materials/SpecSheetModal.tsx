@@ -91,7 +91,7 @@ export default function SpecSheetModal({
     );
     const foot = [
       "",
-      `# ${PKG_PROJECT.name} — ${scope.label} (${scope.areaNote})`,
+      `# ${PKG_PROJECT.name} · ${scope.label} (${scope.areaNote})`,
       `# Package ${fmtUSD(totals.pkgCost)} vs BAU ${fmtUSD(totals.bauCost)} (${totals.costDelta >= 0 ? "+" : ""}${totals.costDeltaPct.toFixed(1)}% first cost)`,
       `# Embodied carbon ${fmtCarbon(totals.pkgCarbon)} vs ${fmtCarbon(totals.bauCarbon)} (${Math.round(totals.carbonDeltaPct)}%)`,
       `# ${PKG_HONESTY}`,
@@ -107,10 +107,10 @@ export default function SpecSheetModal({
 
   async function copySummary() {
     const text = [
-      `Healthy Materials Package — ${scope.label} · ${PKG_PROJECT.name}`,
+      `Healthy Materials Package · ${scope.label} · ${PKG_PROJECT.name}`,
       ...rows.map(
         ({ line, on, chosen, lineTotal }) =>
-          `• ${line.category}: ${chosen.name}${on ? "" : " (BAU kept)"} — ${line.qty} ${line.unit} · ${fmtUSD(lineTotal)}`,
+          `• ${line.category}: ${chosen.name}${on ? "" : " (BAU kept)"} · ${line.qty} ${line.unit} · ${fmtUSD(lineTotal)}`,
       ),
       `Package ${fmtUSD(totals.pkgCost)} vs BAU ${fmtUSD(totals.bauCost)} (${totals.costDelta >= 0 ? "+" : ""}${totals.costDeltaPct.toFixed(1)}%) · carbon ${Math.round(totals.carbonDeltaPct)}% · ${totals.healthCleared}/${totals.healthFlags} VOC sources cleared`,
       PKG_HONESTY,
@@ -133,14 +133,14 @@ export default function SpecSheetModal({
         className={s.sheet}
         role="dialog"
         aria-modal="true"
-        aria-label={`Spec sheet — ${scope.label}`}
+        aria-label={`Spec sheet: ${scope.label}`}
         onClick={(e) => e.stopPropagation()}
       >
         <header className={s.sheetHead}>
           <div>
             <p className={s.sheetKicker}>healthy materials package · spec sheet</p>
             <h3 className={s.sheetTitle}>
-              {PKG_PROJECT.name} — {scope.label}
+              {PKG_PROJECT.name} · {scope.label}
             </h3>
             <p className={s.sheetMeta}>
               {PKG_PROJECT.meta} · {scope.areaNote} · {PKG_PROJECT.standard}

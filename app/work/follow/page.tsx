@@ -14,7 +14,7 @@ import styles from "./follow.module.css";
 export const metadata: Metadata = {
   title: "Follow",
   description:
-    "Follow — a shared, trackable memory layer that sits between a team’s AI tools. The capstone: the research, the two pivots, the system in one interactive picture, and a live sandbox of the shipped product.",
+    "Follow: a shared, trackable memory layer that sits between a team’s AI tools. The capstone covers the research, the two pivots, the system in one interactive picture, and a live sandbox of the shipped product.",
 };
 
 // §4.1 — the Follow accent lives in ./theme.ts (shared with the /prototype
@@ -65,7 +65,7 @@ export default function FollowPage() {
         <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>Project timeline</h2>
           <p className="lede">
-            Spring 2025 → May 2026 — field research, expert interviews, and the
+            Spring 2025 → May 2026: field research, expert interviews, and the
             two pivots that turned Follow from an AI-native document tool into a
             team-memory layer.
           </p>
@@ -216,7 +216,7 @@ export default function FollowPage() {
           </div>
           <p className={styles.tlFoot}>
             <strong>What this is not:</strong> a longitudinal deployment study.
-            The peer tests informed a pivot, not a validation — the longitudinal
+            The peer tests informed a pivot, not a validation; the longitudinal
             pilot ahead is the move from modeled to measured.
           </p>
 
@@ -225,29 +225,29 @@ export default function FollowPage() {
             <h3 className={`mono ${styles.kicker}`}>The research</h3>
             <p className="lede">
               Mixed-methods, and honest about scope: a theoretical spine, plus six
-              primary engagements — from lived experience to expert interviews.
+              primary engagements, from lived experience to expert interviews.
             </p>
             <div className={styles.rcols}>
               <div className={styles.rcol}>
                 <p className={styles.rlabel}>Secondary · the theoretical spine</p>
                 <div className={styles.rlist}>
                   <div className={styles.r}>
-                    <strong>Wegner</strong> — transactive memory systems
+                    <strong>Wegner</strong> · transactive memory systems
                   </div>
                   <div className={styles.r}>
-                    <strong>Clark &amp; Chalmers</strong> — the extended mind
+                    <strong>Clark &amp; Chalmers</strong> · the extended mind
                   </div>
                   <div className={styles.r}>
-                    <strong>Sweller</strong> — cognitive load theory
+                    <strong>Sweller</strong> · cognitive load theory
                   </div>
                   <div className={styles.r}>
-                    <strong>Bienefeld et al.</strong> — TMS in human–AI teams
+                    <strong>Bienefeld et al.</strong> · TMS in human-AI teams
                   </div>
                   <div className={styles.r}>
-                    <strong>Kosmyna et al. (MIT)</strong> — cognitive debt
+                    <strong>Kosmyna et al. (MIT)</strong> · cognitive debt
                   </div>
                   <div className={styles.r}>
-                    <strong>Doshi &amp; Hauser</strong> — homogenization risk
+                    <strong>Doshi &amp; Hauser</strong> · homogenization risk
                   </div>
                 </div>
               </div>
@@ -295,8 +295,8 @@ export default function FollowPage() {
           </p>
           <p className="lede">
             Work isn’t written alone anymore. Almost every decision now passes
-            through someone’s AI chat — the constraints, the rejected options,
-            the reasoning — and then stays locked in that one private thread.
+            through someone’s AI chat (the constraints, the rejected options,
+            the reasoning) and then stays locked in that one private thread.
           </p>
           <p className={styles.body}>
             Teams already run as a{" "}
@@ -306,14 +306,14 @@ export default function FollowPage() {
             >
               A group’s shared memory: instead of everyone knowing everything,
               members specialize and quietly keep a directory of{" "}
-              <em>who knows what</em> — so the team retrieves knowledge by
+              <em>who knows what</em>, so the team retrieves knowledge by
               knowing whom to ask.
             </TermTip>{" "}
             with each other: everyone keeps a rough map of who knows what.
             But they don’t have that with their AI tools. The context that
             actually shaped the work scatters across separate chats and
             disappears. Across five concept tests, most people volunteered
-            the same feeling before seeing anything — that their AI-assisted
+            the same feeling before seeing anything: that their AI-assisted
             work didn’t quite feel like theirs.
           </p>
         </div>
@@ -327,7 +327,7 @@ export default function FollowPage() {
           </div>
           <BeforeSystem />
           <p className={styles.reelNote}>
-            Adapted from the capstone deck — three teammates, three AIs, each
+            Adapted from the capstone deck: three teammates, three AIs, each
             working in a private thread the others can’t see.
           </p>
         </div>
@@ -337,7 +337,7 @@ export default function FollowPage() {
             Insights &amp; areas of opportunity
           </h2>
           <p className="lede">
-            Three findings shaped where Follow plays — and where the opportunity
+            Three findings shaped where Follow plays, and where the opportunity
             is largest.
           </p>
           <div className={styles.insights}>
@@ -345,7 +345,7 @@ export default function FollowPage() {
               <span className={styles.num}>01</span>
               <h3>AI is the invisible teammate.</h3>
               <p>
-                Teams already run as transactive memory systems with each other —
+                Teams already run as transactive memory systems with each other,
                 but not with their AI, because its contributions were never
                 captured in a form the team could route to.
               </p>
@@ -355,7 +355,7 @@ export default function FollowPage() {
               <h3>Cross-tool memory is structurally vacant.</h3>
               <p>
                 Native memory inside one AI tool is solved by vendors. Cross-tool,
-                cross-contributor memory is empty — no vendor with the surface to
+                cross-contributor memory is empty; no vendor with the surface to
                 build it has a reason to make it cross-vendor.
               </p>
             </div>
@@ -364,7 +364,7 @@ export default function FollowPage() {
               <h3>Provenance matters where stakes are high.</h3>
               <p>
                 The strongest signal for value comes where the cost of being wrong
-                is asymmetric — legal review, regulated work, compliance. That’s
+                is asymmetric: legal review, regulated work, compliance. That’s
                 also where pricing tolerance is highest.
               </p>
             </div>
@@ -376,8 +376,8 @@ export default function FollowPage() {
               better work if I’d known how my teammates got where they got.”
             </p>
             <p className={styles.src}>
-              From the Housing Works experience — and the five concept tests
-              kept surfacing the same feeling, unprompted.
+              From the Housing Works experience; the five concept tests kept
+              surfacing the same feeling, unprompted.
             </p>
           </div>
         </div>
@@ -389,7 +389,7 @@ export default function FollowPage() {
           <p className={styles.hmwEyebrow}>The opportunity</p>
           <h2 className={styles.hmw}>
             How might we give a team{" "}
-            <em>one shared, trustable memory</em> — across every AI tool they
+            <em>one shared, trustable memory</em>, across every AI tool they
             already use?
           </h2>
         </div>
@@ -403,7 +403,7 @@ export default function FollowPage() {
             Follow<span className={styles.dot}>.</span>
           </h2>
           <p className={styles.revealLine}>
-            A shared memory layer that lives <em>between</em> your AI tools — not
+            A shared memory layer that lives <em>between</em> your AI tools, not
             inside any one of them. This is the whole system:
           </p>
           <FollowSystem />
@@ -415,8 +415,8 @@ export default function FollowPage() {
         <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>What it does</h2>
           <p className="lede">
-            Not another search box over your chats — a memory with receipts.
-            Six things fall out of that.
+            Not another search box over your chats. A memory with receipts,
+            and six things fall out of that.
           </p>
 
           <div className={styles.rag}>
@@ -430,7 +430,7 @@ export default function FollowPage() {
               <p className={`mono ${styles.ragTag}`}>typical RAG</p>
               <p className={styles.ragClaim}>Finds text that matches.</p>
               <p className={styles.ragSub}>
-                You get back a similar-sounding paragraph — no owner, no date,
+                You get back a similar-sounding paragraph: no owner, no date,
                 no idea whether the team still believes it.
               </p>
             </div>
@@ -447,7 +447,7 @@ export default function FollowPage() {
               <p className={`mono ${styles.ragTag}`}>Follow</p>
               <p className={styles.ragClaim}>Finds the source.</p>
               <p className={styles.ragSub}>
-                Who worked it out, in which chat, when — what it connects to,
+                Who worked it out, in which chat, when, what it connects to,
                 and whether anyone disagrees.
               </p>
             </div>
@@ -465,7 +465,7 @@ export default function FollowPage() {
               <span className={styles.no}>01</span>
               <h3>Works across tools</h3>
               <p>
-                Maya’s Claude, Alex’s ChatGPT, Sam’s Gemini — every teammate’s
+                Maya’s Claude, Alex’s ChatGPT, Sam’s Gemini: every teammate’s
                 AI reads and writes the same memory, over MCP.
               </p>
             </div>
@@ -473,7 +473,7 @@ export default function FollowPage() {
               <span className={styles.no}>02</span>
               <h3>Answers with receipts</h3>
               <p>
-                Every fact carries who said it, in which chat, and when — so
+                Every fact carries who said it, in which chat, and when, so
                 answers come back attributed, and you can check them.
               </p>
             </div>
@@ -489,7 +489,7 @@ export default function FollowPage() {
               <span className={styles.no}>04</span>
               <h3>A live who-knows-what</h3>
               <p>
-                The directory of what your team knows and who knows it —
+                The directory of what your team knows and who knows it,
                 maintained by the work itself, not by anyone filling in
                 profiles.
               </p>
@@ -498,7 +498,7 @@ export default function FollowPage() {
               <span className={styles.no}>05</span>
               <h3>Memory that stays current</h3>
               <p>
-                New decisions retire the old ones they replace — and the old
+                New decisions retire the old ones they replace, and the old
                 version stays in the trail, so nothing silently vanishes.
               </p>
             </div>
@@ -506,8 +506,9 @@ export default function FollowPage() {
               <span className={styles.no}>06</span>
               <h3>Documents join the memory</h3>
               <p>
-                Uploads or live docs — Follow follows the artifact: its facts
-                land in the same shared memory and version up as it changes.
+                Uploads and live docs alike. Follow follows the artifact: its
+                facts land in the same shared memory and version up as it
+                changes.
               </p>
             </div>
           </div>
@@ -519,23 +520,23 @@ export default function FollowPage() {
         <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The sandbox</p>
           <h2 className={styles.reelTitle}>
-            The shipped dashboard, replicated — <em>live</em>.
+            The shipped dashboard, replicated <em>live</em>.
           </h2>
           <div className={styles.storyCard}>
             <p className={`mono ${styles.storyKicker}`}>the story</p>
             <p className={styles.storyBody}>
-              Meet <strong>Aurora</strong> — a fictional checkout-redesign
+              Meet <strong>Aurora</strong>, a fictional checkout-redesign
               team, invented and pre-loaded into this sandbox so you can walk
               through Follow with real material. Maya designs in Claude. Alex
               runs product in ChatGPT. Sam builds in Gemini. Three people,
-              three different AI tools — normally three separate silos.
+              three different AI tools, normally three separate silos.
             </p>
             <p className={styles.storyBody}>
               For one working week they had the Follow connector attached, and
               the week captured itself as they worked: <strong>16
               conversations</strong>, <strong>7 uploaded files</strong>, and
               the <strong>32-fact team memory</strong> those produced. Three
-              questions ended the week still genuinely contested — Follow
+              questions ended the week still genuinely contested; Follow
               keeps both sides on the record instead of picking a winner.
             </p>
           </div>

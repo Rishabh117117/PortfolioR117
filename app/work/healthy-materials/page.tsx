@@ -15,7 +15,7 @@ import styles from "./healthy-materials.module.css";
 export const metadata: Metadata = {
   title: "Healthy Materials",
   description:
-    "Graduate capstone with the Healthy Materials Lab at Parsons (with Henry Schroder): mixed-methods research on why healthier, lower-carbon building materials fall out of construction — four barriers, the leverage points, and three interventions, led by the one I'd build first: Healthy Materials Packages.",
+    "Graduate capstone with the Healthy Materials Lab at Parsons (with Henry Schroder): mixed-methods research on why healthier, lower-carbon building materials fall out of construction. Four barriers, the leverage points, and three interventions, led by the one I'd build first: Healthy Materials Packages.",
 };
 
 /* §6 / spec — the project accent (sage) + page-scoped forest-teal atmosphere
@@ -110,7 +110,7 @@ export default function HealthyMaterialsPage() {
             </p>
             <p className={styles.body}>
               This was a two-person capstone with{" "}
-              <strong>Henry Schroder</strong> — the field visit, interviews, and
+              <strong>Henry Schroder</strong>; the field visit, interviews, and
               synthesis were shared. My focus, and the part I&apos;d build first,
               is the intervention this page ends on:{" "}
               <strong>Healthy Materials Packages</strong>.
@@ -144,7 +144,7 @@ export default function HealthyMaterialsPage() {
               </div>
             </div>
             <p className={styles.spectrumNote}>
-              Not lab prototypes — materials that meaningfully cut embodied carbon
+              Not lab prototypes: materials that meaningfully cut embodied carbon
               and can already be specified and bought today.
             </p>
             <p className={styles.footnote}>
@@ -168,8 +168,8 @@ export default function HealthyMaterialsPage() {
               <SectionHeader as="h3">The research</SectionHeader>
               <p className="lede">
                 Mixed methods on a deliberately small scope: a desk-research
-                spine plus four primary engagements — a materials-library field
-                visit and three practitioner interviews — read for where
+                spine plus four primary engagements (a materials-library field
+                visit and three practitioner interviews), read for where
                 adoption stalls, not to measure attitudes.
               </p>
               <div className={styles.rcols}>
@@ -234,7 +234,7 @@ export default function HealthyMaterialsPage() {
             <SectionHeader n={3}>field visit</SectionHeader>
             <h2 className={styles.fieldTitle}>Inside the Healthy Materials Lab</h2>
             <p className={styles.fieldIntro}>
-              A library you pull open drawer by drawer — every material catalogued,
+              A library you pull open drawer by drawer: every material catalogued,
               tagged, and ranked for health and carbon.
             </p>
           </div>
@@ -247,9 +247,9 @@ export default function HealthyMaterialsPage() {
             turn" sub-blocks below] ============ */}
         <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
           <div className={styles.wrapWide} data-reveal>
-            <SectionHeader n={4}>where adoption breaks — and where it turns</SectionHeader>
+            <SectionHeader n={4}>where adoption breaks, and where it turns</SectionHeader>
             <p className={styles.lede}>
-              We mapped everything we learned onto the life of a project —
+              We mapped everything we learned onto the life of a project:
               before, during, and after construction. That journey map became
               the framework: it shows exactly where healthy materials fall
               out, and where the process could turn. The quotes are the
@@ -277,7 +277,7 @@ export default function HealthyMaterialsPage() {
                 <div className={styles.stageHead}>
                   <span className={styles.stageNo}>Stage 01</span>
                   <div>
-                    <h3 className={styles.stageTitle}>Before construction — design &amp; spec</h3>
+                    <h3 className={styles.stageTitle}>Before construction · design &amp; spec</h3>
                     <p className={styles.stagePhase}>owner goals · RFPs · specification</p>
                   </div>
                 </div>
@@ -286,8 +286,8 @@ export default function HealthyMaterialsPage() {
                 <ul className={styles.frictionList}>
                   <li className={styles.friction}>
                     Owners don&apos;t ask. If healthy materials aren&apos;t in the
-                    RFP or the project goals, the team never gets permission — or
-                    pressure — to prioritize them.
+                    RFP or the project goals, the team never gets permission, or
+                    pressure, to prioritize them.
                   </li>
                   <li className={styles.friction}>
                     Nothing to spec against. Without recognized codes or testing
@@ -307,14 +307,14 @@ export default function HealthyMaterialsPage() {
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>01</span>
                       <p className={styles.lpBody}>
-                        <strong>Owner awareness &amp; priorities</strong> — healthy
+                        <strong>Owner awareness &amp; priorities</strong>: healthy
                         materials asked for early, in RFPs, standards, and goals.
                       </p>
                     </li>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>02</span>
                       <p className={styles.lpBody}>
-                        <strong>Standard creation &amp; testing</strong> — shared
+                        <strong>Standard creation &amp; testing</strong>: shared
                         tests and spec language make &quot;experimental&quot;
                         materials normal options.
                       </p>
@@ -322,7 +322,7 @@ export default function HealthyMaterialsPage() {
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>03</span>
                       <p className={styles.lpBody}>
-                        <strong>PM training &amp; planning</strong> — simple tools
+                        <strong>PM training &amp; planning</strong>: simple tools
                         let PMs plan for healthy materials from the start.
                       </p>
                     </li>
@@ -358,7 +358,7 @@ export default function HealthyMaterialsPage() {
                 <div className={styles.stageHead}>
                   <span className={styles.stageNo}>Stage 02</span>
                   <div>
-                    <h3 className={styles.stageTitle}>During construction — procurement &amp; build</h3>
+                    <h3 className={styles.stageTitle}>During construction · procurement &amp; build</h3>
                     <p className={styles.stagePhase}>bidding · procurement · substitution</p>
                   </div>
                 </div>
@@ -372,7 +372,7 @@ export default function HealthyMaterialsPage() {
                   </li>
                   <li className={styles.friction}>
                     Supply is thin and fragile. Often a single supplier and long
-                    lead times — when the timeline slips, teams revert to
+                    lead times; when the timeline slips, teams revert to
                     whatever is available.
                   </li>
                   <li className={styles.friction}>
@@ -388,7 +388,7 @@ export default function HealthyMaterialsPage() {
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>04</span>
                       <p className={styles.lpBody}>
-                        <strong>Contractor-controlled decisions</strong> —
+                        <strong>Contractor-controlled decisions</strong>:
                         training and substitution guidance flip a common blocker
                         into a key driver.
                       </p>
@@ -396,7 +396,7 @@ export default function HealthyMaterialsPage() {
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>05</span>
                       <p className={styles.lpBody}>
-                        <strong>Supply transparency</strong> — quick, trusted
+                        <strong>Supply transparency</strong>: quick, trusted
                         information on available, tested products makes healthier
                         picks feel less risky.
                       </p>
@@ -431,7 +431,7 @@ export default function HealthyMaterialsPage() {
                 <div className={styles.stageHead}>
                   <span className={styles.stageNo}>Stage 03</span>
                   <div>
-                    <h3 className={styles.stageTitle}>After construction — occupancy &amp; proof</h3>
+                    <h3 className={styles.stageTitle}>After construction · occupancy &amp; proof</h3>
                     <p className={styles.stagePhase}>occupancy · outcomes · the next project</p>
                   </div>
                 </div>
@@ -448,7 +448,7 @@ export default function HealthyMaterialsPage() {
                   </li>
                   <li className={styles.friction}>
                     &quot;Experimental&quot; never expires. Absent proof, healthy
-                    materials stay perpetually novel — and perpetually first to be
+                    materials stay perpetually novel, and perpetually first to be
                     cut.
                   </li>
                 </ul>
@@ -456,7 +456,7 @@ export default function HealthyMaterialsPage() {
                 <div className={styles.turn}>
                   <p className={styles.turnLabel}>the turn</p>
                   <p className={styles.turnClose}>
-                    Proof compounds awareness — every project that documents its
+                    Proof compounds awareness: every project that documents its
                     materials and outcomes creates the market force that makes the
                     next owner ask. The cascade loops back to the start.
                   </p>
@@ -482,14 +482,14 @@ export default function HealthyMaterialsPage() {
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={5}>from insight to intervention</SectionHeader>
             <p className={styles.bridge}>
-              Three concepts came out of this — each attacking a different point
+              Three concepts came out of this, each attacking a different point
               where healthy materials fall out.
             </p>
             <p className={styles.body}>
-              Walk through NYC rentals and the interiors repeat — the same
+              Walk through NYC rentals and the interiors repeat: the same
               floors, paints, cabinets. Which told us these units already run
               on de-facto packages; nobody chose them for health. That&apos;s
-              where Healthy Materials Packages came from — and affordable
+              where Healthy Materials Packages came from, and affordable
               housing is where they&apos;d matter most: the cost pressure is
               highest and the same scopes repeat at scale.
             </p>
@@ -565,12 +565,12 @@ export default function HealthyMaterialsPage() {
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={6}>the intervention, made tangible</SectionHeader>
             <div className={styles.tangibleIntro}>
-              <p className={styles.lede}>Healthy Materials Packages — a working slice.</p>
+              <p className={styles.lede}>Healthy Materials Packages, as a working slice.</p>
               <p className={styles.body}>
                 The product I&apos;d build first, running on illustrative data.
                 Pick a scope, accept or reject each vetted swap, and watch cost,
                 carbon, and health totals recompute. Flip on the cost-pressure
-                lens to see which lines a value-engineering pass would attack —
+                lens to see which lines a value-engineering pass would attack,
                 and the defense each one carries. The built-in assistant answers
                 from the package you&apos;ve configured.
               </p>
@@ -600,7 +600,7 @@ export default function HealthyMaterialsPage() {
             <p className={styles.reflection}>
               A personal lesson from this one: stick to what you&apos;re good at,
               and focus on practical improvements rather than industry-wide
-              disruption. If I take it further, I start with the packages — the
+              disruption. If I take it further, I start with the packages: the
               smallest intervention aimed at the biggest blocker, cost fear, at the
               exact moment specs get written. Next: the contractor and
               manufacturer interviews, then the final affinity mapping.

@@ -47,42 +47,42 @@ const CAPTIONS: Record<
 > = {
   idle: {
     tag: "the whole system",
-    body: "Three teammates, three different AI tools — and the team’s documents — one shared memory between them. Hover — or tap — any part to see what it does, and click the index to look inside it.",
+    body: "Three teammates, three different AI tools, and the team’s documents, with one shared memory between them. Hover or tap any part to see what it does, and click the index to look inside it.",
   },
   team: {
     tag: "the team, working as usual",
-    body: "Maya, Alex and Sam each think with their own AI, in the tool they already use. Nobody switches apps, nobody writes anything up — Follow asks nothing of them.",
-    eg: "Maya — product designer · Alex — product manager · Sam — engineer",
+    body: "Maya, Alex and Sam each think with their own AI, in the tool they already use. Nobody switches apps, nobody writes anything up. Follow asks nothing of them.",
+    eg: "Maya, product designer · Alex, product manager · Sam, engineer",
   },
   docs: {
     tag: "documents feed it too",
-    body: "Follow follows the artifact — a chat or a document, same treatment. Live docs, like the spec in Google Docs, are followed as they change: their facts version up and the old version stays in the trail. Uploads join the same way.",
+    body: "Follow follows the artifact: a chat or a document, same treatment. Live docs, like the spec in Google Docs, are followed as they change; their facts version up and the old version stays in the trail. Uploads join the same way.",
     eg: "e.g. usability-notes.pdf → three facts · the payment-sheet spec re-syncs → its facts version up",
   },
   capture: {
     tag: "every chat files itself",
-    body: "As they work, each conversation flows into Follow on its own — the question, the answer, and the reasoning in between. No copy-paste, no “remember to document it.”",
-    eg: "e.g. Maya × Claude, Tue — “default to guest checkout, offer an account after payment” lands as a decision",
+    body: "As they work, each conversation flows into Follow on its own: the question, the answer, and the reasoning in between. No copy-paste, no “remember to document it.”",
+    eg: "e.g. Maya × Claude, Tue: “default to guest checkout, offer an account after payment” lands as a decision",
   },
   layer: {
     tag: "one shared memory",
-    body: "Follow keeps what each chat settled — decisions, findings, constraints — filed with its source. Click the slab to watch it work: typed links, a flagged clash, a new version retiring its predecessor.",
-    eg: "e.g. Stripe vs Adyen fees — Alex’s estimate and Sam’s real-volume model, both kept, marked contested",
+    body: "Follow keeps what each chat settled (decisions, findings, constraints), filed with its source. Click the slab to watch it work: typed links, a flagged clash, a new version retiring its predecessor.",
+    eg: "e.g. Stripe vs Adyen fees: Alex’s estimate and Sam’s real-volume model, both kept, marked contested",
   },
   recall: {
     tag: "answers come back with receipts",
-    body: "The next time anyone — or anyone’s AI — needs context, it asks Follow. The answer arrives attributed: who worked it out, in which chat or doc, when.",
+    body: "The next time anyone (or anyone’s AI) needs context, it asks Follow. The answer arrives attributed: who worked it out, in which chat or doc, when.",
     eg: "e.g. Sam’s Gemini asks about wallet placement → Maya’s payment-sheet spec, cited back to its source",
   },
 };
 
 const ARIA: Record<Station, string> = {
-  team: "The team and their AI tools — Maya with Claude, Alex with ChatGPT, Sam with Gemini",
-  docs: "The team's documents — live-synced and uploaded; Follow follows the artifact and versions its facts as it changes",
-  capture: "The write path — every chat files itself into the shared memory",
+  team: "The team and their AI tools: Maya with Claude, Alex with ChatGPT, Sam with Gemini",
+  docs: "The team's documents, live-synced and uploaded; Follow follows the artifact and versions its facts as it changes",
+  capture: "The write path: every chat files itself into the shared memory",
   layer:
-    "The Follow index — the shared layer: one memory, sources kept, disagreements flagged, who knows what. Opens the inside view of the knowledge graph.",
-  recall: "The read path — answers come back with their sources",
+    "The Follow index, the shared layer: one memory, sources kept, disagreements flagged, who knows what. Opens the inside view of the knowledge graph.",
+  recall: "The read path: answers come back with their sources",
 };
 
 /* =========================================================================
@@ -108,7 +108,7 @@ const G_CONVS = [
 const G_FILES = [
   { x: 300, y: 92, label: "usability-notes.pdf" },
   { x: 492, y: 344, label: "analytics-export.csv" },
-  { x: 214, y: 304, label: "payment-sheet spec — live" },
+  { x: 214, y: 304, label: "payment-sheet spec · live" },
 ];
 // static facts (the sandbox's own claims, shortened to fit); lx/ly/anchor
 // override the default centered-below label when neighbors would collide
@@ -159,7 +159,7 @@ function InsideGraph() {
     <div
       className="fsysGWrap"
       role="img"
-      aria-label="Inside the Follow index: the team's memory as a small knowledge graph — member, conversation, file, fact and topic nodes joined by produced, authored, uploaded, topic-tag and contradicts edges. In a loop, a new fact (“default to guest checkout”) arrives from Maya's thread, is linked to its source and tagged to the checkout topic, and contradicts Alex's LTV read — flagged red, both kept. Then the live payment-sheet spec re-syncs: a document packet lands as fact version 2, superseding version 1, which stays as a ghost. A query finally pulls the answer back out with its source. A legend sits below the graph."
+      aria-label="Inside the Follow index: the team's memory as a small knowledge graph, with member, conversation, file, fact and topic nodes joined by produced, authored, uploaded, topic-tag and contradicts edges. In a loop, a new fact (“default to guest checkout”) arrives from Maya's thread, is linked to its source and tagged to the checkout topic, and contradicts Alex's LTV read, flagged red with both kept. Then the live payment-sheet spec re-syncs: a document packet lands as fact version 2, superseding version 1, which stays as a ghost. A query finally pulls the answer back out with its source. A legend sits below the graph."
     >
       <div className="fsysGStage">
         <svg className="fsysG" viewBox="0 0 720 420" aria-hidden="true">
@@ -277,14 +277,14 @@ function InsideGraph() {
         </svg>
 
         <div className="fsysGCaps" aria-hidden="true">
-          <span className="fsysGCap fsysGCap1">“default to guest checkout” — a decision lands from Maya’s thread</span>
+          <span className="fsysGCap fsysGCap1">“default to guest checkout” lands as a decision from Maya’s thread</span>
           <span className="fsysGCap fsysGCap2">typed edges: produced by its thread · tagged to the checkout topic</span>
-          <span className="fsysGCap fsysGCap3">it contradicts Alex’s LTV read — red tie, both stay live</span>
-          <span className="fsysGCap fsysGCap4">the spec doc re-syncs — v2 supersedes v1; the old version stays in the trail</span>
-          <span className="fsysGCap fsysGCap5">a query pulls it back out — answer with author + source attached</span>
-          <span className="fsysGCap fsysGCap6">one graph — chats and documents, every version kept</span>
+          <span className="fsysGCap fsysGCap3">it contradicts Alex’s LTV read: red tie, both stay live</span>
+          <span className="fsysGCap fsysGCap4">the spec doc re-syncs: v2 supersedes v1; the old version stays in the trail</span>
+          <span className="fsysGCap fsysGCap5">a query pulls it back out, answer with author + source attached</span>
+          <span className="fsysGCap fsysGCap6">one graph: chats and documents, every version kept</span>
           <span className="fsysGCapStatic">
-            the team’s memory as a graph — chats and documents in, typed edges, versions kept
+            the team’s memory as a graph: chats and documents in, typed edges, versions kept
           </span>
         </div>
       </div>
@@ -306,7 +306,7 @@ function InsideGraph() {
         </span>
         <span>
           <i className="fsysLgFile" />
-          file — uploaded · live
+          file · uploaded · live
         </span>
         <span>
           <i className="fsysLgTopic" />
@@ -362,7 +362,7 @@ export default function FollowSystem() {
       className={`fsys${active !== "idle" ? " fsysHas" : ""}`}
       data-active={active}
       role="group"
-      aria-label="How Follow works — an interactive diagram. Three teammates with their AI tools and the team's documents sit above the shared Follow index; chats and docs flow in, attributed answers flow back. The index opens to show the knowledge graph inside."
+      aria-label="How Follow works, an interactive diagram. Three teammates with their AI tools and the team's documents sit above the shared Follow index; chats and docs flow in, attributed answers flow back. The index opens to show the knowledge graph inside."
     >
       <div className="fsysStage">
         {/* the sources row: three person·tool pairs + the documents chip */}

@@ -52,7 +52,7 @@ const SLUG = "greener-hours";
 export const metadata: Metadata = {
   title: "Greener Hours",
   description:
-    "Greener Hours — a proposed open standard that puts a carbon number on every AI API response, and three tools built on it: a chat indicator, a job scheduler, and a procurement dashboard. A Design-for-a-Warming-World course project.",
+    "Greener Hours: a proposed open standard that puts a carbon number on every AI API response, and three tools built on it. A chat indicator, a job scheduler, and a procurement dashboard, from a Design-for-a-Warming-World course project.",
 };
 
 const FORCE_VARIANTS = ["regulatory", "procurement", "infrastructure"] as const;
@@ -242,7 +242,7 @@ export default function GreenerHoursPage() {
             <GhApp compact />
             <p className={styles.source}>
               The P-codes on each surface map to the ten design principles from
-              the <em>Design for a Warming World</em> course (SP26 syllabus) — I
+              the <em>Design for a Warming World</em> course (SP26 syllabus); I
               built the project against that framework.
             </p>
             <p className={`mono ${styles.demoFoot}`}>

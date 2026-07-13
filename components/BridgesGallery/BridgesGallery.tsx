@@ -36,7 +36,7 @@ export default function BridgesGallery() {
             <button
               type="button"
               className={styles.card}
-              aria-label={`Step ${i + 1}: ${s.title} — enlarge`}
+              aria-label={`Enlarge step ${i + 1}: ${s.title}`}
               onClick={() => setExpanded(i)}
             >
               <span className={styles.frame}>

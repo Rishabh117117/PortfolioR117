@@ -68,7 +68,7 @@ export default function Home() {
             {/* HERO COPY — D-01 resolved (COPY-A-1): the claim is design + build,
                 substantiated by the four WORKING DEMO chips in the grid below. */}
             <h1 className={styles.headline}>
-              I design AI products — and <em>build</em> them, so you can try
+              I design AI products, and <em>build</em> them, so you can try
               everything below.
             </h1>
 
@@ -91,7 +91,7 @@ export default function Home() {
                 a recruiter never has to scroll to learn what he's looking for */}
             <p className={styles.availability}>
               <span className={styles.liveDot} aria-hidden="true" />
-              Open to Design Engineer &amp; Product roles — Brooklyn, NY
+              Open to Design Engineer &amp; Product roles · Brooklyn, NY
             </p>
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function Home() {
             </div>
             {/* top-of-funnel proof line — the chips claim it, this says it plainly */}
             <p className={`cap ${styles.workNote}`}>
-              All four end in working software — open any card and try it.
+              All four end in working software. Open any card and try it.
             </p>
 
             <div className={styles.grid}>

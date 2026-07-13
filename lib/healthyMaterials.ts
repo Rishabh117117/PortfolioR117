@@ -128,4 +128,4 @@ export const TL_ENTRIES: TLEntry[] = [
 ];
 
 export const TL_FOOT =
-  "What this is not: a longitudinal field study. One field visit and three practitioner interviews point to where adoption stalls — the contractor and manufacturer interviews are still ahead.";
+  "What this is not: a longitudinal field study. One field visit and three practitioner interviews point to where adoption stalls; the contractor and manufacturer interviews are still ahead.";

@@ -198,7 +198,7 @@ export default function Timeline() {
       </div>
 
       <p className={styles.foot}>
-        Week numbers are approximate — the studio ran fifteen weeks, spring
+        Week numbers are approximate; the studio ran fifteen weeks, spring
         2025, from the partner brief to the final strategy.
       </p>
     </div>

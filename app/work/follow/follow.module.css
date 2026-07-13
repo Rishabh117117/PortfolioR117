@@ -958,22 +958,21 @@
       0 12px 44px rgba(10, 18, 28, 0.35);
   }
 }
-/* the sticky dock: fills the overlay, pushes the card to its bottom edge;
-   position:sticky then keeps the card at the viewport bottom while the
-   sandbox spans past it — and lets it scroll away WITH the sandbox */
+/* the message dock: ONE fixed spot — bottom-center of the sandbox stage.
+   measure() clamps the spotlight hole above this band, so the message and
+   the spotlight never overlap */
 .spotDockWrap {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 14px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 12px 14px;
+  justify-content: center;
+  padding: 0 12px;
   pointer-events: none;
 }
 .spotCard {
-  position: sticky;
-  bottom: 14px;
+  position: relative;
   width: min(460px, 100%);
   padding: 14px 16px 13px;
   border-radius: var(--radius);

@@ -121,6 +121,24 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+/* the poster's takeaway — lives ON the card (the old standalone insight
+   panel below the deck is gone) */
+.cardIns {
+  margin-top: 3px;
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-cap);
+  line-height: 1.45;
+  color: var(--ink);
+}
+.cardInsLabel {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
 
 .hint {
   text-align: center;
@@ -216,6 +234,14 @@
 .lbQ {
   font-size: var(--fs-cap);
   color: rgba(244, 242, 236, 0.7);
+}
+.lbIns {
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(244, 242, 236, 0.22);
+  font-size: var(--fs-cap);
+  line-height: 1.45;
+  color: #f4f2ec;
 }
 
 @media (prefers-reduced-motion: reduce) {

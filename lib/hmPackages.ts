@@ -52,7 +52,7 @@ export const PKG_PROJECT = {
 };
 
 export const PKG_HONESTY =
-  "Concept prototype · illustrative data — representative magnitudes, not measured quotes or verified EPDs";
+  "Concept prototype · illustrative data · representative magnitudes, not measured quotes or verified EPDs";
 
 export const PKG_SCOPES: PackageScope[] = [
   /* ================= UNIT RENOVATION — the flagship scope ================ */

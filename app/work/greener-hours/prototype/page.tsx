@@ -15,9 +15,9 @@ const serif = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Greener Hours — live prototype",
+  title: "Greener Hours · live prototype",
   description:
-    "The three Greener Hours surfaces running on one shared simulation: the Tier-1 compute-window chat (grounded live model), the Tier-2 flexible scheduler, and the Tier-3 footprint dashboard — pause the clock in one and it pauses everywhere.",
+    "The three Greener Hours surfaces running on one shared simulation: the Tier-1 compute-window chat (grounded live model), the Tier-2 flexible scheduler, and the Tier-3 footprint dashboard. Pause the clock in one and it pauses everywhere.",
 };
 
 export default function GreenerHoursPrototypePage() {
@@ -26,7 +26,7 @@ export default function GreenerHoursPrototypePage() {
       <header className={styles.head}>
         <div>
           <p className={`mono ${styles.kicker}`}>working prototype · one shared simulation</p>
-          <h1 className={styles.title}>Greener Hours — the three surfaces</h1>
+          <h1 className={styles.title}>Greener Hours: the three surfaces</h1>
         </div>
         <Link className={`mono ${styles.back}`} href="/work/greener-hours">
           ← Back to the case study
@@ -36,8 +36,9 @@ export default function GreenerHoursPrototypePage() {
         <GhApp />
       </div>
       <p className={`mono ${styles.foot}`}>
-        one clock, one grid, one queue — pause the scheduler and the indicator freezes; submit a
+        one clock, one grid, one queue. Pause the scheduler and the indicator freezes; submit a
         job and the dashboard&apos;s flex strip moves
+
       </p>
     </div>
   );

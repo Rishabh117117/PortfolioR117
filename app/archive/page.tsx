@@ -38,8 +38,8 @@ export default function ArchivePage() {
         <p className="pageEyebrow">Archive · 2019–23</p>
         <h1 className="pageTitle">Earlier work</h1>
         <p className="lede">
-          The original design portfolio — product, UX and graphic-design work
-          from 2019–23 — shown exactly as it was presented, page for page. Open a
+          The original design portfolio: product, UX and graphic-design work
+          from 2019–23, shown exactly as it was presented, page for page. Open a
           project to read it slide by slide.
         </p>
       </header>

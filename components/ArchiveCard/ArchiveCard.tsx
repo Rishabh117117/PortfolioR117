@@ -22,7 +22,7 @@ export default function ArchiveCard({
           <Image
             className={styles.thumb}
             src={project.thumb}
-            alt={`${project.name} — cover slide`}
+            alt={`${project.name} cover slide`}
             width={900}
             height={506}
             sizes="(min-width: 1180px) 380px, (min-width: 768px) 50vw, 100vw"

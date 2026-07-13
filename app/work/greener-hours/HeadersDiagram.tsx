@@ -15,7 +15,7 @@ export default function HeadersDiagram() {
       viewBox="0 0 1700 480"
       preserveAspectRatio="xMidYMid meet"
       role="img"
-      aria-label="An existing AI API call, unchanged, returns three new response headers — X-Compute-Carbon-Intensity, X-Compute-Region, X-Compute-Confidence — which an SDK parses and surfaces across the three tiers: chat indicator, flexible scheduler, enterprise dashboard."
+      aria-label="An existing AI API call, unchanged, returns three new response headers (X-Compute-Carbon-Intensity, X-Compute-Region, X-Compute-Confidence) which an SDK parses and surfaces across the three tiers: chat indicator, flexible scheduler, enterprise dashboard."
       style={{ width: "100%", height: "auto", display: "block" }}
     >
       {/* LEFT — existing call */}
@@ -49,7 +49,7 @@ export default function HeadersDiagram() {
         <g key={t.t}>
           <rect className="ghd-onDark ghs-amberSoft" x="940" y={TIER_Y[i]} width="690" height="90" fillOpacity="0.08" strokeWidth="1" />
           <text className="ghf-mono ghd-amberSoft" x="970" y={TIER_Y[i] + 33} fontSize="13">
-            {t.t} — {t.label.toUpperCase()}
+            {t.t} · {t.label.toUpperCase()}
           </text>
           <text className="ghf-sans ghd-onDark" x="970" y={TIER_Y[i] + 65} fontSize="18">
             {t.surface}

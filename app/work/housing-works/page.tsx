@@ -6,6 +6,7 @@ import Motion from "./Motion";
 import AmbientField from "./AmbientField";
 import Timeline from "./Timeline";
 import WorkshopsApp from "./WorkshopsApp";
+import HwDemoTour from "./HwDemoTour";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import { HW_ROOT_STYLE } from "./theme";
@@ -15,7 +16,7 @@ import "./hw-motion.css";
 export const metadata: Metadata = {
   title: "Housing Works",
   description:
-    "A talent study for Housing Works: mixed-methods research on attracting and keeping younger staff when a nonprofit can't outbid private-sector pay — plus the trustee-led workshop system that runs the strategy.",
+    "A talent study for Housing Works: mixed-methods research on attracting and keeping younger staff when a nonprofit can't outbid private-sector pay, plus the trustee-led workshop system that runs the strategy.",
 };
 
 // §4 — the Housing Works accent lives in ./theme.ts (shared with the
@@ -55,17 +56,17 @@ export default function HousingWorksPage() {
               Parsons · Spring 2025
             </p>
             <h1 className={styles.title}>
-              The <em>People</em> pillar — attracting and keeping Housing Works’
+              The <em>People</em> pillar: attracting and keeping Housing Works’
               next generation
             </h1>
             <p className={styles.heroSub}>
               Housing Works runs on a three-year strategic plan with three focus
               areas: People, Programs, and Innovation. We were brought in on
-              People — staff and board recruitment, retention, and flexibility,
-              with the goal of making Housing Works the employer and Board home
-              of choice for the next generation. Within that, we narrowed to one
-              question: how can Housing Works attract and keep younger staff when
-              it can’t match private-sector pay?
+              People, covering staff and board recruitment, retention, and
+              flexibility, with the goal of making Housing Works the employer
+              and Board home of choice for the next generation. Within that, we
+              narrowed to one question: how can Housing Works attract and keep
+              younger staff when it can’t match private-sector pay?
             </p>
           </div>
         </div>
@@ -85,7 +86,7 @@ export default function HousingWorksPage() {
           <p className={styles.body}>
             Our team of three split the work. Mine was the economic and
             competitive analysis, the survey statistics, and one of the three
-            frameworks we delivered — a system for trustee-led workshops.
+            frameworks we delivered: a system for trustee-led workshops.
           </p>
         </div>
       </section>
@@ -95,7 +96,7 @@ export default function HousingWorksPage() {
         <div className={`${styles.wrap} hw-reveal`} data-ambient-dim>
           <SectionHeader n={2}>The semester</SectionHeader>
           <p className={styles.lede}>
-            Fifteen weeks — from meeting the partner to handing over the
+            Fifteen weeks, from meeting the partner to handing over the
             strategy.
           </p>
         </div>
@@ -126,6 +127,12 @@ export default function HousingWorksPage() {
           <SectionHeader n={3}>How we worked</SectionHeader>
           <p className={styles.lede}>
             We worked in four passes, and listened before we proposed anything.
+          </p>
+          <p className={styles.body}>
+            One caveat up front: we couldn’t survey Housing Works’ own younger
+            staff directly, so the Gen Z fieldwork ran as analogous research,
+            with students across The New School standing in for the generation
+            Housing Works wants to attract and keep.
           </p>
           <ol className={styles.iconCardGrid}>
             <li className={styles.iconCard}>
@@ -174,9 +181,9 @@ export default function HousingWorksPage() {
               </svg>
               <h3 className={styles.passTitle}>The sites.</h3>
               <p className={styles.passBody}>
-                We visited four Housing Works locations — a thrift store, the
-                cannabis dispensary, the Keith Cylar health center, and the
-                bookstore — to see the work first-hand.
+                We visited four Housing Works locations to see the work
+                first-hand: a thrift store, the cannabis dispensary, the Keith
+                Cylar health center, and the bookstore.
               </p>
             </li>
             <li className={styles.iconCard}>
@@ -283,23 +290,23 @@ export default function HousingWorksPage() {
               Workshop 01 · the Gen Z poster survey
             </p>
             <h2 className={styles.wsHeroTitle}>
-              We asked Gen Z directly — in their own space.
+              We asked Gen Z directly, in their own space.
             </h2>
             <p className={styles.wsHeroText}>
               Rather than guess what younger workers want, we ran a participatory
-              poster survey across three New School campuses — the University
+              poster survey across three New School campuses: the University
               Center, the List Center, and the NSSR Library. Each board led with a
-              provocative statistic and one open question; passersby wrote or drew
-              straight onto a sticky-note grid.
+              provocative statistic and one open question; passersby, mostly
+              students, wrote or drew straight onto a sticky-note grid.
             </p>
             <p className={styles.wsHeroText}>
-              Over about two weeks we gathered roughly 127 responses — and the
-              posters that named “Gen Z” out loud drew the most, proof that the
-              framing itself pulled people in.
+              Over about two weeks we gathered roughly 127 responses, and the
+              posters that named “Gen Z” out loud drew the most. The framing
+              itself pulled people in.
             </p>
           </div>
           <p className={`mono ${styles.subKickerOnPhoto}`}>
-            The posters — moving through all six
+            The posters · moving through all six
           </p>
         </div>
 
@@ -308,26 +315,14 @@ export default function HousingWorksPage() {
           <WorkshopDeck tone="onPhoto" />
         </div>
 
-        {/* insight — glass panel over the same photo */}
+        {/* provenance — the per-poster insights live ON the cards now */}
         <div className={styles.posterStudyInner}>
           <p className={`cap ${styles.deckNoteOnPhoto}`}>
-            From our Spring 2025 participatory poster survey at The New School —
-            the cards show the real posters; the quotes are real responses,
-            lightly trimmed for length.
+            From our Spring 2025 participatory poster survey at The New School.
+            The cards show the real posters and real responses, lightly trimmed.
+            The sharp headline on each board earned the attention; the insight
+            on each card is what people’s answers actually said.
           </p>
-          <div className={`${styles.imgGlass} ${styles.insightPanel} hw-reveal`}>
-            <p className={`mono ${styles.wsHeroKicker}`}>The final insight</p>
-            <p className={styles.insightPanelBody}>
-              The provocative headline is what pulled people in — but the real
-              answers were messier, and more honest. On the work-modality poster,
-              the loud “72% prefer hybrid” settled into 52 hybrid · 23 remote ·
-              6 in-person once people actually wrote down what they wanted.
-            </p>
-            <p className={styles.insightPanelBody}>
-              The gap is the point: a sharp claim earns attention, but the real
-              signal is in what people say next.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -340,9 +335,9 @@ export default function HousingWorksPage() {
           <div className={styles.bridgesText}>
             <p className={styles.body}>
               In a sixty-minute in-person workshop, we sat six Gen Z students down
-              to map the workplace from the ground up. On a four-level tree —
-              volunteers at the roots, staff on the trunk, managers on the
-              branches, leaders in the canopy — they marked the barriers younger
+              to map the workplace from the ground up. On a four-level tree
+              (volunteers at the roots, staff on the trunk, managers on the
+              branches, leaders in the canopy) they marked the barriers younger
               staff hit, then the “bridges” that could carry them over.
             </p>
             <p className={styles.body}>
@@ -352,14 +347,14 @@ export default function HousingWorksPage() {
               a TV in the break room landed as an easy win.
             </p>
             <p className={styles.body}>
-              Those signals fed straight into our findings and proposals —
+              Those signals fed straight into our findings and proposals,
               especially the trustee-led workshops, where participants ranked clear
               career paths and mentorship as what would keep them.
             </p>
           </div>
 
           <p className={`mono ${styles.subKicker}`}>
-            How the session unfolded — tap a frame to enlarge
+            How the session unfolded · tap a frame to enlarge
           </p>
         </div>
 
@@ -370,7 +365,7 @@ export default function HousingWorksPage() {
           <div className={styles.bridgesOutro}>
             <p className={`mono ${styles.subKicker}`}>What it pointed to</p>
             <p className={styles.bridgesOutroText}>
-              Two workshops, the same signals — we clustered what we heard into the
+              Two workshops, the same signals. We clustered what we heard into the
               four findings below.
             </p>
           </div>
@@ -382,12 +377,15 @@ export default function HousingWorksPage() {
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={6}>What we found</SectionHeader>
           <p className={styles.lede}>
-            Four patterns came up again and again — and each one echoed something
+            Four patterns came up again and again, and each one echoed something
             Housing Works had already named in its People plan. None of them were
             about money.
           </p>
+        </div>
 
-          <ul className={styles.findings}>
+        {/* the four findings sit side by side, on a row wider than the
+            reading column so the cards get room */}
+        <ul className={`${styles.findings} hw-reveal`}>
             <li className={`${styles.finding} ${styles.iconCard}`}>
               <svg
                 className={`${styles.glyph} hw-draw hw-fig`}
@@ -408,7 +406,7 @@ export default function HousingWorksPage() {
                 </h3>
                 <p className={styles.body}>
                   Flexible scheduling read as respect. Where it was applied
-                  unevenly, staff noticed — the problem was inconsistency, not
+                  unevenly, staff noticed. The problem was inconsistency, not
                   the technology.
                 </p>
               </div>
@@ -488,23 +486,22 @@ export default function HousingWorksPage() {
                   clarity and trustee expertise
                 </h3>
                 <p className={styles.body}>
-                  Younger staff couldn’t see the next role or how to reach it —
+                  Younger staff couldn’t see the next role or how to reach it,
                   while the board’s professional expertise sat unused.
                 </p>
               </div>
             </li>
-          </ul>
-        </div>
+        </ul>
       </section>
 
-      {/* ============ SCENE 8 — WHAT WE PROPOSED ============ */}
+      {/* ==== SCENE 8 — WHAT WE PROPOSED → MY FRAMEWORK → THE WORKING APP ==== */}
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={7}>What we proposed</SectionHeader>
           <p className={styles.lede}>
             We gave Housing Works three low-cost frameworks it could adopt
-            without new headcount. Each answered one of our findings — and each
-            mapped onto a goal Housing Works had already set in its People plan:
+            without new headcount. Each answered one of our findings and mapped
+            onto a goal Housing Works had already set in its People plan:
           </p>
 
           {/* Each card carries a native line-glyph rebuilt from the report's
@@ -512,7 +509,7 @@ export default function HousingWorksPage() {
               badge = a passport credential, workshop = a trustee at the easel. */}
           <ul className={styles.proposed}>
             <li className={`${styles.prop} ${styles.iconCard}`}>
-              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A home and an office linked both ways — hybrid work.">
+              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A home and an office linked both ways: hybrid work.">
                 <path className="hw-line" pathLength="1" d="M5 41 L75 41" />
                 <path className="hw-line" pathLength="1" d="M11 26 L22 17 L33 26" />
                 <path className="hw-line" pathLength="1" d="M14 26 L14 41 M30 26 L30 41" />
@@ -547,7 +544,7 @@ export default function HousingWorksPage() {
               </p>
             </li>
             <li className={`${styles.prop} ${styles.propMine} ${styles.iconCard}`}>
-              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A trustee presenting at an easel to a small group — a workshop.">
+              <svg className={`${styles.propGlyph} hw-draw hw-fig`} viewBox="0 0 80 54" role="img" aria-label="A trustee presenting at an easel to a small group: a workshop.">
                 <path className="hw-line" pathLength="1" d="M44 12 L44 34 L71 34 L71 12 Z" />
                 <path className="hw-line" pathLength="1" d="M49 19 L62 19 M49 25 L66 25" />
                 <path className="hw-line" pathLength="1" d="M49 34 L45 46 M66 34 L70 46 M47 40 L68 40" />
@@ -576,23 +573,21 @@ export default function HousingWorksPage() {
           <p className={styles.propTotal}>
             Together they cost under <strong>$2,700 a year</strong>.
           </p>
-        </div>
-      </section>
 
-      {/* ============ SCENE 9 — MY FRAMEWORK → HARNESS ============ */}
-      <section className={styles.scene} data-ambient-dim>
-        <div className={`${styles.wrapWide} hw-reveal`}>
-          <SectionHeader n={8}>My framework — trustee-led workshops</SectionHeader>
+          {/* my framework — folded into this section (was its own scene):
+              a compact intro, the two figures side by side, then the app */}
+          <h3 className={styles.fwHead}>My framework: trustee-led workshops</h3>
           <p className={styles.body}>
             The system matches a staff development need against a trustee’s
             skills and Housing Works’ strategic priorities, then turns the match
-            into a short, structured session: 45 minutes — a quick intro, a
-            discussion, a hands-on sprint, and questions. Each session is
-            recorded, summarized, and archived, so what’s taught stays with the
-            team. Its share of the three-framework budget: $900 a year.
+            into one structured 45-minute session: intro, discussion, a hands-on
+            sprint, and questions. Every session is recorded, summarized, and
+            archived, so what’s taught stays with the team. Its share of the
+            three-framework budget is $900 a year.
           </p>
 
-          {/* convergence diagram: need × trustee × strategy → workshop (§6) */}
+          <div className={styles.figRow}>
+          {/* convergence diagram: need × trustee × strategy → workshop */}
           <svg
             className={`${styles.diagram} hw-draw hw-fig`}
             viewBox="0 0 340 200"
@@ -615,14 +610,7 @@ export default function HousingWorksPage() {
             <text x="288" y="134" textAnchor="middle">WORKSHOP</text>
           </svg>
 
-          <p className={styles.body}>
-            Below is the working version of that system, as the People team
-            would use it: an open needs queue, a matcher that scores every
-            trustee in the open, the session itself — captured, summarized, and
-            badged — and an archive the built-in assistant answers from.
-          </p>
-
-          {/* session timeline: 45 min split 5 / 15 / 15 / 10 (§6) */}
+          {/* session timeline: 45 min split 5 / 15 / 15 / 10 */}
           <svg
             className={`${styles.timeline} hw-draw hw-fig`}
             viewBox="0 0 340 72"
@@ -644,13 +632,24 @@ export default function HousingWorksPage() {
             <text x="203" y="64" textAnchor="middle">15m</text>
             <text x="286" y="64" textAnchor="middle">10m</text>
           </svg>
+          </div>
+
+          <p className={styles.body}>
+            Below is the working version, as the People team would use it: an
+            open needs queue, a matcher that scores every trustee in the open,
+            the session itself, and an archive the built-in assistant answers
+            from.
+          </p>
         </div>
 
         <div className={styles.appBleed}>
-          <div className={styles.appBleedInner}>
+          {/* the stage: the guided walkthrough's spotlight overlay portals in
+              here and stays absolute within it (see HwDemoTour) */}
+          <div className={styles.appBleedInner} id="hw-sandbox-stage">
             <WorkshopsApp />
           </div>
         </div>
+        <HwDemoTour />
 
         <div className={`${styles.wrapWide} hw-reveal`}>
           <p className={`mono ${styles.demoFoot}`}>
@@ -662,14 +661,15 @@ export default function HousingWorksPage() {
       {/* ============ SCENE 10 — LIMITATIONS (quiet close) ============ */}
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
         <div className={`${styles.wrap} hw-reveal`}>
-          <SectionHeader n={9}>Limitations</SectionHeader>
+          <SectionHeader n={8}>Limitations</SectionHeader>
           <p className={styles.body}>
-            A few honest caveats. Our survey leaned toward design students, the
-            workshop was a single session, and these are proposals — Housing
-            Works hasn’t piloted them yet. We’d suggest testing the workshops in
-            one store before scaling them across the organization. We used AI
-            tools to help with analysis and drafting; the fieldwork, the
-            findings, and the decisions are ours.
+            A few honest caveats. As flagged up front, the Gen Z research was
+            analogous and leaned toward design students; the workshop was a
+            single session; and these are proposals Housing Works hasn’t
+            piloted yet. We’d suggest testing the workshops in one store before
+            scaling them across the organization. We used AI tools to help with
+            analysis and drafting; the fieldwork, the findings, and the
+            decisions are ours.
           </p>
         </div>
       </section>

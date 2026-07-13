@@ -13,7 +13,7 @@ export default function VisibilityFlow() {
       viewBox="0 0 1700 520"
       preserveAspectRatio="xMidYMid meet"
       role="img"
-      aria-label="The user queries the AI — everything past the line of visibility is dark matter: the AI surface, the data center, the grid, and the fuel mix (renewable and fossil) that actually powers each request."
+      aria-label="The user queries the AI; everything past the line of visibility is dark matter: the AI surface, the data center, the grid, and the fuel mix (renewable and fossil) that actually powers each request."
       style={{ width: "100%", height: "auto", display: "block" }}
     >
       <defs>
@@ -27,7 +27,7 @@ export default function VisibilityFlow() {
 
       {/* VISIBLE side labels */}
       <text className="ghf-mono ghd-onDark" opacity="0.72" x="230" y="40" letterSpacing="3" textAnchor="middle" fontSize="14">VISIBLE</text>
-      <text className="ghf-mono ghd-onDark" opacity="0.62" x="230" y="62" letterSpacing="2" textAnchor="middle" fontSize="11">— THE WHOLE INTERFACE —</text>
+      <text className="ghf-mono ghd-onDark" opacity="0.62" x="230" y="62" letterSpacing="2" textAnchor="middle" fontSize="11">THE WHOLE INTERFACE</text>
 
       {/* User */}
       <circle className="ghd-none ghs-onDark" cx="230" cy="270" r="78" strokeWidth="2.5" />
@@ -44,7 +44,7 @@ export default function VisibilityFlow() {
       {/* dark-matter sphere */}
       <ellipse className="ghd-none ghs-onDark" cx="1170" cy="270" rx="470" ry="240" strokeWidth="1.5" strokeDasharray="7 7" opacity="0.62" />
       <text className="ghf-mono ghd-onDark" opacity="0.72" x="1170" y="40" letterSpacing="3" textAnchor="middle" fontSize="14">DARK MATTER</text>
-      <text className="ghf-mono ghd-onDark" opacity="0.62" x="1170" y="62" letterSpacing="2" textAnchor="middle" fontSize="11">— EVERYTHING THAT MAKES THE INTERFACE WORK —</text>
+      <text className="ghf-mono ghd-onDark" opacity="0.62" x="1170" y="62" letterSpacing="2" textAnchor="middle" fontSize="11">EVERYTHING THAT MAKES THE INTERFACE WORK</text>
 
       {/* AI surface */}
       <circle className="ghd-amber" cx="830" cy="270" r="58" />

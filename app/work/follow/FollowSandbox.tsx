@@ -477,7 +477,7 @@ export default function FollowSandbox() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>All items</h3>
                 <p className={s.mainBlurb}>
-                  Every captured conversation, uploaded file, and extracted fact — one feed, newest
+                  Every captured conversation, uploaded file, and extracted fact: one feed, newest
                   first.
                 </p>
               </header>
@@ -501,7 +501,7 @@ export default function FollowSandbox() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Conversations</h3>
                 <p className={s.mainBlurb}>
-                  Captured AI threads, transcript and all — thinking, tool calls, and the facts each
+                  Captured AI threads, transcript and all: thinking, tool calls, and the facts each
                   one produced.
                 </p>
               </header>
@@ -524,7 +524,7 @@ export default function FollowSandbox() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Files</h3>
                 <p className={s.mainBlurb}>
-                  Uploaded documents the team indexed — PRDs, research notes, analytics exports,
+                  Uploaded documents the team indexed: PRDs, research notes, analytics exports,
                   specs.
                 </p>
               </header>
@@ -547,7 +547,7 @@ export default function FollowSandbox() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Facts</h3>
                 <p className={s.mainBlurb}>
-                  Every entry keeps its provenance — who worked it out, in which AI or file, in
+                  Every entry keeps its provenance: who worked it out, in which AI or file, in
                   which thread. Conflicts stay visible.
                 </p>
               </header>
@@ -555,7 +555,7 @@ export default function FollowSandbox() {
                 className={s.search}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search the memory — claims, people, threads…"
+                placeholder="Search the memory: claims, people, threads…"
                 aria-label="Search the team memory"
               />
               <div className={s.topicRow}>
@@ -605,7 +605,7 @@ export default function FollowSandbox() {
                     {other && otherM && (
                       <p className={s.conflict}>
                         <span className={s.conflictBadge}>⚡ contested</span>
-                        disagrees with {otherM.name}&apos;s “{other.chat}” ({other.when}) — Follow keeps
+                        disagrees with {otherM.name}&apos;s “{other.chat}” ({other.when}). Follow keeps
                         both sides on the record instead of picking one.
                       </p>
                     )}
@@ -625,7 +625,7 @@ export default function FollowSandbox() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Graph</h3>
                 <p className={s.mainBlurb}>
-                  The knowledge graph under this workspace — every fact wired to the thread or file it
+                  The knowledge graph under this workspace: every fact wired to the thread or file it
                   came from, contradictions in red. The shipped product renders this same graph from its
                   live index.
                 </p>
@@ -651,7 +651,7 @@ export default function FollowSandbox() {
               <header className={s.mainHead}>
                 <h3 className={s.mainTitle}>Who knows what</h3>
                 <p className={s.mainBlurb}>
-                  The transactive-memory directory Follow maintains automatically — retrieval by
+                  The transactive-memory directory Follow maintains automatically: retrieval by
                   knowing whom to ask. Each person carries a short brief the index keeps up to date.
                 </p>
               </header>
@@ -691,7 +691,7 @@ export default function FollowSandbox() {
                 </article>
               ))}
               <p className={s.dirFoot}>
-                Expertise is derived live from the memory — nobody fills in a profile.
+                Expertise is derived live from the memory; nobody fills in a profile.
               </p>
             </>
           )}
@@ -702,7 +702,7 @@ export default function FollowSandbox() {
             <header className={s.mainHead}>
               <h3 className={s.mainTitle}>MCP console</h3>
               <p className={s.mainBlurb}>
-                Follow is headless by design — the shipped server exposes these tools over
+                Follow is headless by design: the shipped server exposes these tools over
                 JSON-RPC at /mcp, to people and machines alike. Same names, schemas, and
                 response shapes here.
               </p>

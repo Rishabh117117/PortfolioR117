@@ -28,7 +28,7 @@ export default function AdoptionCurve() {
       viewBox="0 0 600 460"
       preserveAspectRatio="xMidYMid meet"
       role="img"
-      aria-label="HTTPS share of web traffic, 1994 to 2025: a flat line that bends sharply upward after 2018, when Chrome began flagging non-HTTPS pages as Not Secure — the inflection that moved providers, not users."
+      aria-label="HTTPS share of web traffic, 1994 to 2025: a flat line that bends sharply upward after 2018, when Chrome began flagging non-HTTPS pages as Not Secure. That inflection moved providers, not users."
       style={{ width: "100%", height: "auto", display: "block" }}
     >
       <defs>

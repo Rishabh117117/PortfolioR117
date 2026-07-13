@@ -46,7 +46,7 @@ export const F_WORKSPACE = {
 };
 
 export const F_HONESTY =
-  "Concept sandbox · pre-loaded sample workspace — the shipped Follow product captures real AI threads over MCP";
+  "Concept sandbox · pre-loaded sample workspace · the shipped Follow product captures real AI threads over MCP";
 
 export const F_MEMBERS: FMember[] = [
   {

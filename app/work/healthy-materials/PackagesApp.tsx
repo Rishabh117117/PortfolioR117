@@ -150,7 +150,7 @@ function SpecIntake({
         Start from your spec
       </h3>
       <p className={s.intakeIntro}>
-        Paste your current finish schedule — one material per line. The
+        Paste your current finish schedule, one material per line. The
         system matches each line against its library of tried-and-tested
         healthier swaps.
       </p>
@@ -189,7 +189,7 @@ function SpecIntake({
         </button>
       </div>
       <p className={s.intakeHonesty}>
-        Keyword matching over a 20-line illustrative library — a real system
+        Keyword matching over a 20-line illustrative library; a real system
         would parse full spec documents.
       </p>
 
@@ -260,7 +260,7 @@ function Line({
   return (
     <article
       className={`${s.line} ${lens && watch && on ? s.lineWatch : ""}`}
-      aria-label={`${line.category} — ${on ? "healthy swap active" : "business as usual kept"}`}
+      aria-label={`${line.category}: ${on ? "healthy swap active" : "business as usual kept"}`}
     >
       <header className={s.lineHead}>
         <div>
@@ -274,7 +274,7 @@ function Line({
         </span>
       </header>
 
-      <div className={s.opts} role="group" aria-label={`${line.category} — choose specification`}>
+      <div className={s.opts} role="group" aria-label={`${line.category}: choose specification`}>
         <OptionTile kind="bau" line={line} activeSide={on ? "swap" : "bau"} onPick={() => setChoice(line.id, false)} />
         <span className={s.optArrow} aria-hidden="true">
           →
@@ -565,7 +565,7 @@ export default function PackagesApp() {
             </label>
             <p className={s.lensHint}>
               {lens
-                ? "Sorted by VE exposure — defenses shown on at-risk lines."
+                ? "Sorted by VE exposure; defenses shown on at-risk lines."
                 : "Simulate a value-engineering pass on this package."}
             </p>
           </div>

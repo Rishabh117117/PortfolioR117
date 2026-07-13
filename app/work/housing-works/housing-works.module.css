@@ -104,23 +104,6 @@
   color: rgba(244, 242, 236, 0.74);
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
-/* the final insight — a centered glass panel over the same photo. Selector is
-   .imgGlass.insightPanel (specificity 0-2-0) so this 640 cap wins over the
-   shared .heroCard,.imgGlass { max-width: 700px } rule defined later. */
-.imgGlass.insightPanel {
-  margin-inline: auto;
-  max-width: min(100%, 640px);
-}
-.insightPanelBody {
-  font-size: 17px;
-  line-height: 1.62;
-  color: rgba(244, 242, 236, 0.92);
-  margin-top: var(--space-4);
-}
-.insightPanel .insightPanelBody:first-of-type {
-  margin-top: var(--space-3);
-}
-
 .kicker {
   font-size: var(--fs-label);
   letter-spacing: 0.14em;
@@ -496,11 +479,16 @@
 /* =========================================================================
    Scene 7 — findings (line-glyph + text), now icon cards
    ========================================================================= */
+/* the four findings — side by side on a row wider than the reading column
+   (its own container: the ul sits OUTSIDE .wrapWide in the markup) */
 .findings {
   list-style: none;
-  margin-top: var(--space-7);
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 1080px;
+  margin: var(--space-6) auto 0;
+  padding-inline: var(--page-pad);
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--space-5);
 }
 .finding {
@@ -589,6 +577,34 @@
 .prop .body {
   margin-top: var(--space-2);
 }
+/* my framework — a compact sub-block inside the proposed section now */
+.fwHead {
+  margin-top: var(--space-7);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(19px, 2.8vw, 24px);
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+.fwHead + .body {
+  margin-top: var(--space-3);
+}
+/* the two framework figures share one row and stay small — they explain,
+   they don't headline */
+.figRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
+  margin: var(--space-5) 0;
+}
+.figRow .diagram,
+.figRow .timeline {
+  margin: 0;
+  flex: 1 1 240px;
+  max-width: 300px;
+}
+
 .propTotal {
   margin-top: var(--space-7);
   font-family: var(--font-display);
@@ -624,8 +640,188 @@
   padding-inline: clamp(14px, 3vw, 44px);
 }
 .appBleedInner {
+  position: relative; /* the walkthrough overlay anchors in here */
   max-width: 1280px;
   margin-inline: auto;
+}
+
+/* =========================================================================
+   Guided walkthrough — spotlight over the working app (Follow's tour
+   language, the simple variant: no stop rail, one pinned message card)
+   ========================================================================= */
+.spot {
+  position: absolute;
+  inset: 0;
+  z-index: 140;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .spot {
+    animation: spotIn 0.22s ease-out;
+  }
+}
+@keyframes spotIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.spotDim {
+  position: absolute;
+  background: rgba(24, 12, 12, 0.55);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.spotRing {
+  position: absolute;
+  pointer-events: none;
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 12px 44px rgba(24, 12, 12, 0.35);
+}
+/* the landing flash — replays per stop (the ring remounts, keyed on stop) */
+@media (prefers-reduced-motion: no-preference) {
+  .spotRing {
+    animation: spotFlash 0.75s ease-out;
+  }
+}
+@keyframes spotFlash {
+  0% {
+    box-shadow:
+      0 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent),
+      0 12px 44px rgba(24, 12, 12, 0.35);
+  }
+  38% {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 12px 44px rgba(24, 12, 12, 0.35);
+  }
+  58% {
+    box-shadow:
+      0 0 0 9px color-mix(in srgb, var(--accent) 32%, transparent),
+      0 12px 44px rgba(24, 12, 12, 0.35);
+  }
+  100% {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 12px 44px rgba(24, 12, 12, 0.35);
+  }
+}
+/* the message dock: ONE fixed spot — bottom-center of the stage. measure()
+   clamps the spotlight hole above this band, so the message and the
+   spotlight never overlap */
+.spotDockWrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  display: flex;
+  justify-content: center;
+  padding: 0 12px;
+  pointer-events: none;
+}
+.spotCard {
+  position: relative;
+  width: min(460px, 100%);
+  padding: 14px 16px 13px;
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-lift);
+  pointer-events: auto;
+  outline: none;
+}
+.spotCard:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.spotNo {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.spotTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-top: 4px;
+}
+.spotLine {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.spotBtns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.spotGhost {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 5px 8px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--soft);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.spotGhost:hover {
+  color: var(--accent);
+}
+.spotNext {
+  appearance: none;
+  border: 0;
+  margin-left: auto;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.spotNext:hover {
+  background: var(--accent-deep, var(--accent));
+}
+.spotGhost:focus-visible,
+.spotNext:focus-visible,
+.spotSkip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.spotHint {
+  margin-top: 8px;
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  color: var(--soft);
+}
+.spotSkip {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 4px 6px;
+  font-size: 12px;
+  color: var(--soft);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.spotSkip:hover {
+  color: var(--ink);
 }
 /* Discreet "open full-screen" link under the live product (demo is on-page). */
 .demoFoot {
@@ -659,6 +855,9 @@
   .iconCardGrid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .findings {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .proposed {
     flex-direction: row;
     gap: var(--space-6);
@@ -666,15 +865,20 @@
   .prop {
     flex: 1;
   }
-  .diagram,
-  .timeline {
-    max-width: 440px;
-  }
   .sitesGrid {
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: clamp(108px, 12vw, 150px);
   }
   .dataInner {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 1080px) {
+  .findings {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+  .findings .findingTitle {
+    font-size: 19px;
   }
 }

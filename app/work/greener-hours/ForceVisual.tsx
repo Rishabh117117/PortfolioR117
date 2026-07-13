@@ -81,7 +81,7 @@ function Infrastructure() {
     <>
       {/* the gap (top, amber) */}
       <rect className="ghd-amber ghs-amber" x="20" y="20" width="380" height="60" strokeWidth="1.5" />
-      <text className="ghf-mono ghd-paper" opacity="0.75" x="38" y="44" letterSpacing="2" fontSize="10">LAYER 04 · MISSING — THE GAP</text>
+      <text className="ghf-mono ghd-paper" opacity="0.75" x="38" y="44" letterSpacing="2" fontSize="10">LAYER 04 · MISSING · THE GAP</text>
       <text className="ghf-serif ghd-paper" x="38" y="68" fontSize="18" fontWeight="500">AI-specific stitching layer</text>
       <line className="ghs-amber" x1="210" y1="84" x2="210" y2="100" strokeWidth="1.5" strokeDasharray="3 3" />
       {INFRA_LAYERS.map((l, i) => (
