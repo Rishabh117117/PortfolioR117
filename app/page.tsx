@@ -66,7 +66,7 @@ export default function Home() {
             <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer &amp; builder</p>
 
             {/* HERO COPY — D-01 resolved (COPY-A-1): the claim is design + build,
-                substantiated by the four WORKING DEMO chips in the grid below. */}
+                substantiated by the four working demos in the grid below. */}
             <h1 className={styles.headline}>
               I design AI products, and <em>build</em> them, so you can try
               everything below.
@@ -74,8 +74,7 @@ export default function Home() {
 
             <p className={styles.subhead}>
               I started in industrial and product design, moved through UX, and
-              now build AI-native products end to end. The work below traces that
-              arc.
+              now build AI-native products end to end.
             </p>
 
             <div className={styles.ctaRow}>
@@ -91,7 +90,7 @@ export default function Home() {
                 a recruiter never has to scroll to learn what he's looking for */}
             <p className={styles.availability}>
               <span className={styles.liveDot} aria-hidden="true" />
-              Open to Design Engineer &amp; Product roles · Brooklyn, NY
+              Brooklyn, NY — open to internships now · full-time from early 2027
             </p>
           </div>
         </div>
@@ -147,7 +146,7 @@ export default function Home() {
             </div>
             {/* top-of-funnel proof line — the chips claim it, this says it plainly */}
             <p className={`cap ${styles.workNote}`}>
-              All four end in working software. Open any card and try it.
+              All four end in something you can actually try — open any card.
             </p>
 
             <div className={styles.grid}>
@@ -160,7 +159,7 @@ export default function Home() {
                   href={`/work/${p.slug}`}
                   accent={p.accent}
                   status={p.status}
-                  demo={p.demo}
+                  meta={p.meta}
                   tagline={p.tagline}
                   thumb={THUMBS[p.slug]?.thumb}
                   thumbNode={THUMBS[p.slug]?.node}
@@ -193,8 +192,8 @@ export default function Home() {
         <div className={`container ${styles.ctaContent}`} data-reveal>
           <div className={styles.ctaBlock}>
             <h2 className={styles.ctaTitle}>
-              I&rsquo;m graduating Fall 2026 and looking for Design Engineer &amp;
-              Product roles.
+              I graduate this December — open to internships this fall, and
+              Design Engineer &amp; Product roles from early 2027.
             </h2>
             <div className={styles.ctaRow}>
               <Link href="/about" className="btn primary">

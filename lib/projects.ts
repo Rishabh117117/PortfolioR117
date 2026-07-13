@@ -1,6 +1,6 @@
 // Shared project metadata (§8 accent map). Single source of truth for the
-// home grid and the work index. `status` is framing-only copy; `demo` is the
-// separate working-demo axis (WORKING-DEMO-TAG-1), rendered as its own chip.
+// home grid and the work index. `status` is the card's single chip (one chip
+// per card since SHIP-FIXES; school context lives in `meta`).
 
 export type Project = {
   name: string;
@@ -9,13 +9,16 @@ export type Project = {
   discipline: string;
   accent: string;
   status?: string;
-  /** Working-demo tag (separate axis from `status`, which is framing-only). */
-  demo?: boolean;
+  /** Card meta line — when set, replaces the default `year · discipline`. */
+  meta?: string;
   /** One-line value prop for cards — what the project IS, no click needed. */
   tagline?: string;
   featured?: boolean;
 };
 
+/* Array order = home-grid order AND ProjectPager prev/next order (the pager
+   wraps around this list): Follow → Healthy Materials → Housing Works →
+   Greener Hours. */
 export const FLAGSHIPS: Project[] = [
   {
     name: "Follow",
@@ -23,32 +26,12 @@ export const FLAGSHIPS: Project[] = [
     year: "Spring 2026",
     discipline: "Systems · AI",
     // §4.4 — burnt orange, matching the bespoke /work/follow page + capstone deck
-    // (was Persian Blue #1C39BB). FOLLOW-DEMO-1: the team-memory sandbox is built
-    // and live, so the old SIMULATED demo-status tag became a framing badge like
-    // the other flagships; demo status (WORKING) lives on the page's DemoCallout.
+    // (was Persian Blue #1C39BB).
     // (No `featured` flag: the home grid is an equal 2×2 per Rishabh 2026-07-02.)
-    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the WORKING DEMO
-    // claim moved to the `demo` flag, rendered as its own card chip.
     accent: "#C2410C",
-    status: "CAPSTONE",
-    demo: true,
-    tagline: "A shared, trackable memory layer between your team's AI tools.",
-  },
-  {
-    name: "Greener Hours",
-    slug: "greener-hours",
-    year: "Spring 2026",
-    discipline: "Climate · AI",
-    accent: "#1C3B36",
-    // GH-PAGE-1: bespoke narrative case study (deck-as-page retired). Honest
-    // badge for a speculative open-standard course project; propagates to the
-    // home grid + /work chips via ProjectCard.
-    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the tier surfaces
-    // (Tier-1 chat/Tier-2 scheduler/Tier-3 dashboard) are live, so the demo
-    // claim now lives on the `demo` flag, rendered as its own card chip.
-    status: "COURSE PROJECT",
-    demo: true,
-    tagline: "An open standard that puts a carbon label on AI compute.",
+    status: "LIVE SANDBOX · REAL MODEL",
+    meta: "Capstone · 2026 · AI",
+    tagline: "One memory across your team's AI tools — every fact with receipts.",
   },
   {
     name: "Healthy Materials",
@@ -58,12 +41,8 @@ export const FLAGSHIPS: Project[] = [
     // sage darkened to clear AA (4.5:1) for the card's accent link/chip text —
     // must match app/work/healthy-materials/theme.ts + app/icon.svg (DECISIONS.md).
     accent: "#4F6B33",
-    // §2 — the page badge; the card on /work + the home grid must match it.
-    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the Packages
-    // configurator is live, so the demo claim now lives on the `demo` flag,
-    // rendered as its own card chip.
-    status: "GRADUATE RESEARCH",
-    demo: true,
+    status: "WORKING CONFIGURATOR",
+    meta: "With the Healthy Materials Lab · 2025",
     tagline: "Healthier-material spec packages priced to survive value engineering.",
   },
   {
@@ -72,15 +51,20 @@ export const FLAGSHIPS: Project[] = [
     year: "Spring 2025",
     discipline: "Service design",
     accent: "#C0263B",
-    // HW-PROTO-1: framing badge like GH/HM (the old SIMULATED demo-status tag
-    // became wrong once the Trustee Workshops prototype went WORKING — demo
-    // status now lives on the page's DemoCallout, per the D-03 axes split).
-    // WORKING-DEMO-TAG-1: `status` trimmed to framing-only — the Trustee
-    // Workshops app is live, so the demo claim now lives on the `demo` flag,
-    // rendered as its own card chip.
-    status: "STUDIO PROJECT",
-    demo: true,
-    tagline: "Trustee-taught micro-workshops that keep learning in-house.",
+    status: "REAL CLIENT · NYC NONPROFIT",
+    meta: "Studio · 2025 · Service design",
+    tagline: "Keeping young talent a nonprofit can't outbid — field research for Housing Works, shipped as a working workshop tool.",
+  },
+  {
+    name: "Greener Hours",
+    slug: "greener-hours",
+    year: "Spring 2026",
+    discipline: "Climate · AI",
+    accent: "#1C3B36",
+    // GH-PAGE-1: bespoke narrative case study (deck-as-page retired).
+    status: "INTERACTIVE SIMULATION",
+    meta: "Course project · 2026 · Climate · AI",
+    tagline: "An open standard that puts a carbon label on AI compute.",
   },
 ];
 
