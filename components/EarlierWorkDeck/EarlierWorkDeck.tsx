@@ -26,12 +26,12 @@ const CROP: Record<string, string> = {
   best: "22%", // title block + full phone + palette row, no clipped paragraph
   "music-rooms": "62%", // "Music Rooms" title centred, clear of the phone
   yaap: "50%", // the chili IG card framed whole
-  "stun-gun": "78%", // the product's nose + wordmark
   "lotus-heater": "62%", // both heaters + the companion phone
 };
 
 export default function EarlierWorkDeck() {
-  const cards = ARCHIVE_PROJECTS;
+  // Stun Gun stays on /archive but is kept off the homepage strip.
+  const cards = ARCHIVE_PROJECTS.filter((p) => p.slug !== "stun-gun");
   const loop = [...cards, ...cards, ...cards];
   const stripRef = useDraggableMarquee<HTMLDivElement>({ sets: 3, durationSec: 60 });
   return (

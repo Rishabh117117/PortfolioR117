@@ -78,7 +78,7 @@ const PERSON_LD = {
     },
     { "@type": "CollegeOrUniversity", name: "ISDI" },
   ],
-  sameAs: [SOCIALS.linkedin, SOCIALS.github, SOCIALS.behance],
+  sameAs: [SOCIALS.linkedin, SOCIALS.github],
 };
 
 export default function RootLayout({

@@ -5,11 +5,10 @@
 export const SITE_URL =
   process.env.SITE_URL?.trim().replace(/\/+$/, "") || "https://rishabhsalian.com";
 
-/* The one LinkedIn/GitHub/Behance truth — footer, About, and JSON-LD all
+/* The one LinkedIn/GitHub truth — footer, About, and JSON-LD all
    read from here. */
 export const SOCIALS = {
   email: "rishabhsalian@ymail.com",
   github: "https://github.com/Rishabh117117",
-  behance: "https://behance.net/rishabhsalian",
-  linkedin: "https://www.linkedin.com/in/rishabh-salian-000000",
+  linkedin: "https://www.linkedin.com/in/rishabh-salian117",
 } as const;

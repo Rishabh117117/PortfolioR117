@@ -17,7 +17,7 @@ import styles from "./HeroCollage.module.css";
    nav, the glass CTA, and the work grid). On touch the cards are inert
    (pointer-events:none via the CSS) so a tap never navigates unexpectedly. */
 
-type ProjKey = "hw" | "hm" | "lotus" | "yaap" | "vsg" | "stun";
+type ProjKey = "hw" | "hm" | "lotus" | "yaap" | "vsg";
 
 const PROJECTS: Record<ProjKey, { name: string; href: string }> = {
   hw: { name: "Housing Works", href: "/work/housing-works" },
@@ -25,7 +25,6 @@ const PROJECTS: Record<ProjKey, { name: string; href: string }> = {
   lotus: { name: "Lotus Heater", href: "/archive/lotus-heater" },
   yaap: { name: "YAAP", href: "/archive/yaap" },
   vsg: { name: "VSG", href: "/archive/vsg" },
-  stun: { name: "Stun Gun", href: "/archive/stun-gun" },
 };
 
 type Card = {
@@ -53,7 +52,7 @@ const CARDS: Card[] = [
   { k: "yaapYellow", src: "/images/home-hero/yaap-yellow.jpg", cx: 21, cy: 14, w: 19, rot: 4, ar: "16 / 9", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
   { k: "lotusPair", src: "/images/home-hero/lotus-pair.jpg", cx: 35, cy: 15, w: 19, rot: -3, ar: "14 / 10", what: "Product render", proj: "lotus", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
   { k: "hwTag", src: "/images/home-hero/hw-tag.jpg", cx: 50, cy: 14, w: 15, rot: 5, ar: "3 / 4", what: "Thrift-shop tag", proj: "hw", sizes: "(max-width: 767px) 28vw, 15vw" },
-  { k: "stun3q", src: "/images/home-hero/stun-3q.jpg", cx: 64, cy: 16, w: 20, rot: -4, ar: "4 / 3", what: "Concept render", proj: "stun", sizes: "(max-width: 767px) 38vw, 20vw", priority: true },
+  { k: "yaapBlue2", src: "/images/home-hero/yaap-blue.jpg", cx: 64, cy: 16, w: 20, rot: -4, ar: "4 / 3", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 38vw, 20vw", priority: true },
   { k: "vsgPersonas", src: "/images/home-hero/vsg-personas.jpg", cx: 78, cy: 15, w: 21, rot: 3, ar: "16 / 15", what: "User personas", proj: "vsg", sizes: "(max-width: 767px) 40vw, 21vw", priority: true },
   { k: "hwHealthcare", src: "/images/home-hero/hw-healthcare.jpg", cx: 93, cy: 15, w: 16, rot: -5, ar: "3 / 4", what: "Cylar Health Center", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   /* row 2 (6, offset) */
@@ -62,7 +61,7 @@ const CARDS: Card[] = [
   { k: "hwPresenting", src: "/images/home-hero/hw-presenting.jpg", cx: 43, cy: 50, w: 16, rot: 5, ar: "3 / 4", what: "Team workshop", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "bloomFoam", src: "/images/home-hero/bloom-foam.jpg", cx: 57, cy: 50, w: 16, rot: -4, ar: "3 / 4", what: "Bloom Foam", proj: "hm", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "thriftDenim", src: "/images/home-hero/thrift-denim.jpg", cx: 71, cy: 50, w: 16, rot: 4, ar: "3 / 4", what: "Thrift textile", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
-  { k: "stunSide", src: "/images/home-hero/stun-side.jpg", cx: 90, cy: 48, w: 22, rot: -4, ar: "4 / 3", what: "Concept render", proj: "stun", sizes: "(max-width: 767px) 42vw, 22vw", priority: true },
+  { k: "lotusPair2", src: "/images/home-hero/lotus-pair.jpg", cx: 90, cy: 48, w: 22, rot: -4, ar: "4 / 3", what: "Product render", proj: "lotus", sizes: "(max-width: 767px) 42vw, 22vw", priority: true },
   /* row 3 (7) */
   { k: "workshopMatrix", src: "/images/home-hero/workshop-matrix.jpg", cx: 7, cy: 85, w: 16, rot: 5, ar: "3 / 4", what: "Engagement matrix", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "hmlDrawers", src: "/images/home-hero/hml-drawers.jpg", cx: 21, cy: 86, w: 16, rot: -4, ar: "3 / 4", what: "Materials taxonomy", proj: "hm", sizes: "(max-width: 767px) 30vw, 16vw" },

@@ -26,11 +26,6 @@ export default function Footer() {
               GitHub
             </a>
           </li>
-          <li>
-            <a href={SOCIALS.behance} target="_blank" rel="noreferrer">
-              Behance
-            </a>
-          </li>
         </ul>
 
         {/*

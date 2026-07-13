@@ -465,14 +465,6 @@ export default function AboutPage() {
               >
                 GitHub
               </a>
-              <a
-                className="btn ghost"
-                href={SOCIALS.behance}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Behance
-              </a>
               <a className="btn ghost" href="/Rishabh-Salian-CV.pdf" download>
                 Download CV · PDF
               </a>
