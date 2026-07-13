@@ -9,6 +9,7 @@ import WorkshopsApp from "./WorkshopsApp";
 import HwDemoTour from "./HwDemoTour";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
+import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { HW_ROOT_STYLE } from "./theme";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
@@ -68,9 +69,7 @@ export default function HousingWorksPage() {
               narrowed to one question: how can Housing Works attract and keep
               younger staff when it can’t match private-sector pay?
             </p>
-            <p className="mono">
-              <a href="#demo">Skip to the live demo ↓</a>
-            </p>
+            <SkipToDemo />
           </div>
         </div>
       </header>

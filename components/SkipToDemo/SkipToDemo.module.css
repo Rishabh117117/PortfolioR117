@@ -1,0 +1,30 @@
+.row {
+  margin-top: 14px;
+}
+
+/* the global .btn already transitions transform/background; this adds the
+   hover lift + shadow and gives the arrow its own dip */
+.arr {
+  display: inline-block;
+  transition: transform var(--t-fast) var(--e-snappy);
+}
+@media (hover: hover) {
+  .skip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  .skip:hover .arr {
+    transform: translateY(3px);
+  }
+}
+/* press beats the hover lift (declared after, same specificity) */
+.skip:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skip:hover,
+  .skip:hover .arr {
+    transform: none;
+  }
+}

@@ -1090,3 +1090,55 @@
   color: var(--accent);
   border-color: var(--accent);
 }
+
+/* ---- "Under the hood" disclosure (the fsys slab's 0fr→1fr recipe) ---- */
+.hoodH {
+  margin-bottom: 0; /* the closed fold ends at the title, not the kicker gap */
+}
+.hoodBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .hoodBtn:hover {
+    color: var(--accent);
+  }
+}
+.hoodChev {
+  display: inline-block;
+  color: var(--accent);
+  transition: transform 0.45s var(--e-snappy);
+}
+.hoodOpen .hoodChev {
+  transform: rotate(180deg);
+}
+.hoodPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--e-snappy);
+}
+.hoodOpen .hoodPanel {
+  grid-template-rows: 1fr;
+}
+.hoodClip {
+  overflow: hidden;
+  min-height: 0;
+}
+.hoodClip > p {
+  margin-top: 16px; /* the kicker gap moves inside the fold */
+}
+@media (prefers-reduced-motion: reduce) {
+  .hoodChev,
+  .hoodPanel {
+    transition: none;
+  }
+}

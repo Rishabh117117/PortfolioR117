@@ -8,6 +8,7 @@ import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
+import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
 import { HM_ROOT_STYLE } from "./theme";
 import styles from "./healthy-materials.module.css";
@@ -80,9 +81,7 @@ export default function HealthyMaterialsPage() {
                 Graduate capstone · Fall 2025 · Rishabh Salian &amp; Henry
                 Schroder
               </p>
-              <p className="mono">
-                <a href="#demo">Skip to the live demo ↓</a>
-              </p>
+              <SkipToDemo />
             </div>
             <div className={styles.scrollCue} aria-hidden="true">
               <span>scroll</span>

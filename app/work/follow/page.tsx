@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
+import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import BeforeSystem from "./BeforeSystem";
 import FollowSystem from "./FollowSystem";
 import DemoTour from "./DemoTour";
 import AmbientField from "./AmbientField";
 import FollowSandbox from "./FollowSandbox";
 import TermTip from "./TermTip";
+import UnderTheHood from "./UnderTheHood";
 import { FOLLOW_ROOT_STYLE } from "./theme";
 import styles from "./follow.module.css";
 
@@ -57,9 +59,7 @@ export default function FollowPage() {
             turns every chat into shared knowledge: one index of what the
             team knows, and a directory of who knows it.
           </p>
-          <p className="mono">
-            <a href="#demo">Skip to the live demo ↓</a>
-          </p>
+          <SkipToDemo />
         </div>
       </header>
 
@@ -577,7 +577,7 @@ export default function FollowPage() {
       {/* ownership claim: confirmed by RS before merge */}
       <section className="section">
         <div className="containerText" data-reveal>
-          <h2 className={`mono ${styles.kicker}`}>Under the hood</h2>
+          <UnderTheHood>
           <p className="lede">
             The sandbox above runs the shipped system — not a mockup.
             What&rsquo;s behind it:
@@ -607,6 +607,7 @@ export default function FollowPage() {
               client support.
             </div>
           </div>
+          </UnderTheHood>
         </div>
       </section>
 

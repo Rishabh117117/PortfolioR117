@@ -30,6 +30,7 @@ import HeadersDiagram from "./HeadersDiagram";
 import AdoptionCurve from "./AdoptionCurve";
 import GhApp from "./GhApp";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import Reveal from "@/components/Reveal/Reveal";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import { GH_ROOT_STYLE } from "./theme";
@@ -78,9 +79,7 @@ export default function GreenerHoursPage() {
             Hours<span className={styles.dot}>.</span>
           </h1>
           <p className={styles.heroLede}>{HERO.lede}</p>
-          <p className="mono">
-            <a href="#demo">Skip to the live demo ↓</a>
-          </p>
+          <SkipToDemo />
           <div className={styles.heroFoot}>
             <div className={styles.heroMeta}>
               {HERO.meta.map((m) => (
