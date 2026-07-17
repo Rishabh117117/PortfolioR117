@@ -23,7 +23,7 @@
   gap: var(--space-5);
 }
 .links a {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;

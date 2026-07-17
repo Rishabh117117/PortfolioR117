@@ -49,7 +49,7 @@
   stroke: var(--accent);
 }
 .hw-fig text {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   fill: var(--soft);
   letter-spacing: 0.02em;

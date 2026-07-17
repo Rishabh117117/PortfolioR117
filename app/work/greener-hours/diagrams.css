@@ -32,7 +32,7 @@
 .ghs-paper { stroke: var(--paper); }
 
 /* fonts */
-.ghf-mono { font-family: var(--font-mono); }
+.ghf-mono { font-family: var(--font-label); }
 .ghf-serif { font-family: var(--font-serif); }
 .ghf-sans { font-family: var(--font-body); }
 

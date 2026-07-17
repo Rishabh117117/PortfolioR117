@@ -864,7 +864,7 @@ export default function WorkshopsApp() {
                                 </svg>
                                 <span className={s.recordingDuration}>{a.duration}</span>
                               </div>
-                              <p className={`mono ${s.recordingLabel}`}>
+                              <p className={s.recordingLabel}>
                                 illustrative recording · stand-in · no audio
                               </p>
                             </div>

@@ -38,7 +38,7 @@
   background: color-mix(in srgb, var(--paper) 86%, transparent);
   backdrop-filter: blur(8px);
   border-block: 1px solid var(--line);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
 }
 @media (min-width: 1024px) {
@@ -186,7 +186,7 @@
   border: 0;
   background: transparent;
   color: var(--soft);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
@@ -247,7 +247,7 @@
   background: color-mix(in srgb, var(--accent) 9%, transparent);
 }
 .sideNum {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   color: var(--accent);
   padding-top: 1px;
@@ -329,7 +329,7 @@
   align-items: flex-end;
 }
 .pagerKicker {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -363,7 +363,7 @@
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   color: #f4f2ec;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
 }
 .lbCount {
@@ -382,7 +382,7 @@
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 16px;
   cursor: pointer;
   transition: background var(--t-fast) var(--e-snappy);
@@ -423,7 +423,7 @@
 .lbCaption {
   text-align: center;
   color: rgba(244, 242, 236, 0.8);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   padding-bottom: var(--space-3);
 }

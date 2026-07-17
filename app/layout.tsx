@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Inter, IBM_Plex_Mono } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Inter,
+  IBM_Plex_Mono,
+  Fraunces,
+} from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav/Nav";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Footer from "@/components/Footer/Footer";
+import LabelFaceSwitcher from "@/components/LabelFaceSwitcher/LabelFaceSwitcher";
 
 // §2 typography — wired to the design tokens via CSS variables.
 const display = Bricolage_Grotesque({
@@ -22,6 +28,14 @@ const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-mono",
+  display: "swap",
+});
+/* UNFOLD-POLISH label-face trial — Fraunces loaded globally ONLY while the
+   candidates are being compared (candidate B). Delete this load if A or C
+   wins (Fraunces then stays page-scoped to Greener Hours). */
+const labelSerif = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-label-serif",
   display: "swap",
 });
 
@@ -89,7 +103,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      className={`${display.variable} ${body.variable} ${mono.variable} ${labelSerif.variable}`}
     >
       <body>
         <script
@@ -107,6 +121,8 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        {/* label-face trial chip — dev builds only; removed at lock-in */}
+        {process.env.NODE_ENV !== "production" && <LabelFaceSwitcher />}
       </body>
     </html>
   );

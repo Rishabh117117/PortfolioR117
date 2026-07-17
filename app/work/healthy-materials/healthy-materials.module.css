@@ -140,7 +140,7 @@
   box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.55);
 }
 .heroEyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: clamp(11px, 1.4vw, 12px);
   letter-spacing: 0.14em;
   text-transform: lowercase;
@@ -178,7 +178,7 @@
   align-items: center;
   gap: var(--space-3);
   margin-top: clamp(28px, 5vw, 44px);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -242,7 +242,7 @@
   color: var(--accent);
 }
 .slotCaption {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: lowercase;
@@ -272,7 +272,7 @@
   border-top: 1px solid var(--line);
 }
 .questionLabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -330,7 +330,7 @@
 }
 .materialNote {
   margin-top: var(--space-2);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.04em;
   color: var(--clay-light);
@@ -355,7 +355,7 @@
   border-top: 1px solid var(--line);
 }
 .pillarNo {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.08em;
   color: var(--accent);
@@ -462,7 +462,7 @@
   border-bottom: 1px solid var(--line);
 }
 .stageNo {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.08em;
   color: var(--accent);
@@ -477,7 +477,7 @@
 }
 .stagePhase {
   margin-top: 3px;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.04em;
   color: var(--soft);
@@ -509,7 +509,7 @@
 /* label over the friction list — quiet grey counterpart to the accent
    "the turn · areas of opportunity" label below it */
 .probLabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -544,7 +544,7 @@
   border-top: 1px dashed var(--line);
 }
 .turnLabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -582,7 +582,7 @@
 .quoteAttr {
   display: block;
   margin-top: var(--space-3);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.04em;
   color: var(--soft);
@@ -650,7 +650,7 @@
 .firstFlag {
   display: inline-block;
   margin-top: var(--space-2);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -665,7 +665,7 @@
   /* spacing that used to come from .concept's flex gap now that these two
      paragraphs live inside the Unfold body */
   margin-top: var(--space-3);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   line-height: 1.5;
   letter-spacing: 0.01em;
@@ -685,7 +685,7 @@
 }
 /* mono affordance header for the "how to read it" demo Unfold (ROUND-2026-07-16) */
 .demoHow {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -751,7 +751,7 @@
   margin-top: clamp(40px, 8vw, 72px);
   padding-top: var(--space-5);
   border-top: 1px solid rgba(244, 242, 236, 0.16);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.06em;
   color: var(--sage-light);
@@ -766,7 +766,7 @@
 .badge {
   display: inline-block;
   margin-top: var(--space-4);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -777,7 +777,7 @@
 }
 .heroAuthors {
   margin-top: var(--space-4);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.06em;
   color: rgba(244, 242, 236, 0.7);
@@ -806,7 +806,7 @@
 /* small label introducing the material cards, sat right under the hook */
 .railCaption {
   margin-top: var(--space-7);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -887,7 +887,7 @@
 }
 .imgCredit {
   margin-top: var(--space-7);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: 0.04em;
   color: var(--soft);
@@ -937,7 +937,7 @@
   margin-top: var(--space-5);
 }
 .rlabel {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -972,7 +972,7 @@
 }
 .rlist .r .kind {
   display: block;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1055,7 +1055,7 @@
 }
 .lpNum {
   flex: 0 0 auto;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11.5px;
   font-weight: 500;
   color: var(--accent);

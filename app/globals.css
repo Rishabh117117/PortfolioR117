@@ -28,6 +28,15 @@
   --accent-wash: #dde2f6;
   --accent-tint: #eef0fb;
 
+  /* §2 label face (UNFOLD-POLISH trial) — the portfolio-chrome label family
+     (eyebrows/kickers/chips/metas/affordances), replacing the mono chrome
+     that read robotic. Demo product UIs keep --font-mono deliberately
+     (product-faithful software surfaces). Default = candidate A, Bricolage
+     caps; the dev-only LabelFaceSwitcher stamps data-labelface on <html> to
+     compare candidates live. Lock the winner + remove the trial scopes and
+     switcher after review. */
+  --font-label: var(--font-display);
+
   /* §2 type scale */
   --fs-display: clamp(34px, 8vw, 64px);
   --fs-h1: clamp(30px, 6vw, 42px);
@@ -77,6 +86,15 @@
   --shadow-lift: 0 2px 4px rgba(26, 26, 26, 0.05), 0 16px 40px rgba(26, 26, 26, 0.09);
   --glass-bg: color-mix(in srgb, var(--paper) 80%, transparent);
   --glass-blur: blur(12px) saturate(150%);
+}
+
+/* label-face trial scopes (UNFOLD-POLISH; driven by the dev-only
+   LabelFaceSwitcher) — delete at lock-in. No attribute = candidate A. */
+:root[data-labelface="fraunces"] {
+  --font-label: var(--font-label-serif);
+}
+:root[data-labelface="inter"] {
+  --font-label: var(--font-body);
 }
 
 /* ---- reset ---- */
@@ -159,7 +177,7 @@ img {
   padding: 10px 16px;
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-cap);
   border-radius: var(--radius-sm);
   transform: translateY(-200%);
@@ -206,7 +224,7 @@ img {
 
 /* type helpers */
 .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -218,8 +236,12 @@ img {
   color: var(--soft);
   line-height: 1.5;
 }
+/* historically the mono utility; since UNFOLD-POLISH it applies the chrome
+   LABEL face (--font-label) — every .mono call site is narrative chrome
+   (kickers/metas/hints). True mono inside demo replicas comes from their own
+   module rules. Candidate follow-up: rename to .label across ~60 call sites. */
 .mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
 }
 
 /* page header block (shared across section routes) */
@@ -228,7 +250,7 @@ img {
   padding-bottom: var(--space-6);
 }
 .pageEyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -269,7 +291,7 @@ img {
   gap: var(--space-2);
   min-height: 44px; /* touch target */
   padding: 11px 18px;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12.5px;
   font-weight: 500;
   line-height: 1;
@@ -338,7 +360,7 @@ img {
 .chip {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -362,7 +384,7 @@ img {
    promoted so shell pages can use it without a module.
    ========================================================================= */
 .kicker {
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.08em;

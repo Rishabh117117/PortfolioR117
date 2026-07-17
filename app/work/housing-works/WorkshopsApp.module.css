@@ -984,6 +984,9 @@
   color: var(--ink);
 }
 .recordingLabel {
+  /* stays true mono: this label lives INSIDE the product replica (the global
+     .mono utility became the chrome label face in UNFOLD-POLISH) */
+  font-family: var(--font-mono);
   font-size: 8.5px;
   letter-spacing: 0.04em;
   color: var(--soft);

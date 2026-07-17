@@ -30,7 +30,7 @@ export function FollowThumb() {
   const slate = "#64748b"; // --cd-slate
   const ink = "#1a1a1a";
   const ink2 = "#46443f"; // --cd-ink2
-  const mono = { fontFamily: "var(--font-mono)" } as const;
+  const mono = { fontFamily: "var(--font-label)" } as const;
   const COLS = [140, 320, 500];
   const TEAM = ["Maya", "Alex", "Sam"];
   const SUB = ["₁", "₂", "₃"];
