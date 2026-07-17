@@ -244,9 +244,18 @@ export default function FollowPage() {
               Mixed-methods, and honest about scope: a theoretical spine, plus six
               primary engagements, from lived experience to expert interviews.
             </p>
+            {/* the two research columns are glass Unfolds now (UNFOLD-POLISH),
+                mirroring the Healthy Materials research pattern — the count
+                rides the header so the collapsed state still says how much
+                sits inside */}
             <div className={styles.rcols}>
-              <div className={styles.rcol}>
-                <p className={styles.rlabel}>Secondary · the theoretical spine</p>
+              <Unfold
+                header={
+                  <span className={styles.rlabel}>
+                    Secondary · the theoretical spine — 6
+                  </span>
+                }
+              >
                 <div className={styles.rlist}>
                   <div className={styles.r}>
                     <strong>Wegner</strong> · transactive memory systems
@@ -267,9 +276,14 @@ export default function FollowPage() {
                     <strong>Doshi &amp; Hauser</strong> · homogenization risk
                   </div>
                 </div>
-              </div>
-              <div className={styles.rcol}>
-                <p className={styles.rlabel}>Primary · six engagements</p>
+              </Unfold>
+              <Unfold
+                header={
+                  <span className={styles.rlabel}>
+                    Primary · engagements — 6
+                  </span>
+                }
+              >
                 <div className={styles.rlist}>
                   <div className={styles.r}>
                     <strong>Housing Works NYC</strong>
@@ -296,7 +310,7 @@ export default function FollowPage() {
                     <span className={styles.kind}>Expert · 25-year operator</span>
                   </div>
                 </div>
-              </div>
+              </Unfold>
             </div>
           </div>
         </div>
@@ -481,7 +495,6 @@ export default function FollowPage() {
 
           <div className={styles.cards}>
             <Unfold
-              variant="card"
               header={
                 <span className={styles.widHead}>
                   <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
@@ -506,7 +519,6 @@ export default function FollowPage() {
               </p>
             </Unfold>
             <Unfold
-              variant="card"
               header={
                 <span className={styles.widHead}>
                   <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
@@ -528,7 +540,6 @@ export default function FollowPage() {
               </p>
             </Unfold>
             <Unfold
-              variant="card"
               header={
                 <span className={styles.widHead}>
                   <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
@@ -552,7 +563,6 @@ export default function FollowPage() {
               </p>
             </Unfold>
             <Unfold
-              variant="card"
               header={
                 <span className={styles.widHead}>
                   <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
@@ -576,7 +586,6 @@ export default function FollowPage() {
               </p>
             </Unfold>
             <Unfold
-              variant="card"
               header={
                 <span className={styles.widHead}>
                   <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
@@ -598,7 +607,6 @@ export default function FollowPage() {
               </p>
             </Unfold>
             <Unfold
-              variant="card"
               header={
                 <span className={styles.widHead}>
                   <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">

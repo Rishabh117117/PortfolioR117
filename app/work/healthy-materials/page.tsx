@@ -189,7 +189,6 @@ export default function HealthyMaterialsPage() {
               </p>
               <div className={styles.rcols}>
                 <Unfold
-                  variant="bare"
                   header={
                     <span className={styles.rlabel}>
                       Primary · field engagements — 4
@@ -216,7 +215,6 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </Unfold>
                 <Unfold
-                  variant="bare"
                   header={
                     <span className={styles.rlabel}>
                       Secondary · desk research — 6
@@ -310,7 +308,6 @@ export default function HealthyMaterialsPage() {
                 </div>
 
                 <Unfold
-                  variant="bare"
                   header={
                     <span className={styles.stageProbHead}>
                       <span className={styles.probLabel}>problems / insights</span>
@@ -403,7 +400,6 @@ export default function HealthyMaterialsPage() {
                 </div>
 
                 <Unfold
-                  variant="bare"
                   header={
                     <span className={styles.stageProbHead}>
                       <span className={styles.probLabel}>problems / insights</span>
@@ -487,7 +483,6 @@ export default function HealthyMaterialsPage() {
                 </div>
 
                 <Unfold
-                  variant="bare"
                   header={
                     <span className={styles.stageProbHead}>
                       <span className={styles.probLabel}>problems / insights</span>
@@ -558,7 +553,6 @@ export default function HealthyMaterialsPage() {
 
             <div className={styles.concepts}>
               <Unfold
-                variant="card"
                 defaultOpen={true}
                 header={
                   <div className={styles.conceptHead}>
@@ -585,7 +579,6 @@ export default function HealthyMaterialsPage() {
               </Unfold>
 
               <Unfold
-                variant="card"
                 header={
                   <div className={styles.conceptHead}>
                     {ICONS.dashboard}
@@ -609,7 +602,6 @@ export default function HealthyMaterialsPage() {
               </Unfold>
 
               <Unfold
-                variant="card"
                 header={
                   <div className={styles.conceptHead}>
                     {ICONS.kit}
@@ -645,7 +637,6 @@ export default function HealthyMaterialsPage() {
                 health recompute.
               </p>
               <Unfold
-                variant="bare"
                 header={<span className={styles.demoHow}>how to read it</span>}
               >
                 <p className={styles.body}>

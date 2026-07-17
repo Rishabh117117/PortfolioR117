@@ -279,7 +279,6 @@ export default function GreenerHoursPage() {
               {TRADEOFFS.map((t) => (
                 <Unfold
                   key={t.no}
-                  variant="card"
                   header={
                     <div className={styles.toHead}>
                       <div className={styles.toNo}>{t.no}</div>

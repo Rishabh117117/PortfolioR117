@@ -314,7 +314,6 @@ export default function HousingWorksPage() {
               Three campuses, six posters, ~127 sticky-note responses.
             </p>
             <Unfold
-              variant="bare"
               header={<span className={styles.wsHow}>how we ran it</span>}
             >
               <p className={styles.wsHeroText}>
@@ -362,7 +361,6 @@ export default function HousingWorksPage() {
             Six students, a four-level tree, an effort-vs-engagement matrix.
           </p>
           <Unfold
-            variant="bare"
             header={<span className={styles.wsHow}>inside the session</span>}
           >
             <div className={styles.bridgesText}>
@@ -421,7 +419,6 @@ export default function HousingWorksPage() {
             reading column so the cards get room */}
         <div className={`${styles.findings} hw-reveal`}>
             <Unfold
-              variant="card"
               header={
                 <div className={styles.findingHead}>
                   <svg
@@ -451,7 +448,6 @@ export default function HousingWorksPage() {
             </Unfold>
 
             <Unfold
-              variant="card"
               header={
                 <div className={styles.findingHead}>
                   <svg
@@ -481,7 +477,6 @@ export default function HousingWorksPage() {
             </Unfold>
 
             <Unfold
-              variant="card"
               header={
                 <div className={styles.findingHead}>
                   <svg
@@ -514,7 +509,6 @@ export default function HousingWorksPage() {
             </Unfold>
 
             <Unfold
-              variant="card"
               header={
                 <div className={styles.findingHead}>
                   <svg

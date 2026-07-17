@@ -33,7 +33,9 @@ export default function UnderTheHood({
         id="under-the-hood"
         aria-hidden={!open}
       >
-        <div className={styles.hoodClip}>{children}</div>
+        <div className={styles.hoodClip}>
+          <div className={styles.hoodGlass}>{children}</div>
+        </div>
       </div>
     </div>
   );

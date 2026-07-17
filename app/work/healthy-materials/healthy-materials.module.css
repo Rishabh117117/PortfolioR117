@@ -943,7 +943,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 10px;
+  /* no margin: the label sits centered in the Unfold's glass header now */
+  margin-bottom: 0;
 }
 .rlist {
   display: flex;

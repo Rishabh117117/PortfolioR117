@@ -12,10 +12,12 @@ import styles from "./Unfold.module.css";
 
 /**
  * <Unfold> — the shared expand interaction used across all four project
- * pages (ROUND-2026-07-16; interaction rebuilt in UNFOLD-POLISH). A
- * disclosure widget: the whole header row is a single button; the only
+ * pages (ROUND-2026-07-16; interaction rebuilt + glassed in UNFOLD-POLISH).
+ * A disclosure widget: every Unfold is one glass card (the site's frosted
+ * recipe — the ambient wash blurs through; dark hosts retint it via the
+ * --unfold-glass-* hooks). The whole header row is a single button; the only
  * affordance is a chevron in the page accent. Hover never changes layout —
- * the cue is elevation (the global .lift on card variant) + the chevron.
+ * the cue is elevation (the global .lift) + the chevron.
  *
  * Open/close is a measured-height transition: CSS owns the settled states
  * (closed 0 / open auto, so defaultOpen and no-JS render correctly) and the
@@ -23,20 +25,15 @@ import styles from "./Unfold.module.css";
  * replaced the grid-template-rows 0fr→1fr trick, which proved fragile
  * mid-transition. The fade stays opacity-only: a translateY on measured
  * content is what destabilized the old grid-track animation.
- *
- * variant "card" draws the card chrome (bg/border/radius/shadow + hover
- * lift); "bare" is chrome-less for use inside an existing card or section.
  */
 export default function Unfold({
   header,
   children,
   defaultOpen = false,
-  variant = "card",
 }: {
   header: ReactNode;
   children: ReactNode;
   defaultOpen?: boolean;
-  variant?: "card" | "bare";
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -77,10 +74,7 @@ export default function Unfold({
     }
   };
 
-  const rootClass = [
-    variant === "card" ? `${styles.card} lift` : styles.bare,
-    open ? styles.open : "",
-  ]
+  const rootClass = [styles.card, "lift", open ? styles.open : ""]
     .filter(Boolean)
     .join(" ");
 

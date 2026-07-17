@@ -408,6 +408,7 @@
 .rcols {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: start; /* an expanded Unfold column must not stretch the other */
   gap: 28px;
   margin-top: 24px;
 }
@@ -436,15 +437,8 @@
     scroll-snap-align: start;
   }
 }
-.rcol .rlabel {
-  font-family: var(--font-label);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 6px;
-}
+/* (.rcol wrappers retired — the research columns are glass Unfolds now;
+   the shared .rlabel rule below styles the in-header labels) */
 .rcol h3 {
   font-size: 17px;
   letter-spacing: -0.01em;
@@ -1192,7 +1186,7 @@
 .hoodChev {
   display: inline-block;
   color: var(--accent);
-  transition: transform 0.45s var(--e-snappy);
+  transition: transform var(--t-gentle) var(--e-gentle);
 }
 .hoodOpen .hoodChev {
   transform: rotate(180deg);
@@ -1200,7 +1194,7 @@
 .hoodPanel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s var(--e-snappy);
+  transition: grid-template-rows var(--t-gentle) var(--e-gentle);
 }
 .hoodOpen .hoodPanel {
   grid-template-rows: 1fr;
@@ -1209,8 +1203,23 @@
   overflow: hidden;
   min-height: 0;
 }
-.hoodClip > p {
+/* the unfolded tech notes sit in the same glass window as every other
+   dropdown on the site (UNFOLD-POLISH) */
+.hoodGlass {
   margin-top: 16px; /* the kicker gap moves inside the fold */
+  padding: var(--space-4) var(--space-5);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-rest);
+}
+.hoodGlass > p {
+  margin-top: 0;
+}
+.hoodGlass > p + p {
+  margin-top: 12px;
 }
 @media (prefers-reduced-motion: reduce) {
   .hoodChev,

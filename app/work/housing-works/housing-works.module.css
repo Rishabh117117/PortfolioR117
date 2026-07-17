@@ -394,6 +394,10 @@
      the wash reads clearly and stays in the page's theme */
   --unfold-affordance: var(--accent-wash);
   --unfold-affordance-hover: var(--accent-tint);
+  /* the Unfold's light glass would blind on this dark card: retint it to a
+     faint cream veil so it reads as a nested panel of the same material */
+  --unfold-glass-bg: rgba(244, 242, 236, 0.07);
+  --unfold-glass-line: rgba(244, 242, 236, 0.16);
 }
 .eyebrow {
   font-size: clamp(11px, 1.4vw, 12px);

@@ -1,31 +1,40 @@
 /* =========================================================================
    <Unfold> — the shared expand interaction (ROUND-2026-07-16; interaction
-   rebuilt in UNFOLD-POLISH). One disclosure widget across all four project
-   pages. Tokens only.
+   rebuilt + glassed in UNFOLD-POLISH). One disclosure widget across all four
+   project pages. Tokens only.
+
+   Every Unfold is one GLASS card: the site's frosted recipe (--glass-bg +
+   --glass-blur), so the ambient wash blurs through like the HMW/timeline
+   bands. Dark hosts (e.g. HW's workshop glass) retint it via the
+   --unfold-glass-* hooks instead of shipping a second variant.
 
    CSS owns the two settled body states (closed 0 / open auto) so no-JS and
    defaultOpen render correctly; the component animates between them with
    inline px heights (the grid-rows 0fr→1fr trick proved fragile
    mid-transition). Hover never changes layout: the affordance is a
-   page-accent chevron, and the card variant keeps the global .lift
-   elevation. Reduced motion is honored by the global kill-switch in
-   globals.css plus a matchMedia guard in the component.
+   page-accent chevron, and the elevation comes from the global .lift.
+   Reduced motion is honored by the global kill-switch in globals.css plus a
+   matchMedia guard in the component.
 
    Host hooks (inherited custom properties, all optional):
      --unfold-head-min          header min-height, set per grid so collapsed
                                 cards in one row hold the same height
+     --unfold-glass-bg          glass fill (default: var(--glass-bg))
+     --unfold-glass-line        glass hairline (default: var(--line))
      --unfold-affordance        chevron color (default: var(--accent))
      --unfold-affordance-hover  chevron hover color (default: --accent-deep)
    ========================================================================= */
 
-/* ---- card chrome (variant="card") ---- */
+/* ---- the glass card ---- */
 .card {
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--unfold-glass-bg, var(--glass-bg));
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--unfold-glass-line, var(--line));
   border-radius: var(--radius);
   box-shadow: var(--shadow-rest);
-  /* .lift (global) rides alongside this class on card variant for the
-     hover elevation; overflow keeps the rounded corners clipping the body */
+  /* .lift (global) rides alongside this class for the hover elevation;
+     overflow keeps the rounded corners clipping the body */
   overflow: hidden;
 }
 
@@ -38,18 +47,13 @@
   /* 44px touch floor; host grids raise it via --unfold-head-min to even
      out 1-line vs 2-line titles within a row */
   min-height: var(--unfold-head-min, 44px);
+  padding: var(--space-4) var(--space-5);
   font: inherit;
   color: inherit;
   text-align: left;
   background: none;
   border: 0;
   cursor: pointer;
-}
-.card .header {
-  padding: var(--space-4) var(--space-5);
-}
-.bare .header {
-  padding: var(--space-2) 0;
 }
 .headerMain {
   flex: 1 1 auto;
@@ -98,6 +102,7 @@
    the previous grid-track animation; layout-neutral opacity keeps the height
    transition reliable. The open delay lets text arrive as the space opens. */
 .content {
+  padding: 0 var(--space-5) var(--space-5);
   opacity: 0;
   transition: opacity var(--t-soft) var(--e-gentle);
 }
@@ -109,10 +114,4 @@
    margin-top (e.g. a page's .body/.wsHeroText) so it doesn't double up */
 .content > :first-child {
   margin-top: 0;
-}
-.card .content {
-  padding: 0 var(--space-5) var(--space-5);
-}
-.bare .content {
-  padding: 0 0 var(--space-3);
 }
