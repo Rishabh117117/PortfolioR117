@@ -7,6 +7,7 @@ import PackagesApp from "./PackagesApp";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
+import Unfold from "@/components/Unfold/Unfold";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
@@ -106,7 +107,7 @@ export default function HealthyMaterialsPage() {
             <p className={styles.body}>
               Buildings and construction are responsible for around 37% of global
               energy-related CO₂ emissions.<sup className={styles.fnref}>1</sup>{" "}
-              I spent a semester with the Healthy Materials Lab at Parsons, a
+              We spent a semester with the Healthy Materials Lab at Parsons, a
               research and education center that promotes healthier building
               materials through its materials library, partnerships, and training.
             </p>
@@ -175,8 +176,14 @@ export default function HealthyMaterialsPage() {
                 adoption stalls, not to measure attitudes.
               </p>
               <div className={styles.rcols}>
-                <div className={styles.rcol}>
-                  <p className={styles.rlabel}>Primary · field engagements</p>
+                <Unfold
+                  variant="bare"
+                  header={
+                    <span className={styles.rlabel}>
+                      Primary · field engagements — 4
+                    </span>
+                  }
+                >
                   <div className={styles.rlist}>
                     <div className={styles.r}>
                       <strong>Healthy Materials Lab</strong>
@@ -195,9 +202,15 @@ export default function HealthyMaterialsPage() {
                       <span className={styles.kind}>Regenerative architect</span>
                     </div>
                   </div>
-                </div>
-                <div className={styles.rcol}>
-                  <p className={styles.rlabel}>Secondary · desk research</p>
+                </Unfold>
+                <Unfold
+                  variant="bare"
+                  header={
+                    <span className={styles.rlabel}>
+                      Secondary · desk research — 6
+                    </span>
+                  }
+                >
                   <div className={styles.rlist}>
                     <div className={styles.r}>
                       <strong>Embodied carbon in buildings</strong>
@@ -224,7 +237,7 @@ export default function HealthyMaterialsPage() {
                       <span className={styles.kind}>low-emitting materials</span>
                     </div>
                   </div>
-                </div>
+                </Unfold>
               </div>
             </div>
           </div>
@@ -284,24 +297,36 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </div>
 
-                <p className={styles.probLabel}>problems / insights</p>
-                <ul className={styles.frictionList}>
-                  <li className={styles.friction}>
-                    Owners don&apos;t ask. If healthy materials aren&apos;t in the
-                    RFP or the project goals, the team never gets permission, or
-                    pressure, to prioritize them.
-                  </li>
-                  <li className={styles.friction}>
-                    Nothing to spec against. Without recognized codes or testing
-                    pathways, insurers won&apos;t insure, approvers default to the
-                    familiar.
-                  </li>
-                  <li className={styles.friction}>
-                    PMs can&apos;t plan for the unfamiliar. Unknown details and
-                    lead times mean healthier options never make it into schedule
-                    or budget.
-                  </li>
-                </ul>
+                <Unfold
+                  variant="bare"
+                  header={
+                    <span className={styles.stageProbHead}>
+                      <span className={styles.probLabel}>problems / insights</span>
+                      <span className={styles.stageStatement}>
+                        If owners don’t ask, healthy materials never make it
+                        into the spec.
+                      </span>
+                    </span>
+                  }
+                >
+                  <ul className={styles.frictionList}>
+                    <li className={styles.friction}>
+                      Owners don&apos;t ask. If healthy materials aren&apos;t in
+                      the RFP or the project goals, the team never gets
+                      permission, or pressure, to prioritize them.
+                    </li>
+                    <li className={styles.friction}>
+                      Nothing to spec against. Without recognized codes or testing
+                      pathways, insurers won&apos;t insure, approvers default to
+                      the familiar.
+                    </li>
+                    <li className={styles.friction}>
+                      PMs can&apos;t plan for the unfamiliar. Unknown details and
+                      lead times mean healthier options never make it into
+                      schedule or budget.
+                    </li>
+                  </ul>
+                </Unfold>
 
                 <div className={styles.turn}>
                   <p className={styles.turnLabel}>the turn</p>
@@ -365,24 +390,35 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </div>
 
-                <p className={styles.probLabel}>problems / insights</p>
-                <ul className={styles.frictionList}>
-                  <li className={styles.friction}>
-                    Cost overrides almost everything. Low-bid procurement and
-                    contingency fear make unfamiliar materials read as financial
-                    risk.
-                  </li>
-                  <li className={styles.friction}>
-                    Supply is thin and fragile. Often a single supplier and long
-                    lead times; when the timeline slips, teams revert to
-                    whatever is available.
-                  </li>
-                  <li className={styles.friction}>
-                    Contractors pick the final products. Substitution happens on
-                    the job site, after the spec has left the designer&apos;s
-                    hands.
-                  </li>
-                </ul>
+                <Unfold
+                  variant="bare"
+                  header={
+                    <span className={styles.stageProbHead}>
+                      <span className={styles.probLabel}>problems / insights</span>
+                      <span className={styles.stageStatement}>
+                        Cost fear and thin supply kill healthier picks mid-build.
+                      </span>
+                    </span>
+                  }
+                >
+                  <ul className={styles.frictionList}>
+                    <li className={styles.friction}>
+                      Cost overrides almost everything. Low-bid procurement and
+                      contingency fear make unfamiliar materials read as financial
+                      risk.
+                    </li>
+                    <li className={styles.friction}>
+                      Supply is thin and fragile. Often a single supplier and long
+                      lead times; when the timeline slips, teams revert to
+                      whatever is available.
+                    </li>
+                    <li className={styles.friction}>
+                      Contractors pick the final products. Substitution happens on
+                      the job site, after the spec has left the designer&apos;s
+                      hands.
+                    </li>
+                  </ul>
+                </Unfold>
 
                 <div className={styles.turn}>
                   <p className={styles.turnLabel}>the turn</p>
@@ -438,22 +474,34 @@ export default function HealthyMaterialsPage() {
                   </div>
                 </div>
 
-                <p className={styles.probLabel}>problems / insights</p>
-                <ul className={styles.frictionList}>
-                  <li className={styles.friction}>
-                    Results stay invisible. Nobody measures what the healthier
-                    building did for the people inside it.
-                  </li>
-                  <li className={styles.friction}>
-                    No feedback loop. Without documented outcomes, the next
-                    project starts the argument from zero.
-                  </li>
-                  <li className={styles.friction}>
-                    &quot;Experimental&quot; never expires. Absent proof, healthy
-                    materials stay perpetually novel, and perpetually first to be
-                    cut.
-                  </li>
-                </ul>
+                <Unfold
+                  variant="bare"
+                  header={
+                    <span className={styles.stageProbHead}>
+                      <span className={styles.probLabel}>problems / insights</span>
+                      <span className={styles.stageStatement}>
+                        Nobody measures the result, so ‘experimental’ never
+                        expires.
+                      </span>
+                    </span>
+                  }
+                >
+                  <ul className={styles.frictionList}>
+                    <li className={styles.friction}>
+                      Results stay invisible. Nobody measures what the healthier
+                      building did for the people inside it.
+                    </li>
+                    <li className={styles.friction}>
+                      No feedback loop. Without documented outcomes, the next
+                      project starts the argument from zero.
+                    </li>
+                    <li className={styles.friction}>
+                      &quot;Experimental&quot; never expires. Absent proof, healthy
+                      materials stay perpetually novel, and perpetually first to be
+                      cut.
+                    </li>
+                  </ul>
+                </Unfold>
 
                 <div className={styles.turn}>
                   <p className={styles.turnLabel}>the turn</p>
@@ -496,15 +544,20 @@ export default function HealthyMaterialsPage() {
               highest and the same scopes repeat at scale.
             </p>
 
-            <ul className={styles.concepts}>
-              <li className={`${styles.concept} ${styles.conceptFirst}`}>
-                <div className={styles.conceptHead}>
-                  {ICONS.package}
-                  <div>
-                    <h3 className={styles.conceptName}>Healthy Materials Packages</h3>
-                    <span className={styles.firstFlag}>my focus · the one I&apos;d build first</span>
+            <div className={styles.concepts}>
+              <Unfold
+                variant="card"
+                defaultOpen={true}
+                header={
+                  <div className={styles.conceptHead}>
+                    {ICONS.package}
+                    <div>
+                      <h3 className={styles.conceptName}>Healthy Materials Packages</h3>
+                      <span className={styles.firstFlag}>my focus · the one I&apos;d build first</span>
+                    </div>
                   </div>
-                </div>
+                }
+              >
                 <p className={styles.conceptBody}>
                   Pre-assembled spec packages for common NYC interior scopes (unit
                   renovation, corridor, lobby, bathroom) that swap in vetted
@@ -517,17 +570,21 @@ export default function HealthyMaterialsPage() {
                   Builds on HML&apos;s curated collections and NYC&apos;s
                   Enterprise Green Communities Criteria.
                 </p>
-              </li>
+              </Unfold>
 
-              <li className={styles.concept}>
-                <div className={styles.conceptHead}>
-                  {ICONS.dashboard}
-                  <div>
-                    <h3 className={styles.conceptName}>
-                      Supplier transparency &amp; vetting dashboard
-                    </h3>
+              <Unfold
+                variant="card"
+                header={
+                  <div className={styles.conceptHead}>
+                    {ICONS.dashboard}
+                    <div>
+                      <h3 className={styles.conceptName}>
+                        Supplier transparency &amp; vetting dashboard
+                      </h3>
+                    </div>
                   </div>
-                </div>
+                }
+              >
                 <p className={styles.conceptBody}>
                   A simple dashboard where project teams see approved suppliers,
                   product health/carbon data, lead times, and safe substitutions
@@ -537,17 +594,21 @@ export default function HealthyMaterialsPage() {
                   Builds on mindful MATERIALS&apos; Common Materials Framework and
                   the HPD public repository.
                 </p>
-              </li>
+              </Unfold>
 
-              <li className={styles.concept}>
-                <div className={styles.conceptHead}>
-                  {ICONS.kit}
-                  <div>
-                    <h3 className={styles.conceptName}>
-                      On-site contractor training &amp; material intro kit
-                    </h3>
+              <Unfold
+                variant="card"
+                header={
+                  <div className={styles.conceptHead}>
+                    {ICONS.kit}
+                    <div>
+                      <h3 className={styles.conceptName}>
+                        On-site contractor training &amp; material intro kit
+                      </h3>
+                    </div>
                   </div>
-                </div>
+                }
+              >
                 <p className={styles.conceptBody}>
                   Sample boards, step-by-step install cards, short safety videos,
                   and a “substitution playbook” of pre-approved healthy
@@ -557,8 +618,8 @@ export default function HealthyMaterialsPage() {
                   Builds on HML&apos;s education programs and LEED
                   low-emitting-materials guidance.
                 </p>
-              </li>
-            </ul>
+              </Unfold>
+            </div>
           </div>
         </section>
 
@@ -567,15 +628,21 @@ export default function HealthyMaterialsPage() {
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={6}>the intervention, made tangible</SectionHeader>
             <div className={styles.tangibleIntro}>
-              <p className={styles.lede}>Healthy Materials Packages, as a working slice.</p>
-              <p className={styles.body}>
-                The product I&apos;d build first, running on illustrative data.
-                Pick a scope, accept or reject each vetted swap, and watch cost,
-                carbon, and health totals recompute. Flip on the cost-pressure
-                lens to see which lines a value-engineering pass would attack,
-                and the defense each one carries. The built-in assistant answers
-                from the package you&apos;ve configured.
+              <p className={styles.lede}>
+                Pick a scope. Keep or reject each swap. Watch cost, carbon, and
+                health recompute.
               </p>
+              <Unfold
+                variant="bare"
+                header={<span className={styles.demoHow}>how to read it</span>}
+              >
+                <p className={styles.body}>
+                  Flip on the cost-pressure lens to see which lines a
+                  value-engineering pass would attack — and the defense each one
+                  carries. The built-in assistant answers from the package
+                  you&apos;ve configured. Illustrative data throughout.
+                </p>
+              </Unfold>
             </div>
           </div>
 

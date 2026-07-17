@@ -515,6 +515,26 @@
   margin-bottom: calc(-1 * var(--space-2));
 }
 
+/* the friction list is an <Unfold variant="bare"> now (ROUND-2026-07-16): the
+   collapsed header stacks the small label over a one-line display statement;
+   the three frictions unfold below. */
+.stageProbHead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.stageProbHead .probLabel {
+  margin-bottom: 0; /* the flex gap owns the spacing; drop the pull-up */
+}
+.stageStatement {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
 /* "the turn" sub-block — the leverage points that answer this stage's
    frictions, nested inside the stage card */
 .turn {
@@ -582,25 +602,17 @@
   max-width: 26ch;
 }
 .concepts {
-  list-style: none;
   margin-top: var(--space-7);
   display: grid;
   grid-template-columns: 1fr;
+  align-items: start; /* an expanded Unfold must not stretch its row-mates */
   gap: var(--space-5);
 }
-.concept {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-5);
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-.conceptFirst {
-  border-color: var(--accent-wash);
-  background: var(--accent-tint);
-}
+/* the three concepts are <Unfold variant="card"> now (ROUND-2026-07-16): the
+   Unfold supplies the card chrome + hover-lift, and the Packages card's
+   defaultOpen + firstFlag mark it as the focus (replacing the old .conceptFirst
+   green tint). Only the collapsed header + unfolding body content is styled
+   below. */
 .conceptHead {
   display: flex;
   align-items: flex-start;
@@ -635,6 +647,9 @@
   color: var(--ink-2);
 }
 .conceptBuilds {
+  /* spacing that used to come from .concept's flex gap now that these two
+     paragraphs live inside the Unfold body */
+  margin-top: var(--space-3);
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.5;
@@ -648,7 +663,18 @@
    .page has overflow-x: clip, so the 100vw pull can't cause a scrollbar)
    ========================================================================= */
 .tangibleIntro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
   margin-bottom: var(--space-6);
+}
+/* mono affordance header for the "how to read it" demo Unfold (ROUND-2026-07-16) */
+.demoHow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 .appBleed {
   width: 100vw;
@@ -891,6 +917,7 @@
 .rcols {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: start; /* an expanded Unfold column must not stretch the other */
   gap: 28px;
   margin-top: var(--space-5);
 }
@@ -950,7 +977,7 @@
     padding-inline: var(--page-pad);
     scroll-padding-inline: var(--page-pad);
     gap: var(--space-5);
-    align-items: stretch;
+    align-items: flex-start; /* opening one column must not stretch the other */
   }
   .rcols::-webkit-scrollbar {
     display: none;
