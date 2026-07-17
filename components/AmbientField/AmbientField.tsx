@@ -12,8 +12,10 @@ import styles from "./AmbientField.module.css";
  * per-page colors:
  *   • two "warm" orbs (group A — leads at the top of the page) and two "cool"
  *     orbs (group B — rises as you scroll), each a { color, alpha } spec;
- *   • SCROLL drives position (per-orb Lissajous phase) and the A→B cross-fade;
- *     the pointer adds a lean; a slow time term keeps orbs alive at rest;
+ *   • SCROLL is the clock (ROUND-2026-07-17): position is a function of the
+ *     scroll position (per-orb Lissajous phase) and the A→B cross-fade rides
+ *     it — at rest, nothing moves. Near a `[data-ambient-live]` band (a demo
+ *     artifact) the free-running time term + pointer lean blend back in;
  *   • orbs fade toward `dim` over any `[data-ambient-dim]` block.
  * Decorative (`aria-hidden`), fixed, z-index 0 — mount as the first child of
  * a `position: relative` page root, with content on a z-index 1 sibling.
@@ -89,7 +91,9 @@ export default function AmbientField({
       tx = 0,
       ty = 0,
       t = 0,
-      raf = 0;
+      raf = 0,
+      live = 0, // demo-proximity blend: 1 = the free-running mode
+      lastY = window.scrollY;
     // per-orb eased fade: each orb dims only while ITS core sits over a
     // [data-ambient-dim] block, so orbs in open space stay solid while one
     // drifting across the text column lightens on its own.
@@ -108,6 +112,7 @@ export default function AmbientField({
       left: number;
       right: number;
     }[] = [];
+    let liveZones: { top: number; bottom: number }[] = [];
     // cache layout-dependent values; refresh on resize (+ once after fonts settle)
     const measure = () => {
       max = document.documentElement.scrollHeight - window.innerHeight || 1;
@@ -121,6 +126,13 @@ export default function AmbientField({
           left: r.left + window.scrollX,
           right: r.right + window.scrollX,
         };
+      });
+      liveZones = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-ambient-live]")
+      ).map((s) => {
+        const r = s.getBoundingClientRect();
+        const top = r.top + window.scrollY;
+        return { top, bottom: top + r.height };
       });
       for (let i = 0; i < orbs.length; i++) {
         const r = orbs[i].getBoundingClientRect();
@@ -144,11 +156,28 @@ export default function AmbientField({
         raf = requestAnimationFrame(loop);
         return;
       }
-      t += 0.006;
-      px += (tx - px) * 0.05;
-      py += (ty - py) * 0.05;
+      // scroll is the clock: idle = still; scroll delta advances the phase;
+      // near a demo band the free-running term + pointer lean blend in.
+      const yNow = window.scrollY;
+      const dy = Math.min(Math.abs(yNow - lastY), 160);
+      lastY = yNow;
+      const lm = window.innerHeight * 0.25;
+      let inLive = false;
+      for (let z = 0; z < liveZones.length; z++) {
+        if (
+          liveZones[z].top < yNow + window.innerHeight + lm &&
+          liveZones[z].bottom > yNow - lm
+        ) {
+          inLive = true;
+          break;
+        }
+      }
+      live += ((inLive ? 1 : 0) - live) * 0.05;
+      t += 0.006 * live + dy * 0.0005;
+      px += (tx * live - px) * 0.05;
+      py += (ty * live - py) * 0.05;
 
-      const s = clamp01(window.scrollY / max); // scroll progress 0..1
+      const s = clamp01(yNow / max); // scroll progress 0..1
 
       // colour weighting — group A leads, group B rises in near the end
       const a = clamp01((s - 0.1) / 0.3);

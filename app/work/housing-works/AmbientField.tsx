@@ -9,10 +9,11 @@ import "./AmbientField.css";
  * Four soft orbs in the page's World AIDS Day palette — ribbon crimson + WAD
  * pink (warm) and WAD teal + orange (cool) — a living version of the page's
  * signature gradient:
- *   • SCROLL drives position — each orb traces its own Lissajous path (different
- *     X/Y frequencies + scroll-loop counts), so they swirl and travel across the
- *     viewport rather than sitting fixed. A slow time term keeps them drifting at
- *     rest; the pointer adds a lean.
+ *   • SCROLL is the clock (ROUND-2026-07-17) — each orb traces its own Lissajous
+ *     path (different X/Y frequencies + scroll-loop counts), so they swirl and
+ *     travel as you scroll and hold still the moment you stop. Near the
+ *     `[data-ambient-live]` demo band the free-running drift + pointer lean
+ *     blend back in.
  *   • SCROLL cross-fades the weighting — warm leads through the research arc; the
  *     cool teal/orange rises in toward the proposals.
  *   • They FADE back over text-heavy sections (any `[data-ambient-dim]` block) so
@@ -57,14 +58,24 @@ export default function AmbientField() {
       ty = 0,
       t = 0,
       raf = 0,
+      live = 0, // demo-proximity blend: 1 = the free-running mode
+      lastY = window.scrollY,
       dim = 1; // eased fade factor over text-heavy zones
     let max = document.documentElement.scrollHeight - window.innerHeight || 1;
     let dimZones: { top: number; bottom: number }[] = [];
+    let liveZones: { top: number; bottom: number }[] = [];
     // cache layout-dependent values; refresh on resize (+ once after fonts settle)
     const measure = () => {
       max = document.documentElement.scrollHeight - window.innerHeight || 1;
       dimZones = Array.from(
         document.querySelectorAll<HTMLElement>("[data-ambient-dim]")
+      ).map((s) => {
+        const r = s.getBoundingClientRect();
+        const top = r.top + window.scrollY;
+        return { top, bottom: top + r.height };
+      });
+      liveZones = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-ambient-live]")
       ).map((s) => {
         const r = s.getBoundingClientRect();
         const top = r.top + window.scrollY;
@@ -84,11 +95,28 @@ export default function AmbientField() {
         raf = requestAnimationFrame(loop);
         return;
       }
-      t += 0.006;
-      px += (tx - px) * 0.05;
-      py += (ty - py) * 0.05;
+      // scroll is the clock: idle = still; scroll delta advances the phase;
+      // near the demo band the free-running term + pointer lean blend in.
+      const yNow = window.scrollY;
+      const dy = Math.min(Math.abs(yNow - lastY), 160);
+      lastY = yNow;
+      const lm = window.innerHeight * 0.25;
+      let inLive = false;
+      for (let z = 0; z < liveZones.length; z++) {
+        if (
+          liveZones[z].top < yNow + window.innerHeight + lm &&
+          liveZones[z].bottom > yNow - lm
+        ) {
+          inLive = true;
+          break;
+        }
+      }
+      live += ((inLive ? 1 : 0) - live) * 0.05;
+      t += 0.006 * live + dy * 0.0005;
+      px += (tx * live - px) * 0.05;
+      py += (ty * live - py) * 0.05;
 
-      const s = clamp01(window.scrollY / max); // scroll progress 0..1
+      const s = clamp01(yNow / max); // scroll progress 0..1
 
       // colour weighting — warm (crimson/pink) leads through the research arc;
       // the cool teal/orange rises in toward the proposals near the end.

@@ -7,11 +7,12 @@ import "./AmbientField.css";
  * Healthy Materials — page-wide ambient backdrop (own copy; Follow's is untouched).
  *
  * Two pairs of soft sage-green + clay orbs that behave like playful guides:
- *   • SCROLL drives their position — each orb traces its own Lissajous path
- *     (different X/Y frequencies + scroll-loop counts), so as you scroll they
- *     swirl and travel across the viewport rather than sitting fixed like "the
- *     moon outside a train". A slow time term keeps them drifting at rest, and
- *     the pointer adds a lean.
+ *   • SCROLL is the clock (ROUND-2026-07-17) — each orb traces its own Lissajous
+ *     path (different X/Y frequencies + scroll-loop counts), so as you scroll
+ *     they swirl and travel rather than sitting fixed like "the moon outside a
+ *     train", and they hold still the moment you stop. Near the
+ *     `[data-ambient-live]` demo band the free-running drift + pointer lean
+ *     blend back in.
  *   • SCROLL also cross-fades the colour (green for the research arc → clay warms
  *     in toward the interventions).
  *   • They FADE back over text-heavy sections (any `[data-ambient-dim]` block) so
@@ -56,14 +57,24 @@ export default function AmbientField() {
       ty = 0,
       t = 0,
       raf = 0,
+      live = 0, // demo-proximity blend: 1 = the free-running mode
+      lastY = window.scrollY,
       dim = 1; // eased fade factor over text-heavy zones
     let max = document.documentElement.scrollHeight - window.innerHeight || 1;
     let dimZones: { top: number; bottom: number }[] = [];
+    let liveZones: { top: number; bottom: number }[] = [];
     // cache layout-dependent values; refresh on resize (+ once after fonts settle)
     const measure = () => {
       max = document.documentElement.scrollHeight - window.innerHeight || 1;
       dimZones = Array.from(
         document.querySelectorAll<HTMLElement>("[data-ambient-dim]")
+      ).map((s) => {
+        const r = s.getBoundingClientRect();
+        const top = r.top + window.scrollY;
+        return { top, bottom: top + r.height };
+      });
+      liveZones = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-ambient-live]")
       ).map((s) => {
         const r = s.getBoundingClientRect();
         const top = r.top + window.scrollY;
@@ -83,11 +94,28 @@ export default function AmbientField() {
         raf = requestAnimationFrame(loop);
         return;
       }
-      t += 0.006;
-      px += (tx - px) * 0.05;
-      py += (ty - py) * 0.05;
+      // scroll is the clock: idle = still; scroll delta advances the phase;
+      // near the demo band the free-running term + pointer lean blend in.
+      const yNow = window.scrollY;
+      const dy = Math.min(Math.abs(yNow - lastY), 160);
+      lastY = yNow;
+      const lm = window.innerHeight * 0.25;
+      let inLive = false;
+      for (let z = 0; z < liveZones.length; z++) {
+        if (
+          liveZones[z].top < yNow + window.innerHeight + lm &&
+          liveZones[z].bottom > yNow - lm
+        ) {
+          inLive = true;
+          break;
+        }
+      }
+      live += ((inLive ? 1 : 0) - live) * 0.05;
+      t += 0.006 * live + dy * 0.0005;
+      px += (tx * live - px) * 0.05;
+      py += (ty * live - py) * 0.05;
 
-      const s = clamp01(window.scrollY / max); // scroll progress 0..1
+      const s = clamp01(yNow / max); // scroll progress 0..1
 
       // colour weighting (research = green, interventions = clay)
       const a = clamp01((s - 0.1) / 0.3);

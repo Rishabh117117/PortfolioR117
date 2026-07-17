@@ -7,9 +7,10 @@ import "./AmbientField.css";
  * Greener Hours — page-wide ambient backdrop (own copy; Follow's + HM's untouched).
  *
  * Two pairs of soft orbs: amber (carbon/energy) + forest (clean/the standard).
- *   • SCROLL drives position — each orb traces its own Lissajous path (divergent
- *     X/Y freqs + scroll-loop counts) so they swirl and travel as you scroll; a
- *     slow time term keeps them alive at rest; the pointer adds a lean.
+ *   • SCROLL is the clock (ROUND-2026-07-17) — each orb traces its own Lissajous
+ *     path (divergent X/Y freqs + scroll-loop counts) so they swirl and travel
+ *     as you scroll, and hold still at rest. Near the `[data-ambient-live]`
+ *     demo band the free-running drift + pointer lean blend back in.
  *   • SCROLL cross-fades the colour: amber dominates the problem arc (the carbon
  *     scale + invisibility) → forest grows in toward the solution and close.
  *   • They FADE back over `[data-ambient-dim]` reading blocks so dense copy stays
@@ -52,13 +53,23 @@ export default function AmbientField() {
       ty = 0,
       t = 0,
       raf = 0,
+      live = 0, // demo-proximity blend: 1 = the free-running mode
+      lastY = window.scrollY,
       dim = 1;
     let max = document.documentElement.scrollHeight - window.innerHeight || 1;
     let dimZones: { top: number; bottom: number }[] = [];
+    let liveZones: { top: number; bottom: number }[] = [];
     const measure = () => {
       max = document.documentElement.scrollHeight - window.innerHeight || 1;
       dimZones = Array.from(
         document.querySelectorAll<HTMLElement>("[data-ambient-dim]")
+      ).map((s) => {
+        const r = s.getBoundingClientRect();
+        const top = r.top + window.scrollY;
+        return { top, bottom: top + r.height };
+      });
+      liveZones = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-ambient-live]")
       ).map((s) => {
         const r = s.getBoundingClientRect();
         const top = r.top + window.scrollY;
@@ -78,11 +89,28 @@ export default function AmbientField() {
         raf = requestAnimationFrame(loop);
         return;
       }
-      t += 0.006;
-      px += (tx - px) * 0.05;
-      py += (ty - py) * 0.05;
+      // scroll is the clock: idle = still; scroll delta advances the phase;
+      // near the demo band the free-running term + pointer lean blend in.
+      const yNow = window.scrollY;
+      const dy = Math.min(Math.abs(yNow - lastY), 160);
+      lastY = yNow;
+      const lm = window.innerHeight * 0.25;
+      let inLive = false;
+      for (let z = 0; z < liveZones.length; z++) {
+        if (
+          liveZones[z].top < yNow + window.innerHeight + lm &&
+          liveZones[z].bottom > yNow - lm
+        ) {
+          inLive = true;
+          break;
+        }
+      }
+      live += ((inLive ? 1 : 0) - live) * 0.05;
+      t += 0.006 * live + dy * 0.0005;
+      px += (tx * live - px) * 0.05;
+      py += (ty * live - py) * 0.05;
 
-      const s = clamp01(window.scrollY / max);
+      const s = clamp01(yNow / max);
 
       // colour weighting — amber dominates the carbon/problem arc up top; forest
       // grows in toward the solution + close.
