@@ -583,6 +583,7 @@
   margin-top: var(--space-6);
   display: grid;
   grid-template-columns: 1fr;
+  align-items: start; /* an expanded Unfold must not stretch its row-mate */
   gap: var(--space-5);
 }
 @media (min-width: 760px) {
@@ -590,8 +591,8 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-/* SWIPE-MOBILE-1 — 4 cards; align-items:stretch keeps the left accent border
-   running the full card height across the row. */
+/* SWIPE-MOBILE-1 — 4 cards; flex-start so opening one Unfold doesn't stretch
+   the others in the swipe row. */
 @media (max-width: 759px) {
   .tradeoffs {
     display: flex;
@@ -599,7 +600,7 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    align-items: stretch;
+    align-items: flex-start;
     margin-inline: calc(var(--page-pad) * -1);
     padding-inline: var(--page-pad);
     scroll-padding-inline: var(--page-pad);
@@ -612,9 +613,11 @@
     scroll-snap-align: start;
   }
 }
-.tradeoff {
-  border-left: 3px solid var(--amber);
-  padding-left: var(--space-4);
+/* the four trade-offs are <Unfold variant="card"> now (ROUND-2026-07-16): the
+   Unfold supplies the card chrome + hover-lift; the collapsed header stacks the
+   amber number over the serif title, and the body unfolds. */
+.toHead {
+  min-width: 0;
 }
 .toNo {
   font-family: var(--font-mono);
@@ -627,7 +630,7 @@
   font-size: 20px;
   font-weight: 500;
   color: var(--ink);
-  margin: 4px 0 var(--space-2);
+  margin: 4px 0 0;
 }
 .toBody {
   font-size: 14px;

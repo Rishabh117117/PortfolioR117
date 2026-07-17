@@ -85,12 +85,13 @@
   overflow: hidden;
   min-height: 0; /* let the grid child collapse fully to 0 */
 }
+/* Opacity-only fade. A translateY here animates simultaneously with the
+   parent grid's grid-template-rows: an transform on the measured content
+   destabilizes the 1fr track resolution mid-transition (the row gets stuck
+   near 0). Opacity is layout-neutral, so the height animation stays reliable. */
 .content {
   opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity 0.28s var(--e-snappy),
-    transform 0.28s var(--e-snappy);
+  transition: opacity 0.28s var(--e-snappy);
 }
 /* the body's own padding owns the gap under the header — drop a leading
    margin-top (e.g. a page's .body/.wsHeroText) so it doesn't double up */
@@ -110,7 +111,6 @@
 }
 .open .content {
   opacity: 1;
-  transform: none;
 }
 
 /* ---- hover-peek: desktop, motion-ok, collapsed, peek enabled ----
@@ -127,6 +127,5 @@
   }
   .peekable:not(.open):hover .content {
     opacity: 1;
-    transform: none;
   }
 }

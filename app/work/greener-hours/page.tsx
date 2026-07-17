@@ -30,6 +30,7 @@ import HeadersDiagram from "./HeadersDiagram";
 import AdoptionCurve from "./AdoptionCurve";
 import GhApp from "./GhApp";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import Unfold from "@/components/Unfold/Unfold";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import Reveal from "@/components/Reveal/Reveal";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
@@ -187,10 +188,52 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §5 THE OPPORTUNITY (forces) — blue band ============ */}
+        {/* ============ §5 THE STANDARD (the product) ============ */}
+        <section className="section" data-ambient-dim>
+          <div className="container" data-reveal>
+            <SectionHeader n={4}>The product · the standard</SectionHeader>
+            <h2 className={styles.title}>
+              One standard. <em>Three surfaces.</em>
+            </h2>
+            <div className={styles.substrate}>
+              <div className={styles.substrateLabel}>{SUBSTRATE.label}</div>
+              <div className={styles.substrateBody}>{SUBSTRATE.body}</div>
+            </div>
+            <div className={styles.diagram}>
+              <div className={styles.diagramWide}>
+                <HeadersDiagram />
+              </div>
+            </div>
+            <p className={styles.headerNote}>
+              Open-source spec · reference SDK in Python, TypeScript &amp; Go ·
+              piggybacks on existing API plumbing. <em>Adoption is three headers.</em>
+            </p>
+          </div>
+        </section>
+
+        {/* ============ §6 THE THREE SURFACES (tabbed) ============ */}
+        <section className="section" id="demo">
+          <div className="container" data-reveal>
+            <SectionHeader n={5}>The three surfaces</SectionHeader>
+            <h2 className={styles.title}>
+              One indicator, one scheduler, <em>one dashboard.</em>
+            </h2>
+            <GhApp compact />
+            <p className={styles.source}>
+              The P-codes on each surface map to the ten design principles from
+              the <em>Design for a Warming World</em> course (SP26 syllabus); I
+              built the project against that framework.
+            </p>
+            <p className={`mono ${styles.demoFoot}`}>
+              <Link href="/work/greener-hours/prototype">open the prototype full-screen ↗</Link>
+            </p>
+          </div>
+        </section>
+
+        {/* ============ §7 WHY NOW (opportunity · forces) — blue band ======= */}
         <section className={`section ${styles.blue}`}>
           <div className="container" data-reveal>
-            <SectionHeader n={4}>The opportunity · three forces</SectionHeader>
+            <SectionHeader n={6}>The opportunity · three forces</SectionHeader>
             <h2 className={styles.title}>
               Why now, <em>not five years ago.</em>
             </h2>
@@ -211,48 +254,6 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §6 THE STANDARD (the product) ============ */}
-        <section className="section" data-ambient-dim>
-          <div className="container" data-reveal>
-            <SectionHeader n={5}>The product · the standard</SectionHeader>
-            <h2 className={styles.title}>
-              One standard. <em>Three surfaces.</em>
-            </h2>
-            <div className={styles.substrate}>
-              <div className={styles.substrateLabel}>{SUBSTRATE.label}</div>
-              <div className={styles.substrateBody}>{SUBSTRATE.body}</div>
-            </div>
-            <div className={styles.diagram}>
-              <div className={styles.diagramWide}>
-                <HeadersDiagram />
-              </div>
-            </div>
-            <p className={styles.headerNote}>
-              Open-source spec · reference SDK in Python, TypeScript &amp; Go ·
-              piggybacks on existing API plumbing. <em>Adoption is three headers.</em>
-            </p>
-          </div>
-        </section>
-
-        {/* ============ §7 THE THREE SURFACES (tabbed) ============ */}
-        <section className="section" id="demo">
-          <div className="container" data-reveal>
-            <SectionHeader n={6}>The three surfaces</SectionHeader>
-            <h2 className={styles.title}>
-              One indicator, one scheduler, <em>one dashboard.</em>
-            </h2>
-            <GhApp compact />
-            <p className={styles.source}>
-              The P-codes on each surface map to the ten design principles from
-              the <em>Design for a Warming World</em> course (SP26 syllabus); I
-              built the project against that framework.
-            </p>
-            <p className={`mono ${styles.demoFoot}`}>
-              <Link href="/work/greener-hours/prototype">open the prototype full-screen ↗</Link>
-            </p>
-          </div>
-        </section>
-
         {/* ============ §8 HONEST TRADE-OFFS ============ */}
         <section className="section" data-ambient-dim>
           <div className="container" data-reveal>
@@ -262,11 +263,18 @@ export default function GreenerHoursPage() {
             </h2>
             <div className={styles.tradeoffs}>
               {TRADEOFFS.map((t) => (
-                <div key={t.no} className={styles.tradeoff}>
-                  <div className={styles.toNo}>{t.no}</div>
-                  <h3 className={styles.toTitle}>{t.title}</h3>
+                <Unfold
+                  key={t.no}
+                  variant="card"
+                  header={
+                    <div className={styles.toHead}>
+                      <div className={styles.toNo}>{t.no}</div>
+                      <h3 className={styles.toTitle}>{t.title}</h3>
+                    </div>
+                  }
+                >
                   <p className={styles.toBody}>{t.body}</p>
-                </div>
+                </Unfold>
               ))}
             </div>
           </div>
