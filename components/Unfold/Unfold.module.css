@@ -1,16 +1,22 @@
 /* =========================================================================
-   <Unfold> — the shared expand interaction (ROUND-2026-07-16).
-   One disclosure widget across all four project pages. Tokens only.
-   The open animation is the grid-rows 0fr→1fr trick (smoothly animatable,
-   unlike max-height); the desktop hover-peek reveals ~2 lines via a fixed
-   --peek grid track + a bottom mask. Reduced motion is handled by the global
-   kill-switch in globals.css — we don't fight it here.
-   ========================================================================= */
+   <Unfold> — the shared expand interaction (ROUND-2026-07-16; interaction
+   rebuilt in UNFOLD-POLISH). One disclosure widget across all four project
+   pages. Tokens only.
 
-.root {
-  /* height of the hover-peek window (~2 lines of 15px/1.6 body text) */
-  --peek: 3.4em;
-}
+   CSS owns the two settled body states (closed 0 / open auto) so no-JS and
+   defaultOpen render correctly; the component animates between them with
+   inline px heights (the grid-rows 0fr→1fr trick proved fragile
+   mid-transition). Hover never changes layout: the affordance is a
+   page-accent chevron, and the card variant keeps the global .lift
+   elevation. Reduced motion is honored by the global kill-switch in
+   globals.css plus a matchMedia guard in the component.
+
+   Host hooks (inherited custom properties, all optional):
+     --unfold-head-min          header min-height, set per grid so collapsed
+                                cards in one row hold the same height
+     --unfold-affordance        chevron color (default: var(--accent))
+     --unfold-affordance-hover  chevron hover color (default: --accent-deep)
+   ========================================================================= */
 
 /* ---- card chrome (variant="card") ---- */
 .card {
@@ -29,7 +35,9 @@
   align-items: center;
   gap: var(--space-4);
   width: 100%;
-  min-height: 44px; /* touch target */
+  /* 44px touch floor; host grids raise it via --unfold-head-min to even
+     out 1-line vs 2-line titles within a row */
+  min-height: var(--unfold-head-min, 44px);
   font: inherit;
   color: inherit;
   text-align: left;
@@ -48,50 +56,54 @@
   min-width: 0;
 }
 
-/* ---- the +more / −less affordance ---- */
+/* ---- the affordance: one chevron, page accent, points down when closed
+   and up when open. Rotation lives on the wrapper; the svg carries the
+   hover nudge, so the nudge always moves the way the chevron points. ---- */
 .affordance {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  /* a muted version of the inherited text color, so the affordance stays
-     legible on both light cards and dark glass (e.g. HW's poster-study card) */
-  color: color-mix(in srgb, currentColor 58%, transparent);
-  white-space: nowrap;
-  transition: color var(--t-fast) var(--e-snappy);
+  justify-content: center;
+  color: var(--unfold-affordance, var(--accent));
+  transition:
+    transform var(--t-gentle) var(--e-gentle),
+    color var(--t-soft) var(--e-gentle);
+}
+.open .affordance {
+  transform: rotate(180deg);
 }
 .chevron {
   display: block;
-  transition: transform var(--t-fast) var(--e-snappy);
-}
-.open .chevron {
-  transform: rotate(45deg);
+  transition: transform var(--t-soft) var(--e-gentle);
 }
 @media (hover: hover) {
   .header:hover .affordance {
-    color: var(--accent);
+    color: var(--unfold-affordance-hover, var(--accent-deep));
+  }
+  .header:hover .chevron {
+    transform: translateY(2px);
   }
 }
 
-/* ---- the collapsible body: grid-rows animation ---- */
+/* ---- the collapsible body ---- */
 .body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.28s var(--e-snappy);
-}
-.inner {
+  height: 0;
   overflow: hidden;
-  min-height: 0; /* let the grid child collapse fully to 0 */
+  transition: height var(--t-gentle) var(--e-gentle);
 }
-/* Opacity-only fade. A translateY here animates simultaneously with the
-   parent grid's grid-template-rows: an transform on the measured content
-   destabilizes the 1fr track resolution mid-transition (the row gets stuck
-   near 0). Opacity is layout-neutral, so the height animation stays reliable. */
+.open .body {
+  height: auto;
+}
+/* Opacity-only fade — a translateY on measured content is what destabilized
+   the previous grid-track animation; layout-neutral opacity keeps the height
+   transition reliable. The open delay lets text arrive as the space opens. */
 .content {
   opacity: 0;
-  transition: opacity 0.28s var(--e-snappy);
+  transition: opacity var(--t-soft) var(--e-gentle);
+}
+.open .content {
+  opacity: 1;
+  transition-delay: 90ms;
 }
 /* the body's own padding owns the gap under the header — drop a leading
    margin-top (e.g. a page's .body/.wsHeroText) so it doesn't double up */
@@ -103,29 +115,4 @@
 }
 .bare .content {
   padding: 0 0 var(--space-3);
-}
-
-/* open state (committed via click / defaultOpen) */
-.open .body {
-  grid-template-rows: 1fr;
-}
-.open .content {
-  opacity: 1;
-}
-
-/* ---- hover-peek: desktop, motion-ok, collapsed, peek enabled ----
-   Reveals a fixed --peek window of the body with a fading bottom mask.
-   A fixed grid track (not 1fr) guarantees the ~2-line reveal reliably;
-   click still commits the full open. */
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .peekable:not(.open):hover .body {
-    grid-template-rows: var(--peek);
-  }
-  .peekable:not(.open):hover .inner {
-    -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
-    mask-image: linear-gradient(to bottom, #000 40%, transparent);
-  }
-  .peekable:not(.open):hover .content {
-    opacity: 1;
-  }
 }

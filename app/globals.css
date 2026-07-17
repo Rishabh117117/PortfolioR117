@@ -64,6 +64,14 @@
   --t-fast: 0.22s;
   --e-snappy: cubic-bezier(0.2, 0.9, 0.25, 1);
 
+  /* §7 gentle tier (UNFOLD-POLISH) — anything that MOVES rides these; color
+     and press feedback may stay fast. --t-gentle = expansion/reveal moves,
+     --t-soft = hover moves. The curve is the soft ease-out HW's site photos
+     proved out. */
+  --t-gentle: 0.45s;
+  --t-soft: 0.35s;
+  --e-gentle: cubic-bezier(0.22, 1, 0.36, 1);
+
   /* §7 elevation + glass (v1.1) — the flagship pages' shared recipes */
   --shadow-rest: 0 1px 2px rgba(26, 26, 26, 0.04), 0 10px 30px rgba(26, 26, 26, 0.06);
   --shadow-lift: 0 2px 4px rgba(26, 26, 26, 0.05), 0 16px 40px rgba(26, 26, 26, 0.09);
