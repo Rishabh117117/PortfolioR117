@@ -196,7 +196,7 @@
   display: block;
   margin-top: 8px;
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.02em;
   color: var(--soft);
 }
@@ -535,13 +535,13 @@
   letter-spacing: 0.08em;
 }
 .ins h3 {
-  /* semantically h3, sitting under the section's h2 kicker (h1 → h2 → h3, a
-     contiguous outline); kept in body-font (Inter) to match the prototype look,
-     overriding the global display-face rule for h1–h3. */
-  font-family: var(--font-body);
+  /* semantically h3 under the section's h2 kicker (h1 → h2 → h3, a contiguous
+     outline); display face at 18px to match every other card-title tier
+     (Phase 8 typography). */
+  font-family: var(--font-display);
   font-weight: 600;
   color: var(--ink);
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 8px;
   letter-spacing: -0.01em;
 }
@@ -638,7 +638,7 @@
   stroke: var(--accent);
 }
 .ragTag {
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--soft);
@@ -756,7 +756,7 @@
   letter-spacing: -0.01em;
 }
 .widBody {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--soft);
   line-height: 1.55;
 }
@@ -818,7 +818,7 @@
 }
 .storyKicker {
   margin: 0;
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-deep, #9e340a);
@@ -861,7 +861,7 @@
 }
 .techLine {
   margin: 10px 0 0;
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.04em;
   color: var(--soft);
 }
@@ -881,7 +881,7 @@
   margin-top: 20px;
 }
 .tourKicker {
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-deep);
@@ -936,7 +936,7 @@
   outline-offset: 2px;
 }
 .tourNo {
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.08em;
   color: var(--accent);
 }
@@ -1081,7 +1081,7 @@
   border: 0;
   background: none;
   padding: 5px 8px;
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.06em;
   color: var(--soft);
   cursor: pointer;
@@ -1102,7 +1102,7 @@
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.06em;
   cursor: pointer;
 }
@@ -1117,7 +1117,7 @@
 }
 .spotHint {
   margin-top: 8px;
-  font-size: 9.5px;
+  font-size: 10px;
   letter-spacing: 0.05em;
   color: var(--soft);
 }

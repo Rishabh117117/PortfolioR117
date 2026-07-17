@@ -175,7 +175,7 @@ export default function HealthyMaterialsPage() {
         <section className={styles.scene} id="timeline" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={2}>the timeline</SectionHeader>
-            <p className={styles.lede}>Fall 2025, start to finish.</p>
+            <p className={styles.ledeXL}>Fall 2025, start to finish.</p>
             <Timeline />
 
             {/* the research — clubbed under the timeline (Follow pattern) */}
@@ -275,7 +275,7 @@ export default function HealthyMaterialsPage() {
         <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="journey" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={4}>where adoption breaks, and where it turns</SectionHeader>
-            <p className={styles.lede}>
+            <p className={styles.ledeXL}>
               We mapped everything we learned onto the life of a project:
               before, during, and after construction. That journey map became
               the framework: it shows exactly where healthy materials fall
@@ -640,7 +640,7 @@ export default function HealthyMaterialsPage() {
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={6}>the intervention, made tangible</SectionHeader>
             <div className={styles.tangibleIntro}>
-              <p className={styles.lede}>
+              <p className={styles.ledeXL}>
                 Pick a scope. Keep or reject each swap. Watch cost, carbon, and
                 health recompute.
               </p>

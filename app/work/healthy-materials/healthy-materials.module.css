@@ -51,7 +51,9 @@
   color: var(--accent);
   margin-bottom: var(--space-4);
 }
-.lede {
+/* the page-local extra-large lede (renamed from .lede in Phase 8 so it no
+   longer shadows the global 15–18px .lede utility used elsewhere on the page) */
+.ledeXL {
   font-family: var(--font-body);
   font-size: clamp(27px, 5.2vw, 44px);
   line-height: 1.2;
@@ -642,7 +644,7 @@
   color: var(--accent);
 }
 .conceptBody {
-  font-size: 15.5px;
+  font-size: 15px;
   line-height: 1.55;
   color: var(--ink-2);
 }
@@ -873,7 +875,7 @@
 .imgCredit {
   margin-top: var(--space-7);
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.04em;
   color: var(--soft);
 }
@@ -894,7 +896,7 @@
 .why {
   position: relative;
   padding-left: var(--space-5);
-  font-size: 15.5px;
+  font-size: 15px;
   line-height: 1.55;
   color: var(--ink-2);
 }

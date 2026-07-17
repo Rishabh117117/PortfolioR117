@@ -316,7 +316,9 @@
   letter-spacing: -0.015em;
   color: var(--ink);
 }
-.lede {
+/* the page-local extra-large lede (renamed from .lede in Phase 8 so it no
+   longer shadows the global 15–18px .lede utility) */
+.ledeXL {
   font-family: var(--font-body);
   font-size: clamp(29px, 5.6vw, 48px);
   line-height: 1.18;
@@ -808,7 +810,7 @@
   border: 0;
   background: none;
   padding: 5px 8px;
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.06em;
   color: var(--soft);
   cursor: pointer;
@@ -825,7 +827,7 @@
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.06em;
   cursor: pointer;
 }
@@ -840,7 +842,7 @@
 }
 .spotHint {
   margin-top: 8px;
-  font-size: 9.5px;
+  font-size: 10px;
   letter-spacing: 0.05em;
   color: var(--soft);
 }

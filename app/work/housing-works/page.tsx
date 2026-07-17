@@ -93,7 +93,7 @@ export default function HousingWorksPage() {
       <section className={styles.scene} data-ambient-dim id="brief" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`}>
           <SectionHeader n={1}>The brief</SectionHeader>
-          <p className={styles.lede}>
+          <p className={styles.ledeXL}>
             Housing Works funds HIV and homelessness services through a chain of
             thrift stores and a bookstore. It can’t pay what companies pay, and
             Gen Z will soon be about a third of the workforce. The Studio paired
@@ -113,7 +113,7 @@ export default function HousingWorksPage() {
       <section className={styles.scene} id="semester" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`} data-ambient-dim>
           <SectionHeader n={2}>The semester</SectionHeader>
-          <p className={styles.lede}>
+          <p className={styles.ledeXL}>
             Fifteen weeks, from meeting the partner to handing over the
             strategy.
           </p>
@@ -143,7 +143,7 @@ export default function HousingWorksPage() {
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="how-we-worked" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`}>
           <SectionHeader n={3}>How we worked</SectionHeader>
-          <p className={styles.lede}>
+          <p className={styles.ledeXL}>
             We worked in four passes, and listened before we proposed anything.
           </p>
           <p className={styles.body}>
@@ -410,7 +410,7 @@ export default function HousingWorksPage() {
       <section className={styles.scene} data-ambient-dim id="findings" data-snav-target>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={6}>What we found</SectionHeader>
-          <p className={styles.lede}>
+          <p className={styles.ledeXL}>
             Four patterns came up again and again, and each one echoed something
             Housing Works had already named in its People plan. None of them were
             about money.
@@ -548,7 +548,7 @@ export default function HousingWorksPage() {
       <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="proposed" data-snav-target>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={7}>What we proposed</SectionHeader>
-          <p className={styles.lede}>
+          <p className={styles.ledeXL}>
             We gave Housing Works three low-cost frameworks it could adopt
             without new headcount. Each answered one of our findings and mapped
             onto a goal Housing Works had already set in its People plan:
