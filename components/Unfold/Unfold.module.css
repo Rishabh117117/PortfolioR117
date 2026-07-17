@@ -56,7 +56,9 @@
   gap: var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--fs-label);
-  color: var(--soft);
+  /* a muted version of the inherited text color, so the affordance stays
+     legible on both light cards and dark glass (e.g. HW's poster-study card) */
+  color: color-mix(in srgb, currentColor 58%, transparent);
   white-space: nowrap;
   transition: color var(--t-fast) var(--e-snappy);
 }
@@ -89,6 +91,11 @@
   transition:
     opacity 0.28s var(--e-snappy),
     transform 0.28s var(--e-snappy);
+}
+/* the body's own padding owns the gap under the header — drop a leading
+   margin-top (e.g. a page's .body/.wsHeroText) so it doesn't double up */
+.content > :first-child {
+  margin-top: 0;
 }
 .card .content {
   padding: 0 var(--space-5) var(--space-5);

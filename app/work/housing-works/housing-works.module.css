@@ -49,7 +49,7 @@
 }
 .wrapWide {
   width: 100%;
-  max-width: 860px;
+  max-width: var(--maxw-wide);
   margin-inline: auto;
   padding-inline: var(--page-pad);
 }
@@ -255,6 +255,31 @@
   color: rgba(244, 242, 236, 0.92);
   max-width: 58ch;
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+}
+/* one-line summary under a workshop title (ROUND-2026-07-16): color inherits so
+   it reads on both the dark glass card (poster study) and the paper Bridges
+   section. */
+.subLine {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(17px, 2.4vw, 20px);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: inherit;
+}
+.posterStudy .subLine {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+}
+/* mono affordance header for the workshop Unfolds ("how we ran it" / "inside the
+   session") — inherits color so it works light-on-photo and dark-on-paper. */
+.wsHow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.82;
 }
 /* heavier scrim for legibility over the bright campus photo — deepened so the
    loose light text (subkicker/note/deck hint) clears WCAG AA even over the
@@ -482,27 +507,27 @@
 /* the four findings — side by side on a row wider than the reading column
    (its own container: the ul sits OUTSIDE .wrapWide in the markup) */
 .findings {
-  list-style: none;
   width: 100%;
-  max-width: 1080px;
+  max-width: var(--maxw-wide);
   margin: var(--space-6) auto 0;
   padding-inline: var(--page-pad);
   display: grid;
   grid-template-columns: 1fr;
+  align-items: start; /* an expanded Unfold must not stretch its row-mates */
   gap: var(--space-5);
 }
-.finding {
+/* each finding is an <Unfold variant="card"> now (ROUND-2026-07-16): the glyph
+   stays in the always-rendered header so it keeps drawing on scroll (the Unfold
+   only animates the body); the Unfold supplies the card chrome. */
+.findingHead {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 .glyph {
   width: 60px;
   height: 56px;
   overflow: visible;
-}
-.findingText {
-  min-width: 0;
 }
 .findingTitle {
   font-family: var(--font-display);
@@ -521,9 +546,6 @@
   letter-spacing: 0.08em;
   color: var(--accent);
   font-weight: 500;
-}
-.finding .body {
-  margin-top: var(--space-3);
 }
 
 /* =========================================================================
@@ -586,23 +608,38 @@
   letter-spacing: -0.012em;
   color: var(--ink);
 }
-.fwHead + .body {
-  margin-top: var(--space-3);
-}
-/* the two framework figures share one row and stay small — they explain,
-   they don't headline */
-.figRow {
-  display: flex;
-  flex-wrap: wrap;
+/* trustee framework: 2-col ≥900px — trimmed text + demo lead-in LEFT, the
+   convergence diagram RIGHT (scaled up to fill its column); the 45-minute
+   timeline spans full width beneath both (ROUND-2026-07-16). */
+.fwGrid {
+  margin-top: var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
-  gap: var(--space-4) var(--space-6);
-  margin: var(--space-5) 0;
+  gap: var(--space-5);
 }
-.figRow .diagram,
-.figRow .timeline {
-  margin: 0;
-  flex: 1 1 240px;
-  max-width: 300px;
+.fwCol .body {
+  margin-top: 0;
+}
+.fwLeadin {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 17px);
+  line-height: 1.4;
+  color: var(--soft);
+}
+@media (min-width: 900px) {
+  .fwGrid {
+    grid-template-columns: 1.05fr 1fr;
+    gap: var(--space-7);
+  }
+}
+.fwGrid .diagram {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 460px;
 }
 
 .propTotal {
@@ -839,12 +876,13 @@
   color: var(--accent);
   border-color: var(--accent);
 }
+/* the 45-minute session timeline — full width beneath the trustee 2-col grid */
 .timeline {
   display: block;
   width: 100%;
-  max-width: 380px;
+  max-width: 640px;
   height: auto;
-  margin-top: var(--space-7);
+  margin: var(--space-6) auto 0;
   overflow: visible;
 }
 

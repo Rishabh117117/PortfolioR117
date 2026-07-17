@@ -8,6 +8,7 @@ import Timeline from "./Timeline";
 import WorkshopsApp from "./WorkshopsApp";
 import HwDemoTour from "./HwDemoTour";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
+import Unfold from "@/components/Unfold/Unfold";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { HW_ROOT_STYLE } from "./theme";
@@ -86,9 +87,10 @@ export default function HousingWorksPage() {
             younger staff specifically.
           </p>
           <p className={styles.body}>
-            Our team of three split the work. Mine was the economic and
-            competitive analysis, the survey statistics, and one of the three
-            frameworks we delivered: a system for trustee-led workshops.
+            Our team of three — Sharka, Pani, and me — split the work. Mine
+            was the economic and competitive analysis, the survey statistics,
+            and one of the three frameworks we delivered: a system for
+            trustee-led workshops.
           </p>
         </div>
       </section>
@@ -294,18 +296,27 @@ export default function HousingWorksPage() {
             <h2 className={styles.wsHeroTitle}>
               We asked Gen Z directly, in their own space.
             </h2>
-            <p className={styles.wsHeroText}>
-              Rather than guess what younger workers want, we ran a participatory
-              poster survey across three New School campuses: the University
-              Center, the List Center, and the NSSR Library. Each board led with a
-              provocative statistic and one open question; passersby, mostly
-              students, wrote or drew straight onto a sticky-note grid.
+            <p className={styles.subLine}>
+              Three campuses, six posters, ~127 sticky-note responses.
             </p>
-            <p className={styles.wsHeroText}>
-              Over about two weeks we gathered roughly 127 responses, and the
-              posters that named “Gen Z” out loud drew the most. The framing
-              itself pulled people in.
-            </p>
+            <Unfold
+              variant="bare"
+              header={<span className={styles.wsHow}>how we ran it</span>}
+            >
+              <p className={styles.wsHeroText}>
+                Rather than guess what younger workers want, we ran a
+                participatory poster survey across three New School campuses: the
+                University Center, the List Center, and the NSSR Library. Each
+                board led with a provocative statistic and one open question;
+                passersby, mostly students, wrote or drew straight onto a
+                sticky-note grid.
+              </p>
+              <p className={styles.wsHeroText}>
+                Over about two weeks we gathered roughly 127 responses, and the
+                posters that named “Gen Z” out loud drew the most. The framing
+                itself pulled people in.
+              </p>
+            </Unfold>
           </div>
           <p className={`mono ${styles.subKickerOnPhoto}`}>
             The posters · moving through all six
@@ -333,27 +344,34 @@ export default function HousingWorksPage() {
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={5}>Workshop 02 · Bridges &amp; Barriers</SectionHeader>
           <h2 className={styles.wsHeading}>Mapping the bridges and the barriers.</h2>
-
-          <div className={styles.bridgesText}>
-            <p className={styles.body}>
-              In a sixty-minute in-person workshop, we sat six Gen Z students down
-              to map the workplace from the ground up. On a four-level tree
-              (volunteers at the roots, staff on the trunk, managers on the
-              branches, leaders in the canopy) they marked the barriers younger
-              staff hit, then the “bridges” that could carry them over.
-            </p>
-            <p className={styles.body}>
-              Every proposed fix went onto an effort-versus-engagement matrix, so
-              the high-impact, low-effort moves rose to the top. Recognition kept
-              beating pay. Unclear career paths came up again and again, and even
-              a TV in the break room landed as an easy win.
-            </p>
-            <p className={styles.body}>
-              Those signals fed straight into our findings and proposals,
-              especially the trustee-led workshops, where participants ranked clear
-              career paths and mentorship as what would keep them.
-            </p>
-          </div>
+          <p className={styles.subLine}>
+            Six students, a four-level tree, an effort-vs-engagement matrix.
+          </p>
+          <Unfold
+            variant="bare"
+            header={<span className={styles.wsHow}>inside the session</span>}
+          >
+            <div className={styles.bridgesText}>
+              <p className={styles.body}>
+                In a sixty-minute in-person workshop, we sat six Gen Z students
+                down to map the workplace from the ground up. On a four-level
+                tree (volunteers at the roots, staff on the trunk, managers on
+                the branches, leaders in the canopy) they marked the barriers
+                younger staff hit, then the “bridges” that could carry them over.
+              </p>
+              <p className={styles.body}>
+                Every proposed fix went onto an effort-versus-engagement matrix,
+                so the high-impact, low-effort moves rose to the top. Recognition
+                kept beating pay. Unclear career paths came up again and again,
+                and even a TV in the break room landed as an easy win.
+              </p>
+              <p className={styles.body}>
+                Those signals fed straight into our findings and proposals,
+                especially the trustee-led workshops, where participants ranked
+                clear career paths and mentorship as what would keep them.
+              </p>
+            </div>
+          </Unfold>
 
           <p className={`mono ${styles.subKicker}`}>
             How the session unfolded · tap a frame to enlarge
@@ -387,113 +405,129 @@ export default function HousingWorksPage() {
 
         {/* the four findings sit side by side, on a row wider than the
             reading column so the cards get room */}
-        <ul className={`${styles.findings} hw-reveal`}>
-            <li className={`${styles.finding} ${styles.iconCard}`}>
-              <svg
-                className={`${styles.glyph} hw-draw hw-fig`}
-                viewBox="0 0 60 56"
-                aria-hidden="true"
-              >
-                <circle className="hw-line" pathLength="1" cx="14" cy="28" r="7" />
-                <circle className="hw-line" pathLength="1" cx="46" cy="28" r="7" />
-                <path className="hw-line" pathLength="1" d="M23 24 L37 24" />
-                <path className="hw-line hw-crim" pathLength="1" d="M37 24 L33 20 M37 24 L33 28" />
-                <path className="hw-line" pathLength="1" d="M37 32 L23 32" />
-                <path className="hw-line hw-crim" pathLength="1" d="M23 32 L27 28 M23 32 L27 36" />
-              </svg>
-              <div className={styles.findingText}>
-                <h3 className={styles.findingTitle}>
-                  <span className={`mono ${styles.findingNo}`}>01</span> Hybrid
-                  autonomy and trust
-                </h3>
-                <p className={styles.body}>
-                  Flexible scheduling read as respect. Where it was applied
-                  unevenly, staff noticed. The problem was inconsistency, not
-                  the technology.
-                </p>
-              </div>
-            </li>
+        <div className={`${styles.findings} hw-reveal`}>
+            <Unfold
+              variant="card"
+              header={
+                <div className={styles.findingHead}>
+                  <svg
+                    className={`${styles.glyph} hw-draw hw-fig`}
+                    viewBox="0 0 60 56"
+                    aria-hidden="true"
+                  >
+                    <circle className="hw-line" pathLength="1" cx="14" cy="28" r="7" />
+                    <circle className="hw-line" pathLength="1" cx="46" cy="28" r="7" />
+                    <path className="hw-line" pathLength="1" d="M23 24 L37 24" />
+                    <path className="hw-line hw-crim" pathLength="1" d="M37 24 L33 20 M37 24 L33 28" />
+                    <path className="hw-line" pathLength="1" d="M37 32 L23 32" />
+                    <path className="hw-line hw-crim" pathLength="1" d="M23 32 L27 28 M23 32 L27 36" />
+                  </svg>
+                  <h3 className={styles.findingTitle}>
+                    <span className={`mono ${styles.findingNo}`}>01</span> Hybrid
+                    autonomy and trust
+                  </h3>
+                </div>
+              }
+            >
+              <p className={styles.body}>
+                Flexible scheduling read as respect. Where it was applied
+                unevenly, staff noticed. The problem was inconsistency, not
+                the technology.
+              </p>
+            </Unfold>
 
-            <li className={`${styles.finding} ${styles.iconCard}`}>
-              <svg
-                className={`${styles.glyph} hw-draw hw-fig`}
-                viewBox="0 0 60 56"
-                aria-hidden="true"
-              >
-                <path
-                  className="hw-line"
-                  pathLength="1"
-                  d="M16 16 L40 16 L50 28 L40 40 L16 40 Z"
-                />
-                <circle className="hw-line hw-crim" pathLength="1" cx="39" cy="28" r="3.2" />
-              </svg>
-              <div className={styles.findingText}>
-                <h3 className={styles.findingTitle}>
-                  <span className={`mono ${styles.findingNo}`}>02</span>{" "}
-                  Recognition and community
-                </h3>
-                <p className={styles.body}>
-                  Staff wanted to be acknowledged, not only paid. As one put it:
-                  “It’s not even just about the pay. It’s also about being
-                  acknowledged.”
-                </p>
-              </div>
-            </li>
+            <Unfold
+              variant="card"
+              header={
+                <div className={styles.findingHead}>
+                  <svg
+                    className={`${styles.glyph} hw-draw hw-fig`}
+                    viewBox="0 0 60 56"
+                    aria-hidden="true"
+                  >
+                    <path
+                      className="hw-line"
+                      pathLength="1"
+                      d="M16 16 L40 16 L50 28 L40 40 L16 40 Z"
+                    />
+                    <circle className="hw-line hw-crim" pathLength="1" cx="39" cy="28" r="3.2" />
+                  </svg>
+                  <h3 className={styles.findingTitle}>
+                    <span className={`mono ${styles.findingNo}`}>02</span>{" "}
+                    Recognition and community
+                  </h3>
+                </div>
+              }
+            >
+              <p className={styles.body}>
+                Staff wanted to be acknowledged, not only paid. As one put it:
+                “It’s not even just about the pay. It’s also about being
+                acknowledged.”
+              </p>
+            </Unfold>
 
-            <li className={`${styles.finding} ${styles.iconCard}`}>
-              <svg
-                className={`${styles.glyph} hw-draw hw-fig`}
-                viewBox="0 0 60 56"
-                aria-hidden="true"
-              >
-                <path className="hw-line" pathLength="1" d="M30 14 L30 42" />
-                <path className="hw-line" pathLength="1" d="M16 20 L44 20" />
-                <path className="hw-line" pathLength="1" d="M16 20 L11 31 M16 20 L21 31" />
-                <path className="hw-line" pathLength="1" d="M11 31 Q16 37 21 31" />
-                <path className="hw-line" pathLength="1" d="M44 20 L39 31 M44 20 L49 31" />
-                <path className="hw-line" pathLength="1" d="M39 31 Q44 37 49 31" />
-                <path className="hw-line" pathLength="1" d="M23 46 L37 46" />
-                <path className="hw-line" pathLength="1" d="M30 42 L30 46" />
-                <circle className="hw-line hw-crim" pathLength="1" cx="30" cy="15" r="2.2" />
-              </svg>
-              <div className={styles.findingText}>
-                <h3 className={styles.findingTitle}>
-                  <span className={`mono ${styles.findingNo}`}>03</span>{" "}
-                  Procedural fairness
-                </h3>
-                <p className={styles.body}>
-                  What mattered most wasn’t the outcome but whether the rules
-                  were applied consistently and explained. Even-handed processes
-                  built more trust than perks did.
-                </p>
-              </div>
-            </li>
+            <Unfold
+              variant="card"
+              header={
+                <div className={styles.findingHead}>
+                  <svg
+                    className={`${styles.glyph} hw-draw hw-fig`}
+                    viewBox="0 0 60 56"
+                    aria-hidden="true"
+                  >
+                    <path className="hw-line" pathLength="1" d="M30 14 L30 42" />
+                    <path className="hw-line" pathLength="1" d="M16 20 L44 20" />
+                    <path className="hw-line" pathLength="1" d="M16 20 L11 31 M16 20 L21 31" />
+                    <path className="hw-line" pathLength="1" d="M11 31 Q16 37 21 31" />
+                    <path className="hw-line" pathLength="1" d="M44 20 L39 31 M44 20 L49 31" />
+                    <path className="hw-line" pathLength="1" d="M39 31 Q44 37 49 31" />
+                    <path className="hw-line" pathLength="1" d="M23 46 L37 46" />
+                    <path className="hw-line" pathLength="1" d="M30 42 L30 46" />
+                    <circle className="hw-line hw-crim" pathLength="1" cx="30" cy="15" r="2.2" />
+                  </svg>
+                  <h3 className={styles.findingTitle}>
+                    <span className={`mono ${styles.findingNo}`}>03</span>{" "}
+                    Procedural fairness
+                  </h3>
+                </div>
+              }
+            >
+              <p className={styles.body}>
+                What mattered most wasn’t the outcome but whether the rules
+                were applied consistently and explained. Even-handed processes
+                built more trust than perks did.
+              </p>
+            </Unfold>
 
-            <li className={`${styles.finding} ${styles.iconCard}`}>
-              <svg
-                className={`${styles.glyph} hw-draw hw-fig`}
-                viewBox="0 0 60 56"
-                aria-hidden="true"
-              >
-                <path
-                  className="hw-line"
-                  pathLength="1"
-                  d="M12 46 L24 46 L24 35 L36 35 L36 24 L48 24 L48 13"
-                />
-                <path className="hw-line hw-crim" pathLength="1" d="M44 17 L48 13 L52 17" />
-              </svg>
-              <div className={styles.findingText}>
-                <h3 className={styles.findingTitle}>
-                  <span className={`mono ${styles.findingNo}`}>04</span> Career
-                  clarity and trustee expertise
-                </h3>
-                <p className={styles.body}>
-                  Younger staff couldn’t see the next role or how to reach it,
-                  while the board’s professional expertise sat unused.
-                </p>
-              </div>
-            </li>
-        </ul>
+            <Unfold
+              variant="card"
+              header={
+                <div className={styles.findingHead}>
+                  <svg
+                    className={`${styles.glyph} hw-draw hw-fig`}
+                    viewBox="0 0 60 56"
+                    aria-hidden="true"
+                  >
+                    <path
+                      className="hw-line"
+                      pathLength="1"
+                      d="M12 46 L24 46 L24 35 L36 35 L36 24 L48 24 L48 13"
+                    />
+                    <path className="hw-line hw-crim" pathLength="1" d="M44 17 L48 13 L52 17" />
+                  </svg>
+                  <h3 className={styles.findingTitle}>
+                    <span className={`mono ${styles.findingNo}`}>04</span> Career
+                    clarity and trustee expertise
+                  </h3>
+                </div>
+              }
+            >
+              <p className={styles.body}>
+                Younger staff couldn’t see the next role or how to reach it,
+                while the board’s professional expertise sat unused.
+              </p>
+            </Unfold>
+        </div>
       </section>
 
       {/* ==== SCENE 8 — WHAT WE PROPOSED → MY FRAMEWORK → THE WORKING APP ==== */}
@@ -579,40 +613,49 @@ export default function HousingWorksPage() {
           {/* my framework — folded into this section (was its own scene):
               a compact intro, the two figures side by side, then the app */}
           <h3 className={styles.fwHead}>My framework: trustee-led workshops</h3>
-          <p className={styles.body}>
-            The system matches a staff development need against a trustee’s
-            skills and Housing Works’ strategic priorities, then turns the match
-            into one structured 45-minute session: intro, discussion, a hands-on
-            sprint, and questions. Every session is recorded, summarized, and
-            archived, so what’s taught stays with the team. Its share of the
-            three-framework budget is $900 a year.
-          </p>
 
-          <div className={styles.figRow}>
-          {/* convergence diagram: need × trustee × strategy → workshop */}
-          <svg
-            className={`${styles.diagram} hw-draw hw-fig`}
-            viewBox="0 0 340 200"
-            role="img"
-            aria-label="A staff need, a trustee skill, and a strategic priority converge into one matched workshop."
-          >
-            <text x="112" y="50" textAnchor="end">Staff need</text>
-            <text x="112" y="104" textAnchor="end">Trustee skill</text>
-            <text x="112" y="158" textAnchor="end">Strategy</text>
-            <circle className="hw-line" pathLength="1" cx="122" cy="46" r="6" />
-            <circle className="hw-line" pathLength="1" cx="122" cy="100" r="6" />
-            <circle className="hw-line" pathLength="1" cx="122" cy="154" r="6" />
-            <path className="hw-line" pathLength="1" d="M130 49 L198 100" />
-            <path className="hw-line" pathLength="1" d="M130 100 L198 100" />
-            <path className="hw-line" pathLength="1" d="M130 151 L198 100" />
-            <circle className="hw-line hw-crim" pathLength="1" cx="208" cy="100" r="8" />
-            <path className="hw-line" pathLength="1" d="M218 100 L266 100" />
-            <path className="hw-line hw-crim" pathLength="1" d="M266 100 L259 95 M266 100 L259 105" />
-            <circle className="hw-line" pathLength="1" cx="288" cy="100" r="13" />
-            <text x="288" y="134" textAnchor="middle">WORKSHOP</text>
-          </svg>
+          {/* 2-col ≥900px: trimmed text + demo lead-in LEFT, convergence diagram
+              RIGHT; the 45-minute timeline spans full width beneath both. */}
+          <div className={styles.fwGrid}>
+            <div className={styles.fwCol}>
+              <p className={styles.body}>
+                The system matches a staff development need against a trustee’s
+                skills and Housing Works’ strategic priorities, then turns the
+                match into one structured 45-minute session. Every session is
+                recorded, summarized, and archived — what’s taught stays with
+                the team. Its share of the three-framework budget is $900 a
+                year.
+              </p>
+              <p className={styles.fwLeadin}>
+                Below: the working version, as the People team would use it.
+              </p>
+            </div>
 
-          {/* session timeline: 45 min split 5 / 15 / 15 / 10 */}
+            {/* convergence diagram: need × trustee × strategy → workshop */}
+            <svg
+              className={`${styles.diagram} hw-draw hw-fig`}
+              viewBox="0 0 340 200"
+              role="img"
+              aria-label="A staff need, a trustee skill, and a strategic priority converge into one matched workshop."
+            >
+              <text x="112" y="50" textAnchor="end">Staff need</text>
+              <text x="112" y="104" textAnchor="end">Trustee skill</text>
+              <text x="112" y="158" textAnchor="end">Strategy</text>
+              <circle className="hw-line" pathLength="1" cx="122" cy="46" r="6" />
+              <circle className="hw-line" pathLength="1" cx="122" cy="100" r="6" />
+              <circle className="hw-line" pathLength="1" cx="122" cy="154" r="6" />
+              <path className="hw-line" pathLength="1" d="M130 49 L198 100" />
+              <path className="hw-line" pathLength="1" d="M130 100 L198 100" />
+              <path className="hw-line" pathLength="1" d="M130 151 L198 100" />
+              <circle className="hw-line hw-crim" pathLength="1" cx="208" cy="100" r="8" />
+              <path className="hw-line" pathLength="1" d="M218 100 L266 100" />
+              <path className="hw-line hw-crim" pathLength="1" d="M266 100 L259 95 M266 100 L259 105" />
+              <circle className="hw-line" pathLength="1" cx="288" cy="100" r="13" />
+              <text x="288" y="134" textAnchor="middle">WORKSHOP</text>
+            </svg>
+          </div>
+
+          {/* session timeline: 45 min split 5 / 15 / 15 / 10 — full width */}
           <svg
             className={`${styles.timeline} hw-draw hw-fig`}
             viewBox="0 0 340 72"
@@ -634,14 +677,6 @@ export default function HousingWorksPage() {
             <text x="203" y="64" textAnchor="middle">15m</text>
             <text x="286" y="64" textAnchor="middle">10m</text>
           </svg>
-          </div>
-
-          <p className={styles.body}>
-            Below is the working version, as the People team would use it: an
-            open needs queue, a matcher that scores every trustee in the open,
-            the session itself, and an archive the built-in assistant answers
-            from.
-          </p>
         </div>
 
         <div className={styles.appBleed} id="demo">
