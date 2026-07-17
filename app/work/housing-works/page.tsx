@@ -9,6 +9,7 @@ import WorkshopsApp from "./WorkshopsApp";
 import HwDemoTour from "./HwDemoTour";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Unfold from "@/components/Unfold/Unfold";
+import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { HW_ROOT_STYLE } from "./theme";
@@ -28,6 +29,18 @@ export const metadata: Metadata = {
 // on import; until then each scene shows a labeled placeholder caption.
 const IMG = "/images/housing-works";
 
+const SECTIONS = [
+  { id: "brief", label: "The brief" },
+  { id: "semester", label: "The semester" },
+  { id: "how-we-worked", label: "How we worked" },
+  { id: "workshop-01", label: "Poster survey" },
+  { id: "workshop-02", label: "Bridges & Barriers" },
+  { id: "findings", label: "What we found" },
+  { id: "proposed", label: "What we proposed" },
+  { id: "demo", label: "The app" },
+  { id: "limitations", label: "Limitations" },
+];
+
 export default function HousingWorksPage() {
   return (
     <div style={HW_ROOT_STYLE} className={styles.page}>
@@ -40,6 +53,7 @@ export default function HousingWorksPage() {
           four scroll-driven orbs. The content below floats over it on .pageContent
           (z-1); the opaque photo scenes sit on top of the wash. */}
       <AmbientField />
+      <ProjectSideNav sections={SECTIONS} />
 
       <div className={styles.pageContent}>
       {/* ============ SCENE 1 — HERO (parallax photo) ============ */}
@@ -76,7 +90,7 @@ export default function HousingWorksPage() {
       </header>
 
       {/* ============ SCENE 2 — THE BRIEF ============ */}
-      <section className={styles.scene} data-ambient-dim>
+      <section className={styles.scene} data-ambient-dim id="brief" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`}>
           <SectionHeader n={1}>The brief</SectionHeader>
           <p className={styles.lede}>
@@ -96,7 +110,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 2b — THE SEMESTER (project timeline) ============ */}
-      <section className={styles.scene}>
+      <section className={styles.scene} id="semester" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`} data-ambient-dim>
           <SectionHeader n={2}>The semester</SectionHeader>
           <p className={styles.lede}>
@@ -126,7 +140,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 4 — HOW WE WORKED ============ */}
-      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
+      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="how-we-worked" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`}>
           <SectionHeader n={3}>How we worked</SectionHeader>
           <p className={styles.lede}>
@@ -278,7 +292,7 @@ export default function HousingWorksPage() {
            photo: the intro card, the moving posters, AND the final insight all
            lay over one image that carries down to the Bridges & Barriers
            workshop (the photo is the section background, not a separate hero). */}
-      <section className={styles.posterStudy}>
+      <section className={styles.posterStudy} id="workshop-01" data-snav-target>
         <div
           className="hw-bg"
           data-par="-0.05"
@@ -340,7 +354,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ WORKSHOP 02 — BRIDGES AND BARRIERS ============ */}
-      <section className={styles.scene} data-ambient-dim>
+      <section className={styles.scene} data-ambient-dim id="workshop-02" data-snav-target>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={5}>Workshop 02 · Bridges &amp; Barriers</SectionHeader>
           <h2 className={styles.wsHeading}>Mapping the bridges and the barriers.</h2>
@@ -393,7 +407,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 7 — WHAT WE FOUND (four findings + glyphs) ====== */}
-      <section className={styles.scene} data-ambient-dim>
+      <section className={styles.scene} data-ambient-dim id="findings" data-snav-target>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={6}>What we found</SectionHeader>
           <p className={styles.lede}>
@@ -531,7 +545,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ==== SCENE 8 — WHAT WE PROPOSED → MY FRAMEWORK → THE WORKING APP ==== */}
-      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
+      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="proposed" data-snav-target>
         <div className={`${styles.wrapWide} hw-reveal`}>
           <SectionHeader n={7}>What we proposed</SectionHeader>
           <p className={styles.lede}>
@@ -679,7 +693,7 @@ export default function HousingWorksPage() {
           </svg>
         </div>
 
-        <div className={styles.appBleed} id="demo">
+        <div className={styles.appBleed} id="demo" data-snav-target>
           {/* the stage: the guided walkthrough's spotlight overlay portals in
               here and stays absolute within it (see HwDemoTour) */}
           <div className={styles.appBleedInner} id="hw-sandbox-stage">
@@ -696,7 +710,7 @@ export default function HousingWorksPage() {
       </section>
 
       {/* ============ SCENE 10 — LIMITATIONS (quiet close) ============ */}
-      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
+      <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="limitations" data-snav-target>
         <div className={`${styles.wrap} hw-reveal`}>
           <SectionHeader n={8}>Limitations</SectionHeader>
           <p className={styles.body}>

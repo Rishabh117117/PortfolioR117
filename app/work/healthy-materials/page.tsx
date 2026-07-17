@@ -8,6 +8,7 @@ import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
 import Unfold from "@/components/Unfold/Unfold";
+import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
@@ -48,6 +49,16 @@ const ICONS = {
   ),
 };
 
+const SECTIONS = [
+  { id: "frame", label: "The frame" },
+  { id: "timeline", label: "Timeline" },
+  { id: "field-visit", label: "Field visit" },
+  { id: "journey", label: "Where it breaks" },
+  { id: "interventions", label: "Interventions" },
+  { id: "demo", label: "Prototype" },
+  { id: "close", label: "Reflection" },
+];
+
 export default function HealthyMaterialsPage() {
   return (
     <div style={HM_ROOT_STYLE} className={styles.page}>
@@ -55,6 +66,7 @@ export default function HealthyMaterialsPage() {
       <AmbientField />
       {/* site-wide scroll-reveal: fades section content up as it enters view */}
       <Reveal />
+      <ProjectSideNav sections={SECTIONS} />
 
       <div className={styles.pageContent}>
         {/* ============ 1 — HERO (photo-overlay, Housing-Works treatment) ===== */}
@@ -92,7 +104,7 @@ export default function HealthyMaterialsPage() {
         </header>
 
         {/* ============ 2 — THE FRAME + THE MATERIALS (paper) ============ */}
-        <section className={styles.scene} data-ambient-dim>
+        <section className={styles.scene} data-ambient-dim id="frame" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={1}>the frame</SectionHeader>
             <p className={styles.frameHook}>
@@ -160,7 +172,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 4 — THE JOURNEY (paper) → TIMELINE ============ */}
-        <section className={styles.scene}>
+        <section className={styles.scene} id="timeline" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={2}>the timeline</SectionHeader>
             <p className={styles.lede}>Fall 2025, start to finish.</p>
@@ -244,7 +256,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 5 — INSIDE THE HML (teal) → FIELD-VISIT CAROUSEL ====== */}
-        <section className={`${styles.teal} ${styles.field}`}>
+        <section className={`${styles.teal} ${styles.field}`} id="field-visit" data-snav-target>
           <div className={styles.fieldHead} data-reveal>
             <SectionHeader n={3}>field visit</SectionHeader>
             <h2 className={styles.fieldTitle}>Inside the Healthy Materials Lab</h2>
@@ -260,7 +272,7 @@ export default function HealthyMaterialsPage() {
         {/* ============ 6 — THE CONSTRUCTION JOURNEY (band) [§7 merged in; the
             old 5-point leverage-cascade section is gone, folded into "the
             turn" sub-blocks below] ============ */}
-        <section className={`${styles.scene} ${styles.band}`} data-ambient-dim>
+        <section className={`${styles.scene} ${styles.band}`} data-ambient-dim id="journey" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={4}>where adoption breaks, and where it turns</SectionHeader>
             <p className={styles.lede}>
@@ -528,7 +540,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 8 — THREE INTERVENTIONS (band) ============ */}
-        <section className={`${styles.scene} ${styles.band}`}>
+        <section className={`${styles.scene} ${styles.band}`} id="interventions" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={5}>from insight to intervention</SectionHeader>
             <p className={styles.bridge}>
@@ -624,7 +636,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 9 — MADE TANGIBLE (paper) → THE WORKING PROTOTYPE ===== */}
-        <section className={styles.scene} id="demo">
+        <section className={styles.scene} id="demo" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={6}>the intervention, made tangible</SectionHeader>
             <div className={styles.tangibleIntro}>
@@ -660,7 +672,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 10 — CLOSE + REFLECTION (teal) ============ */}
-        <section className={`${styles.teal} ${styles.close}`}>
+        <section className={`${styles.teal} ${styles.close}`} id="close" data-snav-target>
           <div className={styles.closeInner} data-reveal>
             <p className={styles.closeLine}>
               Healthy, low-carbon materials are here. The question is whether our

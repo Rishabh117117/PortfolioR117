@@ -31,6 +31,7 @@ import AdoptionCurve from "./AdoptionCurve";
 import GhApp from "./GhApp";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Unfold from "@/components/Unfold/Unfold";
+import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import Reveal from "@/components/Reveal/Reveal";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
@@ -59,6 +60,18 @@ export const metadata: Metadata = {
 
 const FORCE_VARIANTS = ["regulatory", "procurement", "infrastructure"] as const;
 
+const SECTIONS = [
+  { id: "scale", label: "The scale" },
+  { id: "invisibility", label: "The invisibility" },
+  { id: "reframe", label: "The reframe" },
+  { id: "standard", label: "The standard" },
+  { id: "demo", label: "Three surfaces" },
+  { id: "why-now", label: "Why now" },
+  { id: "trade-offs", label: "Trade-offs" },
+  { id: "kpis", label: "If it works" },
+  { id: "close", label: "Close" },
+];
+
 export default function GreenerHoursPage() {
   // §8 accent — Forest (matches the work-grid card) + the deck's amber/navy as
   // page-scoped atmosphere/diagram colors. One source (./theme.ts), shared
@@ -70,6 +83,7 @@ export default function GreenerHoursPage() {
       <AmbientField />
       {/* site-wide scroll-reveal: fades section content up as it enters view */}
       <Reveal />
+      <ProjectSideNav sections={SECTIONS} />
       <div className={styles.pageContent}>
         {/* ============ §1 HERO ============ */}
         <header className={styles.hero}>
@@ -102,7 +116,7 @@ export default function GreenerHoursPage() {
         </header>
 
         {/* ============ §2 THE SCALE (problem — one dark band with §3) ============ */}
-        <section className={`section ${styles.navy}`}>
+        <section className={`section ${styles.navy}`} id="scale" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={1}>The problem · the scale</SectionHeader>
             <div className={styles.scaleGrid}>
@@ -120,7 +134,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §3 THE INVISIBILITY (dark) ============ */}
-        <section className={`section ${styles.navy}`}>
+        <section className={`section ${styles.navy}`} id="invisibility" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={2}>The invisibility</SectionHeader>
             <h2 className={styles.title}>
@@ -149,7 +163,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §4 THE REFRAME + PRECEDENT (light, centered) ============ */}
-        <section className="section" data-ambient-dim>
+        <section className="section" data-ambient-dim id="reframe" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={3} center>The reframe</SectionHeader>
             <p className={styles.reframeStatement}>
@@ -189,7 +203,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §5 THE STANDARD (the product) ============ */}
-        <section className="section" data-ambient-dim>
+        <section className="section" data-ambient-dim id="standard" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={4}>The product · the standard</SectionHeader>
             <h2 className={styles.title}>
@@ -212,7 +226,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §6 THE THREE SURFACES (tabbed) ============ */}
-        <section className="section" id="demo">
+        <section className="section" id="demo" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={5}>The three surfaces</SectionHeader>
             <h2 className={styles.title}>
@@ -231,7 +245,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §7 WHY NOW (opportunity · forces) — blue band ======= */}
-        <section className={`section ${styles.blue}`}>
+        <section className={`section ${styles.blue}`} id="why-now" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={6}>The opportunity · three forces</SectionHeader>
             <h2 className={styles.title}>
@@ -255,7 +269,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §8 HONEST TRADE-OFFS ============ */}
-        <section className="section" data-ambient-dim>
+        <section className="section" data-ambient-dim id="trade-offs" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={7}>Named, not hidden</SectionHeader>
             <h2 className={styles.title}>
@@ -281,7 +295,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §9 SPECULATIVE KPIs ============ */}
-        <section className={`section ${styles.band}`}>
+        <section className={`section ${styles.band}`} id="kpis" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={8}>If it works</SectionHeader>
             <h2 className={styles.title}>
@@ -301,7 +315,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §10 CLOSE (dark) ============ */}
-        <section className={`section ${styles.navy}`}>
+        <section className={`section ${styles.navy}`} id="close" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={9}>Close</SectionHeader>
             <h2 className={styles.closeLine}>

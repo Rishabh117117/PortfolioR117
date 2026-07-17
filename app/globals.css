@@ -180,6 +180,12 @@ img {
   max-width: var(--maxw-text);
 }
 
+/* in-page nav targets (ProjectSideNav / SkipToDemo) land clear of the sticky
+   nav when smooth-scrolled to (ROUND-2026-07-16) */
+[data-snav-target] {
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+}
+
 /* section vertical rhythm: --space-7 mobile, --space-8 desktop */
 .section {
   padding-block: var(--space-7);

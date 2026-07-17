@@ -1,0 +1,159 @@
+/* =========================================================================
+   ProjectSideNav — floating right-edge section index (ROUND-2026-07-16).
+   Glass rail on wide screens, a pill between 1180-1440px, nothing below 1180
+   (the component returns null there). z-index sits below the sticky Nav (50)
+   and above page content (.pageContent is z-1). Tokens only.
+   ========================================================================= */
+
+.root {
+  position: fixed;
+  right: clamp(10px, 1.4vw, 20px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  /* the box itself never blocks clicks to the content behind it — only the
+     rail/pill controls capture pointer events */
+  pointer-events: none;
+}
+
+/* ---- the rail ---- */
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 8px 10px 10px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-rest);
+  max-height: min(76vh, 640px);
+  overflow-y: auto;
+  pointer-events: auto;
+  transition:
+    opacity 0.2s var(--e-snappy),
+    transform 0.2s var(--e-snappy);
+}
+.rail[data-shown="false"] {
+  opacity: 0;
+  transform: translateX(8px);
+  pointer-events: none;
+}
+.collapse {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0 4px 2px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--soft);
+  cursor: pointer;
+  border-radius: 4px;
+}
+.collapse:hover {
+  color: var(--accent);
+}
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 4px 6px 4px 8px;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.dot {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--line);
+  transition:
+    background var(--t-fast) var(--e-snappy),
+    transform var(--t-fast) var(--e-snappy);
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--soft);
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--e-snappy);
+}
+@media (hover: hover) {
+  .item:hover .label {
+    color: var(--ink);
+  }
+  .item:hover .dot {
+    background: var(--soft);
+  }
+}
+.item[aria-current="true"] .dot {
+  background: var(--accent);
+  transform: scale(1.5);
+}
+.item[aria-current="true"] .label {
+  color: var(--accent);
+  font-weight: 500;
+}
+.item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ---- the collapsed pill ---- */
+.pill {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow-rest);
+  color: var(--soft);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s var(--e-snappy),
+    color var(--t-fast) var(--e-snappy),
+    box-shadow var(--t-fast) var(--e-snappy);
+}
+.pill[data-shown="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (hover: hover) {
+  .pill:hover {
+    color: var(--accent);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+/* belt-and-suspenders: the component already returns null below 1180, but keep
+   the rail out of any edge case there too */
+@media (max-width: 1179.98px) {
+  .root {
+    display: none;
+  }
+}

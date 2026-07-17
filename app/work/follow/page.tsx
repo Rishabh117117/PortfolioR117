@@ -3,6 +3,7 @@ import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
 import Unfold from "@/components/Unfold/Unfold";
+import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import BeforeSystem from "./BeforeSystem";
 import FollowSystem from "./FollowSystem";
@@ -24,6 +25,16 @@ export const metadata: Metadata = {
 // route); --navy (the dark band) is declared on styles.page so it stays
 // scoped to this route.
 
+const SECTIONS = [
+  { id: "timeline", label: "Timeline" },
+  { id: "problem", label: "The problem" },
+  { id: "insights", label: "Insights" },
+  { id: "response", label: "The response" },
+  { id: "what-it-does", label: "What it does" },
+  { id: "demo", label: "Sandbox" },
+  { id: "under-the-hood", label: "Under the hood" },
+];
+
 export default function FollowPage() {
   return (
     <div style={FOLLOW_ROOT_STYLE} className={styles.page}>
@@ -31,6 +42,7 @@ export default function FollowPage() {
       <AmbientField />
       {/* site-wide scroll-reveal: fades section content up as it enters view */}
       <Reveal />
+      <ProjectSideNav sections={SECTIONS} />
       <div className={styles.pageContent}>
       {/* ============ HERO ============ */}
       <header className={styles.hero}>
@@ -66,7 +78,7 @@ export default function FollowPage() {
       </header>
 
       {/* ============ PROJECT TIMELINE (deck-style, at the start) ============ */}
-      <section className="section">
+      <section className="section" id="timeline" data-snav-target>
         <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>Project timeline</h2>
           <p className="lede">
@@ -292,7 +304,7 @@ export default function FollowPage() {
 
       {/* ============ THE GAP (white block): problem · today's structure · insights ============ */}
       <section className={`section ${styles.blockWhite}`}>
-        <div className="containerText" data-reveal>
+        <div className="containerText" data-reveal id="problem" data-snav-target>
           <h2 className={`mono ${styles.kicker}`}>The problem</h2>
           <p className={styles.probState}>
             As work moves into AI workflows, the reasoning behind it
@@ -336,7 +348,7 @@ export default function FollowPage() {
           </p>
         </div>
 
-        <div className="container" data-reveal>
+        <div className="container" data-reveal id="insights" data-snav-target>
           <h2 className={`mono ${styles.kicker}`}>
             Insights &amp; areas of opportunity
           </h2>
@@ -403,7 +415,7 @@ export default function FollowPage() {
       </section>
 
       {/* ============ FOLLOW CONCEPT — the response (the system, in one picture) ============ */}
-      <section className="section">
+      <section className="section" id="response" data-snav-target>
         <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The response</p>
           <h2 className={styles.revealName} aria-label="The response: Follow">
@@ -418,7 +430,7 @@ export default function FollowPage() {
       </section>
 
       {/* ============ WHAT IT DOES — not-RAG + the product behaviors ============ */}
-      <section className="section">
+      <section className="section" id="what-it-does" data-snav-target>
         <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>What it does</h2>
           <p className="lede">
@@ -616,7 +628,7 @@ export default function FollowPage() {
       </section>
 
       {/* ============ THE SANDBOX (the demo promise, made real) ============ */}
-      <section className="section" id="demo">
+      <section className="section" id="demo" data-snav-target>
         <div className="container" data-reveal>
           <p className={`mono ${styles.kicker}`}>The sandbox</p>
           <h2 className={styles.reelTitle}>
@@ -687,7 +699,7 @@ export default function FollowPage() {
 
       {/* ============ UNDER THE HOOD (the real system behind the sandbox) ============ */}
       {/* ownership claim: confirmed by RS before merge */}
-      <section className="section">
+      <section className="section" id="under-the-hood" data-snav-target>
         <div className="containerText" data-reveal>
           <UnderTheHood>
           <p className="lede">
