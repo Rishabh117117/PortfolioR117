@@ -76,7 +76,7 @@ const PERSON_LD = {
   name: "Rishabh Salian",
   jobTitle: "Product Designer / Design Engineer",
   description:
-    "Designer who moved from industrial design through UX to building AI-native products end to end.",
+    "Designer who moved from industrial design through UX to building working prototypes of AI-native products.",
   url: SITE_URL,
   email: "mailto:rishabhsalian@ymail.com",
   address: {

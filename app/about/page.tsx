@@ -9,7 +9,7 @@ import styles from "./about.module.css";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Industrial and product design, then UX, now AI-native products built end to end: the journey, the work, and what I work with.",
+    "Industrial and product design, then UX, now AI-native products taken from idea to working prototype: the journey, the work, and what I work with.",
 };
 
 /**
@@ -49,13 +49,14 @@ export default function AboutPage() {
             <div>
               <p className="kicker">About</p>
               <h1 className={styles.heroThesis}>
-                I build AI-native products <em>end to end</em>.
+                I build AI-native products, from idea to{" "}
+                <em>working prototype</em>.
               </h1>
               <p className={styles.heroLede}>
                 I started in industrial and product design and spent several
-                years in UX. Now I ship not just the design but the working
-                software — designed and built with Next.js, React, and
-                TypeScript, using AI-assisted development for speed.
+                years in UX. Now I don&rsquo;t stop at the design: I build the
+                working software too, with Next.js, React, and TypeScript,
+                using AI-assisted development for speed.
                 I&rsquo;m completing an MS in Strategic Design &amp; Management
                 at Parsons, where most of my current work lives. I care about
                 clear thinking, honest craft, and building things that actually
@@ -262,8 +263,8 @@ export default function AboutPage() {
                   <p className={styles.wDesc}>
                     MS, Strategic Design &amp; Management · the systems era.
                     Client work, graduate research, and Follow: designed and
-                    shipped end to end — Next.js, TypeScript, and AI-assisted
-                    development.
+                    built into working prototypes with Next.js, TypeScript,
+                    and AI-assisted development.
                   </p>
                   <div className={styles.wCtas}>
                     <Link className={styles.wLink} href="/work/follow">
@@ -294,11 +295,6 @@ export default function AboutPage() {
                     and apps, working with clients and developers through to
                     launch.
                   </p>
-                  <div className={styles.wCtas}>
-                    <Link className={styles.wLink} href="/archive">
-                      Browse the archive <span className={styles.arr}>→</span>
-                    </Link>
-                  </div>
                 </div>
               </div>
 
@@ -393,7 +389,7 @@ export default function AboutPage() {
 
         {/* ============ SKILLS ============ */}
         <section className="section">
-          <div className="container">
+          <div className="container" data-ambient-dim>
             <h2 className="kicker">What I work with</h2>
             <div className={styles.skills}>
               <div className={`${styles.skillGroup} lift`}>
@@ -411,7 +407,7 @@ export default function AboutPage() {
               <div className={`${styles.skillGroup} lift`}>
                 <p className={styles.skillLabel}>AI &amp; Build</p>
                 <ul className={styles.skillList}>
-                  <li>End-to-end apps with Claude &amp; Claude Code</li>
+                  <li>Prototypes of working software with Claude &amp; Claude Code</li>
                   <li>MCP (servers + tools)</li>
                   <li>Anthropic API &amp; agentic architectures</li>
                   <li>Prompt &amp; agent design</li>
@@ -429,7 +425,7 @@ export default function AboutPage() {
                   <li>Systems thinking</li>
                   <li>Clear writing</li>
                   <li>Cross-functional collaboration</li>
-                  <li>Shipping under constraint</li>
+                  <li>Building under constraint</li>
                 </ul>
               </div>
             </div>
@@ -440,13 +436,11 @@ export default function AboutPage() {
         <section id="contact" className={`section ${styles.contact}`}>
           <div className="container">
             <h2 className="kicker">Contact</h2>
-            <p className={styles.contactText}>
-              Let&rsquo;s build something that <em>runs</em>.
-            </p>
+            <p className={styles.contactText}>How to reach me</p>
             <p className={styles.contactSub}>
-              Brooklyn, NY — open to fall internships and, from early 2027,
-              Design Engineer and Product roles at AI-native teams — and to
-              conversations about Follow.
+              Brooklyn, NY. Open to fall internships now, to Design Engineer
+              and Product roles from early 2027, and always to conversations
+              about Follow.
             </p>
             <div className={styles.ctaRow}>
               <a className="btn primary" href={`mailto:${SOCIALS.email}`}>
