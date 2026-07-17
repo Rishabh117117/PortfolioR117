@@ -226,7 +226,7 @@ export default function GreenerHoursPage() {
         </section>
 
         {/* ============ §6 THE THREE SURFACES (tabbed) ============ */}
-        <section className="section" id="demo" data-snav-target>
+        <section className="section" data-ambient-live id="demo" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={5}>The three surfaces</SectionHeader>
             <h2 className={styles.title}>

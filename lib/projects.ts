@@ -31,7 +31,7 @@ export const FLAGSHIPS: Project[] = [
     accent: "#C2410C",
     status: "LIVE SANDBOX · REAL MODEL",
     meta: "Capstone · 2026 · AI",
-    tagline: "One memory across your team's AI tools — every fact with receipts.",
+    tagline: "One memory across your team's AI tools: every fact with receipts.",
   },
   {
     name: "Healthy Materials",
@@ -53,7 +53,7 @@ export const FLAGSHIPS: Project[] = [
     accent: "#C0263B",
     status: "REAL CLIENT · NYC NONPROFIT",
     meta: "Studio · 2025 · Service design",
-    tagline: "Keeping young talent a nonprofit can't outbid — field research for Housing Works, shipped as a working workshop tool.",
+    tagline: "Keeping young talent a nonprofit can't outbid: field research for Housing Works, shipped as a working workshop tool.",
   },
   {
     name: "Greener Hours",

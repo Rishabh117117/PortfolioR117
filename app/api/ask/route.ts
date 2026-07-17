@@ -238,9 +238,9 @@ async function askOpenRouter(
   // reasoning — in that case the reasoning IS the text, so don't also
   // return it as thinking
   if (!text && typeof msg?.reasoning === "string") {
-    return { ok: true, text: msg.reasoning.trim() || "Hmm — nothing came back. Try that again?" };
+    return { ok: true, text: msg.reasoning.trim() || "Hmm, nothing came back. Try that again?" };
   }
-  return { ok: true, text: text || "Hmm — nothing came back. Try that again?", thinking };
+  return { ok: true, text: text || "Hmm, nothing came back. Try that again?", thinking };
 }
 
 async function askAnthropic(
@@ -274,7 +274,7 @@ async function askAnthropic(
   const text: string =
     data?.content?.find((b: { type?: string }) => b?.type === "text")?.text ??
     data?.content?.[0]?.text ??
-    "Hmm — nothing came back. Try that again?";
+    "Hmm, nothing came back. Try that again?";
   return { ok: true, text };
 }
 
@@ -285,7 +285,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "The demo backend isn't configured in this environment — everything else on the page stays interactive.",
+          "The demo backend isn't configured in this environment; everything else on the page stays interactive.",
       },
       { status: 503 },
     );
@@ -293,7 +293,7 @@ export async function POST(req: NextRequest) {
 
   if (rateLimited(clientIp(req))) {
     return NextResponse.json(
-      { error: "Rate limit reached — give it a minute and try again." },
+      { error: "Rate limit reached. Give it a minute and try again." },
       { status: 429 },
     );
   }
@@ -374,7 +374,7 @@ export async function POST(req: NextRequest) {
       : await askAnthropic(anthropicKey as string, system, turns as Turn[]);
     if (!result.ok) {
       return NextResponse.json(
-        { error: "The model service returned an error — try again in a moment." },
+        { error: "The model service returned an error. Try again in a moment." },
         { status: 502 },
       );
     }
@@ -401,7 +401,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error: isTimeout
-          ? "The model took too long to answer — try again."
+          ? "The model took too long to answer. Try again."
           : "Couldn't reach the model service.",
       },
       { status: isTimeout ? 504 : 502 },

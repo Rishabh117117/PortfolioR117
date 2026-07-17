@@ -172,7 +172,7 @@ export default function HealthyMaterialsPage() {
         </section>
 
         {/* ============ 4 — THE JOURNEY (paper) → TIMELINE ============ */}
-        <section className={styles.scene} id="timeline" data-snav-target>
+        <section className={styles.scene} data-ambient-dim id="timeline" data-snav-target>
           <div className={styles.wrapWide} data-reveal>
             <SectionHeader n={2}>the timeline</SectionHeader>
             <p className={styles.ledeXL}>Fall 2025, start to finish.</p>
@@ -191,7 +191,7 @@ export default function HealthyMaterialsPage() {
                 <Unfold
                   header={
                     <span className={styles.rlabel}>
-                      Primary · field engagements — 4
+                      Primary · field engagements · 4
                     </span>
                   }
                 >
@@ -217,7 +217,7 @@ export default function HealthyMaterialsPage() {
                 <Unfold
                   header={
                     <span className={styles.rlabel}>
-                      Secondary · desk research — 6
+                      Secondary · desk research · 6
                     </span>
                   }
                 >
@@ -641,7 +641,7 @@ export default function HealthyMaterialsPage() {
               >
                 <p className={styles.body}>
                   Flip on the cost-pressure lens to see which lines a
-                  value-engineering pass would attack — and the defense each one
+                  value-engineering pass would attack, and the defense each one
                   carries. The built-in assistant answers from the package
                   you&apos;ve configured. Illustrative data throughout.
                 </p>
@@ -649,7 +649,7 @@ export default function HealthyMaterialsPage() {
             </div>
           </div>
 
-          <div className={styles.appBleed}>
+          <div className={styles.appBleed} data-ambient-live>
             <div className={styles.appBleedInner}>
               <PackagesApp />
             </div>

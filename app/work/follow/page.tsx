@@ -65,7 +65,7 @@ export default function FollowPage() {
             Follow<span className={styles.dot}>.</span>
           </h1>
           <p className={styles.heroTitle}>
-            One shared memory for your team’s AI chats — and the{" "}
+            One shared memory for your team’s AI chats, and the{" "}
             <em>artifacts</em> they produce.
           </p>
           <p className={styles.heroSub}>
@@ -78,7 +78,7 @@ export default function FollowPage() {
       </header>
 
       {/* ============ PROJECT TIMELINE (deck-style, at the start) ============ */}
-      <section className="section" id="timeline" data-snav-target>
+      <section className="section" data-ambient-dim id="timeline" data-snav-target>
         <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>Project timeline</h2>
           <p className="lede">
@@ -252,7 +252,7 @@ export default function FollowPage() {
               <Unfold
                 header={
                   <span className={styles.rlabel}>
-                    Secondary · the theoretical spine — 6
+                    Secondary · the theoretical spine · 6
                   </span>
                 }
               >
@@ -280,7 +280,7 @@ export default function FollowPage() {
               <Unfold
                 header={
                   <span className={styles.rlabel}>
-                    Primary · engagements — 6
+                    Primary · engagements · 6
                   </span>
                 }
               >
@@ -325,7 +325,7 @@ export default function FollowPage() {
             disappears into private chats.
           </p>
           <p className="lede">
-            Every decision now gets worked out with an AI first — the
+            Every decision now gets worked out with an AI first: the
             constraints, the rejected options, the why. All of it stays in
             one person’s thread, invisible to the rest of the team.
           </p>
@@ -341,7 +341,7 @@ export default function FollowPage() {
               knowing whom to ask.
             </TermTip>{" "}
             with each other: everyone keeps a rough map of who knows what.
-            Nothing like it exists for their AI tools — the context that
+            Nothing like it exists for their AI tools: the context that
             shaped the work scatters across separate chats. Across five
             concept tests, most people volunteered the same feeling
             unprompted: their AI-assisted work didn’t quite feel like theirs.
@@ -444,7 +444,7 @@ export default function FollowPage() {
       </section>
 
       {/* ============ WHAT IT DOES — not-RAG + the product behaviors ============ */}
-      <section className="section" id="what-it-does" data-snav-target>
+      <section className="section" data-ambient-dim id="what-it-does" data-snav-target>
         <div className="container" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>What it does</h2>
           <p className="lede">
@@ -651,7 +651,7 @@ export default function FollowPage() {
                 <p className={styles.storyStepBody}>
                   Aurora is a fictional checkout-redesign team. Maya designs
                   in Claude, Alex runs product in ChatGPT, Sam builds in
-                  Gemini — three tools, normally three silos.
+                  Gemini: three tools, normally three silos.
                 </p>
               </div>
               <div className={styles.storyStep}>
@@ -660,7 +660,7 @@ export default function FollowPage() {
                 <p className={styles.storyStepBody}>
                   One working week, captured as they worked: 16 conversations,
                   7 files, a 32-fact memory. Three questions ended the week
-                  still contested — Follow keeps both sides on the record.
+                  still contested; Follow keeps both sides on the record.
                 </p>
               </div>
               <div className={styles.storyStep}>
@@ -668,7 +668,7 @@ export default function FollowPage() {
                 <p className={styles.storyStepTitle}>Your seat</p>
                 <p className={styles.storyStepBody}>
                   You’re the fourth teammate. Ask Follow anything about the
-                  week — it thinks, picks its tools, and you watch every call
+                  week: it thinks, picks its tools, and you watch every call
                   cross the wire. Save the conversation and you join the
                   memory too.
                 </p>
@@ -689,7 +689,7 @@ export default function FollowPage() {
           </p>
         </div>
 
-        <div className={styles.appBleed} id="follow-sandbox">
+        <div className={styles.appBleed} data-ambient-live id="follow-sandbox">
           {/* the tour overlay portals in here — dim/ring/coach card are all
               absolutely positioned within this stage, so the tour lives (and
               scrolls) with the sandbox instead of riding the viewport */}
@@ -707,35 +707,35 @@ export default function FollowPage() {
 
       {/* ============ UNDER THE HOOD (the real system behind the sandbox) ============ */}
       {/* ownership claim: confirmed by RS before merge */}
-      <section className="section" id="under-the-hood" data-snav-target>
+      <section className="section" data-ambient-dim id="under-the-hood" data-snav-target>
         <div className="containerText" data-reveal>
           <UnderTheHood>
           <p className="lede">
-            The sandbox above runs the shipped system — not a mockup.
+            The sandbox above runs the shipped system, not a mockup.
             What&rsquo;s behind it:
           </p>
           <div className={styles.rlist}>
             <div className={styles.r}>
-              <strong>Stack</strong> — TypeScript MCP server (Hono, JSON-RPC at
+              <strong>Stack</strong>: TypeScript MCP server (Hono, JSON-RPC at
               /mcp), Next.js sandbox client, deployed on Railway.
             </div>
             <div className={styles.r}>
-              <strong>Pipeline</strong> — five LLM roles (Reporter, Analyst,
+              <strong>Pipeline</strong>: five LLM roles (Reporter, Analyst,
               Editor, Archivist, Profiler; the Editor currently flag-gated)
               turn raw AI conversations into a versioned index: typed edges,
               provenance on every fact, supersession instead of overwrites.
             </div>
             <div className={styles.r}>
-              <strong>Testing</strong> — ≈2,100 automated tests across the
+              <strong>Testing</strong>: ≈2,100 automated tests across the
               pipeline, tool contracts, and clients.
             </div>
             <div className={styles.r}>
-              <strong>Ownership</strong> — the architecture, data model, tool
+              <strong>Ownership</strong>: the architecture, data model, tool
               contracts, and evaluation are mine; implementation is AI-assisted
               with Claude Code, with every change reviewed and tested.
             </div>
             <div className={styles.r}>
-              <strong>Limits</strong> — beta scope; capture quality tracks MCP
+              <strong>Limits</strong>: beta scope; capture quality tracks MCP
               client support.
             </div>
           </div>

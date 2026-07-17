@@ -101,7 +101,7 @@ export default function HousingWorksPage() {
             younger staff specifically.
           </p>
           <p className={styles.body}>
-            Our team of three — Sharka, Pani, and me — split the work. Mine
+            Our team of three (Sharka, Pani, and me) split the work. Mine
             was the economic and competitive analysis, the survey statistics,
             and one of the three frameworks we delivered: a system for
             trustee-led workshops.
@@ -630,7 +630,7 @@ export default function HousingWorksPage() {
                 The system matches a staff development need against a trustee’s
                 skills and Housing Works’ strategic priorities, then turns the
                 match into one structured 45-minute session. Every session is
-                recorded, summarized, and archived — what’s taught stays with
+                recorded, summarized, and archived: what’s taught stays with
                 the team. Its share of the three-framework budget is $900 a
                 year.
               </p>
@@ -687,7 +687,7 @@ export default function HousingWorksPage() {
           </svg>
         </div>
 
-        <div className={styles.appBleed} id="demo" data-snav-target>
+        <div className={styles.appBleed} data-ambient-live id="demo" data-snav-target>
           {/* the stage: the guided walkthrough's spotlight overlay portals in
               here and stays absolute within it (see HwDemoTour) */}
           <div className={styles.appBleedInner} id="hw-sandbox-stage">

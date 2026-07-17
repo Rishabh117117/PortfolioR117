@@ -69,7 +69,7 @@ export default function Home() {
                 AI-products, substantiated by the four working demos in the grid
                 below. */}
             <h1 className={styles.headline}>
-              A designer who ships <em>working</em> AI products — try
+              A designer who ships <em>working</em> AI products: try
               everything below.
             </h1>
 
@@ -92,7 +92,7 @@ export default function Home() {
                 a recruiter never has to scroll to learn what he's looking for */}
             <p className={styles.availability}>
               <span className={styles.liveDot} aria-hidden="true" />
-              Brooklyn, NY — open to internships now · full-time from early 2027
+              Brooklyn, NY · open to internships now · full-time from early 2027
             </p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function Home() {
             </div>
             {/* top-of-funnel proof line — the chips claim it, this says it plainly */}
             <p className={`cap ${styles.workNote}`}>
-              All four end in something you can actually try — open any card.
+              All four end in something you can actually try: open any card.
             </p>
 
             <div className={styles.grid}>
@@ -194,7 +194,7 @@ export default function Home() {
         <div className={`container ${styles.ctaContent}`} data-reveal>
           <div className={styles.ctaBlock}>
             <h2 className={styles.ctaTitle}>
-              I graduate this December — open to internships this fall, and
+              I graduate this December: open to internships this fall, and
               Design Engineer &amp; Product roles from early 2027.
             </h2>
             <div className={styles.ctaRow}>
