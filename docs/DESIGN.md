@@ -53,11 +53,19 @@ Usage rules:
 Faces (Google Fonts):
 - Display + headings: Bricolage Grotesque (opsz, weights 500/600/700)
 - Body + UI text: Inter (400/500/600)
-- Labels, code, demo UI, meta: IBM Plex Mono (400/500)
+- Portfolio-chrome labels (eyebrows/kickers/chips/metas): --font-label —
+  **UNFOLD-POLISH TRIAL in progress**: candidate A = Bricolage caps (current
+  default), B = Fraunces caps, C = Inter caps; compared live via the dev-only
+  LabelFaceSwitcher chip. Mono chrome read "robotic" (Rishabh, 2026-07-16).
+  Lock the winner here + delete the trial rig after review.
+- Code, demo/product-replica UI: IBM Plex Mono (400/500) — the demo apps
+  (FollowSandbox, PackagesApp, WorkshopsApp, GhApp/TierMocks) keep true mono
+  deliberately: they are software surfaces, not narrative chrome.
 
 --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
 --font-body:    'Inter', system-ui, sans-serif;
 --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+--font-label:   var(--font-display)  /* trial default (candidate A) */
 
 Type scale (clamp = fluid mobile→desktop). Headings weight 600, tight tracking.
 
@@ -70,7 +78,7 @@ Type scale (clamp = fluid mobile→desktop). Headings weight 600, tight tracking
 | --fs-body-l   | intro/lede    | body 400    | clamp(15px, 2.4vw, 18px)   | 0        | 1.55 |
 | --fs-body     | reading text  | body 400    | 15px                       | 0        | 1.6  |
 | --fs-cap      | captions/meta | body 400    | 13px (color --soft)        | 0        | 1.5  |
-| --fs-label    | labels/UI     | mono 500    | 11px UPPERCASE             | .08em    | 1.4  |
+| --fs-label    | labels/UI     | label 500   | 11px UPPERCASE             | .08em    | 1.4  |
 
 Signature move: one key word per hero/heading may be set in *italic* Bricolage as emphasis
 (e.g. "I design *systems* that used to be objects"). Use at most once per heading. Optional.
@@ -160,6 +168,12 @@ Full motion system is deferred. For the shell, implement ONLY these, snappy:
 - Button/card hover & press: transform + background over --t-fast --e-snappy.
 - Link underline-offset on hover.
 - Honor prefers-reduced-motion: reduce → disable all transitions/animations; content static.
+- **Gentle tier (UNFOLD-POLISH, 2026-07-16): anything that MOVES rides
+  --t-gentle .45s (expansion/reveal) or --t-soft .35s (hover moves) with
+  --e-gentle cubic-bezier(.22, 1, .36, 1); color/press feedback may stay fast.
+  Card hovers lift at most -2px. Hover must NEVER change layout (the Unfold
+  hover-peek was removed for this). "The site has fluid and easy motion —
+  nothing can be sudden."**
 - Do NOT build scroll-reveals, parallax, or the signature arc yet — those come in the motion phase.
 - **Exception (RESTRUCTURE-1):** the `/work/follow` pipeline reel uses an
   **autoplay-on-view loop** (IntersectionObserver-gated timed sequencer, vanilla
