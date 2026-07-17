@@ -58,16 +58,20 @@
   color: inherit;
   text-decoration: none;
   transition:
-    transform var(--t-fast) var(--e-snappy),
-    box-shadow var(--t-fast) var(--e-snappy),
-    border-color var(--t-fast) var(--e-snappy);
+    transform var(--t-soft) var(--e-gentle),
+    box-shadow var(--t-soft) var(--e-gentle),
+    border-color var(--t-soft) var(--e-gentle);
 }
 @media (hover: hover) {
   .card:hover {
     text-decoration: none;
-    transform: translateY(-3px);
     border-color: var(--accent);
     box-shadow: var(--shadow-lift);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover {
+    transform: translateY(-2px);
   }
 }
 /* portrait window on a landscape cover — --crop picks what stays in frame */

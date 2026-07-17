@@ -477,9 +477,9 @@
   .force,
   .prec {
     transition:
-      transform var(--t-fast) var(--e-snappy),
-      box-shadow var(--t-fast) var(--e-snappy),
-      border-color var(--t-fast) var(--e-snappy);
+      transform var(--t-soft) var(--e-gentle),
+      box-shadow var(--t-soft) var(--e-gentle),
+      border-color var(--t-soft) var(--e-gentle);
   }
   .force:hover,
   .prec:hover {
@@ -492,7 +492,7 @@
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .force:hover,
   .prec:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
 }
 

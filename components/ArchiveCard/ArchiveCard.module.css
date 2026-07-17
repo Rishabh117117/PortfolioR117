@@ -14,20 +14,24 @@
   border-radius: var(--radius);
   overflow: hidden;
   transition:
-    transform var(--t-fast) var(--e-snappy),
-    border-color var(--t-fast) var(--e-snappy),
-    box-shadow var(--t-fast) var(--e-snappy);
+    transform var(--t-soft) var(--e-gentle),
+    border-color var(--t-soft) var(--e-gentle),
+    box-shadow var(--t-soft) var(--e-gentle);
 }
 @media (hover: hover) {
   .cardLink:hover {
     text-decoration: none;
-    transform: translateY(-3px);
     border-color: var(--accent);
     box-shadow: var(--shadow-lift);
   }
   .cardLink:hover .cta {
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .cardLink:hover {
+    transform: translateY(-2px);
   }
 }
 

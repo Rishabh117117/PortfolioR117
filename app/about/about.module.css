@@ -355,13 +355,13 @@
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .frameSm {
-    transition: transform var(--t-fast) var(--e-snappy);
+    transition: transform var(--t-soft) var(--e-gentle);
   }
   .rotA:hover {
-    transform: rotate(-1deg) translateY(-3px);
+    transform: rotate(-1deg) translateY(-2px);
   }
   .rotB:hover {
-    transform: rotate(1deg) translateY(-3px);
+    transform: rotate(1deg) translateY(-2px);
   }
 }
 
