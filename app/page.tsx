@@ -65,16 +65,18 @@ export default function Home() {
           <div className={styles.heroCard}>
             <p className={`eyebrow ${styles.eyebrow}`}>Rishabh Salian · designer &amp; builder</p>
 
-            {/* HERO COPY — D-01 resolved (COPY-A-1): the claim is design + build,
-                substantiated by the four working demos in the grid below. */}
+            {/* HERO COPY — D-01 resolved (COPY-A-1): the claim is ships-working-
+                AI-products, substantiated by the four working demos in the grid
+                below. */}
             <h1 className={styles.headline}>
-              I design AI products, and <em>build</em> them, so you can try
+              A designer who ships <em>working</em> AI products — try
               everything below.
             </h1>
 
             <p className={styles.subhead}>
-              I started in industrial and product design, moved through UX, and
-              now build AI-native products end to end.
+              Strategic &amp; product designer by training. I start with
+              research, get to the insight, and build until it’s something you
+              can use.
             </p>
 
             <div className={styles.ctaRow}>
