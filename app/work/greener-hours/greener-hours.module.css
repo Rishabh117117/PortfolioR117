@@ -586,6 +586,14 @@
   align-items: start; /* an expanded Unfold must not stretch its row-mate */
   gap: var(--space-5);
 }
+/* collapsed evenness: reserve the tallest measured header in the narrow 2-col
+   range (#03's title wraps there; UNFOLD-POLISH — re-measure if titles change).
+   ≥1000 and the swipe row are naturally even. */
+@media (min-width: 760px) and (max-width: 999px) {
+  .tradeoffs {
+    --unfold-head-min: 120px;
+  }
+}
 @media (min-width: 760px) {
   .tradeoffs {
     grid-template-columns: 1fr 1fr;

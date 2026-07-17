@@ -390,6 +390,10 @@
   border: 1px solid rgba(244, 242, 236, 0.18);
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.55);
+  /* crimson fails contrast for the thin Unfold chevron on this dark glass —
+     the wash reads clearly and stays in the page's theme */
+  --unfold-affordance: var(--accent-wash);
+  --unfold-affordance-hover: var(--accent-tint);
 }
 .eyebrow {
   font-size: clamp(11px, 1.4vw, 12px);
@@ -517,6 +521,19 @@
   grid-template-columns: 1fr;
   align-items: start; /* an expanded Unfold must not stretch its row-mates */
   gap: var(--space-5);
+}
+/* collapsed evenness: reserve the tallest measured header per layout
+   (UNFOLD-POLISH — re-measure if finding titles change); the mobile
+   single-column stack needs none */
+@media (min-width: 768px) and (max-width: 1079px) {
+  .findings {
+    --unfold-head-min: 186px;
+  }
+}
+@media (min-width: 1080px) {
+  .findings {
+    --unfold-head-min: 170px;
+  }
 }
 /* each finding is an <Unfold variant="card"> now (ROUND-2026-07-16): the glyph
    stays in the always-rendered header so it keeps drawing on scroll (the Unfold

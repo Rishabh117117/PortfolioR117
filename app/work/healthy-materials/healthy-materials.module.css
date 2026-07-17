@@ -610,6 +610,19 @@
   align-items: start; /* an expanded Unfold must not stretch its row-mates */
   gap: var(--space-5);
 }
+/* collapsed evenness: the three concept titles wrap differently at every
+   width, so reserve the tallest measured header (UNFOLD-POLISH — re-measure
+   if concept titles change). 760–767 stacks single-column: no reserve needed. */
+@media (max-width: 759px) {
+  .concepts {
+    --unfold-head-min: 144px; /* swipe row */
+  }
+}
+@media (min-width: 768px) {
+  .concepts {
+    --unfold-head-min: 176px;
+  }
+}
 /* the three concepts are <Unfold variant="card"> now (ROUND-2026-07-16): the
    Unfold supplies the card chrome + hover-lift, and the Packages card's
    defaultOpen + firstFlag mark it as the focus (replacing the old .conceptFirst

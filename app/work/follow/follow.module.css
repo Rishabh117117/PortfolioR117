@@ -696,6 +696,19 @@
   gap: 16px;
   margin-top: 24px;
 }
+/* collapsed evenness: reserve the tallest measured header per width range so
+   1-line and 2-line titles hold the same card height (UNFOLD-POLISH; re-measure
+   if the tile titles change). ≥1200 and the swipe row are naturally even. */
+@media (min-width: 760px) and (max-width: 999px) {
+  .cards {
+    --unfold-head-min: 140px;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .cards {
+    --unfold-head-min: 112px;
+  }
+}
 /* mobile: native scroll-snap swipe row instead of a stacked single column —
    see .rcols above for the bleed/re-pad convention. */
 @media (max-width: 759px) {
