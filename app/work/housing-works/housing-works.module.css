@@ -271,6 +271,11 @@
 .posterStudy .subLine {
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
 }
+/* both workshop sub-lines are followed by a glass Unfold — now that the
+   dropdown is a visible box, it needs real air below the text */
+.subLine + div {
+  margin-top: var(--space-5);
+}
 /* mono affordance header for the workshop Unfolds ("how we ran it" / "inside the
    session") — inherits color so it works light-on-photo and dark-on-paper. */
 .wsHow {
@@ -397,7 +402,6 @@
   /* the Unfold's light glass would blind on this dark card: retint it to a
      faint cream veil so it reads as a nested panel of the same material */
   --unfold-glass-bg: rgba(244, 242, 236, 0.07);
-  --unfold-glass-line: rgba(244, 242, 236, 0.16);
 }
 .eyebrow {
   font-size: clamp(11px, 1.4vw, 12px);

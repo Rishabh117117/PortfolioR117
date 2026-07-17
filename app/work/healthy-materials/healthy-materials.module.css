@@ -680,7 +680,7 @@
 .tangibleIntro {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4); /* the "how to read it" dropdown is a glass box now — give it air */
   margin-bottom: var(--space-6);
 }
 /* mono affordance header for the "how to read it" demo Unfold (ROUND-2026-07-16) */

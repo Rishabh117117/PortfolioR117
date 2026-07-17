@@ -20,17 +20,17 @@
      --unfold-head-min          header min-height, set per grid so collapsed
                                 cards in one row hold the same height
      --unfold-glass-bg          glass fill (default: var(--glass-bg))
-     --unfold-glass-line        glass hairline (default: var(--line))
      --unfold-affordance        chevron color (default: var(--accent))
      --unfold-affordance-hover  chevron hover color (default: --accent-deep)
    ========================================================================= */
 
-/* ---- the glass card ---- */
+/* ---- the glass card — BORDERLESS: the frosted tint + resting shadow
+   define the edge (per Rishabh, glass round 2) ---- */
 .card {
   background: var(--unfold-glass-bg, var(--glass-bg));
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--unfold-glass-line, var(--line));
+  border: 0;
   border-radius: var(--radius);
   box-shadow: var(--shadow-rest);
   /* .lift (global) rides alongside this class for the hover elevation;

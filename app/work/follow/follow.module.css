@@ -1211,7 +1211,8 @@
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--line);
+  /* borderless like every dropdown glass (glass round 2) */
+  border: 0;
   border-radius: var(--radius);
   box-shadow: var(--shadow-rest);
 }
