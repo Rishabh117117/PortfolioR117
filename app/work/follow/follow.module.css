@@ -72,6 +72,22 @@
   color: var(--accent);
   font-style: normal;
 }
+/* HMW on glass (ROUND-2026-07-16) — the blue/orange ambient orbs blur through,
+   the same feel as the timeline band */
+.hmwGlass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-rest);
+  padding: var(--space-6);
+}
+@media (min-width: 720px) {
+  .hmwGlass {
+    padding: var(--space-7);
+  }
+}
 
 /* Follow concept — the reveal */
 .revealName {
@@ -580,7 +596,7 @@
 
 /* =========================================================================
    What it does (FOLLOW-SYS-1) — the RAG-vs-Follow compare strip. The feature
-   tiles below it reuse .cards/.card.
+   tiles below it are <Unfold variant="card"> in the .cards grid (ROUND-2026-07-16).
    ========================================================================= */
 .rag {
   position: relative;
@@ -676,6 +692,7 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: start; /* an expanded Unfold must not stretch its row-mates */
   gap: 16px;
   margin-top: 24px;
 }
@@ -702,42 +719,59 @@
     scroll-snap-align: start;
   }
 }
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 22px;
+/* the differentiator tiles are <Unfold variant="card"> now (ROUND-2026-07-16):
+   the Unfold supplies the card chrome + hover-lift, so only the collapsed
+   header content (accent glyph + number + title) and the unfolding body are
+   styled here. .card p → .widBody (see Phase 8 typography). */
+.widHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
 }
-.card .no {
+.widIcon {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  color: var(--accent);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.widText {
+  min-width: 0;
+}
+.widNo {
+  display: block;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--accent);
   letter-spacing: 0.08em;
 }
-.card h3 {
+.widTitle {
   font-size: 18px;
-  margin-top: 10px;
+  margin-top: 3px;
   letter-spacing: -0.01em;
 }
-.card p {
-  margin-top: 8px;
+.widBody {
   font-size: 14px;
   color: var(--soft);
   line-height: 1.55;
 }
 
-/* glass hover-lift — shared by the differentiator + insight cards (DESIGN-PHASE-1
-   motion). Pointer-only; the lift is gated on no-preference so reduced-motion
-   users get the (still) border/shadow change without movement. */
+/* glass hover-lift for the insight cards (the differentiator tiles moved to
+   <Unfold>, which brings the global .lift recipe with it). Pointer-only; the
+   lift is gated on no-preference so reduced-motion users get the (still)
+   border/shadow change without movement. */
 @media (hover: hover) {
-  .card,
   .ins {
     transition:
       transform var(--t-fast) var(--e-snappy),
       box-shadow var(--t-fast) var(--e-snappy),
       border-color var(--t-fast) var(--e-snappy);
   }
-  .card:hover,
   .ins:hover {
     border-color: var(--accent-wash);
     box-shadow:
@@ -746,7 +780,6 @@
   }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .card:hover,
   .ins:hover {
     transform: translateY(-3px);
   }
@@ -790,11 +823,41 @@
   text-transform: uppercase;
   color: var(--accent-deep, #9e340a);
 }
-.storyBody {
-  margin: 0;
+/* the story is a 3-step strip now (ROUND-2026-07-16): mono number · bold
+   mini-title · short body; 3 columns ≥900px, stacked below */
+.storySteps {
+  display: grid;
+  gap: 18px;
+  margin-top: 2px;
+}
+@media (min-width: 900px) {
+  .storySteps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+}
+.storyStep {
+  padding-top: 11px;
+  border-top: 2px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+}
+.storyNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--accent-deep, #9e340a);
+}
+.storyStepTitle {
+  margin: 3px 0 0;
+  font-weight: 700;
   font-size: 15px;
-  line-height: 1.7;
-  max-width: 66ch;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.storyStepBody {
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
 }
 .techLine {
   margin: 10px 0 0;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ProjectPager from "@/components/ProjectPager/ProjectPager";
 import Reveal from "@/components/Reveal/Reveal";
+import Unfold from "@/components/Unfold/Unfold";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import BeforeSystem from "./BeforeSystem";
 import FollowSystem from "./FollowSystem";
@@ -52,12 +53,13 @@ export default function FollowPage() {
             Follow<span className={styles.dot}>.</span>
           </h1>
           <p className={styles.heroTitle}>
-            A shared memory for your team’s <em>AI chats</em>.
+            One shared memory for your team’s AI chats — and the{" "}
+            <em>artifacts</em> they produce.
           </p>
           <p className={styles.heroSub}>
             Follow sits between the AI tools your team already uses and
-            turns every chat into shared knowledge: one index of what the
-            team knows, and a directory of who knows it.
+            turns every chat and document into shared knowledge: one index
+            of what the team knows, and a directory of who knows it.
           </p>
           <SkipToDemo />
         </div>
@@ -293,13 +295,13 @@ export default function FollowPage() {
         <div className="containerText" data-reveal>
           <h2 className={`mono ${styles.kicker}`}>The problem</h2>
           <p className={styles.probState}>
-            The reasoning behind your team’s work now lives in private AI
-            chats.
+            As work moves into AI workflows, the reasoning behind it
+            disappears into private chats.
           </p>
           <p className="lede">
-            Work isn’t written alone anymore. Almost every decision now passes
-            through someone’s AI chat (the constraints, the rejected options,
-            the reasoning) and then stays locked in that one private thread.
+            Every decision now gets worked out with an AI first — the
+            constraints, the rejected options, the why. All of it stays in
+            one person’s thread, invisible to the rest of the team.
           </p>
           <p className={styles.body}>
             Teams already run as a{" "}
@@ -313,11 +315,10 @@ export default function FollowPage() {
               knowing whom to ask.
             </TermTip>{" "}
             with each other: everyone keeps a rough map of who knows what.
-            But they don’t have that with their AI tools. The context that
-            actually shaped the work scatters across separate chats and
-            disappears. Across five concept tests, most people volunteered
-            the same feeling before seeing anything: that their AI-assisted
-            work didn’t quite feel like theirs.
+            Nothing like it exists for their AI tools — the context that
+            shaped the work scatters across separate chats. Across five
+            concept tests, most people volunteered the same feeling
+            unprompted: their AI-assisted work didn’t quite feel like theirs.
           </p>
         </div>
 
@@ -389,12 +390,15 @@ export default function FollowPage() {
       {/* ============ HMW ============ */}
       <section className="section">
         <div className="containerText" data-reveal>
-          <p className={styles.hmwEyebrow}>The opportunity</p>
-          <h2 className={styles.hmw}>
-            How might we give a team{" "}
-            <em>one shared, trustable memory</em>, across every AI tool they
-            already use?
-          </h2>
+          {/* glass card — the ambient orbs blur through, like the timeline band */}
+          <div className={styles.hmwGlass}>
+            <p className={styles.hmwEyebrow}>The opportunity</p>
+            <h2 className={styles.hmw}>
+              How might we give a team{" "}
+              <em>one shared, trustable memory</em>, across every AI tool they
+              already use?
+            </h2>
+          </div>
         </div>
       </section>
 
@@ -464,56 +468,149 @@ export default function FollowPage() {
           </p>
 
           <div className={styles.cards}>
-            <div className={styles.card}>
-              <span className={styles.no}>01</span>
-              <h3>Works across tools</h3>
-              <p>
+            <Unfold
+              variant="card"
+              header={
+                <span className={styles.widHead}>
+                  <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="4.5" cy="6" r="1.7" />
+                    <circle cx="4.5" cy="12" r="1.7" />
+                    <circle cx="4.5" cy="18" r="1.7" />
+                    <path d="M6.4 6.4 L15 11" />
+                    <path d="M6.4 12 H15" />
+                    <path d="M6.4 17.6 L15 13" />
+                    <rect x="16.5" y="7" width="3.4" height="10" rx="1.2" />
+                  </svg>
+                  <span className={styles.widText}>
+                    <span className={styles.widNo}>01</span>
+                    <h3 className={styles.widTitle}>Works across tools</h3>
+                  </span>
+                </span>
+              }
+            >
+              <p className={styles.widBody}>
                 Maya’s Claude, Alex’s ChatGPT, Sam’s Gemini: every teammate’s
                 AI reads and writes the same memory, over MCP.
               </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>02</span>
-              <h3>Answers with receipts</h3>
-              <p>
+            </Unfold>
+            <Unfold
+              variant="card"
+              header={
+                <span className={styles.widHead}>
+                  <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="5.5" y="3.5" width="13" height="17" rx="1.6" />
+                    <path d="M8.5 8 H15.5" />
+                    <path d="M8.5 11 H13" />
+                    <path d="M8.5 15.5 l2 2 l4 -4.2" />
+                  </svg>
+                  <span className={styles.widText}>
+                    <span className={styles.widNo}>02</span>
+                    <h3 className={styles.widTitle}>Answers with receipts</h3>
+                  </span>
+                </span>
+              }
+            >
+              <p className={styles.widBody}>
                 Every fact carries who said it, in which chat, and when, so
                 answers come back attributed, and you can check them.
               </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>03</span>
-              <h3>Disagreements stay visible</h3>
-              <p>
+            </Unfold>
+            <Unfold
+              variant="card"
+              header={
+                <span className={styles.widHead}>
+                  <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3.5 14 H10.3" />
+                    <path d="M8.2 11.8 L10.6 14 L8.2 16.2" />
+                    <path d="M20.5 14 H13.7" />
+                    <path d="M15.8 11.8 L13.4 14 L15.8 16.2" />
+                    <path d="M12 13 V5" />
+                    <path d="M12 5 L16 6.4 L12 7.8" />
+                  </svg>
+                  <span className={styles.widText}>
+                    <span className={styles.widNo}>03</span>
+                    <h3 className={styles.widTitle}>Disagreements stay visible</h3>
+                  </span>
+                </span>
+              }
+            >
+              <p className={styles.widBody}>
                 When two teammates’ AIs conclude different things, Follow flags
                 the conflict and keeps both sides on the record.
               </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>04</span>
-              <h3>A live who-knows-what</h3>
-              <p>
+            </Unfold>
+            <Unfold
+              variant="card"
+              header={
+                <span className={styles.widHead}>
+                  <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="8" cy="8" r="2.2" />
+                    <circle cx="16" cy="8" r="2.2" />
+                    <circle cx="16" cy="16" r="2.2" />
+                    <circle cx="8" cy="16" r="2.2" fill="currentColor" stroke="none" />
+                    <circle cx="8" cy="16" r="4.3" />
+                  </svg>
+                  <span className={styles.widText}>
+                    <span className={styles.widNo}>04</span>
+                    <h3 className={styles.widTitle}>A live who-knows-what</h3>
+                  </span>
+                </span>
+              }
+            >
+              <p className={styles.widBody}>
                 The directory of what your team knows and who knows it,
                 maintained by the work itself, not by anyone filling in
                 profiles.
               </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>05</span>
-              <h3>Memory that stays current</h3>
-              <p>
+            </Unfold>
+            <Unfold
+              variant="card"
+              header={
+                <span className={styles.widHead}>
+                  <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3.5" y="13" width="12.5" height="6" rx="1.6" />
+                    <rect x="3.5" y="5" width="12.5" height="6" rx="1.6" fill="currentColor" stroke="none" />
+                    <path d="M20 18 V8" />
+                    <path d="M17.8 10 L20 7.6 L22.2 10" />
+                  </svg>
+                  <span className={styles.widText}>
+                    <span className={styles.widNo}>05</span>
+                    <h3 className={styles.widTitle}>Memory that stays current</h3>
+                  </span>
+                </span>
+              }
+            >
+              <p className={styles.widBody}>
                 New decisions retire the old ones they replace, and the old
                 version stays in the trail, so nothing silently vanishes.
               </p>
-            </div>
-            <div className={styles.card}>
-              <span className={styles.no}>06</span>
-              <h3>Documents join the memory</h3>
-              <p>
+            </Unfold>
+            <Unfold
+              variant="card"
+              header={
+                <span className={styles.widHead}>
+                  <svg className={styles.widIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="5" width="8.5" height="12" rx="1.3" />
+                    <path d="M5.5 8.5 H9" />
+                    <path d="M5.5 11.5 H9" />
+                    <circle cx="19" cy="7.5" r="2" />
+                    <circle cx="19" cy="16.5" r="2" />
+                    <path d="M11.5 10 L17 7.9" />
+                    <path d="M11.5 12 L17 16.1" />
+                  </svg>
+                  <span className={styles.widText}>
+                    <span className={styles.widNo}>06</span>
+                    <h3 className={styles.widTitle}>Documents join the memory</h3>
+                  </span>
+                </span>
+              }
+            >
+              <p className={styles.widBody}>
                 Uploads and live docs alike. Follow follows the artifact: its
                 facts land in the same shared memory and version up as it
                 changes.
               </p>
-            </div>
+            </Unfold>
           </div>
         </div>
       </section>
@@ -527,21 +624,36 @@ export default function FollowPage() {
           </h2>
           <div className={styles.storyCard}>
             <p className={`mono ${styles.storyKicker}`}>the story</p>
-            <p className={styles.storyBody}>
-              Meet <strong>Aurora</strong>, a fictional checkout-redesign
-              team, invented and pre-loaded into this sandbox so you can walk
-              through Follow with real material. Maya designs in Claude. Alex
-              runs product in ChatGPT. Sam builds in Gemini. Three people,
-              three different AI tools, normally three separate silos.
-            </p>
-            <p className={styles.storyBody}>
-              For one working week they had the Follow connector attached, and
-              the week captured itself as they worked: <strong>16
-              conversations</strong>, <strong>7 uploaded files</strong>, and
-              the <strong>32-fact team memory</strong> those produced. Three
-              questions ended the week still genuinely contested; Follow
-              keeps both sides on the record instead of picking a winner.
-            </p>
+            <div className={styles.storySteps}>
+              <div className={styles.storyStep}>
+                <span className={styles.storyNum}>01</span>
+                <p className={styles.storyStepTitle}>The team</p>
+                <p className={styles.storyStepBody}>
+                  Aurora is a fictional checkout-redesign team. Maya designs
+                  in Claude, Alex runs product in ChatGPT, Sam builds in
+                  Gemini — three tools, normally three silos.
+                </p>
+              </div>
+              <div className={styles.storyStep}>
+                <span className={styles.storyNum}>02</span>
+                <p className={styles.storyStepTitle}>The week</p>
+                <p className={styles.storyStepBody}>
+                  One working week, captured as they worked: 16 conversations,
+                  7 files, a 32-fact memory. Three questions ended the week
+                  still contested — Follow keeps both sides on the record.
+                </p>
+              </div>
+              <div className={styles.storyStep}>
+                <span className={styles.storyNum}>03</span>
+                <p className={styles.storyStepTitle}>Your seat</p>
+                <p className={styles.storyStepBody}>
+                  You’re the fourth teammate. Ask Follow anything about the
+                  week — it thinks, picks its tools, and you watch every call
+                  cross the wire. Save the conversation and you join the
+                  memory too.
+                </p>
+              </div>
+            </div>
           </div>
           <DemoTour />
           <p className={`mono ${styles.techLine}`}>
