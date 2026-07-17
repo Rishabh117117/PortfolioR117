@@ -1,20 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./ProjectSideNav.module.css";
 
 export type SideNavSection = { id: string; label: string };
 
 /**
  * ProjectSideNav — a floating right-edge section index for the flagship
- * project pages (ROUND-2026-07-16). Mechanics lifted from the archive
- * ArchiveReader "Contents" nav: one IntersectionObserver picks the
- * best-ratio section, aria-current tracks it, and it collapses to a pill.
+ * project pages. Mechanics lifted from the archive ArchiveReader "Contents"
+ * nav: one IntersectionObserver picks the best-ratio section and
+ * aria-current tracks it.
+ *
+ * ROUND-2026-07-17: the nav rests as a column of DOTS at every width — the
+ * old collapsed hamburger pill and the ≥1440 auto-open rail are gone.
+ * Hovering or focusing a dot floats its section name in as a glass chip
+ * beside it (a floating chip, so hover never shifts layout); the chevron at
+ * the top of the rail pins the full labeled rail open for people who want
+ * the whole index visible, and collapses it back into dots.
  *
  * Only renders ≥1180px (below that it returns null — mobile keeps
- * SkipToDemo). Auto-collapses to a pill between 1180 and 1440px, where an
- * open rail would overlap the content; expanded by default ≥1440px, where the
- * page's side gutter has room for it.
+ * SkipToDemo).
  */
 export default function ProjectSideNav({
   sections,
@@ -23,27 +28,15 @@ export default function ProjectSideNav({
 }) {
   const [active, setActive] = useState(sections[0]?.id ?? "");
   const [visible, setVisible] = useState(false); // ≥1180px
-  const [open, setOpen] = useState(true); // rail vs. pill
-  const userSet = useRef(false);
-  const pendingFocus = useRef<null | "pill" | "rail">(null);
-  const railRef = useRef<HTMLElement>(null);
-  const pillRef = useRef<HTMLButtonElement>(null);
+  const [expanded, setExpanded] = useState(false); // dots (false) vs labeled rail
 
-  // visibility + default open/closed from the viewport
+  // visibility from the viewport
   useEffect(() => {
     const vis = window.matchMedia("(min-width: 1180px)");
-    const wide = window.matchMedia("(min-width: 1440px)");
-    const apply = () => {
-      setVisible(vis.matches);
-      if (!userSet.current) setOpen(wide.matches);
-    };
+    const apply = () => setVisible(vis.matches);
     apply();
     vis.addEventListener("change", apply);
-    wide.addEventListener("change", apply);
-    return () => {
-      vis.removeEventListener("change", apply);
-      wide.removeEventListener("change", apply);
-    };
+    return () => vis.removeEventListener("change", apply);
   }, []);
 
   // scroll-spy: the section crossing the viewport centre band wins
@@ -68,34 +61,6 @@ export default function ProjectSideNav({
     return () => io.disconnect();
   }, [sections, visible]);
 
-  // keep the retracted surface out of the tab/a11y order, and hand focus to the
-  // now-active control on an intentional toggle (never on the mount default).
-  useEffect(() => {
-    if (!visible) return;
-    railRef.current?.toggleAttribute("inert", !open);
-    pillRef.current?.toggleAttribute("inert", open);
-    const want = pendingFocus.current;
-    pendingFocus.current = null;
-    if (!want) return;
-    const target =
-      want === "pill"
-        ? pillRef.current
-        : railRef.current?.querySelector<HTMLElement>('[aria-current="true"]') ??
-          railRef.current?.querySelector<HTMLElement>("button");
-    target?.focus({ preventScroll: true });
-  }, [open, visible]);
-
-  const expand = useCallback(() => {
-    userSet.current = true;
-    pendingFocus.current = "rail";
-    setOpen(true);
-  }, []);
-  const collapse = useCallback(() => {
-    userSet.current = true;
-    pendingFocus.current = "pill";
-    setOpen(false);
-  }, []);
-
   const goTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -107,60 +72,42 @@ export default function ProjectSideNav({
   if (!visible) return null;
 
   return (
-    <div className={styles.root}>
-      {/* collapsed pill — expands the rail */}
+    <nav
+      id="project-sidenav"
+      className={styles.rail}
+      data-mode={expanded ? "rail" : "dots"}
+      aria-label="On this page"
+    >
+      {/* the chevron — expands the labeled rail, collapses back to dots */}
       <button
-        ref={pillRef}
         type="button"
-        className={styles.pill}
-        data-shown={!open}
-        onClick={expand}
-        aria-expanded={open}
-        aria-controls="project-sidenav"
-        aria-label="Show section navigation"
+        className={styles.toggle}
+        onClick={() => setExpanded((e) => !e)}
+        aria-expanded={expanded}
+        aria-controls="project-sidenav-list"
+        aria-label={expanded ? "Collapse to dots" : "Show section names"}
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-          <g stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-            <line x1="3" y1="4.5" x2="13" y2="4.5" />
-            <line x1="3" y1="8" x2="13" y2="8" />
-            <line x1="3" y1="11.5" x2="13" y2="11.5" />
-          </g>
-        </svg>
+        <span className={styles.chev} aria-hidden="true">
+          ›
+        </span>
       </button>
 
-      {/* the section rail */}
-      <nav
-        ref={railRef}
-        id="project-sidenav"
-        className={styles.rail}
-        data-shown={open}
-        aria-label="On this page"
-        aria-hidden={!open}
-      >
-        <ol className={styles.list}>
-          {sections.map((s) => (
-            <li key={s.id}>
-              <button
-                type="button"
-                className={styles.item}
-                aria-current={s.id === active ? "true" : undefined}
-                onClick={() => goTo(s.id)}
-              >
-                <span className={styles.dot} aria-hidden="true" />
-                <span className={styles.label}>{s.label}</span>
-              </button>
-            </li>
-          ))}
-        </ol>
-        <button
-          type="button"
-          className={styles.collapse}
-          onClick={collapse}
-          aria-label="Collapse section navigation"
-        >
-          ›
-        </button>
-      </nav>
-    </div>
+      <ol id="project-sidenav-list" className={styles.list}>
+        {sections.map((s) => (
+          <li key={s.id}>
+            <button
+              type="button"
+              className={styles.item}
+              data-label={s.label}
+              aria-current={s.id === active ? "true" : undefined}
+              onClick={() => goTo(s.id)}
+            >
+              <span className={styles.dot} aria-hidden="true" />
+              <span className={styles.label}>{s.label}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </nav>
   );
 }

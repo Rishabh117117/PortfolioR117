@@ -1,79 +1,105 @@
 /* =========================================================================
-   ProjectSideNav — floating right-edge section index (ROUND-2026-07-16).
-   Glass rail on wide screens, a pill between 1180-1440px, nothing below 1180
-   (the component returns null there). z-index sits below the sticky Nav (50)
-   and above page content (.pageContent is z-1). Tokens only.
+   ProjectSideNav — floating right-edge section index (ROUND-2026-07-16;
+   dots-rest rework ROUND-2026-07-17). Rests as a column of dots at every
+   width ≥1180 (nothing below — the component returns null). Hover/focus
+   floats a glass name chip beside a dot without shifting layout; the top
+   chevron pins the labeled rail open. z-index sits below the sticky Nav
+   (50) and above page content (.pageContent is z-1). Tokens only.
    ========================================================================= */
 
-.root {
+.rail {
   position: fixed;
   right: clamp(10px, 1.4vw, 20px);
   top: 50%;
   transform: translateY(-50%);
   z-index: 40;
-  /* the box itself never blocks clicks to the content behind it — only the
-     rail/pill controls capture pointer events */
-  pointer-events: none;
-}
-
-/* ---- the rail ---- */
-.rail {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  padding: 8px 10px 10px;
+  gap: 2px;
+  padding: 6px 7px 8px;
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-rest);
+}
+/* pinned-open rail: roomier padding + its own scroll when very tall.
+   (dots mode keeps overflow visible so the floating name chips can leave
+   the box — the dot column is short enough to never need to scroll) */
+.rail[data-mode="rail"] {
+  padding: 8px 10px 10px;
   max-height: min(76vh, 640px);
   overflow-y: auto;
-  pointer-events: auto;
-  transition:
-    opacity 0.2s var(--e-snappy),
-    transform 0.2s var(--e-snappy);
 }
-.rail[data-shown="false"] {
-  opacity: 0;
-  transform: translateX(8px);
-  pointer-events: none;
-}
-.collapse {
+
+/* ---- the chevron — the one expand/collapse control ---- */
+.toggle {
   appearance: none;
   border: 0;
   background: none;
-  padding: 0 4px 2px;
-  font-size: 14px;
-  line-height: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 24px;
+  padding: 1px 2px 3px;
   color: var(--soft);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
 }
-.collapse:hover {
-  color: var(--accent);
+.chev {
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 600;
+  transition:
+    transform var(--t-soft) var(--e-gentle),
+    color var(--t-fast) var(--e-snappy);
 }
+/* points left (‹) while resting as dots — the rail grows leftward */
+.rail[data-mode="dots"] .chev {
+  transform: rotate(180deg);
+}
+@media (hover: hover) {
+  .toggle:hover .chev {
+    color: var(--accent);
+  }
+}
+.toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
 .list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 1px;
-  width: 100%;
 }
+
+/* ---- one section = one dot (+ a label track that opens in rail mode) ---- */
 .item {
-  display: flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 0fr;
   align-items: center;
-  gap: 9px;
+  column-gap: 0px;
   width: 100%;
-  padding: 4px 6px 4px 8px;
+  padding: 6px;
   background: none;
   border: 0;
   border-radius: 6px;
   cursor: pointer;
   font: inherit;
   text-align: left;
+  transition:
+    grid-template-columns var(--t-gentle) var(--e-gentle),
+    column-gap var(--t-gentle) var(--e-gentle),
+    padding var(--t-gentle) var(--e-gentle);
+}
+.rail[data-mode="rail"] .item {
+  grid-template-columns: auto 1fr;
+  column-gap: 9px;
+  padding: 4px 6px 4px 8px;
 }
 .dot {
   flex: none;
@@ -86,13 +112,61 @@
     transform var(--t-fast) var(--e-snappy);
 }
 .label {
+  min-width: 0;
+  overflow: hidden;
   font-family: var(--font-label);
   font-size: 11px;
   letter-spacing: 0.03em;
   color: var(--soft);
   white-space: nowrap;
-  transition: color var(--t-fast) var(--e-snappy);
+  opacity: 0;
+  transition:
+    opacity var(--t-soft) var(--e-gentle),
+    color var(--t-fast) var(--e-snappy);
 }
+.rail[data-mode="rail"] .label {
+  opacity: 1;
+}
+
+/* ---- dots mode: the name floats in as a glass chip beside the dot ---- */
+.rail[data-mode="dots"] .item::after {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+  white-space: nowrap;
+  padding: 5px 9px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-rest);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--t-soft) var(--e-gentle),
+    transform var(--t-soft) var(--e-gentle);
+}
+@media (hover: hover) {
+  .rail[data-mode="dots"] .item:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+.rail[data-mode="dots"] .item:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+.rail[data-mode="dots"] .item[aria-current="true"]::after {
+  color: var(--accent);
+}
+
 @media (hover: hover) {
   .item:hover .label {
     color: var(--ink);
@@ -114,46 +188,21 @@
   outline-offset: 1px;
 }
 
-/* ---- the collapsed pill ---- */
-.pill {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  box-shadow: var(--shadow-rest);
-  color: var(--soft);
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.2s var(--e-snappy),
-    color var(--t-fast) var(--e-snappy),
-    box-shadow var(--t-fast) var(--e-snappy);
-}
-.pill[data-shown="true"] {
-  opacity: 1;
-  pointer-events: auto;
-}
-@media (hover: hover) {
-  .pill:hover {
-    color: var(--accent);
-    box-shadow: var(--shadow-lift);
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .chev {
+    transition: none;
+  }
+  .rail[data-mode="dots"] .item::after {
+    transform: translateY(-50%);
+    transition: opacity var(--t-soft) var(--e-gentle);
   }
 }
 
-/* belt-and-suspenders: the component already returns null below 1180, but keep
-   the rail out of any edge case there too */
+/* belt-and-suspenders: the component already returns null below 1180, but
+   keep the rail out of any edge case there too */
 @media (max-width: 1179.98px) {
-  .root {
+  .rail {
     display: none;
   }
 }
