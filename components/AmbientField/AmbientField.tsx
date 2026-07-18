@@ -81,8 +81,11 @@ export default function AmbientField({
       ampY: 86 + i * 24, // vertical travel (px)
       fx: 0.5 + i * 0.13, // time frequency — keeps them alive at rest
       fy: 0.42 + i * 0.11,
-      sx: 1.6 + i * 0.7, // X oscillations across one full-page scroll
-      sy: 2.2 + i * 0.6, // Y oscillations across one full-page scroll
+      // shell pages (home/about/archive) are much shorter than the flagship
+      // case studies, so far fewer loops per full-page scroll — the same
+      // per-pixel pace, not a faster spin (live-review tune, NOTES-0717)
+      sx: 0.7 + i * 0.3, // X oscillations across one full-page scroll
+      sy: 0.7 + i * 0.25, // Y oscillations across one full-page scroll
       ph: i * 1.7, // phase offset
     }));
 
@@ -173,7 +176,7 @@ export default function AmbientField({
         }
       }
       live += ((inLive ? 1 : 0) - live) * 0.05;
-      t += 0.006 * live + dy * 0.0005;
+      t += 0.006 * live + dy * 0.0003;
       px += (tx * live - px) * 0.05;
       py += (ty * live - py) * 0.05;
 
