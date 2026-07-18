@@ -27,7 +27,7 @@
   max-height: 760px;
   top: -12vh;
   left: -10vw;
-  background: radial-gradient(circle, rgba(194, 65, 12, 0.34), transparent 70%);
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.46), transparent 70%);
 }
 .gh-ambient .a2 {
   width: 42vw;
@@ -36,7 +36,7 @@
   max-height: 560px;
   top: 26vh;
   right: -2vw;
-  background: radial-gradient(circle, rgba(232, 166, 66, 0.32), transparent 72%);
+  background: radial-gradient(circle, rgba(232, 166, 66, 0.43), transparent 72%);
 }
 /* forest orbs (clean / the standard) */
 .gh-ambient .f1 {
@@ -46,7 +46,7 @@
   max-height: 820px;
   bottom: -18vh;
   right: -12vw;
-  background: radial-gradient(circle, rgba(28, 59, 54, 0.4), transparent 72%);
+  background: radial-gradient(circle, rgba(28, 59, 54, 0.54), transparent 72%);
 }
 .gh-ambient .f2 {
   width: 40vw;
@@ -55,7 +55,7 @@
   max-height: 520px;
   bottom: 4vh;
   left: -2vw;
-  background: radial-gradient(circle, rgba(46, 90, 78, 0.32), transparent 72%);
+  background: radial-gradient(circle, rgba(46, 90, 78, 0.43), transparent 72%);
 }
 
 /* resting opacity = the motion baseline (intro: amber 0.9, forest 0.5), so the

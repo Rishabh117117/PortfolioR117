@@ -45,16 +45,16 @@ export default function ArchiveProjectPage({
           orbs show in the gutters and blur through the glass side index */}
       <AmbientField
         warm={[
-          { color: project.accent, alpha: 0.4 },
-          { color: project.accent, alpha: 0.32 },
+          { color: project.accent, alpha: 0.54 },
+          { color: project.accent, alpha: 0.43 },
         ]}
         cool={[
-          { color: "#9A7B4F", alpha: 0.34 },
-          { color: "#9A7B4F", alpha: 0.3 },
+          { color: "#9A7B4F", alpha: 0.46 },
+          { color: "#9A7B4F", alpha: 0.41 },
         ]}
         restWarm={0.88}
         restCool={0.6}
-        dim={0.3}
+        dim={0.79}
       />
 
       <div className={styles.pageContent}>

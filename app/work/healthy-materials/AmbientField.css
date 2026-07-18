@@ -26,7 +26,7 @@
   max-height: 760px;
   top: -12vh;
   left: -10vw;
-  background: radial-gradient(circle, rgba(92, 122, 58, 0.42), transparent 70%);
+  background: radial-gradient(circle, rgba(92, 122, 58, 0.57), transparent 70%);
 }
 .ambient .g2 {
   width: 42vw;
@@ -35,7 +35,7 @@
   max-height: 560px;
   top: 28vh;
   right: -2vw;
-  background: radial-gradient(circle, rgba(143, 176, 106, 0.36), transparent 72%);
+  background: radial-gradient(circle, rgba(143, 176, 106, 0.49), transparent 72%);
 }
 /* clay orbs */
 .ambient .c1 {
@@ -45,7 +45,7 @@
   max-height: 820px;
   bottom: -18vh;
   right: -12vw;
-  background: radial-gradient(circle, rgba(176, 118, 63, 0.4), transparent 72%);
+  background: radial-gradient(circle, rgba(176, 118, 63, 0.54), transparent 72%);
 }
 .ambient .c2 {
   width: 40vw;
@@ -54,7 +54,7 @@
   max-height: 520px;
   bottom: 4vh;
   left: -2vw;
-  background: radial-gradient(circle, rgba(176, 118, 63, 0.3), transparent 72%);
+  background: radial-gradient(circle, rgba(176, 118, 63, 0.41), transparent 72%);
 }
 
 /* resting opacity = the motion baseline (intro: green 0.9, clay 0.62), so the

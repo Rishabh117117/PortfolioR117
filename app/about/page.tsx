@@ -27,16 +27,16 @@ export default function AboutPage() {
     <div className={styles.page}>
       <AmbientField
         warm={[
-          { color: "#9A7B4F", alpha: 0.4 },
-          { color: "#9A7B4F", alpha: 0.34 },
+          { color: "#9A7B4F", alpha: 0.54 },
+          { color: "#9A7B4F", alpha: 0.46 },
         ]}
         cool={[
-          { color: "#1C39BB", alpha: 0.38 },
-          { color: "#1C39BB", alpha: 0.32 },
+          { color: "#1C39BB", alpha: 0.51 },
+          { color: "#1C39BB", alpha: 0.43 },
         ]}
         restWarm={0.9}
         restCool={0.65}
-        dim={0.28}
+        dim={0.78}
       />
 
       <div className={styles.pageContent}>

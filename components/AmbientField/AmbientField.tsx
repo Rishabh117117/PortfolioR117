@@ -25,7 +25,7 @@ import styles from "./AmbientField.module.css";
 export type OrbSpec = {
   /** hex color, e.g. "#9A7B4F" */
   color: string;
-  /** gradient core alpha (flagship pages sit around 0.3–0.4) */
+  /** gradient core alpha (flagship pages sit around 0.4–0.57) */
   alpha: number;
 };
 
@@ -57,7 +57,7 @@ export default function AmbientField({
   cool,
   restWarm = 0.85,
   restCool = 0.55,
-  dim = 0.42,
+  dim = 0.83,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 

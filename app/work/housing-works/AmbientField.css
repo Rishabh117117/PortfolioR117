@@ -27,7 +27,7 @@
   max-height: 780px;
   top: -14vh;
   left: -12vw;
-  background: radial-gradient(circle, rgba(192, 38, 59, 0.4), transparent 70%);
+  background: radial-gradient(circle, rgba(192, 38, 59, 0.54), transparent 70%);
 }
 .hw-ambient .hw-w2 {
   width: 42vw;
@@ -36,7 +36,7 @@
   max-height: 560px;
   top: 24vh;
   right: -6vw;
-  background: radial-gradient(circle, rgba(232, 86, 143, 0.34), transparent 72%);
+  background: radial-gradient(circle, rgba(232, 86, 143, 0.46), transparent 72%);
 }
 /* cool — WAD teal + orange, parked low */
 .hw-ambient .hw-c1 {
@@ -46,7 +46,7 @@
   max-height: 840px;
   bottom: -20vh;
   right: -14vw;
-  background: radial-gradient(circle, rgba(43, 179, 163, 0.36), transparent 72%);
+  background: radial-gradient(circle, rgba(43, 179, 163, 0.49), transparent 72%);
 }
 .hw-ambient .hw-c2 {
   width: 40vw;
@@ -55,7 +55,7 @@
   max-height: 520px;
   bottom: 2vh;
   left: -4vw;
-  background: radial-gradient(circle, rgba(240, 138, 60, 0.3), transparent 72%);
+  background: radial-gradient(circle, rgba(240, 138, 60, 0.41), transparent 72%);
 }
 
 /* resting opacity = the motion baseline (warm 0.82, cool 0.60), so the

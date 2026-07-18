@@ -134,7 +134,7 @@ export default function AmbientField() {
           break;
         }
       }
-      dim += ((inDim ? 0.4 : 1) - dim) * 0.05;
+      dim += ((inDim ? 0.82 : 1) - dim) * 0.05;
 
       for (let i = 0; i < orbs.length; i++) {
         const p = P[i];

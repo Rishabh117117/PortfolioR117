@@ -24,7 +24,7 @@
   max-height: 640px;
   top: -10vh;
   left: -8vw;
-  background: radial-gradient(circle, rgba(194, 65, 12, 0.2), transparent 70%);
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.27), transparent 70%);
 }
 .ambient .o2 {
   width: 34vw;
@@ -33,7 +33,7 @@
   max-height: 460px;
   top: 30vh;
   right: 2vw;
-  background: radial-gradient(circle, rgba(194, 65, 12, 0.16), transparent 72%);
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.22), transparent 72%);
 }
 /* blue orbs */
 .ambient .b1 {
@@ -43,7 +43,7 @@
   max-height: 720px;
   bottom: -16vh;
   right: -10vw;
-  background: radial-gradient(circle, rgba(28, 57, 187, 0.16), transparent 72%);
+  background: radial-gradient(circle, rgba(28, 57, 187, 0.22), transparent 72%);
 }
 .ambient .b2 {
   width: 32vw;
@@ -52,7 +52,7 @@
   max-height: 440px;
   bottom: 6vh;
   left: 0vw;
-  background: radial-gradient(circle, rgba(28, 57, 187, 0.14), transparent 72%);
+  background: radial-gradient(circle, rgba(28, 57, 187, 0.19), transparent 72%);
 }
 
 /* resting opacity = the motion baseline (intro: orange 0.7, blue 0.55), so the
