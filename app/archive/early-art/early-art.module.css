@@ -93,30 +93,30 @@
   color: rgba(244, 242, 236, 0.76);
 }
 
-/* ---- Analogies boards: collage grid — board 02 leads big, the rest take
-   varied smaller cells packed dense so the section reads loose, not tabular.
+/* ---- collage grid (both sections) — one hero leads big, the rest take
+   varied smaller cells packed dense so the sections read loose, not tabular.
    Mobile: 2-up tiles with the hero full-width. ---- */
-.boards {
+.collage {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-3);
 }
-.boards > li {
+.collage > li {
   aspect-ratio: 3 / 4;
 }
-.boards > li.bHero {
+.collage > li.bHero {
   grid-column: span 2;
   aspect-ratio: 4 / 5;
 }
 @media (min-width: 768px) {
-  .boards {
+  .collage {
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 96px;
     grid-auto-flow: dense;
     gap: var(--space-4);
   }
-  .boards > li {
+  .collage > li {
     aspect-ratio: auto;
   }
   .bHero {
@@ -138,33 +138,19 @@
     grid-row: span 3;
   }
 }
-/* board sheets carry their artwork high (text plaques sit at the bottom),
-   so bias every board crop toward the top of the sheet */
-.boards .piece {
+.collage .piece {
   height: 100%;
   aspect-ratio: auto;
 }
+/* board sheets carry their artwork high (text plaques sit at the bottom),
+   so bias board crops toward the top of the sheet; charcoal frames are
+   centered in their photos, so they keep the default center crop */
 .boards .pieceImg {
   object-position: 50% 24%;
 }
 
-/* ---- charcoal studies: compact grid (2-up, 3-up from 1024px) ---- */
-.charGrid {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-3);
-}
-@media (min-width: 768px) {
-  .charGrid {
-    gap: var(--space-5);
-  }
-}
-@media (min-width: 1024px) {
-  .charGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+/* ---- charcoal studies: collage mechanics shared via .collage
+   (study 05 leads); only the caption density differs ---- */
 .charGrid .pieceCap {
   padding: var(--space-5) var(--space-3) var(--space-2);
 }

@@ -29,6 +29,19 @@ const BOARD_LAYOUT: Record<number, { li?: string; sizes: string }> = {
   7: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
 };
 
+/* same collage language for the studies — study 05 (the two children)
+   carries the section */
+const CHARCOAL_LAYOUT: Record<number, { li?: string; sizes: string }> = {
+  1: { li: "bTall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  2: { li: "bTall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  3: { li: "bWideTall", sizes: "50vw" },
+  4: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  5: { li: "bHero", sizes: "(min-width: 768px) 50vw, 100vw" },
+  6: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  7: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  8: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
+};
+
 function Piece({
   piece,
   sizes,
@@ -119,7 +132,7 @@ export default function EarlyArtPage() {
             </h2>
             <p className={`mono ${styles.secCount}`}>7 boards</p>
           </div>
-          <ul className={styles.boards}>
+          <ul className={`${styles.collage} ${styles.boards}`}>
             {EARLY_ART_BOARDS.map((piece) => {
               const layout = BOARD_LAYOUT[piece.n];
               return (
@@ -141,14 +154,18 @@ export default function EarlyArtPage() {
             </h2>
             <p className={`mono ${styles.secCount}`}>8 studies</p>
           </div>
-          <ul className={styles.charGrid}>
-            {EARLY_ART_CHARCOAL.map((piece) => (
-              <Piece
-                key={piece.n}
-                piece={piece}
-                sizes="(min-width: 1024px) 33vw, 50vw"
-              />
-            ))}
+          <ul className={`${styles.collage} ${styles.charGrid}`}>
+            {EARLY_ART_CHARCOAL.map((piece) => {
+              const layout = CHARCOAL_LAYOUT[piece.n];
+              return (
+                <Piece
+                  key={piece.n}
+                  piece={piece}
+                  sizes={layout.sizes}
+                  liClass={layout.li ? styles[layout.li] : undefined}
+                />
+              );
+            })}
           </ul>
         </section>
 
