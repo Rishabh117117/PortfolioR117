@@ -32,6 +32,8 @@ export const EARLY_ART_BOARDS: EarlyArtPiece[] = [
   { n: 7, src: `${B}/early-art-board-07.jpg`, w: 720, h: 1280, title: "Analogies board 07", medium: "Mixed media on board", year: "2016" },
 ];
 
+/* 8 studies: the 2026-07-22 batch's 9th photo was a second shot of the
+   15-09-09 mother-and-child piece (wall-hung photo kept). */
 export const EARLY_ART_CHARCOAL: EarlyArtPiece[] = [
   { n: 1, src: `${B}/early-art-charcoal-01.jpg`, w: 720, h: 1280, title: "Charcoal study 01", medium: "Charcoal on paper", year: "2016" },
   { n: 2, src: `${B}/early-art-charcoal-02.jpg`, w: 720, h: 1280, title: "Charcoal study 02", medium: "Charcoal on paper", year: "2016" },
@@ -41,7 +43,6 @@ export const EARLY_ART_CHARCOAL: EarlyArtPiece[] = [
   { n: 6, src: `${B}/early-art-charcoal-06.jpg`, w: 720, h: 1280, title: "Charcoal study 06", medium: "Charcoal on paper", year: "2016" },
   { n: 7, src: `${B}/early-art-charcoal-07.jpg`, w: 720, h: 1280, title: "Charcoal study 07", medium: "Charcoal on paper", year: "2016" },
   { n: 8, src: `${B}/early-art-charcoal-08.jpg`, w: 720, h: 1280, title: "Charcoal study 08", medium: "Charcoal on paper", year: "2016" },
-  { n: 9, src: `${B}/early-art-charcoal-09.jpg`, w: 720, h: 1280, title: "Charcoal study 09", medium: "Charcoal on paper", year: "2016" },
 ];
 
 /* Card for the /archive index grid only (shaped like an ArchiveProject so it
@@ -56,6 +57,6 @@ export const EARLY_ART_CARD: ArchiveProject = {
   oneLine:
     "CIE A Level fine arts: Cubism, Surrealism, and the Analogies series, alongside charcoal studies in portraiture, anatomy, and motion.",
   thumb: "/images/archive/early-art/thumb.jpg",
-  slideCount: 16,
+  slideCount: 15,
   slides: [],
 };

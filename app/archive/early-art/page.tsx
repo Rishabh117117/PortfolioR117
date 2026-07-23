@@ -17,15 +17,29 @@ export const metadata: Metadata = {
     "CIE A Level fine arts: mixed-media boards from the Analogies series and charcoal studies in portraiture, anatomy, and motion.",
 };
 
+/* collage spans for the boards grid — board 02 is the hero (Rishabh's call),
+   the rest take varied smaller cells so the section reads as a loose collage */
+const BOARD_LAYOUT: Record<number, { li?: string; sizes: string }> = {
+  1: { li: "bWide", sizes: "50vw" },
+  2: { li: "bHero", sizes: "(min-width: 768px) 50vw, 100vw" },
+  3: { li: "bTall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  4: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  5: { li: "bWideTall", sizes: "50vw" },
+  6: { li: "bTall", sizes: "(min-width: 768px) 25vw, 50vw" },
+  7: { li: "bSmall", sizes: "(min-width: 768px) 25vw, 50vw" },
+};
+
 function Piece({
   piece,
   sizes,
+  liClass,
 }: {
   piece: EarlyArtPiece;
   sizes: string;
+  liClass?: string;
 }) {
   return (
-    <li>
+    <li className={liClass}>
       {/* the figure IS the frame: fixed aspect, image cover-crops into it,
           caption overlays inside on a legibility scrim */}
       <figure className={styles.piece}>
@@ -106,13 +120,17 @@ export default function EarlyArtPage() {
             <p className={`mono ${styles.secCount}`}>7 boards</p>
           </div>
           <ul className={styles.boards}>
-            {EARLY_ART_BOARDS.map((piece) => (
-              <Piece
-                key={piece.n}
-                piece={piece}
-                sizes="(min-width: 768px) 50vw, 100vw"
-              />
-            ))}
+            {EARLY_ART_BOARDS.map((piece) => {
+              const layout = BOARD_LAYOUT[piece.n];
+              return (
+                <Piece
+                  key={piece.n}
+                  piece={piece}
+                  sizes={layout.sizes}
+                  liClass={layout.li ? styles[layout.li] : undefined}
+                />
+              );
+            })}
           </ul>
         </section>
 
@@ -121,7 +139,7 @@ export default function EarlyArtPage() {
             <h2 id="charcoal" className={styles.secTitle}>
               Charcoal works
             </h2>
-            <p className={`mono ${styles.secCount}`}>9 studies</p>
+            <p className={`mono ${styles.secCount}`}>8 studies</p>
           </div>
           <ul className={styles.charGrid}>
             {EARLY_ART_CHARCOAL.map((piece) => (
