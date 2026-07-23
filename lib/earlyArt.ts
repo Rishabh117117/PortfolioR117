@@ -35,10 +35,10 @@ export const EARLY_ART_BOARDS: EarlyArtPiece[] = [
 /* 8 studies: the 2026-07-22 batch's 9th photo was a second shot of the
    15-09-09 mother-and-child piece (wall-hung photo kept). */
 export const EARLY_ART_CHARCOAL: EarlyArtPiece[] = [
-  { n: 1, src: `${B}/early-art-charcoal-01.jpg`, w: 720, h: 1280, title: "Charcoal study 01", medium: "Charcoal on paper", year: "2016" },
+  { n: 1, src: `${B}/early-art-charcoal-01.jpg`, w: 1280, h: 720, title: "Charcoal study 01", medium: "Charcoal on paper", year: "2016" },
   { n: 2, src: `${B}/early-art-charcoal-02.jpg`, w: 720, h: 1280, title: "Charcoal study 02", medium: "Charcoal on paper", year: "2016" },
-  { n: 3, src: `${B}/early-art-charcoal-03.jpg`, w: 720, h: 1280, title: "Charcoal study 03", medium: "Charcoal on paper", year: "2016" },
-  { n: 4, src: `${B}/early-art-charcoal-04.jpg`, w: 720, h: 1280, title: "Charcoal study 04", medium: "Charcoal on paper", year: "2016" },
+  { n: 3, src: `${B}/early-art-charcoal-03.jpg`, w: 1280, h: 720, title: "Charcoal study 03", medium: "Charcoal on paper", year: "2016" },
+  { n: 4, src: `${B}/early-art-charcoal-04.jpg`, w: 1280, h: 720, title: "Charcoal study 04", medium: "Charcoal on paper", year: "2016" },
   { n: 5, src: `${B}/early-art-charcoal-05.jpg`, w: 720, h: 1280, title: "Charcoal study 05", medium: "Charcoal on paper", year: "2016" },
   { n: 6, src: `${B}/early-art-charcoal-06.jpg`, w: 720, h: 1280, title: "Charcoal study 06", medium: "Charcoal on paper", year: "2016" },
   { n: 7, src: `${B}/early-art-charcoal-07.jpg`, w: 720, h: 1280, title: "Charcoal study 07", medium: "Charcoal on paper", year: "2016" },
