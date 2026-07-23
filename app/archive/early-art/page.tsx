@@ -26,13 +26,14 @@ function Piece({
 }) {
   return (
     <li>
+      {/* the figure IS the frame: fixed aspect, image cover-crops into it,
+          caption overlays inside on a legibility scrim */}
       <figure className={styles.piece}>
         <Image
           className={styles.pieceImg}
           src={piece.src}
           alt={`${piece.title}: ${piece.medium.toLowerCase()}`}
-          width={piece.w}
-          height={piece.h}
+          fill
           sizes={sizes}
         />
         <figcaption className={styles.pieceCap}>
