@@ -109,7 +109,7 @@ export default function EarlyArtPage() {
               <Piece
                 key={piece.n}
                 piece={piece}
-                sizes="(min-width: 1180px) 1040px, 100vw"
+                sizes="(min-width: 768px) 50vw, 100vw"
               />
             ))}
           </ul>

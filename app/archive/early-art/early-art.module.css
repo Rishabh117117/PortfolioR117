@@ -87,14 +87,18 @@
   color: var(--soft);
 }
 
-/* ---- Analogies boards: one large column, deck-like reading order ---- */
+/* ---- Analogies boards: 2-up from 768px (the boards are tall portrait
+   sheets — a single full-width column would render ~1800px per board) ---- */
 .boards {
   list-style: none;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--space-5);
-  max-width: 1040px;
-  margin-inline: auto;
+}
+@media (min-width: 768px) {
+  .boards {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ---- charcoal studies: compact grid (2-up, 3-up from 1024px) ---- */
