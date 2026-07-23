@@ -30,5 +30,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.4,
     });
   }
+  // early-art lives outside the auto-generated deck data (lib/earlyArt.ts)
+  entries.push({
+    url: `${SITE_URL}/archive/early-art`,
+    changeFrequency: "yearly",
+    priority: 0.4,
+  });
   return entries;
 }

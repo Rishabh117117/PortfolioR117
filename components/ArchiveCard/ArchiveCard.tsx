@@ -6,10 +6,13 @@ import styles from "./ArchiveCard.module.css";
 export default function ArchiveCard({
   project,
   depth,
+  countNoun = "slides",
 }: {
   project: ArchiveProject;
   /** optional scroll-drift offset (px) — picked up by an enclosing DriftGroup */
   depth?: number;
+  /** what slideCount counts — the PDF deck says "slides"; early-art says "pieces" */
+  countNoun?: string;
 }) {
   return (
     <li className={styles.card} data-depth={depth}>
@@ -28,7 +31,7 @@ export default function ArchiveCard({
             sizes="(min-width: 1180px) 380px, (min-width: 768px) 50vw, 100vw"
           />
           <span className={`mono ${styles.count}`}>
-            {project.slideCount} slides
+            {project.slideCount} {countNoun}
           </span>
         </div>
         <div className={styles.body}>

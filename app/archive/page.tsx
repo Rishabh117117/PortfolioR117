@@ -4,6 +4,7 @@ import ArchiveCard from "@/components/ArchiveCard/ArchiveCard";
 import AmbientField from "@/components/AmbientField/AmbientField";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import { ARCHIVE_PROJECTS, ARCHIVE_COVER } from "@/lib/archive";
+import { EARLY_ART_CARD } from "@/lib/earlyArt";
 import styles from "./archive.module.css";
 
 // subtle scroll-drift stagger for the project grid (px, alternating)
@@ -12,7 +13,7 @@ const GRID_DEPTHS = [12, -10, 14, -12, 10, -14, 12];
 export const metadata: Metadata = {
   title: "Earlier work (2019–23)",
   description:
-    "The original design portfolio (2019–23): seven product, UX and graphic-design projects, shown page-for-page.",
+    "The original design portfolio (2019–23): seven product, UX and graphic-design projects shown page-for-page, plus the CIE A Level fine arts that came first.",
 };
 
 export default function ArchivePage() {
@@ -71,6 +72,12 @@ export default function ArchivePage() {
                 depth={GRID_DEPTHS[i % GRID_DEPTHS.length]}
               />
             ))}
+            {/* earliest work sits last — index only, not on the home grid */}
+            <ArchiveCard
+              project={EARLY_ART_CARD}
+              depth={-10}
+              countNoun="pieces"
+            />
           </ul>
         </DriftGroup>
       </section>
