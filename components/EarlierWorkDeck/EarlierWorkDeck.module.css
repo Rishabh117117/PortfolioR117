@@ -87,7 +87,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: var(--crop, 50%) 50%;
+  /* full X/Y focus per card — landscape covers steer X, the portrait
+     early-art sheets steer Y */
+  object-position: var(--crop, 50% 50%);
   display: block;
 }
 .count {

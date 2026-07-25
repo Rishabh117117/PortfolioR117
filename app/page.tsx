@@ -176,7 +176,7 @@ export default function Home() {
       <section className={`section ${styles.earlierSection}`}>
         <div className="container" data-ambient-dim data-reveal>
           <div className={styles.sectionHead}>
-            <h2 className={styles.h2}>Earlier work · 2019–23</h2>
+            <h2 className={styles.h2}>Earlier work · 2016–23</h2>
             <Link href="/archive" className={`mono ${styles.seeAll}`}>
               Open the full portfolio →
             </Link>

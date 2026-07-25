@@ -54,9 +54,11 @@
      and the throw tilt (--rot) */
   transform: translate(-50%, -50%) translate(0px, var(--pary, 0px))
     translate(var(--px, 0px), var(--py, 0px)) rotate(var(--rot, 0deg));
+  /* gentle tier: the pop/part glides on the site's soft ease-out; the
+     not-immediate part is a hover-intent beat in the JS (schedulePart) */
   transition:
-    transform 0.5s cubic-bezier(0.22, 0.61, 0.25, 1),
-    box-shadow 0.35s ease;
+    transform 0.55s var(--e-gentle),
+    box-shadow 0.45s ease;
   border-radius: 6px;
   overflow: hidden; /* image fills to the card edge — NO white border/matte */
   background: var(--fill); /* placeholder tone while loading, never white */
@@ -128,12 +130,12 @@
   backdrop-filter: blur(6px) saturate(1.2);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5);
-  /* hidden until the card is selected */
+  /* hidden until the card is selected; rises a breath after the pop starts */
   opacity: 0;
   transform: translateY(6px);
   transition:
-    opacity 0.28s ease,
-    transform 0.28s cubic-bezier(0.22, 0.61, 0.25, 1);
+    opacity 0.38s ease 0.06s,
+    transform 0.44s var(--e-gentle) 0.06s;
   pointer-events: none; /* purely visual; the whole card is the link */
 }
 .card[data-hover] .label {
@@ -161,7 +163,7 @@
 }
 .arrow {
   flex: 0 0 auto;
-  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.25, 1);
+  transition: transform 0.35s var(--e-gentle);
 }
 .card[data-hover] .arrow {
   transform: translateX(2px);

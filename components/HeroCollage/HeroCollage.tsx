@@ -17,7 +17,7 @@ import styles from "./HeroCollage.module.css";
    nav, the glass CTA, and the work grid). On touch the cards are inert
    (pointer-events:none via the CSS) so a tap never navigates unexpectedly. */
 
-type ProjKey = "hw" | "hm" | "lotus" | "yaap" | "vsg";
+type ProjKey = "hw" | "hm" | "lotus" | "yaap" | "vsg" | "early";
 
 const PROJECTS: Record<ProjKey, { name: string; href: string }> = {
   hw: { name: "Housing Works", href: "/work/housing-works" },
@@ -25,6 +25,7 @@ const PROJECTS: Record<ProjKey, { name: string; href: string }> = {
   lotus: { name: "Lotus Heater", href: "/archive/lotus-heater" },
   yaap: { name: "YAAP", href: "/archive/yaap" },
   vsg: { name: "VSG", href: "/archive/vsg" },
+  early: { name: "Early Art", href: "/archive/early-art" },
 };
 
 type Card = {
@@ -40,6 +41,9 @@ type Card = {
   what: string;
   proj: ProjKey;
   priority?: boolean;
+  /** object-position override — the early-art sheets are 9:16 portraits, so
+      the 3:4 window needs a vertical focus (boards carry artwork high) */
+  pos?: string;
 };
 
 /* 3-row × 7/6/7 bricked spread — offset middle row covers the outer rows'
@@ -70,6 +74,13 @@ const CARDS: Card[] = [
   { k: "vsgScreens", src: "/images/home-hero/vsg-screens.jpg", cx: 64, cy: 84, w: 21, rot: 3, ar: "13 / 10", what: "Website redesign", proj: "vsg", sizes: "(max-width: 767px) 40vw, 21vw" },
   { k: "hwRetail", src: "/images/home-hero/hw-retail.jpg", cx: 79, cy: 85, w: 16, rot: -5, ar: "3 / 4", what: "Retail visit", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "flyerTable", src: "/images/home-hero/flyer-table.jpg", cx: 93, cy: 84, w: 18, rot: 4, ar: "3 / 4", what: "Research posters", proj: "hw", sizes: "(max-width: 767px) 34vw, 18vw" },
+  /* seam row (4) — the early-art pieces thrown on last (top of the pile),
+     riding the two row seams on the open side of the hero (right of the glass
+     card) so they stay visible; 9:16 sheets in the 3:4 window, focus via pos */
+  { k: "eaBoard2", src: "/images/archive/early-art/early-art-board-02.jpg", cx: 61, cy: 33, w: 16, rot: -4, ar: "3 / 4", pos: "50% 30%", what: "Analogies board", proj: "early", sizes: "(max-width: 767px) 30vw, 16vw" },
+  { k: "eaCharcoal5", src: "/images/archive/early-art/early-art-charcoal-05.jpg", cx: 77, cy: 31, w: 14, rot: 4, ar: "3 / 4", pos: "50% 45%", what: "Charcoal study", proj: "early", sizes: "(max-width: 767px) 26vw, 14vw" },
+  { k: "eaCharcoal8", src: "/images/archive/early-art/early-art-charcoal-08.jpg", cx: 68, cy: 68, w: 13, rot: 5, ar: "3 / 4", pos: "50% 45%", what: "Charcoal study", proj: "early", sizes: "(max-width: 767px) 25vw, 13vw" },
+  { k: "eaBoard7", src: "/images/archive/early-art/early-art-board-07.jpg", cx: 90, cy: 67, w: 15, rot: -5, ar: "3 / 4", pos: "50% 18%", what: "Analogies board", proj: "early", sizes: "(max-width: 767px) 28vw, 15vw" },
 ];
 
 /* Footer arrangement — the SAME gapless slots (geometry) as the hero but the
@@ -114,6 +125,7 @@ export default function HeroCollage({
 }: Props = {}) {
   const wallRef = useRef<HTMLDivElement>(null);
   const active = useRef(false);
+  const hoverTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -177,6 +189,10 @@ export default function HeroCollage({
     Array.from(root.querySelectorAll<HTMLElement>("[data-k]"));
 
   const settle = () => {
+    if (hoverTimer.current !== null) {
+      window.clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
+    }
     const root = wallRef.current;
     if (!root) return;
     for (const el of cardsOf(root)) {
@@ -215,6 +231,25 @@ export default function HeroCollage({
     }
   };
 
+  /* hover intent — the pop waits a beat, so skimming the pointer across the
+     pile doesn't fire a card on every crossing; leaving (or reaching another
+     card) inside the beat cancels the pending pop */
+  const schedulePart = (k: string) => {
+    if (!active.current) return;
+    if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = window.setTimeout(() => {
+      hoverTimer.current = null;
+      part(k);
+    }, 140);
+  };
+
+  useEffect(
+    () => () => {
+      if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
+    },
+    []
+  );
+
   return (
     <div
       className={`${styles.collage} ${bleed ? "" : styles.noBleed} ${
@@ -243,7 +278,7 @@ export default function HeroCollage({
                   "--rot": `${c.rot}deg`,
                 } as React.CSSProperties
               }
-              onPointerEnter={() => part(c.k)}
+              onPointerEnter={() => schedulePart(c.k)}
             >
               <span className={styles.inner}>
                 <Image
@@ -253,6 +288,7 @@ export default function HeroCollage({
                   fill
                   sizes={c.sizes}
                   priority={eager && !!c.priority}
+                  style={c.pos ? { objectPosition: c.pos } : undefined}
                 />
               </span>
               {/* the glass label — rises from the bottom edge only when the
