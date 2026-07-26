@@ -52,16 +52,19 @@ type Card = {
    project or all-pale; throw order = array order = z-index. */
 const CARDS: Card[] = [
   /* row 1 (7) */
-  { k: "hmlJars", src: "/images/home-hero/hml-jars.jpg", cx: 7, cy: 15, w: 16, rot: -5, ar: "3 / 4", what: "Materials library", proj: "hm", sizes: "(max-width: 767px) 30vw, 16vw", priority: true },
-  { k: "yaapYellow", src: "/images/home-hero/yaap-yellow.jpg", cx: 21, cy: 14, w: 19, rot: 4, ar: "16 / 9", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
-  { k: "lotusPair", src: "/images/home-hero/lotus-pair.jpg", cx: 35, cy: 15, w: 19, rot: -3, ar: "14 / 10", what: "Product render", proj: "lotus", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
+  { k: "hmlJars", src: "/images/home-hero/hml-jars.jpg", cx: 7, cy: 15, w: 17, rot: -5, ar: "3 / 4", what: "Materials library", proj: "hm", sizes: "(max-width: 767px) 32vw, 17vw", priority: true },
+  { k: "yaapYellow", src: "/images/home-hero/yaap-yellow.jpg", cx: 21, cy: 11, w: 19, rot: 4, ar: "16 / 9", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
+  { k: "lotusPair", src: "/images/home-hero/lotus-pair.jpg", cx: 35, cy: 13, w: 19, rot: -3, ar: "14 / 10", what: "Product render", proj: "lotus", sizes: "(max-width: 767px) 36vw, 19vw", priority: true },
+  /* back-layer filler: spans the yaapYellow→yaapBlue seam (x 16–34, y 22–35),
+     which sits behind the glass card on laptops but shows on wide screens */
+  { k: "hmlDrawers2", src: "/images/home-hero/hml-drawers.jpg", cx: 26, cy: 28, w: 17.5, rot: 3, ar: "3 / 4", what: "Materials taxonomy", proj: "hm", sizes: "(max-width: 767px) 33vw, 18vw" },
   { k: "hwTag", src: "/images/home-hero/hw-tag.jpg", cx: 50, cy: 14, w: 15, rot: 5, ar: "3 / 4", what: "Thrift-shop tag", proj: "hw", sizes: "(max-width: 767px) 28vw, 15vw" },
-  { k: "yaapBlue2", src: "/images/home-hero/yaap-blue.jpg", cx: 64, cy: 16, w: 20, rot: -4, ar: "4 / 3", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 38vw, 20vw", priority: true },
+  { k: "yaapBlue2", src: "/images/home-hero/yaap-blue.jpg", cx: 64, cy: 15, w: 20, rot: -4, ar: "4 / 3", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 38vw, 20vw", priority: true },
   { k: "vsgPersonas", src: "/images/home-hero/vsg-personas.jpg", cx: 78, cy: 15, w: 21, rot: 3, ar: "16 / 15", what: "User personas", proj: "vsg", sizes: "(max-width: 767px) 40vw, 21vw", priority: true },
   { k: "hwHealthcare", src: "/images/home-hero/hw-healthcare.jpg", cx: 93, cy: 15, w: 16, rot: -5, ar: "3 / 4", what: "Cylar Health Center", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   /* row 2 (6, offset) */
   { k: "lotusTop", src: "/images/home-hero/lotus-top.jpg", cx: 10, cy: 51, w: 21, rot: 4, ar: "13 / 10", what: "Top view", proj: "lotus", sizes: "(max-width: 767px) 40vw, 21vw" },
-  { k: "yaapBlue", src: "/images/home-hero/yaap-blue.jpg", cx: 28, cy: 50, w: 19, rot: -3, ar: "14 / 10", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 36vw, 19vw" },
+  { k: "yaapBlue", src: "/images/home-hero/yaap-blue.jpg", cx: 26, cy: 49, w: 19, rot: -3, ar: "14 / 10", what: "Social campaign", proj: "yaap", sizes: "(max-width: 767px) 36vw, 19vw" },
   { k: "hwPresenting", src: "/images/home-hero/hw-presenting.jpg", cx: 43, cy: 50, w: 16, rot: 5, ar: "3 / 4", what: "Team workshop", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "bloomFoam", src: "/images/home-hero/bloom-foam.jpg", cx: 57, cy: 50, w: 16, rot: -4, ar: "3 / 4", what: "Bloom Foam", proj: "hm", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "thriftDenim", src: "/images/home-hero/thrift-denim.jpg", cx: 71, cy: 50, w: 16, rot: 4, ar: "3 / 4", what: "Thrift textile", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
@@ -75,11 +78,12 @@ const CARDS: Card[] = [
   { k: "hwRetail", src: "/images/home-hero/hw-retail.jpg", cx: 79, cy: 85, w: 16, rot: -5, ar: "3 / 4", what: "Retail visit", proj: "hw", sizes: "(max-width: 767px) 30vw, 16vw" },
   { k: "flyerTable", src: "/images/home-hero/flyer-table.jpg", cx: 93, cy: 84, w: 18, rot: 4, ar: "3 / 4", what: "Research posters", proj: "hw", sizes: "(max-width: 767px) 34vw, 18vw" },
   /* seam row (4) — the early-art pieces thrown on last (top of the pile),
-     riding the two row seams on the open side of the hero (right of the glass
-     card) so they stay visible; 9:16 sheets in the 3:4 window, focus via pos */
+     spread as a 2×2 across the open field right of the glass card (upper-left
+     / upper-right / lower-left / lower-right) so the additions read even, not
+     clustered; 9:16 sheets in the 3:4 window, focus via pos */
   { k: "eaBoard2", src: "/images/archive/early-art/early-art-board-02.jpg", cx: 61, cy: 33, w: 16, rot: -4, ar: "3 / 4", pos: "50% 30%", what: "Analogies board", proj: "early", sizes: "(max-width: 767px) 30vw, 16vw" },
-  { k: "eaCharcoal5", src: "/images/archive/early-art/early-art-charcoal-05.jpg", cx: 77, cy: 31, w: 14, rot: 4, ar: "3 / 4", pos: "50% 45%", what: "Charcoal study", proj: "early", sizes: "(max-width: 767px) 26vw, 14vw" },
-  { k: "eaCharcoal8", src: "/images/archive/early-art/early-art-charcoal-08.jpg", cx: 68, cy: 68, w: 13, rot: 5, ar: "3 / 4", pos: "50% 45%", what: "Charcoal study", proj: "early", sizes: "(max-width: 767px) 25vw, 13vw" },
+  { k: "eaCharcoal5", src: "/images/archive/early-art/early-art-charcoal-05.jpg", cx: 88, cy: 29, w: 14, rot: 4, ar: "3 / 4", pos: "50% 45%", what: "Charcoal study", proj: "early", sizes: "(max-width: 767px) 26vw, 14vw" },
+  { k: "eaCharcoal8", src: "/images/archive/early-art/early-art-charcoal-08.jpg", cx: 64, cy: 70, w: 13, rot: 5, ar: "3 / 4", pos: "50% 45%", what: "Charcoal study", proj: "early", sizes: "(max-width: 767px) 25vw, 13vw" },
   { k: "eaBoard7", src: "/images/archive/early-art/early-art-board-07.jpg", cx: 90, cy: 67, w: 15, rot: -5, ar: "3 / 4", pos: "50% 18%", what: "Analogies board", proj: "early", sizes: "(max-width: 767px) 28vw, 15vw" },
 ];
 
