@@ -5,268 +5,419 @@
 <title>Rishabh Salian — CV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
+  /* Tokens lifted from app/globals.css — the CV is a page OF the site.
+     v3: photo + rail on the LEFT, intro + journey on the RIGHT; no Open-to
+     section (availability lives as the intro's live-dot chip line). */
   :root {
-    --ink: #17181a;
-    --soft: #55585e;
-    --faint: #8a8d94;
-    --line: #e3e1db;
-    --paper: #fdfcf9;
-    --accent: #1c39bb;        /* Persian Blue — site default accent */
-    --gold: #7a5f3c;          /* site kicker gold (AA) */
-    --f: #c2410c;             /* Follow */
-    --g: #1c3b36;             /* Greener Hours */
-    --h: #4f6b33;             /* Healthy Materials */
-    --w: #c0263b;             /* Housing Works */
+    --paper: #f4f2ec;
+    --line: #d9d6cd;
+    --ink: #1a1a1a;
+    --ink-2: #2a2a28;
+    --soft: #6b6b66;
+    --faint: #8f8d86;
+    --gold: #7a5f3c;
+    --gold-wash: rgba(154, 123, 79, 0.10);
+    --accent: #1c39bb;
+    --f: #c2410c;
+    --g: #1c3b36;
+    --h: #4f6b33;
+    --w: #c0263b;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   @page { size: A4; margin: 0; }
   html, body { background: var(--paper); }
   body {
-    font-family: "Bricolage Grotesque", "Segoe UI", sans-serif;
-    color: var(--ink);
-    width: 210mm; min-height: 297mm;
-    padding: 13mm 14mm 11mm;
-    font-size: 9.3pt; line-height: 1.42;
+    position: relative;
+    width: 210mm; height: 297mm;
+    overflow: hidden;
+    padding: 12mm 13mm;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    font-size: 9.2pt; line-height: 1.55;
+    color: var(--ink-2);
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
 
-  /* ---- header ---- */
-  header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 4.5mm; border-bottom: 1.5px solid var(--ink); }
-  .nameBlock h1 { font-size: 23pt; font-weight: 700; letter-spacing: -0.015em; line-height: 1; }
-  .dots { display: inline-flex; gap: 3px; margin-left: 6px; vertical-align: baseline; }
-  .dots i { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-  .role { margin-top: 2mm; font-size: 10.2pt; color: var(--soft); font-weight: 500; }
-  .contact { text-align: right; font-size: 7.6pt; color: var(--soft); line-height: 1.55; }
-  .contact a { color: var(--ink); text-decoration: none; font-weight: 600; }
-  .contact .dim { color: var(--faint); }
+  /* ---- ambient field (the About palette, parked) ----
+     .bg owns the clipping: orbs hang past the sheet edges, and without this
+     wrapper the overflow widens the printed document past 210mm, which makes
+     Chrome shrink-to-fit the whole page (~80%). Alphas run lower than the
+     site's since text now sits directly on the wash (no glass frosting). */
+  .bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+  .orb { position: absolute; border-radius: 50%; }
+  .o1 { top: -50mm; left: -38mm; width: 132mm; height: 132mm;
+        background: radial-gradient(circle, rgba(154, 123, 79, 0.30), transparent 68%); }
+  .o2 { top: 40mm; right: -54mm; width: 150mm; height: 150mm;
+        background: radial-gradient(circle, rgba(28, 57, 187, 0.13), transparent 70%); }
+  .o3 { bottom: 60mm; left: -46mm; width: 122mm; height: 122mm;
+        background: radial-gradient(circle, rgba(154, 123, 79, 0.18), transparent 70%); }
+  .o4 { bottom: -58mm; right: -24mm; width: 156mm; height: 156mm;
+        background: radial-gradient(circle, rgba(28, 57, 187, 0.20), transparent 70%); }
 
-  /* ---- columns ---- */
-  .cols { display: grid; grid-template-columns: 1fr 56mm; gap: 8mm; margin-top: 5.5mm; }
+  .sheet { position: relative; z-index: 1; height: 100%; }
 
-  /* ---- shared ---- */
-  section { margin-bottom: 5.5mm; }
-  .kicker { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 7pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 2.6mm; }
-  .profile { font-size: 9.6pt; color: var(--ink); }
-  .profile em { font-style: italic; }
+  /* ---- icons ---- */
+  .ic { width: 11px; height: 11px; stroke: currentColor; fill: none;
+        stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+        flex: none; }
 
-  /* ---- selected work ---- */
-  .proj { display: grid; grid-template-columns: 3.2mm 1fr; gap: 2.6mm; margin-bottom: 3mm; }
-  .proj .bar { border-radius: 2px; margin: 1mm 0; }
-  .proj h3 { font-size: 9.8pt; font-weight: 650; }
-  .proj h3 .meta { font-weight: 500; color: var(--faint); font-size: 7.6pt; margin-left: 1.5mm; }
-  .proj p { color: var(--soft); font-size: 8.8pt; margin-top: 0.4mm; }
-  .proj .live { font-size: 7.2pt; color: var(--ink); font-weight: 600; }
-  .worknote { font-size: 7.4pt; color: var(--faint); margin-top: -0.5mm; }
-  .worknote a { color: var(--faint); }
+  /* ---- kickers ---- */
+  .kicker {
+    display: flex; align-items: center; gap: 5px;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 7pt; font-weight: 600; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 3mm;
+  }
+  .kicker .ic { width: 11px; height: 11px; }
 
-  /* ---- experience ---- */
-  .xrow { display: grid; grid-template-columns: 15mm 1fr; gap: 3.5mm; margin-bottom: 2.8mm; }
-  .xrow .era { font-family: ui-monospace, Consolas, monospace; font-size: 7.4pt; color: var(--faint); padding-top: 0.7mm; }
-  .xrow h3 { font-size: 9.6pt; font-weight: 650; }
-  .xrow h3 span { font-weight: 500; color: var(--soft); }
-  .xrow p { color: var(--soft); font-size: 8.7pt; margin-top: 0.3mm; }
+  /* ---- grid (row 1: photo | title+profile+availability+contact — the photo
+     stretches to the row height so its bottom sits exactly on the contact-box
+     baseline; row 2: education+skills rail | journey) ---- */
+  .cols { display: grid; grid-template-columns: 55mm 1fr; column-gap: 8mm;
+          align-content: start; }
+  .cols > * { min-width: 0; }
 
-  /* ---- rail ---- */
-  .rail section { margin-bottom: 6mm; }
-  .skillgroup { margin-bottom: 3.4mm; }
-  .skillgroup h4 { font-size: 8.4pt; font-weight: 650; margin-bottom: 1mm; }
-  .skillgroup p { font-size: 8.2pt; color: var(--soft); line-height: 1.5; }
-  .edu { margin-bottom: 2.6mm; }
-  .edu h4 { font-size: 8.8pt; font-weight: 650; }
-  .edu p { font-size: 8pt; color: var(--soft); }
-  .edu .yr { font-family: ui-monospace, Consolas, monospace; font-size: 7.2pt; color: var(--faint); }
+  /* ---- intro: title + role + profile + availability as one flowing block ---- */
+  h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 24pt; font-weight: 700;
+       letter-spacing: -0.02em; line-height: 1; color: var(--ink); }
+  .dots { display: inline-flex; gap: 3.4px; margin-left: 8px; }
+  .dots i { width: 6.5px; height: 6.5px; border-radius: 50%; display: inline-block; }
+  .role { margin-top: 2.8mm; font-family: "Bricolage Grotesque", sans-serif;
+          font-size: 10.5pt; font-weight: 600; color: var(--ink); }
+  .roleSub { margin-top: 0.8mm; font-size: 8.8pt; font-weight: 500; color: var(--soft); }
+  .profile { margin-top: 3mm; font-size: 9.4pt; line-height: 1.56; color: var(--ink-2); }
+  .profile a { color: var(--accent); text-decoration: none; font-weight: 500; }
 
-  footer { position: fixed; bottom: 7mm; left: 14mm; right: 14mm; display: flex; justify-content: space-between; font-family: ui-monospace, Consolas, monospace; font-size: 6.8pt; color: var(--faint); border-top: 1px solid var(--line); padding-top: 2mm; }
+  /* availability — the home hero's live-dot chip line, folded into the intro */
+  .chip { margin-top: 3.2mm; display: flex; align-items: center; gap: 6px;
+          font-family: "Bricolage Grotesque", sans-serif; font-size: 7.6pt;
+          font-weight: 600; color: var(--accent); }
+  .chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+
+  /* ---- contact: the one box on the page ---- */
+  .contactBox {
+    margin-top: 4mm;
+    background: var(--gold-wash);
+    border-radius: 10px;
+    padding: 2.8mm 4.6mm;
+    display: grid; grid-template-columns: auto auto; justify-content: space-between;
+    gap: 1.8mm 6mm;
+    font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--soft);
+  }
+  .contactBox span { display: flex; align-items: center; gap: 5px; }
+  .contactBox .ic { width: 10.5px; height: 10.5px; color: var(--gold); }
+  .contactBox a { color: var(--ink); text-decoration: none; font-weight: 500; }
+
+  /* ---- journey (the About timeline, vertical, latest first) ---- */
+  .journey { margin-top: 7mm; }
+  .legend { display: flex; flex-wrap: wrap; gap: 1.4mm 4.5mm; margin: -1.6mm 0 4mm;
+            font-family: "Bricolage Grotesque", sans-serif; font-size: 6.2pt; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+  .legend span { display: flex; align-items: center; gap: 3.5px; }
+  .lg { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .lgEdu { background: var(--paper); box-shadow: inset 0 0 0 1.8px var(--ink); }
+  .lgInk { background: var(--ink); }
+  .lgAcc { background: var(--accent); }
+  .lgPiv { width: 3px; height: 9px; border-radius: 1.5px; background: var(--accent); }
+
+  .tl { position: relative; }
+  /* spine runs through the dot column's center: 13.5mm era + 3mm gap + 3.4mm */
+  .tl::before { content: ""; position: absolute; left: calc(13.5mm + 3mm + 3.4mm - 0.8px);
+                top: 3mm; bottom: 3mm; width: 1.6px; background: var(--line); }
+  .node { position: relative; display: grid; grid-template-columns: 13.5mm 6.8mm 1fr;
+          gap: 0 3mm; align-items: start; padding: 2.2mm 0; }
+  .era { font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--faint);
+         text-align: right; margin-top: 0.6mm; }
+  .dot { position: relative; z-index: 1; width: 6.8mm; height: 6.8mm; border-radius: 50%;
+         display: flex; align-items: center; justify-content: center; margin-top: -1.3mm; }
+  .dot .ic { width: 12px; height: 12px; }
+  .dotEdu { background: var(--paper); box-shadow: inset 0 0 0 1.7px var(--ink); color: var(--ink); }
+  .dotInk { background: var(--ink); color: #fdfcf7; }
+  .dotAcc { background: var(--accent); color: #fdfcf7; }
+  .dotNext { background: var(--paper); box-shadow: inset 0 0 0 1.7px var(--accent); color: var(--accent); }
+  .node h3 { font-family: "Bricolage Grotesque", sans-serif; font-size: 9.3pt; font-weight: 600;
+             color: var(--ink); line-height: 1.3; }
+  .node h3 span { font-family: "Inter", sans-serif; font-weight: 500; font-size: 8.1pt; color: var(--soft); }
+  .node p { font-size: 8.3pt; color: var(--soft); line-height: 1.5; margin-top: 0.6mm; }
+
+  .pivot { position: relative; z-index: 1; display: flex; align-items: center; gap: 3mm;
+           margin: 1.6mm 0 1.6mm 8.4mm; }
+  .pivotChip { display: inline-flex; align-items: center;
+               background: var(--accent); color: #fdfcf7; border-radius: 999px;
+               padding: 1.1mm 3.2mm 1.1mm 2.6mm;
+               font-family: "Bricolage Grotesque", sans-serif; font-size: 6.6pt; font-weight: 600;
+               letter-spacing: 0.1em; text-transform: uppercase; }
+  .pivotChip b { font-weight: 700; }
+  .pivotLine { flex: 1; height: 1px; background: var(--line); }
+
+  .tlFoot { margin-top: 2.8mm; font-size: 7.6pt; line-height: 1.5; color: var(--soft); }
+  .tlFoot strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- left rail ---- */
+  .photo {
+    width: 100%; border-radius: 12px;
+    background: url("../../public/images/about/grad-nyc-lg.jpg") no-repeat;
+    background-size: 200%; background-position: 44% 92%;
+    box-shadow: 0 6px 18px rgba(26, 26, 26, 0.14);
+  }
+  .railSec { margin-top: 7mm; }
+
+  .edu { display: grid; grid-template-columns: auto 1fr; gap: 0 2.6mm; margin-bottom: 2.8mm; }
+  .edu:last-child { margin-bottom: 0; }
+  .edu .ic { width: 12px; height: 12px; color: var(--gold); margin-top: 0.9mm; }
+  .edu h4 { font-family: "Bricolage Grotesque", sans-serif; font-size: 8.8pt; font-weight: 600; color: var(--ink); }
+  .edu p { font-size: 8pt; color: var(--soft); line-height: 1.42; }
+  .edu .yr { font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--faint); margin-top: 0.2mm; }
+
+  .skillgroup { margin-bottom: 3.2mm; }
+  .skillgroup:last-child { margin-bottom: 0; }
+  .skillgroup h4 { display: flex; align-items: center; gap: 5px;
+                   font-family: "Bricolage Grotesque", sans-serif; font-size: 8.8pt;
+                   font-weight: 600; color: var(--ink); margin-bottom: 1.1mm; }
+  .skillgroup h4 .ic { color: var(--gold); }
+  .skillgroup p { font-size: 7.8pt; color: var(--soft); line-height: 1.5; }
+
+  /* ---- footer (pinned to the page bottom on the body box, which is the A4 box) ---- */
+  footer { position: absolute; left: 13mm; right: 13mm; bottom: 12mm; z-index: 1;
+           padding-top: 2.6mm; border-top: 1px solid var(--line);
+           display: flex; justify-content: space-between;
+           font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--faint); }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="nameBlock">
-    <h1>Rishabh Salian<span class="dots" aria-hidden="true"><i style="background:var(--f)"></i><i style="background:var(--g)"></i><i style="background:var(--h)"></i><i style="background:var(--w)"></i></span></h1>
-    <p class="role">Design Engineer · AI-native products: architecture, data models, and evaluation</p>
-  </div>
-  <div class="contact">
-    Brooklyn, NY · <a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a> · +1 929 709 1548<br />
-    <a href="https://rishabhsalian.com">rishabhsalian.com</a><br />
-    <span class="dim">linkedin.com/in/rishabh-salian117 · github.com/Rishabh117117</span>
-  </div>
-</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-10.2a6.5 6.5 0 1 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.6" r="2.3"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.2"/><path d="M4.5 7.5l7.5 5.6 7.5-5.6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.8 3.8h2.9l1.5 4.1-2 1.6a11.5 11.5 0 0 0 5.3 5.3l1.6-2 4.1 1.5v2.9a2 2 0 0 1-2.2 2A16.8 16.8 0 0 1 4.8 6a2 2 0 0 1 2-2.2z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.9 2.4 2.9 14.6 0 17M12 3.5c-2.9 2.4-2.9 14.6 0 17"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.8v5.7M8 7.8v.1M11.6 16.5v-3.4a2.2 2.2 0 0 1 4.4 0v3.4M11.6 10.8v1.2"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><circle cx="6.5" cy="6.5" r="2.3"/><circle cx="6.5" cy="17.5" r="2.3"/><circle cx="17.5" cy="6.5" r="2.3"/><path d="M6.5 8.8v6.4M17.5 8.8c0 4.9-4.6 6-8.7 6.3"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.3"/><circle cx="18" cy="6" r="2.3"/><path d="M8.3 18h5.2a4 4 0 0 0 0-8h-3a3.4 3.4 0 0 1-3.4-3.4V6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.6c3-.9 6-.4 8 1.1 2-1.5 5-2 8-1.1v13.2c-3-.9-6-.4-8 1.1-2-1.5-5-2-8-1.1zM12 6.7v13.2"/></symbol>
+    <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3.5l7.5 4.3v8.4L12 20.5l-7.5-4.3V7.8z"/><path d="M4.5 7.8L12 12.1l7.5-4.3M12 12.1v8.4"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4.5 19.5l.9-3.8L16.7 4.4a2.1 2.1 0 0 1 3 3L8.3 18.6l-3.8.9z"/><path d="M14.7 6.4l3 3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="5.6"/><path d="M15 15l5 5"/></symbol>
+    <symbol id="i-frame" viewBox="0 0 24 24"><rect x="3.5" y="4.8" width="17" height="14.4" rx="2"/><circle cx="8.6" cy="9.6" r="1.4"/><path d="M6 16.8l4.4-4.4 3 3 2.4-2.4 3.7 3.7"/></symbol>
+    <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.6h17M9.6 9.6v9.9"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="5" y="5.5" width="14" height="9.5" rx="1.6"/><path d="M3.5 18.5h17"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M12 4.8l10 4.1-10 4.1-10-4.1z"/><path d="M6.6 10.8v4.4c0 1.5 2.4 2.7 5.4 2.7s5.4-1.2 5.4-2.7v-4.4M22 9v4.5"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4.3"/><path d="M6 5c4-1.9 8 1.9 12 0v8.2c-4 1.9-8-1.9-12 0z"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.6"/><rect x="10.3" y="10.3" width="3.4" height="3.4"/><path d="M9.2 7V4.4M14.8 7V4.4M9.2 19.6V17M14.8 19.6V17M7 9.2H4.4M7 14.8H4.4M19.6 9.2H17M19.6 14.8H17"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M15.4 8.6l-1.9 4.9-4.9 1.9 1.9-4.9z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.8l1.7 4.8 4.8 1.7-4.8 1.7-1.7 4.8-1.7-4.8-4.8-1.7 4.8-1.7z"/><path d="M18.6 15.5l.8 2.3 2.3.8-2.3.8-.8 2.3-.8-2.3-2.3-.8 2.3-.8z"/></symbol>
+  </defs>
+</svg>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+</div>
+
+<div class="sheet">
 
 <div class="cols">
-  <main>
-    <section>
-      <p class="kicker">Profile</p>
+
+  <div class="photo" role="img" aria-label="Portrait of Rishabh Salian"></div>
+
+  <div>
+
+    <header>
+      <h1>Rishabh Salian<span class="dots" aria-hidden="true"><i style="background:var(--f)"></i><i style="background:var(--g)"></i><i style="background:var(--h)"></i><i style="background:var(--w)"></i></span></h1>
+      <p class="role">Design Engineer</p>
+      <p class="roleSub">AI-native products: architecture, data models, and evaluation</p>
       <p class="profile">
-        Designer working where product design meets AI systems — trained on objects,
+        Designer working where product design meets AI systems: trained on objects,
         moved through interfaces, now building the systems underneath them. Currently
         completing an MS in Strategic Design &amp; Management at Parsons, where my
-        graduate work ships as working software: four projects with live,
-        interactive demos, designed and built end to end — Next.js, TypeScript,
-        and AI-assisted development.
+        graduate work ships as working software: four projects with live, interactive
+        demos at <a href="https://rishabhsalian.com">rishabhsalian.com</a>, designed and
+        built end to end with Next.js, TypeScript, and AI-assisted development.
       </p>
+      <p class="chip"><i aria-hidden="true"></i>Open to Design Engineer &amp; Product roles · internships now · full-time 2027</p>
+    </header>
+
+    <section class="contactBox">
+      <span><svg class="ic"><use href="#i-pin"/></svg>Brooklyn, NY</span>
+      <span><svg class="ic"><use href="#i-globe"/></svg><a href="https://rishabhsalian.com">rishabhsalian.com</a></span>
+      <span><svg class="ic"><use href="#i-mail"/></svg><a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a></span>
+      <span><svg class="ic"><use href="#i-linkedin"/></svg>linkedin.com/in/rishabh-salian117</span>
+      <span><svg class="ic"><use href="#i-phone"/></svg>+1 929 709 1548</span>
+      <span><svg class="ic"><use href="#i-github"/></svg>github.com/Rishabh117117</span>
     </section>
 
-    <section>
-      <p class="kicker">Selected work — live at rishabhsalian.com</p>
+  </div>
 
-      <div class="proj">
-        <span class="bar" style="background:var(--f)"></span>
+  <div>
+
+    <section class="railSec">
+      <p class="kicker"><svg class="ic"><use href="#i-cap"/></svg>§ 02 · Education</p>
+      <div class="edu">
+        <svg class="ic"><use href="#i-cap"/></svg>
         <div>
-          <h3>Follow <span class="meta">Capstone · Spring 2026 · working demo</span></h3>
-          <p>A shared, trackable memory layer between a team&rsquo;s AI tools — one index of
-          what the team knows, and a directory of who knows it. Ships with a live sandbox:
-          a real model running Follow&rsquo;s MCP tools on the wire.</p>
+          <h4>Parsons School of Design</h4>
+          <p>MS, Strategic Design &amp; Management</p>
+          <p class="yr">The New School · expected 2026</p>
         </div>
       </div>
-
-      <div class="proj">
-        <span class="bar" style="background:var(--g)"></span>
+      <div class="edu">
+        <svg class="ic"><use href="#i-cube"/></svg>
         <div>
-          <h3>Greener Hours <span class="meta">Course project · Spring 2026 · working demo</span></h3>
-          <p>An open carbon-disclosure standard for AI compute — one indicator, three
-          surfaces (chat, scheduler, org dashboard), running on a shared live simulation.</p>
+          <h4>ISDI, Mumbai</h4>
+          <p>4-year Diploma, Product Design</p>
+          <p class="yr">2021</p>
         </div>
       </div>
-
-      <div class="proj">
-        <span class="bar" style="background:var(--h)"></span>
+      <div class="edu">
+        <svg class="ic"><use href="#i-book"/></svg>
         <div>
-          <h3>Healthy Materials <span class="meta">Graduate research · Fall 2025 · working demo</span></h3>
-          <p>Healthier-material spec packages priced to survive value engineering — field
-          research with the Healthy Materials Lab, made tangible as a working spec configurator.</p>
+          <h4>University of Mumbai</h4>
+          <p>BA, Sociology</p>
+          <p class="yr">2021</p>
         </div>
       </div>
-
-      <div class="proj">
-        <span class="bar" style="background:var(--w)"></span>
+      <div class="edu">
+        <svg class="ic"><use href="#i-book"/></svg>
         <div>
-          <h3>Housing Works <span class="meta">Studio project · Spring 2025 · working demo</span></h3>
-          <p>Trustee-taught micro-workshops that keep learning in-house — service design
-          fieldwork turned into a working matcher, session, and archive tool.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <p class="kicker">Experience</p>
-
-      <div class="xrow">
-        <p class="era">2024–26</p>
-        <div>
-          <h3>Parsons School of Design <span>· The New School, NYC</span></h3>
-          <p>MS, Strategic Design &amp; Management — client work, graduate research, and
-          Follow: designed and shipped end to end — Next.js, TypeScript, and
-          AI-assisted development.</p>
-        </div>
-      </div>
-
-      <div class="xrow">
-        <p class="era">2023–24</p>
-        <div>
-          <h3>Freelance <span>· Product, UX &amp; graphic design</span></h3>
-          <p>Research, personas, flows, wireframes, and UI for websites and apps —
-          working with clients and developers through to launch.</p>
-        </div>
-      </div>
-
-      <div class="xrow">
-        <p class="era">2022–23</p>
-        <div>
-          <h3>Mindseye Creative <span>· UX Designer</span></h3>
-          <p>Led UX research and design for websites and apps — guiding UI designers and
-          staying with each project through development and launch.</p>
-        </div>
-      </div>
-
-      <div class="xrow">
-        <p class="era">2021–22</p>
-        <div>
-          <h3>YAAP Digital <span>· Junior Art Director</span></h3>
-          <p>Social and brand creative for a range of businesses — and the agency&rsquo;s
-          own Instagram presence.</p>
-        </div>
-      </div>
-
-      <div class="xrow">
-        <p class="era">2020</p>
-        <div>
-          <h3>Think Design <span>· Design Research Intern</span></h3>
-          <p>User interviews, synthesis, and a findings report.</p>
-        </div>
-      </div>
-
-      <div class="xrow">
-        <p class="era">2019</p>
-        <div>
-          <h3>YAAP Digital <span>· Design Intern</span></h3>
-          <p>Concept and creative support across design projects.</p>
+          <h4>Vibgyor High</h4>
+          <p>CIE A Levels</p>
+          <p class="yr">2016</p>
         </div>
       </div>
     </section>
-  </main>
 
-  <aside class="rail">
-    <section>
-      <p class="kicker">What I work with</p>
+    <section class="railSec">
+      <p class="kicker"><svg class="ic"><use href="#i-spark"/></svg>§ 03 · What I work with</p>
       <div class="skillgroup">
-        <h4>Design</h4>
+        <h4><svg class="ic"><use href="#i-pencil"/></svg>Design</h4>
         <p>Product &amp; UX design · design research &amp; synthesis · systems &amp;
         strategic design · interaction &amp; visual design · Figma · Photoshop &amp;
         Illustrator · 3D modeling</p>
       </div>
       <div class="skillgroup">
-        <h4>AI &amp; build</h4>
+        <h4><svg class="ic"><use href="#i-chip"/></svg>AI &amp; build</h4>
         <p>End-to-end apps with Claude &amp; Claude Code · MCP (servers + tools) ·
         Anthropic API &amp; agentic architectures · prompt &amp; agent design ·
         Next.js · React / React Native · TypeScript · Python / FastAPI ·
         Git &amp; GitHub · Railway</p>
       </div>
       <div class="skillgroup">
-        <h4>Ways of working</h4>
+        <h4><svg class="ic"><use href="#i-compass"/></svg>Ways of working</h4>
         <p>Systems thinking · clear writing · cross-functional collaboration ·
         shipping under constraint</p>
       </div>
     </section>
 
-    <section>
-      <p class="kicker">Education</p>
-      <div class="edu">
-        <h4>Parsons School of Design</h4>
-        <p>MS, Strategic Design &amp; Management</p>
-        <p class="yr">The New School · expected 2026</p>
+  </div>
+
+  <div>
+
+    <section class="journey">
+      <p class="kicker"><svg class="ic"><use href="#i-route"/></svg>§ 01 · The journey</p>
+
+      <div class="legend">
+        <span><i class="lg lgAcc"></i>Parsons · systems era</span>
+        <span><i class="lg lgInk"></i>Studio &amp; agency roles</span>
+        <span><i class="lg lgEdu"></i>Education</span>
+        <span><i class="lg lgPiv"></i>Arc pivot</span>
       </div>
-      <div class="edu">
-        <h4>ISDI, Mumbai</h4>
-        <p>4-year Diploma, Product Design</p>
-        <p class="yr">2021</p>
+
+      <div class="tl">
+        <div class="node">
+          <p class="era">2026</p>
+          <span class="dot dotNext"><svg class="ic"><use href="#i-flag"/></svg></span>
+          <div>
+            <h3>Graduating <span>· Fall 2026</span></h3>
+            <p>Four graduate projects live, each with a working demo.</p>
+          </div>
+        </div>
+        <div class="node">
+          <p class="era">2024–26</p>
+          <span class="dot dotAcc"><svg class="ic"><use href="#i-cap"/></svg></span>
+          <div>
+            <h3>Parsons School of Design <span>· The New School, NYC</span></h3>
+            <p>MS, Strategic Design &amp; Management: client work, graduate research,
+            and building AI-native products end to end.</p>
+          </div>
+        </div>
+
+        <div class="pivot"><span class="pivotChip"><b>Pivot 2 · 2024</b>&nbsp;&nbsp;Mumbai → New York</span><span class="pivotLine"></span></div>
+
+        <div class="node">
+          <p class="era">2023–24</p>
+          <span class="dot dotInk"><svg class="ic"><use href="#i-laptop"/></svg></span>
+          <div>
+            <h3>Freelance <span>· Product, UX &amp; graphic design</span></h3>
+            <p>Research, flows, wireframes, and UI, working with clients and developers
+            through to launch.</p>
+          </div>
+        </div>
+        <div class="node">
+          <p class="era">2022–23</p>
+          <span class="dot dotInk"><svg class="ic"><use href="#i-layout"/></svg></span>
+          <div>
+            <h3>Mindseye Creative <span>· UX Designer</span></h3>
+            <p>Led UX research and design for websites and apps, guiding UI designers
+            through development and launch.</p>
+          </div>
+        </div>
+        <div class="node">
+          <p class="era">2021–22</p>
+          <span class="dot dotInk"><svg class="ic"><use href="#i-frame"/></svg></span>
+          <div>
+            <h3>YAAP Digital <span>· Junior Art Director</span></h3>
+            <p>Social and brand creative for a range of businesses.</p>
+          </div>
+        </div>
+
+        <div class="pivot"><span class="pivotChip"><b>Pivot 1 · 2021</b>&nbsp;&nbsp;objects → interfaces</span><span class="pivotLine"></span></div>
+
+        <div class="node">
+          <p class="era">2020</p>
+          <span class="dot dotInk"><svg class="ic"><use href="#i-search"/></svg></span>
+          <div>
+            <h3>Think Design <span>· Design Research Intern</span></h3>
+            <p>User interviews, synthesis, and a findings report.</p>
+          </div>
+        </div>
+        <div class="node">
+          <p class="era">2019</p>
+          <span class="dot dotInk"><svg class="ic"><use href="#i-pencil"/></svg></span>
+          <div>
+            <h3>YAAP Digital <span>· Design Intern</span></h3>
+            <p>Concept and creative support across design projects.</p>
+          </div>
+        </div>
+        <div class="node">
+          <p class="era">2017–21</p>
+          <span class="dot dotEdu"><svg class="ic"><use href="#i-cube"/></svg></span>
+          <h3>ISDI, Mumbai <span>· four years trained on objects</span></h3>
+        </div>
+        <div class="node">
+          <p class="era">2016</p>
+          <span class="dot dotEdu"><svg class="ic"><use href="#i-book"/></svg></span>
+          <h3>CIE A Levels <span>· Vibgyor High</span></h3>
+        </div>
       </div>
-      <div class="edu">
-        <h4>University of Mumbai</h4>
-        <p>BA, Sociology</p>
-        <p class="yr">2021</p>
-      </div>
-      <div class="edu">
-        <h4>Vibgyor High</h4>
-        <p>CIE A Levels</p>
-        <p class="yr">2016</p>
-      </div>
+
+      <p class="tlFoot"><strong>Two pivots make the arc.</strong> 2021: trained on objects,
+      moved into interfaces. 2024: moved to New York, and from interfaces into the
+      systems running underneath them.</p>
     </section>
 
-    <section>
-      <p class="kicker">Open to</p>
-      <p style="font-size:8.4pt;color:var(--soft)">Design Engineer and Product roles
-      at AI-native teams — Brooklyn / NYC.</p>
-    </section>
-  </aside>
+  </div>
+</div>
+
 </div>
 
 <footer>
-  <span>Rishabh Salian — CV · 2026</span>
-  <span>rishabhsalian.com</span>
+  <span>Rishabh Salian · CV · 2026</span>
+  <span>rishabhsalian.com · live demos of every project</span>
 </footer>
 
 </body>
