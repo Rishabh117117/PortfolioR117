@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 /**
  * ABOUT — ported from the approved sandbox build (about me page.html).
  * Resolves D-04 (bio, arc narrative, role/education timeline, skills, contact).
- * Photo cluster = Rishabh's own photos (public/images/about): New School
- * commencement on Fifth Ave (hero) + a Parsons studio crit + a Mumbai group —
+ * Photo cluster = Rishabh's own photos (public/images/about): a portrait on the
+ * East River waterfront (hero) + a Parsons studio crit + a Mumbai group —
  * the NYC "now" over the two-city arc the page tells. They drift on scroll.
  * Accent = the global default Persian Blue (the person, not a project), so no
  * page-scoped accent override. Ambient = warm gold (objects / origin) → blue

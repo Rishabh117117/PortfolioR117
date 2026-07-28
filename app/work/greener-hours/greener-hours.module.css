@@ -55,11 +55,21 @@
   max-width: 80ch;
 }
 
-/* light tonal band (cards float on it) */
-.band {
-  background: var(--card);
-  border-block: 1px solid var(--line);
+/* The second half of a merged section (2026-07-28: the scale + the
+   invisibility became ONE problem section, the trade-offs + the KPIs one
+   closing section). A section's worth of air, and a hairline that reads as
+   a beat inside one slide rather than a border between two. */
+.subBlock {
+  margin-top: var(--space-8);
+  padding-top: var(--space-7);
+  border-top: 1px solid var(--line);
 }
+.navy .subBlock {
+  border-top-color: color-mix(in srgb, var(--paper) 16%, transparent);
+}
+
+/* (the light tonal .band was the KPI section's surface — dropped when the
+   KPIs merged into the trade-offs section on 2026-07-28) */
 
 /* opaque dark band (sits over the AmbientField; navy ground, paper text) */
 .navy {

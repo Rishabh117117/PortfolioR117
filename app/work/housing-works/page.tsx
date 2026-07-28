@@ -152,7 +152,11 @@ export default function HousingWorksPage() {
             with students across The New School standing in for the generation
             Housing Works wants to attract and keep.
           </p>
-          <ol className={styles.iconCardGrid}>
+        </div>
+
+        {/* the four passes sit in parallel, on a row wider than the reading
+            column so all four fit side by side at desktop */}
+        <ol className={`${styles.iconCardGrid} hw-reveal`}>
             <li className={styles.iconCard}>
               <span className={`mono ${styles.passNo}`}>01</span>
               <svg
@@ -247,8 +251,7 @@ export default function HousingWorksPage() {
                 clustered what we heard into a short set of findings.
               </p>
             </li>
-          </ol>
-        </div>
+        </ol>
       </section>
 
       {/* ============ SCENE 4a — SITE VISITS (bento photo grid) ============ */}

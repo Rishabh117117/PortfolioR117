@@ -475,9 +475,14 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
+/* Scene 4's row. Lives OUTSIDE the 720px reading column (like .findings
+   below) so all four passes can sit in parallel at desktop. */
 .iconCardGrid {
   list-style: none;
-  margin-top: var(--space-7);
+  width: 100%;
+  max-width: var(--maxw-wide);
+  margin: var(--space-7) auto 0;
+  padding-inline: var(--page-pad);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-5);
@@ -945,5 +950,28 @@
   }
   .findings .findingTitle {
     font-size: 19px;
+  }
+
+  /* the four passes in parallel — one row, matching the findings rhythm
+     below. Type and padding step down a notch so a quarter-width column
+     still reads (these cards carry their body copy openly, unlike the
+     findings' collapsed Unfolds). */
+  .iconCardGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+  .iconCardGrid .iconCard {
+    padding: 24px 22px 26px;
+  }
+  .passNo {
+    top: var(--space-3);
+    right: var(--space-4);
+  }
+  .passTitle {
+    font-size: 19px;
+  }
+  .passBody {
+    font-size: 15px;
+    line-height: 1.55;
   }
 }

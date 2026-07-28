@@ -519,7 +519,8 @@
 
 /* the friction list is an <Unfold variant="bare"> now (ROUND-2026-07-16): the
    collapsed header stacks the small label over a one-line display statement;
-   the three frictions unfold below. */
+   the three frictions unfold below. "the turn" uses the identical header
+   shape (accent label instead of grey) since 2026-07-28. */
 .stageProbHead {
   display: flex;
   flex-direction: column;
@@ -537,19 +538,17 @@
   color: var(--ink);
 }
 
-/* "the turn" sub-block — the leverage points that answer this stage's
-   frictions, nested inside the stage card */
-.turn {
-  padding-top: var(--space-4);
-  border-top: 1px dashed var(--line);
-}
+/* "the turn" — an <Unfold> too since 2026-07-28 (his note: "collapse the
+   turn into statements"), so each stage now reads as a matched pair of glass
+   statements, problem then answer, with the quote below as the evidence. The
+   old always-open .turn sub-block is gone; the label is the accent
+   counterpart to .probLabel in the same collapsed-header layout. */
 .turnLabel {
   font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: var(--space-3);
 }
 .turnClose {
   font-size: 14.5px;
@@ -1091,16 +1090,44 @@
    connecting spine that runs through the icon nodes; the card chrome drops
    away (the spine is the structure at this width) */
 @media (min-width: 880px) {
+  /* five explicit rows — glyph · stage head · problems · the turn · quote —
+     so every stage can subgrid onto them and the three columns line up row
+     for row. That's what levels the interview quotes (his 2026-07-28 note):
+     they start on one baseline no matter how the copy above them wraps, and
+     they stay level when an Unfold opens (the row grows in all three
+     columns at once). Without subgrid support this degrades to the old
+     independent stacks — unaligned, never broken. */
   .journey {
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, auto);
     align-items: stretch;
     gap: var(--space-7);
+    /* collapsed evenness inside each row, matching the site's other card
+       grids: the tallest measured statement header sets the floor, so the
+       header fills the row subgrid hands it instead of leaving dead space
+       under the text. Live-measured (880 → 169, 900+ → 146, flat from
+       there since .wrapWide caps at 980) — re-measure if the statements
+       change. */
+    --unfold-head-min: 172px;
   }
   .stage {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+    gap: var(--space-5);
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
+  }
+  /* the two disclosures (children 3 and 4: problems, then the turn) sit at
+     the top of their shared row instead of stretching into it — same rule
+     the other card grids follow, so opening one column doesn't inflate its
+     row-mates into tall empty glass. The row still grows for everyone, which
+     is what keeps the quotes level. */
+  .stage > :nth-child(3),
+  .stage > :nth-child(4) {
+    align-self: start;
   }
   .jnode {
     margin-bottom: var(--space-2);
@@ -1130,6 +1157,14 @@
   .stage:last-child .jnode::before,
   .stage:last-child .jnode::after {
     display: none;
+  }
+}
+
+/* just past the 880 squeeze the statements drop a line, so the floor comes
+   back down (see the --unfold-head-min note above) */
+@media (min-width: 900px) {
+  .journey {
+    --unfold-head-min: 148px;
   }
 }
 

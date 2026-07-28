@@ -18,9 +18,10 @@ page (`app/about/page.tsx`, including the journey timeline), `lib/projects.ts`
 taglines, or a prior CV. No invented claims. No em/en dashes in prose (site rule);
 en-dash year ranges are fine (site-canonical).
 
-The photo tile crops `public/images/about/grad-nyc-lg.jpg` via `background-size` /
+The photo tile crops `public/images/about/portrait-lg.jpg` via `background-size` /
 `background-position` — swap the file (or the URL in `.photo`) to change the portrait;
-retune `background-position` if the new photo's face sits elsewhere.
+retune `background-position` if the new photo's face sits elsewhere. That file is the
+same portrait the About page's hero frame uses, so the two surfaces stay in sync.
 
 ## Re-render
 

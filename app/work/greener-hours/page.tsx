@@ -61,14 +61,12 @@ export const metadata: Metadata = {
 const FORCE_VARIANTS = ["regulatory", "procurement", "infrastructure"] as const;
 
 const SECTIONS = [
-  { id: "scale", label: "The scale" },
-  { id: "invisibility", label: "The invisibility" },
+  { id: "problem", label: "The problem" },
   { id: "reframe", label: "The reframe" },
   { id: "standard", label: "The standard" },
   { id: "demo", label: "Three surfaces" },
   { id: "why-now", label: "Why now" },
   { id: "trade-offs", label: "Trade-offs" },
-  { id: "kpis", label: "If it works" },
   { id: "close", label: "Close" },
 ];
 
@@ -115,10 +113,11 @@ export default function GreenerHoursPage() {
           </div>
         </header>
 
-        {/* ============ §2 THE SCALE (problem — one dark band with §3) ============ */}
-        <section className={`section ${styles.navy}`} id="scale" data-snav-target>
+        {/* ============ §2 THE PROBLEM — scale + invisibility on ONE dark
+            band (they were two sections until 2026-07-28) ============ */}
+        <section className={`section ${styles.navy}`} id="problem" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={1}>The problem · the scale</SectionHeader>
+            <SectionHeader n={1}>The problem · scale and invisibility</SectionHeader>
             <div className={styles.scaleGrid}>
               <div>
                 <div className={styles.giant}>
@@ -130,42 +129,39 @@ export default function GreenerHoursPage() {
               <ScaleChart />
             </div>
             <p className={styles.source}>{SCALE_SOURCE}</p>
-          </div>
-        </section>
 
-        {/* ============ §3 THE INVISIBILITY (dark) ============ */}
-        <section className={`section ${styles.navy}`} id="invisibility" data-snav-target>
-          <div className="container" data-reveal>
-            <SectionHeader n={2}>The invisibility</SectionHeader>
-            <h2 className={styles.title}>
-              {VIS_HEADLINE_A}
-              <br />
-              {VIS_HEADLINE_B}
-              <em>{VIS_HEADLINE_EM}</em>
-            </h2>
-            <div className={styles.diagram}>
-              <div className={styles.diagramWide}>
-                <VisibilityFlow />
-              </div>
-            </div>
-            <div className={styles.buckets}>
-              {VIS_BUCKETS.map((b) => (
-                <div key={b.lbl} className={styles.bucket}>
-                  <span className={styles.lbl}>{b.lbl}</span>
-                  <div className={styles.txt}>
-                    {b.txt} <em>{b.em}</em>
-                  </div>
+            {/* second half of the same problem: nobody can see the number */}
+            <div className={styles.subBlock}>
+              <h2 className={styles.title}>
+                {VIS_HEADLINE_A}
+                <br />
+                {VIS_HEADLINE_B}
+                <em>{VIS_HEADLINE_EM}</em>
+              </h2>
+              <div className={styles.diagram}>
+                <div className={styles.diagramWide}>
+                  <VisibilityFlow />
                 </div>
-              ))}
+              </div>
+              <div className={styles.buckets}>
+                {VIS_BUCKETS.map((b) => (
+                  <div key={b.lbl} className={styles.bucket}>
+                    <span className={styles.lbl}>{b.lbl}</span>
+                    <div className={styles.txt}>
+                      {b.txt} <em>{b.em}</em>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className={styles.source}>{VIS_SOURCE}</p>
             </div>
-            <p className={styles.source}>{VIS_SOURCE}</p>
           </div>
         </section>
 
-        {/* ============ §4 THE REFRAME + PRECEDENT (light, centered) ============ */}
+        {/* ============ §3 THE REFRAME + PRECEDENT (light, centered) ============ */}
         <section className="section" data-ambient-dim id="reframe" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={3} center>The reframe</SectionHeader>
+            <SectionHeader n={2} center>The reframe</SectionHeader>
             <p className={styles.reframeStatement}>
               {INSIGHT.lead}{" "}
               <span className={styles.turn}>{INSIGHT.turn}</span>
@@ -202,10 +198,10 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §5 THE STANDARD (the product) ============ */}
+        {/* ============ §4 THE STANDARD (the product) ============ */}
         <section className="section" data-ambient-dim id="standard" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={4}>The product · the standard</SectionHeader>
+            <SectionHeader n={3}>The product · the standard</SectionHeader>
             <h2 className={styles.title}>
               One standard. <em>Three surfaces.</em>
             </h2>
@@ -225,10 +221,10 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §6 THE THREE SURFACES (tabbed) ============ */}
+        {/* ============ §5 THE THREE SURFACES (tabbed) ============ */}
         <section className="section" data-ambient-live id="demo" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={5}>The three surfaces</SectionHeader>
+            <SectionHeader n={4}>The three surfaces</SectionHeader>
             <h2 className={styles.title}>
               One indicator, one scheduler, <em>one dashboard.</em>
             </h2>
@@ -244,10 +240,10 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §7 WHY NOW (opportunity · forces) — blue band ======= */}
+        {/* ============ §6 WHY NOW (opportunity · forces) — blue band ======= */}
         <section className={`section ${styles.blue}`} id="why-now" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={6}>The opportunity · three forces</SectionHeader>
+            <SectionHeader n={5}>The opportunity · three forces</SectionHeader>
             <h2 className={styles.title}>
               Why now, <em>not five years ago.</em>
             </h2>
@@ -268,10 +264,11 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §8 HONEST TRADE-OFFS ============ */}
+        {/* ============ §7 HONEST TRADE-OFFS + THE SPECULATIVE KPIs — one
+            section (they were two until 2026-07-28) ============ */}
         <section className="section" data-ambient-dim id="trade-offs" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={7}>Named, not hidden</SectionHeader>
+            <SectionHeader n={6}>Named, not hidden · if it works</SectionHeader>
             <h2 className={styles.title}>
               What this project <em>cannot pretend.</em>
             </h2>
@@ -290,33 +287,31 @@ export default function GreenerHoursPage() {
                 </Unfold>
               ))}
             </div>
-          </div>
-        </section>
 
-        {/* ============ §9 SPECULATIVE KPIs ============ */}
-        <section className={`section ${styles.band}`} id="kpis" data-snav-target>
-          <div className="container" data-reveal>
-            <SectionHeader n={8}>If it works</SectionHeader>
-            <h2 className={styles.title}>
-              When compute disclosure becomes <em>a normal procurement field.</em>
-            </h2>
-            <div className={styles.kpiGrid}>
-              {KPIS.map((k) => (
-                <div key={k.label} className={styles.kpi}>
-                  <div className={styles.kpiFig}>{k.figure}</div>
-                  <div className={styles.kpiLabel}>{k.label}</div>
-                  <p className={styles.kpiSub}>{k.sub}</p>
-                </div>
-              ))}
+            {/* second half: what success would look like if the trade-offs
+                are worth taking */}
+            <div className={styles.subBlock}>
+              <h2 className={styles.title}>
+                When compute disclosure becomes <em>a normal procurement field.</em>
+              </h2>
+              <div className={styles.kpiGrid}>
+                {KPIS.map((k) => (
+                  <div key={k.label} className={styles.kpi}>
+                    <div className={styles.kpiFig}>{k.figure}</div>
+                    <div className={styles.kpiLabel}>{k.label}</div>
+                    <p className={styles.kpiSub}>{k.sub}</p>
+                  </div>
+                ))}
+              </div>
+              <p className={styles.caveat}>{KPI_CAVEAT}</p>
             </div>
-            <p className={styles.caveat}>{KPI_CAVEAT}</p>
           </div>
         </section>
 
-        {/* ============ §10 CLOSE (dark) ============ */}
+        {/* ============ §8 CLOSE (dark) ============ */}
         <section className={`section ${styles.navy}`} id="close" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={9}>Close</SectionHeader>
+            <SectionHeader n={7}>Close</SectionHeader>
             <h2 className={styles.closeLine}>
               Make the invisible legible, and <em>the providers move.</em>
             </h2>
@@ -331,7 +326,7 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §12 PROJECT PAGER ============ */}
+        {/* ============ §9 PROJECT PAGER ============ */}
         <ProjectPager slug={SLUG} />
       </div>
     </div>

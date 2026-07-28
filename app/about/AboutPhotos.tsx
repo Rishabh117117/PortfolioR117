@@ -22,10 +22,10 @@ type Shot = {
 };
 
 const MAIN: Shot = {
-  src: "/images/about/grad-nyc.jpg",
-  full: "/images/about/grad-nyc-lg.jpg",
-  alt: "Rishabh at his New School commencement on Fifth Avenue, the Empire State Building up the avenue behind him.",
-  caption: "The New School · NYC",
+  src: "/images/about/portrait.jpg",
+  full: "/images/about/portrait-lg.jpg",
+  alt: "Rishabh on the East River waterfront in winter, the Manhattan skyline across the water behind him.",
+  caption: "East River · NYC",
   w: 900,
   h: 1200,
 };

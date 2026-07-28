@@ -337,8 +337,17 @@ export default function HealthyMaterialsPage() {
                   </ul>
                 </Unfold>
 
-                <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn</p>
+                <Unfold
+                  header={
+                    <span className={styles.stageProbHead}>
+                      <span className={styles.turnLabel}>the turn</span>
+                      <span className={styles.stageStatement}>
+                        Ask early, then give teams something to spec against
+                        and time to plan.
+                      </span>
+                    </span>
+                  }
+                >
                   <ol className={styles.leverage}>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>01</span>
@@ -363,7 +372,7 @@ export default function HealthyMaterialsPage() {
                       </p>
                     </li>
                   </ol>
-                </div>
+                </Unfold>
 
                 <blockquote className={styles.quote}>
                   <p className={styles.quoteText}>
@@ -428,8 +437,17 @@ export default function HealthyMaterialsPage() {
                   </ul>
                 </Unfold>
 
-                <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn</p>
+                <Unfold
+                  header={
+                    <span className={styles.stageProbHead}>
+                      <span className={styles.turnLabel}>the turn</span>
+                      <span className={styles.stageStatement}>
+                        Reach the people who pick the final products, and make
+                        supply legible.
+                      </span>
+                    </span>
+                  }
+                >
                   <ol className={styles.leverage} start={4}>
                     <li className={styles.lp}>
                       <span className={styles.lpNum}>04</span>
@@ -448,7 +466,7 @@ export default function HealthyMaterialsPage() {
                       </p>
                     </li>
                   </ol>
-                </div>
+                </Unfold>
 
                 <blockquote className={styles.quote}>
                   <p className={styles.quoteText}>
@@ -510,14 +528,22 @@ export default function HealthyMaterialsPage() {
                   </ul>
                 </Unfold>
 
-                <div className={styles.turn}>
-                  <p className={styles.turnLabel}>the turn</p>
+                <Unfold
+                  header={
+                    <span className={styles.stageProbHead}>
+                      <span className={styles.turnLabel}>the turn</span>
+                      <span className={styles.stageStatement}>
+                        Measure one project, and the next one starts from proof.
+                      </span>
+                    </span>
+                  }
+                >
                   <p className={styles.turnClose}>
                     Proof compounds awareness: every project that documents its
                     materials and outcomes creates the market force that makes the
                     next owner ask. The cascade loops back to the start.
                   </p>
-                </div>
+                </Unfold>
 
                 <blockquote className={styles.quote}>
                   <p className={styles.quoteText}>
