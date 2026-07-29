@@ -10,18 +10,19 @@ Bricolage/Inter/Plex Mono mapped exactly like the site tokens, hand-drawn line i
 (currentColor, stroke 1.7, round — the site glyph recipe), and the About journey
 timeline turned vertical, latest first (node colors: hollow ink = education,
 ink = studio/agency, accent = Parsons era, hollow accent = upcoming; accent chips =
-the two pivots). Layout: title + role + profile flow as one block over a contact box
-and the timeline (left); photo above Education, skills, Open to (right rail).
+the two pivots). Layout: full-width intro (title + role + profile + availability chip
+over the gold-wash contact box), then education + skills rail (left) beside the
+journey (right).
 
 Content rules: everything on the CV must already exist somewhere approved — the About
 page (`app/about/page.tsx`, including the journey timeline), `lib/projects.ts`
 taglines, or a prior CV. No invented claims. No em/en dashes in prose (site rule);
 en-dash year ranges are fine (site-canonical).
 
-The photo tile crops `public/images/about/portrait-lg.jpg` via `background-size` /
-`background-position` — swap the file (or the URL in `.photo`) to change the portrait;
-retune `background-position` if the new photo's face sits elsewhere. That file is the
-same portrait the About page's hero frame uses, so the two surfaces stay in sync.
+**No photo, by design (2026-07-29):** US/EU hiring convention — CVs there are expected
+photo-free (bias-screening; some ATS/recruiters reject photo CVs outright). Don't add a
+portrait back for those markets. The About page's portrait frames are a different
+surface and keep their photos.
 
 ## Re-render
 

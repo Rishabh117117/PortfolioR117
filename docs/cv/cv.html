@@ -8,7 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   /* Tokens lifted from app/globals.css — the CV is a page OF the site.
-     v3: photo + rail on the LEFT, intro + journey on the RIGHT; no Open-to
+     v4: NO photo — US/EU hiring convention (2026-07-29). The intro spans the
+     full width; rail (education + skills) LEFT, journey RIGHT; no Open-to
      section (availability lives as the intro's live-dot chip line). */
   :root {
     --paper: #f4f2ec;
@@ -72,12 +73,12 @@
   }
   .kicker .ic { width: 11px; height: 11px; }
 
-  /* ---- grid (row 1: photo | title+profile+availability+contact — the photo
-     stretches to the row height so its bottom sits exactly on the contact-box
-     baseline; row 2: education+skills rail | journey) ---- */
+  /* ---- grid (row 1: the intro spans both columns;
+     row 2: education+skills rail | journey) ---- */
   .cols { display: grid; grid-template-columns: 55mm 1fr; column-gap: 8mm;
           align-content: start; }
   .cols > * { min-width: 0; }
+  .intro { grid-column: 1 / -1; }
 
   /* ---- intro: title + role + profile + availability as one flowing block ---- */
   h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 24pt; font-weight: 700;
@@ -87,7 +88,7 @@
   .role { margin-top: 2.8mm; font-family: "Bricolage Grotesque", sans-serif;
           font-size: 10.5pt; font-weight: 600; color: var(--ink); }
   .roleSub { margin-top: 0.8mm; font-size: 8.8pt; font-weight: 500; color: var(--soft); }
-  .profile { margin-top: 3mm; font-size: 9.4pt; line-height: 1.56; color: var(--ink-2); }
+  .profile { margin-top: 3mm; max-width: 156mm; font-size: 9.4pt; line-height: 1.56; color: var(--ink-2); }
   .profile a { color: var(--accent); text-decoration: none; font-weight: 500; }
 
   /* availability — the home hero's live-dot chip line, folded into the intro */
@@ -98,11 +99,11 @@
 
   /* ---- contact: the one box on the page ---- */
   .contactBox {
-    margin-top: 4mm;
+    margin-top: 4.5mm;
     background: var(--gold-wash);
     border-radius: 10px;
     padding: 2.8mm 4.6mm;
-    display: grid; grid-template-columns: auto auto; justify-content: space-between;
+    display: grid; grid-template-columns: auto auto auto; justify-content: space-between;
     gap: 1.8mm 6mm;
     font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--soft);
   }
@@ -111,7 +112,7 @@
   .contactBox a { color: var(--ink); text-decoration: none; font-weight: 500; }
 
   /* ---- journey (the About timeline, vertical, latest first) ---- */
-  .journey { margin-top: 7mm; }
+  .journey { margin-top: 8mm; }
   .legend { display: flex; flex-wrap: wrap; gap: 1.4mm 4.5mm; margin: -1.6mm 0 4mm;
             font-family: "Bricolage Grotesque", sans-serif; font-size: 6.2pt; font-weight: 600;
             letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
@@ -127,7 +128,7 @@
   .tl::before { content: ""; position: absolute; left: calc(13.5mm + 3mm + 3.4mm - 0.8px);
                 top: 3mm; bottom: 3mm; width: 1.6px; background: var(--line); }
   .node { position: relative; display: grid; grid-template-columns: 13.5mm 6.8mm 1fr;
-          gap: 0 3mm; align-items: start; padding: 2.2mm 0; }
+          gap: 0 3mm; align-items: start; padding: 2.4mm 0; }
   .era { font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--faint);
          text-align: right; margin-top: 0.6mm; }
   .dot { position: relative; z-index: 1; width: 6.8mm; height: 6.8mm; border-radius: 50%;
@@ -152,17 +153,11 @@
   .pivotChip b { font-weight: 700; }
   .pivotLine { flex: 1; height: 1px; background: var(--line); }
 
-  .tlFoot { margin-top: 2.8mm; font-size: 7.6pt; line-height: 1.5; color: var(--soft); }
+  .tlFoot { margin-top: 3.2mm; font-size: 7.6pt; line-height: 1.5; color: var(--soft); }
   .tlFoot strong { color: var(--ink); font-weight: 600; }
 
   /* ---- left rail ---- */
-  .photo {
-    width: 100%; border-radius: 12px;
-    background: url("../../public/images/about/portrait-lg.jpg") no-repeat;
-    background-size: 145%; background-position: 32% 17%;
-    box-shadow: 0 6px 18px rgba(26, 26, 26, 0.14);
-  }
-  .railSec { margin-top: 7mm; }
+  .railSec { margin-top: 8mm; }
 
   .edu { display: grid; grid-template-columns: auto 1fr; gap: 0 2.6mm; margin-bottom: 2.8mm; }
   .edu:last-child { margin-bottom: 0; }
@@ -223,9 +218,7 @@
 
 <div class="cols">
 
-  <div class="photo" role="img" aria-label="Portrait of Rishabh Salian"></div>
-
-  <div>
+  <div class="intro">
 
     <header>
       <h1>Rishabh Salian<span class="dots" aria-hidden="true"><i style="background:var(--f)"></i><i style="background:var(--g)"></i><i style="background:var(--h)"></i><i style="background:var(--w)"></i></span></h1>
@@ -244,10 +237,10 @@
 
     <section class="contactBox">
       <span><svg class="ic"><use href="#i-pin"/></svg>Brooklyn, NY</span>
-      <span><svg class="ic"><use href="#i-globe"/></svg><a href="https://rishabhsalian.com">rishabhsalian.com</a></span>
       <span><svg class="ic"><use href="#i-mail"/></svg><a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a></span>
-      <span><svg class="ic"><use href="#i-linkedin"/></svg>linkedin.com/in/rishabh-salian117</span>
       <span><svg class="ic"><use href="#i-phone"/></svg>+1 929 709 1548</span>
+      <span><svg class="ic"><use href="#i-globe"/></svg><a href="https://rishabhsalian.com">rishabhsalian.com</a></span>
+      <span><svg class="ic"><use href="#i-linkedin"/></svg>linkedin.com/in/rishabh-salian117</span>
       <span><svg class="ic"><use href="#i-github"/></svg>github.com/Rishabh117117</span>
     </section>
 
