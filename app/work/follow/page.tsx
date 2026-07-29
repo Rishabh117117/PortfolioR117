@@ -716,8 +716,11 @@ export default function FollowPage() {
           </p>
           <div className={styles.rlist}>
             <div className={styles.r}>
-              <strong>Stack</strong>: TypeScript MCP server (Hono, JSON-RPC at
-              /mcp), Next.js sandbox client, deployed on Railway.
+              <strong>Stack</strong>: a TypeScript monorepo (Turborepo, pnpm
+              workspaces): a Hono MCP server exposing 12 tools over JSON-RPC at
+              /mcp, a Next.js dashboard, two browser extensions (activity
+              capture, Google Workspace), a folder-watching desktop agent, and
+              an Expo mobile shell. Deployed on Railway.
             </div>
             <div className={styles.r}>
               <strong>Pipeline</strong>: five LLM roles (Reporter, Analyst,
@@ -726,8 +729,9 @@ export default function FollowPage() {
               provenance on every fact, supersession instead of overwrites.
             </div>
             <div className={styles.r}>
-              <strong>Testing</strong>: ≈2,100 automated tests across the
-              pipeline, tool contracts, and clients.
+              <strong>Testing</strong>: Vitest, ≈1,350 automated tests across
+              165 files as of July 2026, covering the pipeline, tool contracts,
+              and clients.
             </div>
             <div className={styles.r}>
               <strong>Ownership</strong>: the architecture, data model, tool
