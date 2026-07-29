@@ -4,6 +4,7 @@ import AmbientField from "@/components/AmbientField/AmbientField";
 import ContactScroll from "./ContactScroll";
 import AboutPhotos from "./AboutPhotos";
 import { SOCIALS } from "@/lib/site";
+import { FLAGSHIPS } from "@/lib/projects";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
@@ -266,19 +267,19 @@ export default function AboutPage() {
                     built into working prototypes with Next.js, TypeScript,
                     and AI-assisted development.
                   </p>
+                  {/* order derives from FLAGSHIPS so this list can never drift
+                      out of step with the home grid, the nav flyout, and the
+                      project pager (they all read the same array) */}
                   <div className={styles.wCtas}>
-                    <Link className={styles.wLink} href="/work/follow">
-                      Follow <span className={styles.arr}>→</span>
-                    </Link>
-                    <Link className={styles.wLink} href="/work/greener-hours">
-                      Greener Hours <span className={styles.arr}>→</span>
-                    </Link>
-                    <Link className={styles.wLink} href="/work/healthy-materials">
-                      Healthy Materials <span className={styles.arr}>→</span>
-                    </Link>
-                    <Link className={styles.wLink} href="/work/housing-works">
-                      Housing Works <span className={styles.arr}>→</span>
-                    </Link>
+                    {FLAGSHIPS.map((p) => (
+                      <Link
+                        key={p.slug}
+                        className={styles.wLink}
+                        href={`/work/${p.slug}`}
+                      >
+                        {p.name} <span className={styles.arr}>→</span>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>

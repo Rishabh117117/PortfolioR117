@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import DriftGroup from "@/components/DriftGroup/DriftGroup";
 import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./about.module.css";
@@ -45,6 +46,13 @@ const MUMBAI: Shot = {
   w: 760,
   h: 1013,
 };
+
+/* The tiles render through next/image with `fill`: the crop is the FRAME's, not
+   the file's (.frameMain is 4/5, .smSlot is 1/1, both cover-cropped from the
+   3:4 sources), so the layout is unchanged by the conversion. `.cluster` caps
+   at 380px wide, which bounds both slots and keeps these `sizes` honest. */
+const MAIN_SIZES = "(max-width: 380px) 100vw, 328px";
+const SM_SIZES = "(max-width: 380px) 44vw, 167px";
 
 function ZoomGlyph() {
   return (
@@ -103,7 +111,7 @@ export default function AboutPhotos() {
         <div className={styles.mainSlot} data-depth="7">
           <figure className={`${styles.frame} ${styles.frameMain}`}>
             <button type="button" className={styles.zoomBtn} onClick={(e) => open(MAIN, e)} aria-label={`Enlarge photo: ${MAIN.caption}`}>
-              <img className={styles.photo} src={MAIN.src} alt={MAIN.alt} width={MAIN.w} height={MAIN.h} loading="eager" decoding="async" />
+              <Image className={styles.photo} src={MAIN.src} alt={MAIN.alt} fill sizes={MAIN_SIZES} priority />
               <span className={styles.zoomHint} aria-hidden="true">
                 <ZoomGlyph />
               </span>
@@ -115,7 +123,7 @@ export default function AboutPhotos() {
         <div className={`${styles.smSlot} ${styles.smA}`} data-depth="-16">
           <figure className={`${styles.frame} ${styles.frameSm} ${styles.rotA}`}>
             <button type="button" className={styles.zoomBtn} onClick={(e) => open(STUDIO, e)} aria-label={`Enlarge photo: ${STUDIO.caption}`}>
-              <img className={styles.photo} src={STUDIO.src} alt={STUDIO.alt} width={STUDIO.w} height={STUDIO.h} loading="lazy" decoding="async" />
+              <Image className={styles.photo} src={STUDIO.src} alt={STUDIO.alt} fill sizes={SM_SIZES} loading="lazy" />
               <span className={styles.zoomHint} aria-hidden="true">
                 <ZoomGlyph />
               </span>
@@ -127,7 +135,7 @@ export default function AboutPhotos() {
         <div className={`${styles.smSlot} ${styles.smB}`} data-depth="12">
           <figure className={`${styles.frame} ${styles.frameSm} ${styles.rotB}`}>
             <button type="button" className={styles.zoomBtn} onClick={(e) => open(MUMBAI, e)} aria-label={`Enlarge photo: ${MUMBAI.caption}`}>
-              <img className={styles.photo} src={MUMBAI.src} alt={MUMBAI.alt} width={MUMBAI.w} height={MUMBAI.h} loading="lazy" decoding="async" />
+              <Image className={styles.photo} src={MUMBAI.src} alt={MUMBAI.alt} fill sizes={SM_SIZES} loading="lazy" />
               <span className={styles.zoomHint} aria-hidden="true">
                 <ZoomGlyph />
               </span>
