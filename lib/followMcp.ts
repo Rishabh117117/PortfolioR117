@@ -2,7 +2,7 @@
    Follow MCP — the console's tool layer, based on the ACTUAL Follow code.
 
    Tool names, descriptions, and input schemas mirror the shipped MCP server
-   in the workspace-platform repo (packages/api/src/mcp/tools/*.ts, one file
+   in the Follow repo (packages/api/src/mcp/tools/*.ts, one file
    per tool, 12 tools over JSON-RPC at /mcp — designed headless: user and
    machine callers both). Response TEXT SHAPES were verified two ways:
    reading the handlers, and calling the live Follow connector (query_index,
@@ -16,7 +16,8 @@
    the schemas rather than silently ignored. This registers 6 of the real
    server's 12 tools.
 
-   Repo: https://github.com/Rishabh117117/workspace-platform
+   Repo: https://github.com/Rishabh117117/Follow
+   (renamed from workspace-platform; the old URL 404s)
    ========================================================================= */
 
 import {

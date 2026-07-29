@@ -679,11 +679,11 @@ export default function FollowPage() {
           <p className={`mono ${styles.techLine}`}>
             live model · Follow&apos;s actual MCP tool contracts (
             <a
-              href="https://github.com/Rishabh117117/workspace-platform"
+              href="https://github.com/Rishabh117117/Follow"
               target="_blank"
               rel="noopener noreferrer"
             >
-              workspace-platform ↗
+              Follow ↗
             </a>
             ) · fictional sample workspace
           </p>

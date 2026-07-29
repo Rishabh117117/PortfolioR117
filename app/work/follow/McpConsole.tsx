@@ -16,7 +16,7 @@ import s from "./FollowSandbox.module.css";
  * real tool-calling loop: it decides which tools to call, the calls and their
  * JSON results render on the wire, and the final answer is grounded in what
  * came back. Tool names/schemas/response shapes mirror the shipped MCP server
- * (workspace-platform repo, packages/api/src/mcp/tools); the executor runs
+ * (Follow repo, packages/api/src/mcp/tools); the executor runs
  * the same contracts on this sandbox workspace — including the write path:
  * save_conversation adds a real entry to the memory views.
  */
@@ -266,11 +266,11 @@ export default function McpConsole({
           ))}
           <a
             className={s.repoLink}
-            href="https://github.com/Rishabh117117/workspace-platform"
+            href="https://github.com/Rishabh117117/Follow"
             target="_blank"
             rel="noopener noreferrer"
           >
-            source: workspace-platform ↗
+            source: Follow ↗
           </a>
         </div>
       </div>
