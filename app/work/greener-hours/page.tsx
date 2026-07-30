@@ -66,8 +66,7 @@ const SECTIONS = [
   { id: "standard", label: "The standard" },
   { id: "demo", label: "Three surfaces" },
   { id: "why-now", label: "Why now" },
-  { id: "trade-offs", label: "Trade-offs" },
-  { id: "close", label: "Close" },
+  { id: "trade-offs", label: "The close" },
 ];
 
 export default function GreenerHoursPage() {
@@ -113,11 +112,21 @@ export default function GreenerHoursPage() {
           </div>
         </header>
 
-        {/* ============ §2 THE PROBLEM — scale + invisibility on ONE dark
-            band (they were two sections until 2026-07-28) ============ */}
+        {/* ============ §2 THE PROBLEM — ONE slide (2026-07-29, per Rishabh:
+            "make the problem into one slide instead of 2"). The scale and the
+            invisibility were two sections until 07-28, then one section in two
+            divided halves; now they're one flow: the headline poses it, and
+            everything under it is the "this" the headline points at — how big
+            the number is, then where the signal dies. ============ */}
         <section className={`section ${styles.navy}`} id="problem" data-snav-target>
           <div className="container" data-reveal>
-            <SectionHeader n={1}>The problem · scale and invisibility</SectionHeader>
+            <SectionHeader n={1}>The problem</SectionHeader>
+            <h2 className={styles.title}>
+              {VIS_HEADLINE_A}
+              <br />
+              {VIS_HEADLINE_B}
+              <em>{VIS_HEADLINE_EM}</em>
+            </h2>
             <div className={styles.scaleGrid}>
               <div>
                 <div className={styles.giant}>
@@ -128,33 +137,25 @@ export default function GreenerHoursPage() {
               </div>
               <ScaleChart />
             </div>
-            <p className={styles.source}>{SCALE_SOURCE}</p>
-
-            {/* second half of the same problem: nobody can see the number */}
-            <div className={styles.subBlock}>
-              <h2 className={styles.title}>
-                {VIS_HEADLINE_A}
-                <br />
-                {VIS_HEADLINE_B}
-                <em>{VIS_HEADLINE_EM}</em>
-              </h2>
-              <div className={styles.diagram}>
-                <div className={styles.diagramWide}>
-                  <VisibilityFlow />
-                </div>
+            <div className={styles.diagram}>
+              <div className={styles.diagramWide}>
+                <VisibilityFlow />
               </div>
-              <div className={styles.buckets}>
-                {VIS_BUCKETS.map((b) => (
-                  <div key={b.lbl} className={styles.bucket}>
-                    <span className={styles.lbl}>{b.lbl}</span>
-                    <div className={styles.txt}>
-                      {b.txt} <em>{b.em}</em>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className={styles.source}>{VIS_SOURCE}</p>
             </div>
+            <div className={styles.buckets}>
+              {VIS_BUCKETS.map((b) => (
+                <div key={b.lbl} className={styles.bucket}>
+                  <span className={styles.lbl}>{b.lbl}</span>
+                  <div className={styles.txt}>
+                    {b.txt} <em>{b.em}</em>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* both halves' citations, now one line under one slide */}
+            <p className={styles.source}>
+              {SCALE_SOURCE} {VIS_SOURCE}
+            </p>
           </div>
         </section>
 
@@ -264,9 +265,13 @@ export default function GreenerHoursPage() {
           </div>
         </section>
 
-        {/* ============ §7 HONEST TRADE-OFFS + THE SPECULATIVE KPIs — one
-            section (they were two until 2026-07-28) ============ */}
-        <section className="section" data-ambient-dim id="trade-offs" data-snav-target>
+        {/* ============ §6 THE CLOSE — trade-offs + KPIs + the closing line,
+            ONE section (2026-07-29, per Rishabh: "make s6 and 7 into 1"; the
+            trade-offs and KPIs had already merged on 07-28). It runs on the
+            NAVY band the Close owned, so the page keeps its dark bookend
+            against the § 01 problem band — the .navy retints below carry the
+            trade-off glass and the KPI tiles onto the dark ground. ====== */}
+        <section className={`section ${styles.navy}`} id="trade-offs" data-snav-target>
           <div className="container" data-reveal>
             <SectionHeader n={6}>Named, not hidden · if it works</SectionHeader>
             <h2 className={styles.title}>
@@ -288,8 +293,8 @@ export default function GreenerHoursPage() {
               ))}
             </div>
 
-            {/* second half: what success would look like if the trade-offs
-                are worth taking */}
+            {/* then what success would look like if those trade-offs are
+                worth taking. Air, no rule — one slide, three beats. */}
             <div className={styles.subBlock}>
               <h2 className={styles.title}>
                 When compute disclosure becomes <em>a normal procurement field.</em>
@@ -305,28 +310,25 @@ export default function GreenerHoursPage() {
               </div>
               <p className={styles.caveat}>{KPI_CAVEAT}</p>
             </div>
-          </div>
-        </section>
 
-        {/* ============ §8 CLOSE (dark) ============ */}
-        <section className={`section ${styles.navy}`} id="close" data-snav-target>
-          <div className="container" data-reveal>
-            <SectionHeader n={7}>Close</SectionHeader>
-            <h2 className={styles.closeLine}>
-              Make the invisible legible, and <em>the providers move.</em>
-            </h2>
-            <div className={styles.closeMeta}>
-              {CLOSE.meta.map((m) => (
-                <div key={m.k}>
-                  <div className={styles.k}>{m.k}</div>
-                  <div className={styles.v}>{m.v}</div>
-                </div>
-              ))}
+            {/* and the line the whole page was walking toward */}
+            <div className={styles.subBlock}>
+              <h2 className={styles.closeLine}>
+                Make the invisible legible, and <em>the providers move.</em>
+              </h2>
+              <div className={styles.closeMeta}>
+                {CLOSE.meta.map((m) => (
+                  <div key={m.k}>
+                    <div className={styles.k}>{m.k}</div>
+                    <div className={styles.v}>{m.v}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ============ §9 PROJECT PAGER ============ */}
+        {/* ============ §7 PROJECT PAGER ============ */}
         <ProjectPager slug={SLUG} />
       </div>
     </div>

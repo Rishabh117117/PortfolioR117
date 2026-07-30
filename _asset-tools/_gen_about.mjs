@@ -6,7 +6,10 @@ const src = "C:/Users/Owner/Downloads/Portfolio Picture -20260704T190451Z-3-001/
 const out = "C:/Users/Owner/Desktop/Claude/PortfolioR117/public/images/about";
 mkdirSync(out, { recursive: true });
 
-const GRAD = "20260515_191419.jpg";              // New School grad, Fifth Ave, Empire State
+// The grad shot (20260515_191419.jpg — Fifth Ave, Empire State) was the hero
+// frame until 2026-07-28, when the East River portrait replaced it; the
+// grad-nyc outputs were deleted on 07-29 at Rishabh's word. The portrait
+// itself was generated ad hoc from a phone source, not through this script.
 const STUDIO = "IMG-20251120-WA0041.jpg";        // Parsons crit (red-string BUILD)
 const MUMBAI = "d88f7b9d-61b6-4d0d-a264-a98f54e65eff.jpg"; // book-lined group
 
@@ -14,11 +17,9 @@ const MUMBAI = "d88f7b9d-61b6-4d0d-a264-a98f54e65eff.jpg"; // book-lined group
 // Cluster tiles: small + eager. -lg: the click-to-zoom view, loaded on demand.
 // [source, outfile, resize opts, quality]
 const jobs = [
-  [GRAD,   "grad-nyc.jpg",     { width: 900 },  82],
   [STUDIO, "studio-nyc.jpg",   { width: 760 },  80],
   [MUMBAI, "mumbai.jpg",       { width: 760 },  80],
   // large (zoom) — cap long edge ~1600; withoutEnlargement keeps the low-res Mumbai source native (768w)
-  [GRAD,   "grad-nyc-lg.jpg",   { height: 1600, withoutEnlargement: true }, 80],
   [STUDIO, "studio-nyc-lg.jpg", { height: 1600, withoutEnlargement: true }, 80],
   [MUMBAI, "mumbai-lg.jpg",     { height: 1600, withoutEnlargement: true }, 86],
 ];

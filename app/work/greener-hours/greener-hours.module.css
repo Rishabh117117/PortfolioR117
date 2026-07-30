@@ -55,17 +55,12 @@
   max-width: 80ch;
 }
 
-/* The second half of a merged section (2026-07-28: the scale + the
-   invisibility became ONE problem section, the trade-offs + the KPIs one
-   closing section). A section's worth of air, and a hairline that reads as
-   a beat inside one slide rather than a border between two. */
+/* A later beat inside one slide. Air only — the hairline this used to carry
+   was what made the merged problem section still read as two slides
+   (2026-07-29, his second pass). The problem flows with no beat at all now;
+   the close uses two (trade-offs → KPIs → the line). */
 .subBlock {
-  margin-top: var(--space-8);
-  padding-top: var(--space-7);
-  border-top: 1px solid var(--line);
-}
-.navy .subBlock {
-  border-top-color: color-mix(in srgb, var(--paper) 16%, transparent);
+  margin-top: var(--space-9);
 }
 
 /* (the light tonal .band was the KPI section's surface — dropped when the
@@ -91,6 +86,54 @@
 .navy .body {
   color: var(--paper);
   opacity: 0.85;
+}
+
+/* ---- the closing section moved onto navy (2026-07-29, when the trade-offs,
+   the KPIs and the Close became one slide). Everything below was tuned for
+   paper; these retints carry it onto the dark ground. Forest --accent is
+   unreadable on navy, so accented chrome switches to --amber-soft. ---- */
+.navy .tradeoffs {
+  /* the Unfold glass on a dark host — the HW workshop-glass recipe */
+  --unfold-glass-bg: rgba(244, 242, 236, 0.07);
+  --unfold-affordance: var(--amber-soft);
+  --unfold-affordance-hover: var(--paper);
+}
+.navy .toTitle {
+  color: var(--paper);
+}
+.navy .toNo {
+  color: var(--amber-soft);
+}
+.navy .toBody {
+  color: var(--paper);
+  opacity: 0.74;
+}
+.navy .kpi {
+  background: rgba(244, 242, 236, 0.05);
+  border-color: rgba(244, 242, 236, 0.14);
+}
+.navy .kpiFig {
+  color: var(--paper);
+}
+/* the paper design alternates the figures amber / navy; on the dark ground the
+   second colour moves to the navy family's light end so the alternation
+   survives instead of vanishing into the background */
+.navy .kpi:nth-child(odd) .kpiFig {
+  color: var(--amber-soft);
+}
+.navy .kpi:nth-child(even) .kpiFig {
+  color: var(--sky);
+}
+.navy .kpiLabel {
+  color: var(--amber-soft);
+}
+.navy .kpiSub {
+  color: var(--paper);
+  opacity: 0.74;
+}
+.navy .caveat {
+  color: var(--paper);
+  opacity: 0.62;
 }
 
 /* blue band (§ opportunity) — same deep navy as the other dark bands */
@@ -246,6 +289,9 @@
    §2 Scale — giant stat + chart
    ========================================================================= */
 .scaleGrid {
+  /* sits under the section's display headline since the problem became one
+     slide (2026-07-29), so it owns the air the old .subBlock used to */
+  margin-top: var(--space-7);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-6);
