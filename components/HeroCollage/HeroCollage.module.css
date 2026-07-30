@@ -179,13 +179,15 @@
   right: 0;
   bottom: 110px; /* cover the hero, not the bottom bleed — keep bled cards crisp */
   pointer-events: none;
+  /* paper-mixed stops (not raw cream) so the wash re-tints when the theme
+     flips — light keeps these exact values (--paper IS 244,242,236 there) */
   background: linear-gradient(
     99deg,
-    rgba(244, 242, 236, 0.9) 0%,
-    rgba(244, 242, 236, 0.68) 26%,
-    rgba(244, 242, 236, 0.34) 44%,
-    rgba(244, 242, 236, 0.08) 62%,
-    rgba(244, 242, 236, 0.04) 100%
+    color-mix(in srgb, var(--paper) 90%, transparent) 0%,
+    color-mix(in srgb, var(--paper) 68%, transparent) 26%,
+    color-mix(in srgb, var(--paper) 34%, transparent) 44%,
+    color-mix(in srgb, var(--paper) 8%, transparent) 62%,
+    color-mix(in srgb, var(--paper) 4%, transparent) 100%
   );
 }
 /* ---------- responsive ---------- */

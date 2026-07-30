@@ -1,0 +1,130 @@
+/* =========================================================================
+   PAGE PALETTES — both themes, one file (v1.2, with §1D in globals.css).
+   Replaces the inline ROOT_STYLE objects (app/work/<slug>/theme.ts): inline
+   style can't hear [data-theme], CSS can. Each flagship page (and its
+   /prototype twin) carries data-page="<slug>" on its root; the LIGHT block
+   is the old theme.ts palette verbatim, the DARK block re-picks every hue
+   for dark paper — hue-true, never auto-inverted. Atmosphere vars that were
+   already dark bands (GH navy, HM teal) hold in both themes.
+
+   --*-app copies: constant-across-themes light accent values consumed by
+   [data-app-light] product windows (globals.css §1D), so a pinned-light app
+   keeps its page's light accent while the page around it goes dark.
+   ========================================================================= */
+
+/* ---- Follow — burnt orange ---- */
+[data-page="follow"] {
+  --accent: #c2410c;
+  --accent-deep: #9e340a;
+  --accent-wash: #f7e0d4;
+  --accent-tint: #fbefe7;
+  --accent-app: #c2410c;
+  --accent-deep-app: #9e340a;
+  --accent-wash-app: #f7e0d4;
+  --accent-tint-app: #fbefe7;
+}
+:root[data-theme="dark"] [data-page="follow"] {
+  --accent: #f07b42;
+  --accent-deep: #f5945f;
+  --accent-wash: #3e2416;
+  --accent-tint: #2b1d14;
+}
+
+/* ---- Greener Hours — forest + the deck's amber/navy atmosphere ---- */
+[data-page="greener-hours"] {
+  --accent: #1c3b36;
+  --accent-deep: #142b27;
+  --accent-wash: #d7e0dd;
+  --accent-tint: #eaf0ee;
+  --amber: #c2410c;
+  --amber-soft: #e8a642;
+  --amber-wash: #f7e4d6;
+  --navy: #1e3a5f;
+  --navy-soft: #3a5a82;
+  --navy-deep: #15293f;
+  --sky: #7a9bbe;
+  --accent-app: #1c3b36;
+  --accent-deep-app: #142b27;
+  --accent-wash-app: #d7e0dd;
+  --accent-tint-app: #eaf0ee;
+}
+:root[data-theme="dark"] [data-page="greener-hours"] {
+  --accent: #7eb3a2;
+  --accent-deep: #98c6b7;
+  --accent-wash: #20332d;
+  --accent-tint: #1a2620;
+  --amber: #e8823f;
+  --amber-wash: #3a2313;
+  /* amber-soft / navy family / sky already read on dark — unchanged */
+}
+
+/* ---- Healthy Materials — sage + teal/clay atmosphere ---- */
+[data-page="healthy-materials"] {
+  --accent: #4f6b33;
+  --accent-deep: #47602d;
+  --accent-wash: #dce6ce;
+  --accent-tint: #eff3e7;
+  --teal: #15302b;
+  --panel: #1e3a33;
+  --sage-light: #8fb06a;
+  --clay: #b0763f;
+  --clay-deep: #8a5a2e;
+  --clay-light: #c99a6a;
+  --accent-app: #4f6b33;
+  --accent-deep-app: #47602d;
+  --accent-wash-app: #dce6ce;
+  --accent-tint-app: #eff3e7;
+}
+:root[data-theme="dark"] [data-page="healthy-materials"] {
+  --accent: #a3bf7b;
+  --accent-deep: #b5cd90;
+  --accent-wash: #2a3320;
+  --accent-tint: #202617;
+  --clay: #c98f55;
+  --clay-deep: #c08a4e;
+  /* teal / panel are the page's dark bands — same in both themes */
+}
+
+/* ---- Housing Works — crimson ---- */
+[data-page="housing-works"] {
+  --accent: #c0263b;
+  --accent-deep: #9e1e30;
+  --accent-wash: #f4d6db;
+  --accent-tint: #fbeef0;
+  --accent-app: #c0263b;
+  --accent-deep-app: #9e1e30;
+  --accent-wash-app: #f4d6db;
+  --accent-tint-app: #fbeef0;
+}
+:root[data-theme="dark"] [data-page="housing-works"] {
+  --accent: #ea6f80;
+  --accent-deep: #f08d9b;
+  --accent-wash: #43222a;
+  --accent-tint: #2d1b1f;
+}
+
+/* ---- Archive readers — the two 2019–23 accent families ---- */
+[data-arch="bronze"] {
+  --accent: #7a6a52;
+  --accent-deep: #635542;
+}
+:root[data-theme="dark"] [data-arch="bronze"] {
+  --accent: #bca687;
+  --accent-deep: #cdbba0;
+}
+[data-arch="terra"] {
+  --accent: #a85f45;
+  --accent-deep: #8d4e38;
+}
+:root[data-theme="dark"] [data-arch="terra"] {
+  --accent: #d28c6f;
+  --accent-deep: #dda58d;
+}
+
+/* ---- product windows — accent re-pin (see globals.css §1D) ---- */
+[data-app-light] {
+  --accent: var(--accent-app, #1c39bb);
+  --accent-deep: var(--accent-deep-app, #142a8c);
+  --accent-wash: var(--accent-wash-app, #dde2f6);
+  --accent-tint: var(--accent-tint-app, #eef0fb);
+}

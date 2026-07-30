@@ -12,7 +12,6 @@ import AmbientField from "./AmbientField";
 import FollowSandbox from "./FollowSandbox";
 import TermTip from "./TermTip";
 import UnderTheHood from "./UnderTheHood";
-import { FOLLOW_ROOT_STYLE } from "./theme";
 import styles from "./follow.module.css";
 
 export const metadata: Metadata = {
@@ -37,7 +36,7 @@ const SECTIONS = [
 
 export default function FollowPage() {
   return (
-    <div style={FOLLOW_ROOT_STYLE} className={styles.page}>
+    <div data-page="follow" className={styles.page}>
       {/* page-wide soft background layer — every section floats over this */}
       <AmbientField />
       {/* site-wide scroll-reveal: fades section content up as it enters view */}

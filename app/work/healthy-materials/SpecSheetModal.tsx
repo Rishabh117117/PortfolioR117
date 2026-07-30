@@ -12,15 +12,14 @@ import {
 } from "@/lib/hmPackages";
 import { useModalA11y } from "@/lib/useModalA11y";
 import s from "./PackagesApp.module.css";
-import { HM_ROOT_STYLE } from "./theme";
 
 /**
  * The exported spec sheet — a modal preview with CSV download and
  * copy-to-clipboard. Rendered through a portal to <body>: the page keeps
  * content on a z-index:1 layer, so an inline fixed overlay would be trapped
  * beneath the sticky nav (the Housing Works lightbox gotcha). Because the
- * portal escapes the page wrapper that scopes the sage accent, HM_ROOT_STYLE
- * is re-applied on the overlay so the sheet matches the app (not global blue).
+ * portal escapes the page wrapper that scopes the sage accent, data-page is
+ * re-stamped on the overlay so the sheet matches the app (not global blue).
  */
 
 export default function SpecSheetModal({
@@ -127,7 +126,14 @@ export default function SpecSheetModal({
   if (!mounted) return null;
 
   return createPortal(
-    <div className={s.sheetOverlay} style={HM_ROOT_STYLE} onClick={onClose}>
+    <div
+      className={s.sheetOverlay}
+      data-page="healthy-materials"
+      /* the sheet belongs to the pinned-light app — it stays a paper document
+         in both site themes */
+      data-app-light
+      onClick={onClose}
+    >
       <div
         ref={dialogRef}
         className={s.sheet}

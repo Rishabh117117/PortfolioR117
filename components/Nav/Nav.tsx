@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ARCHIVE, FLAGSHIPS } from "@/lib/projects";
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 import styles from "./Nav.module.css";
 
 const LINKS = [
@@ -88,6 +89,8 @@ export default function Nav() {
           Rishabh Salian
         </Link>
 
+        {/* right group: links (desktop) + theme toggle (always) + burger (mobile) */}
+        <div className={styles.right}>
         {/* desktop / tablet links */}
         <ul className={styles.links}>
           {/* Work carries the all-projects dropdown: opens on hover (mouse
@@ -184,6 +187,8 @@ export default function Nav() {
           ))}
         </ul>
 
+        <ThemeToggle />
+
         {/* mobile burger */}
         <button
           type="button"
@@ -197,6 +202,7 @@ export default function Nav() {
           <span className={open ? styles.barHidden : styles.bar} />
           <span className={open ? styles.barBottom : styles.bar} />
         </button>
+        </div>
       </div>
 
       {/* mobile menu */}

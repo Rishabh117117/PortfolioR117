@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Bricolage_Grotesque,
   Inter,
@@ -6,6 +6,7 @@ import {
   Fraunces,
 } from "next/font/google";
 import "./globals.css";
+import "./page-themes.css";
 import Nav from "@/components/Nav/Nav";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Footer from "@/components/Footer/Footer";
@@ -69,6 +70,21 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+/* browser chrome matches --paper per theme; the head script + ThemeToggle
+   rewrite these metas when a stored choice overrides the OS preference */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#171410" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f2ec" },
+  ],
+};
+
+/* Runs before anything paints (first child of <body>): resolves the theme
+   (stored choice, else OS preference), stamps data-theme on <html>, and
+   points the theme-color metas at the resolved paper. Keep dependency-free
+   and tiny — this is the no-flash guarantee. */
+const THEME_BOOT = `try{var t=localStorage.getItem("theme");if(t!=="dark"&&t!=="light"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.dataset.theme=t;var c=t==="dark"?"#171410":"#f4f2ec";document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.setAttribute("content",c)})}catch(e){}`;
+
 /* JSON-LD Person — the machine-readable card behind the whole site. */
 const PERSON_LD = {
   "@context": "https://schema.org",
@@ -106,6 +122,7 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${mono.variable} ${labelSerif.variable}`}
     >
       <body>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_LD) }}
