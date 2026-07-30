@@ -120,6 +120,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${display.variable} ${body.variable} ${mono.variable} ${labelSerif.variable}`}
+      /* the theme boot script stamps data-theme before hydration; React would
+         warn about the attribute it didn't server-render (attributes-only,
+         this element only — the standard next-themes pattern) */
+      suppressHydrationWarning
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
