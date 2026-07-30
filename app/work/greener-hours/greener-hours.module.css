@@ -75,6 +75,12 @@
   border-block: 1px solid var(--navy);
   /* the shared SectionHeader eyebrow reads this (amber, legible on navy) */
   --sh-color: var(--amber-soft);
+  /* any Unfold on a dark band gets the HW workshop-glass retint. Set here
+     rather than on .tradeoffs: the closing section holds TWO kinds of
+     dropdown now (the trade-offs and the signals list). */
+  --unfold-glass-bg: rgba(244, 242, 236, 0.07);
+  --unfold-affordance: var(--amber-soft);
+  --unfold-affordance-hover: var(--paper);
 }
 .navy .title {
   color: var(--paper);
@@ -92,12 +98,6 @@
    the KPIs and the Close became one slide). Everything below was tuned for
    paper; these retints carry it onto the dark ground. Forest --accent is
    unreadable on navy, so accented chrome switches to --amber-soft. ---- */
-.navy .tradeoffs {
-  /* the Unfold glass on a dark host — the HW workshop-glass recipe */
-  --unfold-glass-bg: rgba(244, 242, 236, 0.07);
-  --unfold-affordance: var(--amber-soft);
-  --unfold-affordance-hover: var(--paper);
-}
 .navy .toTitle {
   color: var(--paper);
 }
@@ -108,28 +108,24 @@
   color: var(--paper);
   opacity: 0.74;
 }
-.navy .kpi {
-  background: rgba(244, 242, 236, 0.05);
-  border-color: rgba(244, 242, 236, 0.14);
-}
-.navy .kpiFig {
+.navy .kpiHeadTitle {
   color: var(--paper);
 }
-/* the paper design alternates the figures amber / navy; on the dark ground the
-   second colour moves to the navy family's light end so the alternation
-   survives instead of vanishing into the background */
-.navy .kpi:nth-child(odd) .kpiFig {
+.navy .kpiHeadSub,
+.navy .kpiRowFig,
+.navy .kpiRowLabel {
   color: var(--amber-soft);
 }
-.navy .kpi:nth-child(even) .kpiFig {
-  color: var(--sky);
-}
-.navy .kpiLabel {
-  color: var(--amber-soft);
-}
-.navy .kpiSub {
+.navy .kpiIntro {
   color: var(--paper);
-  opacity: 0.74;
+}
+.navy .kpiIntro em {
+  color: var(--amber-soft);
+}
+/* alpha in the colour, NOT opacity: an opacity here would fade the row's own
+   figure and label along with the prose */
+.navy .kpiRow {
+  color: rgba(244, 242, 236, 0.78);
 }
 .navy .caveat {
   color: var(--paper);
@@ -703,62 +699,87 @@
 }
 
 /* =========================================================================
-   §13 KPIs
+   §13 The signals (was the KPI tile grid). 2026-07-29: the six-tile band
+   collapsed into ONE <Unfold> per Rishabh — the six figures were the page's
+   only unhedged projection, and at display size directly under "what this
+   project cannot pretend" they read as claims regardless of the caveat. The
+   old .kpiGrid / .kpi / .kpiFig / .kpiLabel / .kpiSub tile rules went with
+   it (they had no other call site), along with their .navy retints.
    ========================================================================= */
-.kpiGrid {
-  margin-top: var(--space-6);
+
+/* the collapsed header — label over title, the shape the HM journey and the
+   Follow research columns use */
+.kpiHead {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.kpiHeadTitle {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.kpiHeadSub {
+  font-family: var(--font-label);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+/* inside the panel: the old display headline, demoted to a lead-in */
+.kpiIntro {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.32;
+  color: var(--ink);
+  max-width: 46ch;
+}
+.kpiIntro em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+/* the six signals as a list, not tiles — figure at label scale, never display */
+.kpiList {
+  list-style: none;
+  margin-top: var(--space-5);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
 }
-/* SWIPE-MOBILE-1 — 2-col compact tiles even on the smallest phones (was
-   1-col below the 560px breakpoint below); scoped tight so it can't fight it. */
-@media (max-width: 559px) {
-  .kpiGrid {
+@media (min-width: 760px) {
+  .kpiList {
     grid-template-columns: 1fr 1fr;
+    gap: var(--space-4) var(--space-6);
   }
 }
-@media (min-width: 560px) {
-  .kpiGrid {
-    grid-template-columns: 1fr 1fr;
-  }
+.kpiRow {
+  display: grid;
+  grid-template-columns: 4.5em 1fr;
+  gap: var(--space-3);
+  align-items: baseline;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--soft);
 }
-@media (min-width: 880px) {
-  .kpiGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-.kpi {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: var(--space-5);
-}
-.kpiFig {
+.kpiRowFig {
   font-family: var(--font-serif);
-  font-size: clamp(34px, 5vw, 48px);
-  font-weight: 400;
-  line-height: 1;
-  color: var(--ink);
-}
-.kpi:nth-child(odd) .kpiFig {
+  font-size: 19px;
+  line-height: 1.15;
   color: var(--amber);
+  text-align: right;
 }
-.kpi:nth-child(even) .kpiFig {
-  color: var(--navy);
-}
-.kpiLabel {
+.kpiRowLabel {
   font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  margin: var(--space-3) 0 var(--space-2);
-}
-.kpiSub {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--soft);
+  margin-right: 2px;
 }
 .caveat {
   margin-top: var(--space-5);

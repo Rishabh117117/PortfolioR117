@@ -293,22 +293,42 @@ export default function GreenerHoursPage() {
               ))}
             </div>
 
-            {/* then what success would look like if those trade-offs are
-                worth taking. Air, no rule — one slide, three beats. */}
+            {/* Then what success would look like. This was a full band of six
+                display-size figures until 2026-07-29; per Rishabh it now
+                collapses into ONE dropdown. The thinking is worth keeping (a
+                strategist should be able to say how they'd know), but six
+                invented numerals at 48px directly under "what this project
+                cannot pretend" read as claims however the caveat is labeled.
+                Collapsed, and demoted to a list inside. */}
             <div className={styles.subBlock}>
-              <h2 className={styles.title}>
-                When compute disclosure becomes <em>a normal procurement field.</em>
-              </h2>
-              <div className={styles.kpiGrid}>
-                {KPIS.map((k) => (
-                  <div key={k.label} className={styles.kpi}>
-                    <div className={styles.kpiFig}>{k.figure}</div>
-                    <div className={styles.kpiLabel}>{k.label}</div>
-                    <p className={styles.kpiSub}>{k.sub}</p>
-                  </div>
-                ))}
-              </div>
-              <p className={styles.caveat}>{KPI_CAVEAT}</p>
+              <Unfold
+                header={
+                  <span className={styles.kpiHead}>
+                    <span className={styles.kpiHeadTitle}>
+                      How I&apos;d know it&apos;s working
+                    </span>
+                    <span className={styles.kpiHeadSub}>
+                      {KPIS.length} signals · directional, not predictive
+                    </span>
+                  </span>
+                }
+              >
+                <p className={styles.kpiIntro}>
+                  When compute disclosure becomes <em>a normal procurement field.</em>
+                </p>
+                <ul className={styles.kpiList}>
+                  {KPIS.map((k) => (
+                    <li key={k.label} className={styles.kpiRow}>
+                      <span className={styles.kpiRowFig}>{k.figure}</span>
+                      <span className={styles.kpiRowText}>
+                        <span className={styles.kpiRowLabel}>{k.label}</span>{" "}
+                        {k.sub}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className={styles.caveat}>{KPI_CAVEAT}</p>
+              </Unfold>
             </div>
 
             {/* and the line the whole page was walking toward */}
