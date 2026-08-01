@@ -80,9 +80,11 @@
   .cols > * { min-width: 0; }
   .intro { grid-column: 1 / -1; }
   /* explicit placement so the main column can precede the rail in the DOM
-     (better PDF text-stream order for ATS parsing) while rendering identically */
-  .mainCol { grid-column: 2; grid-row: 2; }
-  .railCol { grid-column: 1; grid-row: 2; }
+     (better PDF text-stream order for ATS parsing) while rendering identically;
+     row 2 = the full-width Selected-work strip */
+  .work { grid-column: 1 / -1; grid-row: 2; }
+  .mainCol { grid-column: 2; grid-row: 3; }
+  .railCol { grid-column: 1; grid-row: 3; }
 
   /* ---- intro: title + role + profile + availability as one flowing block ---- */
   h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 24pt; font-weight: 700;
@@ -92,7 +94,7 @@
   .role { margin-top: 2.8mm; font-family: "Bricolage Grotesque", sans-serif;
           font-size: 10.5pt; font-weight: 600; color: var(--ink); }
   .roleSub { margin-top: 0.8mm; font-size: 8.8pt; font-weight: 500; color: var(--soft); }
-  .profile { margin-top: 3mm; max-width: 156mm; font-size: 9.4pt; line-height: 1.34; color: var(--ink-2); }
+  .profile { margin-top: 3mm; max-width: 156mm; font-size: 9.4pt; line-height: 1.5; color: var(--ink-2); }
   .profile a { color: var(--accent); text-decoration: none; font-weight: 500; }
 
   /* availability — the home hero's live-dot chip line, folded into the intro */
@@ -119,20 +121,24 @@
   .contactBox .ic { width: 10.5px; height: 10.5px; color: var(--gold); flex: none; }
   .contactBox a { color: var(--ink); text-decoration: none; font-weight: 500; }
 
-  /* ---- selected work (entries reuse the timeline's type treatments) ---- */
-  .work { margin-top: 2.4mm; }
-  .work .kicker { margin-bottom: 2mm; }
-  .wEntry { margin-bottom: 0.8mm; }
-  .wEntry:last-child { margin-bottom: 0; }
-  .wEntry h3 { font-family: "Bricolage Grotesque", sans-serif; font-size: 9.3pt; font-weight: 600;
-               color: var(--ink); line-height: 1.25; }
-  .wEntry h3 span { font-family: "Inter", sans-serif; font-weight: 500; font-size: 8.1pt; color: var(--soft); }
-  .wEntry p { font-size: 8.3pt; color: var(--soft); line-height: 1.32; margin-top: 0.3mm; }
+  /* ---- selected work: a full-width strip of four one-liners (2×2 grid, two
+     text rows total) between the contact box and the columns. The per-project
+     "live demo" claim lives in the profile line above ("four projects with
+     live, interactive demos"), so the entries stay bare. ---- */
+  .work { margin-top: 4.5mm; }
+  /* entries are atomic (nowrap) and flow as flex items: two per line at these
+     lengths, so the strip is two text rows; a wider render degrades to three,
+     never to a mid-gloss break */
+  .workLine { display: flex; flex-wrap: wrap; align-items: center;
+              gap: 1.2mm 7mm; font-size: 8.3pt; color: var(--soft); }
+  .wIt { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .wIt b { font-family: "Bricolage Grotesque", sans-serif; font-size: 9pt;
+           font-weight: 600; color: var(--ink); }
+  .wDot { width: 6.5px; height: 6.5px; border-radius: 50%; flex: none; }
 
   /* ---- journey (the About timeline, vertical, latest first) ---- */
-  .journey { margin-top: 2mm; }
-  .journey .kicker { margin-bottom: 2mm; }
-  .legend { display: flex; flex-wrap: wrap; gap: 1.4mm 4.5mm; margin: -1.2mm 0 1.8mm;
+  .journey { margin-top: 5mm; }
+  .legend { display: flex; flex-wrap: wrap; gap: 1.4mm 4.5mm; margin: -1.4mm 0 3mm;
             font-family: "Bricolage Grotesque", sans-serif; font-size: 6.2pt; font-weight: 600;
             letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
   .legend span { display: flex; align-items: center; gap: 3.5px; }
@@ -145,9 +151,9 @@
   .tl { position: relative; }
   /* spine runs through the dot column's center: 13.5mm era + 3mm gap + 3.4mm */
   .tl::before { content: ""; position: absolute; left: calc(13.5mm + 3mm + 3.4mm - 0.8px);
-                top: 1.5mm; bottom: 1.5mm; width: 1.6px; background: var(--line); }
+                top: 2mm; bottom: 2mm; width: 1.6px; background: var(--line); }
   .node { position: relative; display: grid; grid-template-columns: 13.5mm 6.8mm 1fr;
-          gap: 0 3mm; align-items: start; padding: 0.45mm 0; }
+          gap: 0 3mm; align-items: start; padding: 1.8mm 0; }
   .era { font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--faint);
          text-align: right; margin-top: 0.6mm; }
   .dot { position: relative; z-index: 1; width: 6.8mm; height: 6.8mm; border-radius: 50%;
@@ -172,11 +178,11 @@
   .pivotChip b { font-weight: 700; }
   .pivotLine { flex: 1; height: 1px; background: var(--line); }
 
-  .tlFoot { margin-top: 1.2mm; font-size: 7.6pt; line-height: 1.4; color: var(--soft); }
+  .tlFoot { margin-top: 3mm; font-size: 7.6pt; line-height: 1.5; color: var(--soft); }
   .tlFoot strong { color: var(--ink); font-weight: 600; }
 
   /* ---- left rail ---- */
-  .railSec { margin-top: 8mm; }
+  .railSec { margin-top: 6mm; }
 
   .edu { display: grid; grid-template-columns: auto 1fr; gap: 0 2.6mm; margin-bottom: 2.8mm; }
   .edu:last-child { margin-bottom: 0; }
@@ -191,7 +197,7 @@
                    font-family: "Bricolage Grotesque", sans-serif; font-size: 8.8pt;
                    font-weight: 600; color: var(--ink); margin-bottom: 1.1mm; }
   .skillgroup h4 .ic { color: var(--gold); }
-  .skillgroup p { font-size: 7.8pt; color: var(--soft); line-height: 1.5; }
+  .skillgroup p { font-size: 7.8pt; color: var(--soft); line-height: 1.45; }
 
   /* ---- footer (pinned to the page bottom on the body box, which is the A4 box) ---- */
   footer { position: absolute; left: 13mm; right: 13mm; bottom: 12mm; z-index: 1;
@@ -272,31 +278,17 @@
 
   </div>
 
-  <div class="mainCol">
+  <section class="work">
+    <p class="kicker"><svg class="ic"><use href="#i-case"/></svg>§ 01 · Selected work</p>
+    <div class="workLine">
+      <span class="wIt"><i class="wDot" style="background:var(--f)" aria-hidden="true"></i><b>Follow</b><span>· a shared, trackable memory for a team&rsquo;s AI tools</span></span>
+      <span class="wIt"><i class="wDot" style="background:var(--g)" aria-hidden="true"></i><b>Greener Hours</b><span>· an open carbon standard for AI compute</span></span>
+      <span class="wIt"><i class="wDot" style="background:var(--h)" aria-hidden="true"></i><b>Healthy Materials</b><span>· specs that survive value engineering</span></span>
+      <span class="wIt"><i class="wDot" style="background:var(--w)" aria-hidden="true"></i><b>Housing Works</b><span>· trustee workshops, learning kept in-house</span></span>
+    </div>
+  </section>
 
-    <section class="work">
-      <p class="kicker"><svg class="ic"><use href="#i-case"/></svg>§ 01 · Selected work</p>
-      <div class="wEntry">
-        <h3>Follow <span>· Capstone · Spring 2026 · live sandbox</span></h3>
-        <p>One shared, trackable memory across a team’s AI tools: 12-tool MCP server
-        over JSON-RPC, provenance on every fact, about 1,350 automated tests.</p>
-      </div>
-      <div class="wEntry">
-        <h3>Greener Hours <span>· Course project · Spring 2026 · live demo</span></h3>
-        <p>An open carbon-disclosure standard for AI compute: one indicator across
-        chat, scheduler, and procurement dashboard, on a shared live simulation.</p>
-      </div>
-      <div class="wEntry">
-        <h3>Healthy Materials <span>· Graduate research · Fall 2025 · live demo</span></h3>
-        <p>Healthier-material spec packages priced to survive value engineering, with
-        the Healthy Materials Lab, shipped as a working configurator.</p>
-      </div>
-      <div class="wEntry">
-        <h3>Housing Works <span>· Studio · Spring 2025 · live demo</span></h3>
-        <p>Field research on keeping young talent a nonprofit can’t outbid, shipped
-        as a working workshop and archive tool.</p>
-      </div>
-    </section>
+  <div class="mainCol">
 
     <section class="journey">
       <p class="kicker"><svg class="ic"><use href="#i-route"/></svg>§ 02 · The journey</p>
