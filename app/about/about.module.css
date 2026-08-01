@@ -692,3 +692,11 @@
 .contactFoot a {
   color: var(--accent);
 }
+/* two addresses since 2026-07-31 (school first) — the separator gets its own
+   span so the two mailto links never run together, and so a narrow phone
+   wraps between them instead of mid-address */
+.contactSep {
+  display: inline-block;
+  margin-inline: 0.6em;
+  color: var(--soft);
+}

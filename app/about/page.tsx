@@ -444,7 +444,8 @@ export default function AboutPage() {
               about Follow.
             </p>
             <div className={styles.ctaRow}>
-              <a className="btn primary" href={`mailto:${SOCIALS.email}`}>
+              {/* the school address leads (see lib/site.ts) */}
+              <a className="btn primary" href={`mailto:${SOCIALS.emailSchool}`}>
                 Email me
               </a>
               <a
@@ -468,6 +469,10 @@ export default function AboutPage() {
               </a>
             </div>
             <p className={`mono ${styles.contactFoot}`}>
+              <a href={`mailto:${SOCIALS.emailSchool}`}>{SOCIALS.emailSchool}</a>
+              <span className={styles.contactSep} aria-hidden="true">
+                ·
+              </span>
               <a href={`mailto:${SOCIALS.email}`}>{SOCIALS.email}</a>
             </p>
           </div>
