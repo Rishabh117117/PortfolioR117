@@ -11,8 +11,11 @@ Bricolage/Inter/Plex Mono mapped exactly like the site tokens, hand-drawn line i
 timeline turned vertical, latest first (node colors: hollow ink = education,
 ink = studio/agency, accent = Parsons era, hollow accent = upcoming; accent chips =
 the two pivots). Layout: full-width intro (title + role + profile + availability chip
-over the gold-wash contact box), then education + skills rail (left) beside the
-journey (right).
+over the gold-wash contact box), then the main column (right: § 01 Selected work,
+four title+description entries in the timeline's type treatments, above § 02 The
+journey) beside the education + skills rail (left, § 03/§ 04). The main column
+PRECEDES the rail in the DOM (explicit `.mainCol`/`.railCol` grid placement) so the
+project names lead the PDF text stream for ATS parsing.
 
 Content rules: everything on the CV must already exist somewhere approved — the About
 page (`app/about/page.tsx`, including the journey timeline), `lib/projects.ts`
