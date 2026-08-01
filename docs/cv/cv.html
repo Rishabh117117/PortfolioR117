@@ -108,8 +108,12 @@
     font-family: "IBM Plex Mono", monospace; font-size: 6.8pt; color: var(--soft);
   }
   .contactBox span { display: flex; align-items: center; gap: 5px; }
-  .contactBox .ic { width: 10.5px; height: 10.5px; color: var(--gold); }
+  .contactBox .ic { width: 10.5px; height: 10.5px; color: var(--gold); flex: none; }
   .contactBox a { color: var(--ink); text-decoration: none; font-weight: 500; }
+  /* two addresses since 2026-07-31 (school first, matching the About contact
+     block). They stack in ONE cell under a single mail icon rather than taking
+     a 7th grid slot, which would orphan an item on a third row. */
+  .contactBox .mails { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5mm; }
 
   /* ---- journey (the About timeline, vertical, latest first) ---- */
   .journey { margin-top: 8mm; }
@@ -237,7 +241,7 @@
 
     <section class="contactBox">
       <span><svg class="ic"><use href="#i-pin"/></svg>Brooklyn, NY</span>
-      <span><svg class="ic"><use href="#i-mail"/></svg><a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a></span>
+      <span><svg class="ic"><use href="#i-mail"/></svg><span class="mails"><a href="mailto:salir225@newschool.edu">salir225@newschool.edu</a><a href="mailto:rishabhsalian@ymail.com">rishabhsalian@ymail.com</a></span></span>
       <span><svg class="ic"><use href="#i-phone"/></svg>+1 929 709 1548</span>
       <span><svg class="ic"><use href="#i-globe"/></svg><a href="https://rishabhsalian.com">rishabhsalian.com</a></span>
       <span><svg class="ic"><use href="#i-linkedin"/></svg>linkedin.com/in/rishabh-salian117</span>
