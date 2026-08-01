@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import styles from "./HeroCollage.module.css";
 
-/* The hero's backdrop — Rishabh's own cover set (Desktop\cover images,
-   exported by _asset-tools/export_home_hero.mjs) thrown across the hero like
+/* The hero's backdrop — Rishabh's own cover set (exported from a local
+   folder by _asset-tools/export_home_hero.mjs) thrown across the hero like
    physical cards: tilted, overlapping, no gaps, even across the box.
    Hovering a card parts the pile (neighbours slide away radially) AND raises
    a small glass label at its bottom edge — what the artifact is + the project
