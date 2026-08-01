@@ -1,5 +1,5 @@
 // Export Rishabh's selected cover images into public/images/home-hero/.
-// Source: C:\Users\Owner\Desktop\cover images (his hand-picked set, 2026-07-03).
+// Source: a local "cover images" folder (his hand-picked set, 2026-07-03).
 // sharp .rotate() applies EXIF orientation (the five phone photos are stored
 // sideways); longest edge capped at 1600, mozjpeg q78 (PNG screenshots become
 // JPEG too — all-opaque sources). Re-run after changing the set:
