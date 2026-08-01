@@ -454,7 +454,9 @@ export default function WorkshopsApp() {
   ];
 
   return (
-    <div className={s.frame}>
+    /* data-app-light: the People-team tool is a light product surface in
+       both site themes (globals.css §1D + page-themes.css re-pin) */
+    <div className={s.frame} data-app-light>
       <div className={s.chrome} aria-hidden="true">
         <span className={s.dot} />
         <span className={s.dot} />

@@ -421,7 +421,9 @@ export default function PackagesApp() {
   const processStep: ProcessStep = intakeOpen ? 1 : sheetOpen ? 4 : lens ? 3 : 2;
 
   return (
-    <div className={s.frame}>
+    /* data-app-light: the configurator is a light product surface in both
+       site themes (globals.css §1D + page-themes.css re-pin) */
+    <div className={s.frame} data-app-light>
       {/* browser chrome */}
       <div className={s.chrome} aria-hidden="true">
         <span className={s.dot} />

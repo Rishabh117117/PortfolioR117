@@ -338,3 +338,7 @@
      even where a busier card sits behind it */
   text-shadow: 0 1px 14px rgba(252, 251, 247, 0.7);
 }
+/* dark theme: cream copy over the dark frost wants a dark halo, not a light one */
+:global([data-theme="dark"]) .ctaTitle {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.65);
+}

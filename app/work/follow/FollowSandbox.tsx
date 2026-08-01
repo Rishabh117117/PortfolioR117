@@ -304,7 +304,9 @@ export default function FollowSandbox() {
   const itemCount = chatsReady && docsReady ? entries.length + loadedChats.length + loadedDocs.length : null;
 
   return (
-    <div className={s.frame}>
+    /* data-app-light: the replica is the shipped product's light UI — it does
+       not follow the site theme (globals.css §1D + page-themes.css re-pin) */
+    <div className={s.frame} data-app-light>
       <div className={s.chrome} aria-hidden="true">
         <span className={s.dot} />
         <span className={s.dot} />

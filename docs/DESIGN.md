@@ -1,4 +1,4 @@
-# docs/DESIGN.md — Design Language (v1.1 — v1.0 LOCKED + SHELL-1.1 additive layer, see §7)
+# docs/DESIGN.md — Design Language (v1.2 — v1.0 LOCKED + SHELL-1.1 (§7) + DARK-1 dark theme (§11), both additive)
 
 > The single source of truth for the visual system. Claude Code: implement these as CSS
 > custom properties in a global stylesheet and reference the tokens everywhere — never
@@ -274,3 +274,58 @@ When a project sets --accent, also set --accent-deep/-wash/-tint to matching sha
 
 Build the shell and static structure on the LOCKED tokens above. Leave the deferred items as
 clean, clearly-marked placeholders.
+
+---
+
+## 11. Dark theme (v1.2 — DARK-1, additive)
+
+One site, two lights. The dark theme re-tokens the same shell — it never
+restyles components directly. Everything below is the contract; the values
+live in `app/globals.css` (§1D block) and `app/page-themes.css`.
+
+**Switching.** `data-theme="light|dark"` on `<html>`, stamped before first
+paint by a tiny inline script (first child of `<body>`; no flash). Default
+follows `prefers-color-scheme`; the nav toggle (`components/ThemeToggle`)
+persists an explicit choice to `localStorage("theme")` and rewrites the
+`theme-color` metas. With no stored choice, OS changes apply live.
+
+**Dark shell ramp (warm umber, mirrors the cream ramp — card raises lighter
+than paper):** paper `#171410` · card `#1f1b15` · fill `#272217` · line
+`#38321f` · ink `#f0ece1` · ink-2 `#d8d3c5` · soft `#a49d8c` · gold
+`#c2a36b`. Shadows go black-based and heavier; the paper-mix glass recipes
+adapt on their own.
+
+**Accents are re-picked per theme, never auto-inverted.** Per-page palettes
+(both themes) live in `app/page-themes.css`, keyed off `data-page="<slug>"`
+on each flagship's root (this replaced the inline `theme.ts` ROOT_STYLE
+objects — inline style can't hear `data-theme`). Dark accents move lighter
+(hue-true) so links/chrome clear AA on dark paper; "deep" (hover) moves
+brighter, washes/tints become tinted dark panels. Archive readers use the
+same mechanism via `data-arch="bronze|terra"`.
+
+**`--paper-lit` (constant `#f4f2ec`, both themes):** text/ornament sitting on
+permanently-dark grounds (GH navy bands, HM teal bands, photo scrims) must
+NOT use `--paper` (it flips near-black in dark). Use `--paper-lit`. The GH
+`.substrate` plate deliberately keeps `--ink`/`--paper` — it's a designed
+inversion (dark plate in light, cream plate in dark).
+
+**Product windows stay light — `[data-app-light]`.** The browser-framed
+product replicas (Follow sandbox, HM PackagesApp + spec sheet, HW
+WorkshopsApp) are real software surfaces, shown as shipped: the attribute
+re-pins the light shell ramp + `color-scheme: light`, and
+`app/page-themes.css` re-pins each page's light accent set via `--*-app`
+copies. The GH tier mocks are concept surfaces built purely on tokens — they
+follow the site theme natively (deliberate asymmetry). SVG artifact plates
+(GraphView, ProjectThumbs, ArcCutouts medallions, archive PDF pages, deck
+covers) keep their baked light look — they read as plates/screenshots on the
+dark page.
+
+**Frost recipe rule.** Never bake paper/white into a glass band. Frosts are
+`color-mix(in srgb, var(--card) N%, transparent)` and hairlines
+`color-mix(in srgb, var(--ink) N%, transparent)` — byte-identical to the old
+light values in light, self-tinting in dark. (Applied to the Follow/HM/HW
+timeline bands, HW tonal bands + data strip, the home hero-collage wash.)
+
+**Known scope.** `app/global-error.tsx` replaces the root layout (no theme
+plumbing) and stays branded-light; the in-shell `error.tsx`/`not-found.tsx`
+theme normally. The OG image stays the light composition.

@@ -524,7 +524,7 @@
     box-shadow var(--t-fast) var(--e-snappy);
 }
 .wrow.now .wLink {
-  background: #fff;
+  background: var(--card);
 }
 .arr {
   font-family: var(--font-label);

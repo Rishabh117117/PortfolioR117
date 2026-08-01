@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import FollowSandbox from "../FollowSandbox";
-import { FOLLOW_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 export const metadata: Metadata = {
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function FollowPrototypePage() {
   return (
-    <div style={FOLLOW_ROOT_STYLE} className={styles.page}>
+    <div data-page="follow" className={styles.page}>
       <header className={styles.head}>
         <div>
           <p className={`mono ${styles.kicker}`}>product replica · pre-loaded sample workspace</p>

@@ -37,6 +37,13 @@
   text-decoration: none;
 }
 
+/* right group: links + theme toggle + burger travel together */
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 /* ---- desktop links: hidden on mobile ---- */
 .links {
   display: none;
@@ -241,6 +248,8 @@
     align-items: center;
     gap: var(--space-5);
     list-style: none;
+    /* the toggle's circular hover pad supplies its own leading air */
+    margin-right: var(--space-3);
   }
   .burger {
     display: none;
