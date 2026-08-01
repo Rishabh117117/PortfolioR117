@@ -25,11 +25,12 @@ portrait back for those markets. The About page's portrait frames are a differen
 surface and keep their photos.
 
 **Two emails (2026-07-31):** `salir225@newschool.edu` leads, `rishabhsalian@ymail.com`
-follows — the same order as the About contact block. They stack inside ONE grid cell
-under a single mail icon; a 7th cell would orphan an item on a third row, and the box
-is deliberately three columns because `linkedin.com/in/rishabh-salian117` is too wide
-for a quarter of the page. If either address changes, `lib/site.ts` is the site's
-source but this file is hand-maintained — update both.
+follows — the same order as the About contact block. The school address rides the
+grad-cap glyph (rhyming with Education), the personal one the mail glyph. The box is
+two balanced full-width flex rows (`.cRow`, space-between): four reach items over
+three links — seven single-line cells, no double-height cell, no orphaned grid slot.
+If either address changes, `lib/site.ts` is the site's source but this file is
+hand-maintained — update both.
 
 ## Re-render
 
