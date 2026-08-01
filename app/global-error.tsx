@@ -63,6 +63,10 @@ export default function GlobalError({
             >
               Try again
             </button>
+            {/* Deliberately a plain <a>, not next/link: the root layout has
+                already crashed, so a client-side navigation would route inside
+                a broken app. A full document load is the reliable recovery. */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/"
               style={{
