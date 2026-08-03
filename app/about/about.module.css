@@ -96,33 +96,20 @@
   }
 }
 
-/* ---- photo cluster — designed placeholders, warm→blue wash + hatch ----
-   Slots carry position + the scroll-drift transform (data-depth); the inner
-   .frame carries rotation + hover so the transforms never fight. */
+/* ---- portrait frame — warm→blue wash + hatch behind the photo ----
+   The slot carries the scroll-drift transform (data-depth), so the padding is
+   just breathing room for that travel. Was a 3-photo cluster until 2026-08-03;
+   with the two group shots gone the portrait takes the full 380px column. */
 .cluster {
   position: relative;
   width: 100%;
   max-width: 380px;
   margin-inline: auto;
-  padding: 18px 26px 30px;
+  padding: 10px 0 16px;
 }
 .mainSlot {
   position: relative;
   z-index: 1;
-}
-.smSlot {
-  position: absolute;
-  width: 44%;
-  aspect-ratio: 1 / 1;
-  z-index: 2;
-}
-.smA {
-  left: -6px;
-  bottom: -2px;
-}
-.smB {
-  right: -8px;
-  top: -4px;
 }
 .frame {
   position: relative;
@@ -170,12 +157,8 @@
   /* nudge up under the 4:5 crop so his face + the avenue read, not the sidewalk */
   object-position: center 40%;
 }
-.smB .photo {
-  /* keep the group's faces in the square crop, not the bookshelves above */
-  object-position: center 38%;
-}
 
-/* ---- click-to-zoom: each frame is a button; a magnifier hint on hover ---- */
+/* ---- click-to-zoom: the frame is a button; a magnifier hint on hover ---- */
 .zoomBtn {
   position: absolute;
   inset: 0;
@@ -347,23 +330,8 @@
   font-size: 10px;
   padding: 4px 9px;
 }
-.rotA {
-  transform: rotate(-3deg);
-}
-.rotB {
-  transform: rotate(2.5deg);
-}
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .frameSm {
-    transition: transform var(--t-soft) var(--e-gentle);
-  }
-  .rotA:hover {
-    transform: rotate(-1deg) translateY(-2px);
-  }
-  .rotB:hover {
-    transform: rotate(1deg) translateY(-2px);
-  }
-}
+/* .frameSm / .rotA / .rotB (the two tilted group tiles and their gentle hover)
+   went with the photos on 2026-08-03. */
 
 /* =========================================================================
    JOURNEY — deck-style horizontal timeline (the Follow device, for a life)

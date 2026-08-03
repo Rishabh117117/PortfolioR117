@@ -8,13 +8,15 @@ import { useModalA11y } from "@/lib/useModalA11y";
 import styles from "./about.module.css";
 
 /**
- * ABOUT photo cluster + click-to-zoom lightbox. Client component (the tiles are
- * buttons; the enlarged view is portaled to <body> so the fixed overlay escapes
+ * ABOUT portrait + click-to-zoom lightbox. Client component (the tile is a
+ * button; the enlarged view is portaled to <body> so the fixed overlay escapes
  * the `.pageContent { z-index:1 }` stacking context — the recurring lightbox
- * gotcha). Tiles load the small assets; the -lg zoom source loads on click.
+ * gotcha). The tile loads the small asset; the -lg zoom source loads on click.
+ * One frame since 2026-08-03: the Studio · NYC and Mumbai group shots were
+ * removed at Rishabh's word, leaving just his own portrait.
  */
 type Shot = {
-  src: string; // cluster tile
+  src: string; // the frame's tile
   full: string; // enlarged (zoom) view — loaded on click
   alt: string;
   caption: string;
@@ -30,29 +32,11 @@ const MAIN: Shot = {
   w: 900,
   h: 1200,
 };
-const STUDIO: Shot = {
-  src: "/images/about/studio-nyc.jpg",
-  full: "/images/about/studio-nyc-lg.jpg",
-  alt: "Rishabh with his Parsons studio cohort at a crit installation strung with red thread.",
-  caption: "Studio · NYC",
-  w: 760,
-  h: 1013,
-};
-const MUMBAI: Shot = {
-  src: "/images/about/mumbai.jpg",
-  full: "/images/about/mumbai-lg.jpg",
-  alt: "Rishabh with friends and colleagues in Mumbai, before the move to New York.",
-  caption: "Mumbai",
-  w: 760,
-  h: 1013,
-};
 
-/* The tiles render through next/image with `fill`: the crop is the FRAME's, not
-   the file's (.frameMain is 4/5, .smSlot is 1/1, both cover-cropped from the
-   3:4 sources), so the layout is unchanged by the conversion. `.cluster` caps
-   at 380px wide, which bounds both slots and keeps these `sizes` honest. */
-const MAIN_SIZES = "(max-width: 380px) 100vw, 328px";
-const SM_SIZES = "(max-width: 380px) 44vw, 167px";
+/* The tile renders through next/image with `fill`: the crop is the FRAME's, not
+   the file's (.frameMain is 4/5, cover-cropped from the 3:4 source). `.cluster`
+   caps at 380px wide, which bounds the slot and keeps these `sizes` honest. */
+const MAIN_SIZES = "(max-width: 380px) 100vw, 380px";
 
 function ZoomGlyph() {
   return (
@@ -117,30 +101,6 @@ export default function AboutPhotos() {
               </span>
             </button>
             <figcaption className={`${styles.frameLabel} ${styles.frameLabelMain}`}>{MAIN.caption}</figcaption>
-          </figure>
-        </div>
-
-        <div className={`${styles.smSlot} ${styles.smA}`} data-depth="-16">
-          <figure className={`${styles.frame} ${styles.frameSm} ${styles.rotA}`}>
-            <button type="button" className={styles.zoomBtn} onClick={(e) => open(STUDIO, e)} aria-label={`Enlarge photo: ${STUDIO.caption}`}>
-              <Image className={styles.photo} src={STUDIO.src} alt={STUDIO.alt} fill sizes={SM_SIZES} loading="lazy" />
-              <span className={styles.zoomHint} aria-hidden="true">
-                <ZoomGlyph />
-              </span>
-            </button>
-            <figcaption className={styles.frameLabel}>{STUDIO.caption}</figcaption>
-          </figure>
-        </div>
-
-        <div className={`${styles.smSlot} ${styles.smB}`} data-depth="12">
-          <figure className={`${styles.frame} ${styles.frameSm} ${styles.rotB}`}>
-            <button type="button" className={styles.zoomBtn} onClick={(e) => open(MUMBAI, e)} aria-label={`Enlarge photo: ${MUMBAI.caption}`}>
-              <Image className={styles.photo} src={MUMBAI.src} alt={MUMBAI.alt} fill sizes={SM_SIZES} loading="lazy" />
-              <span className={styles.zoomHint} aria-hidden="true">
-                <ZoomGlyph />
-              </span>
-            </button>
-            <figcaption className={styles.frameLabel}>Mumbai</figcaption>
           </figure>
         </div>
       </DriftGroup>
