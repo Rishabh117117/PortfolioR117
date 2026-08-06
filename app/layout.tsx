@@ -39,7 +39,14 @@ const labelSerif = Fraunces({
   display: "swap",
 });
 
+import Script from "next/script";
 import { SITE_URL, SOCIALS } from "@/lib/site";
+import {
+  UMAMI_WEBSITE_ID,
+  UMAMI_BASE_PATH,
+  UMAMI_DOMAINS,
+  analyticsEnabled,
+} from "@/lib/analytics";
 
 /* Page titles are plain strings — the template suffixes them. */
 export const metadata: Metadata = {
@@ -123,6 +130,18 @@ export default function RootLayout({
         </div>
         {/* label-face trial chip — dev builds only; removed at lock-in */}
         {process.env.NODE_ENV !== "production" && <LabelFaceSwitcher />}
+        {/* Umami — served first-party via the /stats rewrites so blocker lists
+            can't target it by hostname. Renders only once the website id is set
+            on the deploy; see lib/analytics.ts for why it lives in the env. */}
+        {analyticsEnabled && (
+          <Script
+            defer
+            src={`${UMAMI_BASE_PATH}/script.js`}
+            data-website-id={UMAMI_WEBSITE_ID}
+            data-host-url={`${SITE_URL}${UMAMI_BASE_PATH}`}
+            data-domains={UMAMI_DOMAINS}
+          />
+        )}
       </body>
     </html>
   );
