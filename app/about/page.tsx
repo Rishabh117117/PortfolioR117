@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 /**
  * ABOUT — ported from the approved sandbox build (about me page.html).
  * Resolves D-04 (bio, arc narrative, role/education timeline, skills, contact).
- * Photo = Rishabh's own portrait on the East River waterfront
+ * Photo = Rishabh's own portrait above the Chicago skyline
  * (public/images/about/portrait.jpg); it drifts on scroll. The Parsons studio
  * crit and the Mumbai group that sat beside it were removed on 2026-08-03.
  * Accent = the global default Persian Blue (the person, not a project), so no

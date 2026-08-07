@@ -154,7 +154,8 @@
   display: block;
 }
 .frameMain .photo {
-  /* nudge up under the 4:5 crop so his face + the avenue read, not the sidewalk */
+  /* the 3:4 source loses ~6% of its height to the 4:5 frame; bias the crop up so
+     the skyline behind him survives and the trim comes off the jacket instead */
   object-position: center 40%;
 }
 

@@ -13,7 +13,8 @@ import styles from "./about.module.css";
  * the `.pageContent { z-index:1 }` stacking context — the recurring lightbox
  * gotcha). The tile loads the small asset; the -lg zoom source loads on click.
  * One frame since 2026-08-03: the Studio · NYC and Mumbai group shots were
- * removed at Rishabh's word, leaving just his own portrait.
+ * removed at Rishabh's word, leaving just his own portrait — the Chicago
+ * skyline shot he sent on 2026-08-06, replacing the East River one.
  */
 type Shot = {
   src: string; // the frame's tile
@@ -27,10 +28,10 @@ type Shot = {
 const MAIN: Shot = {
   src: "/images/about/portrait.jpg",
   full: "/images/about/portrait-lg.jpg",
-  alt: "Rishabh on the East River waterfront in winter, the Manhattan skyline across the water behind him.",
-  caption: "East River · NYC",
-  w: 900,
-  h: 1200,
+  alt: "Rishabh in a dark jacket high above the Chicago skyline, downtown towers and Lake Michigan behind him.",
+  caption: "Chicago",
+  w: 682,
+  h: 910,
 };
 
 /* The tile renders through next/image with `fill`: the crop is the FRAME's, not
