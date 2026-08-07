@@ -28,7 +28,9 @@ const FOCUSABLE =
 export function useModalA11y(
   open: boolean,
   onClose: () => void,
-  ref: RefObject<HTMLElement>,
+  // React 19 types: useRef<T>(null) yields RefObject<T | null>, so accept the
+  // nullable form. The effect already guards on `ref.current` being absent.
+  ref: RefObject<HTMLElement | null>,
   {
     lockScroll = true,
     restoreFocus = true,
