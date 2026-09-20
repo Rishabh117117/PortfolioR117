@@ -20,6 +20,9 @@ const SECTION_LABELS: Record<string, string> = {
   work: "Work",
   about: "About",
   archive: "Archive",
+  // utility pages for the private Workspace MCP OAuth app (GWS-PAGES-1);
+  // without this the fallback would render "Workspace Mcp"
+  "workspace-mcp": "Workspace MCP",
 };
 
 const PROJECT_LABELS: Record<string, string> = Object.fromEntries(

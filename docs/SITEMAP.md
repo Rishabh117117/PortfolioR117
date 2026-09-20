@@ -17,3 +17,5 @@ Template order: Brief → Problem/Insight/Solution → ★ Live demo (labeled) �
 - F-01 Recruiter (primary): Home → Follow demo → About (+ CV download) → Contact (target < 90s).
 - F-02 Deep dive: Work → project → demo → full report → next.
 - F-03 Concierge: any page → Ask the portfolio → cited project/CV section.
+## Utility (not portfolio content)
+- `/workspace-mcp` and `/workspace-mcp/privacy` (GWS-PAGES-1, 2026-09-20): the home page and privacy policy that Google's OAuth consent screen requires for Rishabh's private "Rishabh Workspace MCP" app (self-hosted Google Workspace MCP server; repo `Rishabh117117/gws-mcp`). Plain pages inside the shell, `noindex`, not in `app/sitemap.ts`, no nav entry. They replaced the `app-pages` Railway service. If they move again, update the Branding page in Google Auth Platform (project `gws-mcp-509200`) before removing the routes.
