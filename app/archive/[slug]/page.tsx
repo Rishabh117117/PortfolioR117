@@ -10,12 +10,13 @@ export function generateStaticParams() {
   return ARCHIVE_PROJECTS.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const p = getArchiveProject(params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const p = getArchiveProject(slug);
   if (!p) return {};
   return {
     title: `${p.name} (${p.year})`,
@@ -23,12 +24,13 @@ export function generateMetadata({
   };
 }
 
-export default function ArchiveProjectPage({
+export default async function ArchiveProjectPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const project = getArchiveProject(params.slug);
+  const { slug } = await params;
+  const project = getArchiveProject(slug);
   if (!project) notFound();
 
   const idx = ARCHIVE_PROJECTS.findIndex((p) => p.slug === project.slug);

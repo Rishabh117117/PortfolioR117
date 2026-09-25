@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 /* Branded runtime-error boundary — a crash in any route (including the four
    interactive demo apps) lands here instead of Next's bare default screen.
    Must be a client component per the app-router contract. */
@@ -33,9 +35,9 @@ export default function Error({
           <button type="button" className="btn primary" onClick={() => reset()}>
             Try again
           </button>
-          <a href="/" className="btn ghost">
+          <Link href="/" className="btn ghost">
             Back to the work
-          </a>
+          </Link>
         </div>
         {error?.digest ? (
           <p className="mono" style={{ color: "var(--soft)", fontSize: 11, marginTop: 18 }}>
