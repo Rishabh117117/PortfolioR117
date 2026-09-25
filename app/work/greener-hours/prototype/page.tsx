@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
 import GhApp from "../GhApp";
-import { GH_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 // Page-scoped serif (matches the case-study page) so --font-serif resolves for
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function GreenerHoursPrototypePage() {
   return (
-    <div style={GH_ROOT_STYLE} className={`${serif.variable} ${styles.page}`}>
+    <div data-page="greener-hours" className={`${serif.variable} ${styles.page}`}>
       <header className={styles.head}>
         <div>
           <p className={`mono ${styles.kicker}`}>working prototype · one shared simulation</p>

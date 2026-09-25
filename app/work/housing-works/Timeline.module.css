@@ -11,11 +11,12 @@
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   padding-block: clamp(28px, 4vw, 48px);
-  background: rgba(252, 251, 247, 0.5);
+  /* card-mixed, not raw white — the frost re-tints when the theme flips */
+  background: color-mix(in srgb, var(--card) 50%, transparent);
   -webkit-backdrop-filter: blur(16px) saturate(1.08);
   backdrop-filter: blur(16px) saturate(1.08);
-  border-top: 1px solid rgba(26, 26, 26, 0.06);
-  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
 }
 /* content stays centered + readable inside the full-width band */
 .glassInner {

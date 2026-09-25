@@ -45,6 +45,10 @@
   background: #fff;
   border-block: 1px solid var(--line);
 }
+/* dark: the elevated surface reads as a raised card plane, not white */
+:global([data-theme="dark"]) .blockWhite {
+  background: var(--card);
+}
 .blockWhite > * + * {
   margin-top: var(--space-8);
 }
@@ -320,11 +324,13 @@
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   padding-block: clamp(28px, 4vw, 48px);
-  background: rgba(252, 251, 247, 0.5);
+  /* card-mixed (not raw white) so the frost re-tints per theme; light is
+     byte-identical (--card IS 252,251,247 there) */
+  background: color-mix(in srgb, var(--card) 50%, transparent);
   -webkit-backdrop-filter: blur(16px) saturate(1.08);
   backdrop-filter: blur(16px) saturate(1.08);
-  border-top: 1px solid rgba(26, 26, 26, 0.06);
-  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
 }
 /* the chart keeps (roughly) its old measure, centered inside the band */
 .tlGlassInner {
@@ -666,7 +672,7 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-rest);
   font-family: var(--font-label);
@@ -1112,6 +1118,10 @@
   font-size: 10px;
   letter-spacing: 0.06em;
   cursor: pointer;
+}
+/* dark: the lit accent wants paper-dark text (same rule as .btn.primary) */
+:global([data-theme="dark"]) .spotNext {
+  color: var(--paper);
 }
 .spotNext:hover {
   background: var(--accent-deep);

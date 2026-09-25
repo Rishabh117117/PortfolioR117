@@ -1,0 +1,36 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--soft);
+  cursor: pointer;
+  transition:
+    color var(--t-fast) var(--e-snappy),
+    background var(--t-fast) var(--e-snappy);
+}
+@media (hover: hover) {
+  .toggle:hover {
+    color: var(--ink);
+    background: var(--fill);
+  }
+}
+
+/* the active theme decides the glyph — no JS state, no hydration flash */
+.sun {
+  display: none;
+}
+.moon {
+  display: block;
+}
+:global([data-theme="dark"]) .sun {
+  display: block;
+}
+:global([data-theme="dark"]) .moon {
+  display: none;
+}

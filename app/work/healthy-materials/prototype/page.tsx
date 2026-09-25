@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PackagesApp from "../PackagesApp";
-import { HM_ROOT_STYLE } from "../theme";
 import styles from "./prototype.module.css";
 
 export const metadata: Metadata = {
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function PackagesPrototypePage() {
   return (
-    <div style={HM_ROOT_STYLE} className={styles.page}>
+    <div data-page="healthy-materials" className={styles.page}>
       <header className={styles.head}>
         <div>
           <p className={`mono ${styles.kicker}`}>working prototype · illustrative data</p>

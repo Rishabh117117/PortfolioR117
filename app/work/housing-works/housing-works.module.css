@@ -58,7 +58,9 @@
    (blurred + softened) instead of being flatly covered, so the page keeps its
    rhythm while staying part of one continuous atmosphere. */
 .band {
-  background: rgba(250, 248, 243, 0.55);
+  /* card-mixed so the frost re-tints per theme (light byte-identical-ish:
+     the old 250,248,243 was --card±2) */
+  background: color-mix(in srgb, var(--card) 55%, transparent);
   -webkit-backdrop-filter: blur(7px) saturate(1.04);
   backdrop-filter: blur(7px) saturate(1.04);
 }
@@ -170,11 +172,11 @@
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   padding-block: clamp(44px, 8vw, 76px);
-  background: rgba(248, 246, 240, 0.45);
+  background: color-mix(in srgb, var(--card) 45%, transparent);
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
   backdrop-filter: blur(16px) saturate(1.1);
-  border-top: 1px solid rgba(26, 26, 26, 0.07);
-  border-bottom: 1px solid rgba(26, 26, 26, 0.07);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
 }
 .dataInner {
   width: 100%;
@@ -860,6 +862,10 @@
   font-size: 10px;
   letter-spacing: 0.06em;
   cursor: pointer;
+}
+/* dark: the lit accent wants paper-dark text (same rule as .btn.primary) */
+:global([data-theme="dark"]) .spotNext {
+  color: var(--paper);
 }
 .spotNext:hover {
   background: var(--accent-deep, var(--accent));

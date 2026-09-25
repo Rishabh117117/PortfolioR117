@@ -12,7 +12,6 @@ import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import { FIELD_FOOTNOTE } from "@/lib/healthyMaterials";
-import { HM_ROOT_STYLE } from "./theme";
 import styles from "./healthy-materials.module.css";
 
 export const metadata: Metadata = {
@@ -61,7 +60,7 @@ const SECTIONS = [
 
 export default function HealthyMaterialsPage() {
   return (
-    <div style={HM_ROOT_STYLE} className={styles.page}>
+    <div data-page="healthy-materials" className={styles.page}>
       {/* page-wide soft background layer — light sections float over this */}
       <AmbientField />
       {/* site-wide scroll-reveal: fades section content up as it enters view */}

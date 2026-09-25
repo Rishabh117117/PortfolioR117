@@ -39,7 +39,10 @@ export default function ArchiveProjectPage({
   return (
     <div
       className={styles.page}
-      style={{ "--accent": project.accent } as React.CSSProperties}
+      /* the 2019–23 accent families live in app/page-themes.css (light +
+         dark picks per family); lib/projects.ts stays the hue source for
+         the decorative orbs below */
+      data-arch={project.accent === "#A85F45" ? "terra" : "bronze"}
     >
       {/* per-project ambient — the project's accent leads, shell gold rises;
           orbs show in the gutters and blur through the glass side index */}

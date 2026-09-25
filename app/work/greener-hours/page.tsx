@@ -35,7 +35,6 @@ import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
 import Reveal from "@/components/Reveal/Reveal";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
-import { GH_ROOT_STYLE } from "./theme";
 import styles from "./greener-hours.module.css";
 
 // Page-scoped serif (the deck's Fraunces) — loaded here, exposed as --font-serif
@@ -71,12 +70,11 @@ const SECTIONS = [
 
 export default function GreenerHoursPage() {
   // §8 accent — Forest (matches the work-grid card) + the deck's amber/navy as
-  // page-scoped atmosphere/diagram colors. One source (./theme.ts), shared
-  // with the /prototype route so the two mounts can't drift.
-  const rootStyle = GH_ROOT_STYLE;
-
+  // page-scoped atmosphere/diagram colors. One source (app/page-themes.css,
+  // keyed off data-page, one block per theme), shared with the /prototype
+  // route so the two mounts can't drift.
   return (
-    <div className={`${serif.variable} ${styles.page}`} style={rootStyle}>
+    <div data-page="greener-hours" className={`${serif.variable} ${styles.page}`}>
       <AmbientField />
       {/* site-wide scroll-reveal: fades section content up as it enters view */}
       <Reveal />

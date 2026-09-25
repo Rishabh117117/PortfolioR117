@@ -71,7 +71,7 @@
   position: relative;
   isolation: isolate;
   background: var(--navy-deep);
-  color: var(--paper);
+  color: var(--paper-lit);
   border-block: 1px solid var(--navy);
   /* the shared SectionHeader eyebrow reads this (amber, legible on navy) */
   --sh-color: var(--amber-soft);
@@ -80,17 +80,17 @@
      dropdown now (the trade-offs and the signals list). */
   --unfold-glass-bg: rgba(244, 242, 236, 0.07);
   --unfold-affordance: var(--amber-soft);
-  --unfold-affordance-hover: var(--paper);
+  --unfold-affordance-hover: var(--paper-lit);
 }
 .navy .title {
-  color: var(--paper);
+  color: var(--paper-lit);
 }
 .navy .source {
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.5;
 }
 .navy .body {
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.85;
 }
 
@@ -99,17 +99,17 @@
    paper; these retints carry it onto the dark ground. Forest --accent is
    unreadable on navy, so accented chrome switches to --amber-soft. ---- */
 .navy .toTitle {
-  color: var(--paper);
+  color: var(--paper-lit);
 }
 .navy .toNo {
   color: var(--amber-soft);
 }
 .navy .toBody {
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.74;
 }
 .navy .kpiHeadTitle {
-  color: var(--paper);
+  color: var(--paper-lit);
 }
 .navy .kpiHeadSub,
 .navy .kpiRowFig,
@@ -117,7 +117,7 @@
   color: var(--amber-soft);
 }
 .navy .kpiIntro {
-  color: var(--paper);
+  color: var(--paper-lit);
 }
 .navy .kpiIntro em {
   color: var(--amber-soft);
@@ -128,7 +128,7 @@
   color: rgba(244, 242, 236, 0.78);
 }
 .navy .caveat {
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.62;
 }
 
@@ -137,12 +137,12 @@
   position: relative;
   isolation: isolate;
   background: var(--navy-deep);
-  color: var(--paper);
+  color: var(--paper-lit);
   border-block: 1px solid var(--navy);
   --sh-color: var(--amber-soft);
 }
 .blue .title {
-  color: var(--paper);
+  color: var(--paper-lit);
 }
 
 /* centered-content utility (the reframe statement spine) */
@@ -363,7 +363,7 @@
 .bucket .txt {
   font-size: 15px;
   line-height: 1.5;
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.85;
 }
 .bucket .txt em {
@@ -411,17 +411,17 @@
 }
 /* dark precedent cards (the 3 under HTTPS, on the navy band) */
 .navy .prec {
-  background: color-mix(in srgb, var(--paper) 7%, transparent);
-  border-color: color-mix(in srgb, var(--paper) 18%, transparent);
+  background: color-mix(in srgb, var(--paper-lit) 7%, transparent);
+  border-color: color-mix(in srgb, var(--paper-lit) 18%, transparent);
 }
 .navy .precName {
-  color: var(--paper);
+  color: var(--paper-lit);
 }
 .navy .precKind {
   color: var(--amber-soft);
 }
 .navy .precNote {
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.72;
 }
 
@@ -797,7 +797,7 @@
   font-size: clamp(30px, 6vw, 64px);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: var(--paper);
+  color: var(--paper-lit);
   max-width: 18ch;
 }
 .closeLine em {
@@ -833,7 +833,7 @@
 }
 .closeMeta .v {
   font-size: 14px;
-  color: var(--paper);
+  color: var(--paper-lit);
   opacity: 0.9;
   margin-top: 3px;
 }

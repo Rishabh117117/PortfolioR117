@@ -12,7 +12,6 @@ import Unfold from "@/components/Unfold/Unfold";
 import ProjectSideNav from "@/components/ProjectSideNav/ProjectSideNav";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import SkipToDemo from "@/components/SkipToDemo/SkipToDemo";
-import { HW_ROOT_STYLE } from "./theme";
 import styles from "./housing-works.module.css";
 import "./hw-motion.css";
 
@@ -43,7 +42,7 @@ const SECTIONS = [
 
 export default function HousingWorksPage() {
   return (
-    <div style={HW_ROOT_STYLE} className={styles.page}>
+    <div data-page="housing-works" className={styles.page}>
       {/* Motion adds `.hw-js` after hydration to activate scroll reveals/draws.
           The hero ribbon draws on load via pure CSS (no JS gating), so there's
           no hydration mismatch and no re-draw flicker. JS-off = fully visible. */}
